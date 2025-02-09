@@ -97,8 +97,12 @@ export class AppComponent implements OnInit{
 
   ngOnInit()
   {
-    window.removeEventListener('beforeunload', () => {});
-    
+    window.addEventListener('beforeunload', (event:any) => {
+      event.preventDefault();
+      event.returnValue = '';
+      this.onMobileReturn();
+    });
+
     history.pushState(null, '', location.href);
 
     window.addEventListener('backbutton', (event) => {
