@@ -661,8 +661,8 @@ checkDisplay(row: number, col: number, c:number) {
   generatePDFfromHTML() {
     const element = document.getElementById('htmlContent');
 
-    html2canvas(element!, { scale: 2 }).then((canvas) => {
-      const imgData = canvas.toDataURL('image/png');
+    html2canvas(element!, { scale: 4 }).then((canvas) => {
+      const imgData = canvas.toDataURL('image/jpeg');
       const pdf = new jsPDF('p', 'mm', 'a4');
 
       const imgWidth = 210; // Largeur en mm pour A4
@@ -672,13 +672,13 @@ checkDisplay(row: number, col: number, c:number) {
 
       let position = 0;
 
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
       heightLeft -= pageHeight;
 
       while (heightLeft >= 0) {
         position = heightLeft - imgHeight;
         pdf.addPage();
-        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
         heightLeft -= pageHeight;
       }
 

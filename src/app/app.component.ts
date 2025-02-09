@@ -77,9 +77,10 @@ export class AppComponent implements OnInit{
 
   @HostListener('window:popstate', ['$event'])
   onPopState(event: Event) {
-  this.onMobileReturn();
-      event.preventDefault();
-      event.stopPropagation();
+    history.pushState(null, '', location.href);
+    event.preventDefault();
+    event.stopPropagation();
+    this.onMobileReturn();
   }
 
   public test()
@@ -87,6 +88,7 @@ export class AppComponent implements OnInit{
 
   onMobileReturn()
   {
+    history.pushState(null, '', location.href);
     if(!this.jourClicked && this.portrait && this.month){this.month=undefined;this.monthIndex=undefined;}
     else if(this.jourClicked && this.portrait && !this.jourClicked.mode)this.onRetour();
     else if(this.jourClicked && this.portrait && this.jourClicked.mode)this.jourClicked.mode = undefined;
@@ -98,16 +100,18 @@ export class AppComponent implements OnInit{
     history.pushState(null, '', location.href);
 
     window.addEventListener('backbutton', (event) => {
-  this.onMobileReturn();
-      event.preventDefault(); // Empêche le retour en arrière
-      event.stopPropagation();
-    }, false);
-    
-    window.addEventListener("beforeunload", (event) => {
-      this.onMobileReturn();
+      history.pushState(null, '', location.href);
       event.preventDefault();
       event.stopPropagation();
+      this.onMobileReturn();
     });
+    /*
+    window.addEventListener("beforeunload", (event) => {
+      history.pushState(null, '', location.href);
+      event.preventDefault();
+      event.stopPropagation();
+      this.onMobileReturn();
+    });*/
 
     (pdfjsLib as any).GlobalWorkerOptions.workerSrc = "pdf.worker.js";
 
