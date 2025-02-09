@@ -661,7 +661,7 @@ checkDisplay(row: number, col: number, c:number) {
   generatePDFfromHTML() {
     const element = document.getElementById('htmlContent');
 
-    html2canvas(element!, { scale: 3 }).then((canvas) => {
+    html2canvas(element!, { scale: 2 }).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF('p', 'mm', 'a4');
 

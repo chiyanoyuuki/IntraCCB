@@ -77,33 +77,36 @@ export class AppComponent implements OnInit{
 
   @HostListener('window:popstate', ['$event'])
   onPopState(event: Event) {
+  this.onMobileReturn();
+      event.preventDefault();
+      event.stopPropagation();
+  }
+
+  public test()
+  {}
+
+  onMobileReturn()
+  {
     if(!this.jourClicked && this.portrait && this.month){this.month=undefined;this.monthIndex=undefined;}
     else if(this.jourClicked && this.portrait && !this.jourClicked.mode)this.onRetour();
     else if(this.jourClicked && this.portrait && this.jourClicked.mode)this.jourClicked.mode = undefined;
     history.pushState(null, '', location.href);
   }
 
-  public test()
-  {}
-
   ngOnInit()
   {
     history.pushState(null, '', location.href);
 
     window.addEventListener('backbutton', (event) => {
-      if(!this.jourClicked && this.portrait && this.month){this.month=undefined;this.monthIndex=undefined;}
-      else if(this.jourClicked && this.portrait && this.jourClicked.mode == 'undefined')this.onRetour();
-      else if(this.jourClicked && this.portrait && this.jourClicked.mode != 'undefined')this.jourClicked.mode = undefined;
-      history.pushState(null, '', location.href);
+  this.onMobileReturn();
       event.preventDefault(); // Empêche le retour en arrière
       event.stopPropagation();
     }, false);
     
-    window.addEventListener("beforeunload", (e) => {
-      if(!this.jourClicked && this.portrait && this.month){this.month=undefined;this.monthIndex=undefined;}
-      else if(this.jourClicked && this.portrait && this.jourClicked.mode == 'undefined')this.onRetour();
-      else if(this.jourClicked && this.portrait && this.jourClicked.mode != 'undefined')this.jourClicked.mode = undefined;
-      e.preventDefault();
+    window.addEventListener("beforeunload", (event) => {
+      this.onMobileReturn();
+      event.preventDefault();
+      event.stopPropagation();
     });
 
     (pdfjsLib as any).GlobalWorkerOptions.workerSrc = "pdf.worker.js";
