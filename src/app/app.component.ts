@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, HostListener, Input, isDevMode, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -63,7 +63,7 @@ export class AppComponent implements OnInit{
   public innerWidth: any = window.outerWidth;
   public innerHeight: any = window.outerHeight;
 
-  constructor(private http: HttpClient){}
+  constructor(private http: HttpClient, private location: Location){}
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
@@ -76,18 +76,25 @@ export class AppComponent implements OnInit{
 
   @HostListener('window:popstate', ['$event'])
   onPopState(event: Event) {
-
     if(!this.jourClicked && this.portrait && this.month){this.month=undefined;this.monthIndex=undefined;}
-    else if(this.jourClicked && this.portrait && this.jourClicked.mode == 'undefined')this.onRetour();
-    else if(this.jourClicked && this.portrait && this.jourClicked.mode != 'undefined')this.jourClicked.mode = undefined;
+    else if(this.jourClicked && this.portrait && !this.jourClicked.mode)this.onRetour();
+    else if(this.jourClicked && this.portrait && this.jourClicked.mode)this.jourClicked.mode = undefined;
 
     // Bloquer la navigation en remettant l'URL actuelle
-    history.pushState(null, '', window.location.href);
+    this.location.forward();
   }
 
 
   ngOnInit()
   {
+    document.addEventListener('backbutton', (event) => {
+      if(!this.jourClicked && this.portrait && this.month){this.month=undefined;this.monthIndex=undefined;}
+      else if(this.jourClicked && this.portrait && this.jourClicked.mode == 'undefined')this.onRetour();
+      else if(this.jourClicked && this.portrait && this.jourClicked.mode != 'undefined')this.jourClicked.mode = undefined;
+      event.preventDefault(); // Empêche le retour en arrière
+      event.stopPropagation();
+    }, false);
+
     window.addEventListener("beforeunload", function (e) {
       var confirmationMessage = "\o/";
       e.returnValue = confirmationMessage;     // Gecko, Trident, Chrome 34+
