@@ -83,9 +83,13 @@ export class AppComponent implements OnInit{
     });
 
     (pdfjsLib as any).GlobalWorkerOptions.workerSrc = "pdf.worker.js";
-    this.getData();
 
     if (this.innerHeight > this.innerWidth)this.portrait = true;
+  }
+
+  init()
+  {
+    this.getData();
   }
 
   onInput(value:any): void {
@@ -645,5 +649,6 @@ export class AppComponent implements OnInit{
   checkMdp()
   {
     if(this.mdp==environment.password)this.okmdp = true;
+    this.init();
   }
 }
