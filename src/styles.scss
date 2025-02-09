@@ -1,1 +1,18 @@
-/* You can add global styles to this file, and also import other style files */
+body, html{
+  height:100%;
+}
+body{
+  margin:0;
+  width:100%;
+  height:100%;
+  overflow-x:hidden;
+  overflow-y:auto;
+  background-color:var(--fond)
+}
+:root {
+  --fond: #aa82ba38;
+  --principale: #aa82ba;
+  --scroll: #87528e3b;
+  --gris-shadow: #505050;
+  --required: #87528e;
+}

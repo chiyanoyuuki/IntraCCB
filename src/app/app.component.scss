@@ -1,0 +1,483 @@
+
+
+
+button, input{
+  border:1px solid black;
+  background-color: var(--principale);
+  font-weight: bold;
+  border-radius: 10px;
+  filter: drop-shadow(2px 2px 3px black);
+}
+input{
+  background-color: var(--fond);
+}
+.portrait{
+  height:100%;
+  .annee{
+    button{
+      top: 8px;
+    }
+  }
+  .calendar{
+    margin:5%;
+    max-height:80%;
+    overflow-y:scroll;
+    border-top: 3px solid var(--required);
+    padding: 3px;
+    border-bottom: 3px solid var(--required);
+    .month{
+      max-width: 44%;  
+      min-width: 44%;
+      background-color: var(--fond);
+      border:3px ridge var(--required);
+      h3{
+        color:var(--required);
+      }
+      .days{
+        div{
+          width:unset;
+          height:unset;
+          background:unset;
+          border:unset;
+        }
+        .reserve, .demande, .autre, .essai, .over{
+          filter: drop-shadow(2px 2px 3px black);
+        }
+      }
+    }
+  }
+    .month2{
+      position:relative;
+      max-width:95%!important;
+      min-width:95%!important;
+      .arrows{
+        display: flex;
+        justify-content: space-between;
+        width: 80%;
+        font-weight: bold;
+        font-size: 30px;
+        position: absolute;
+        top: 7px;
+        color: var(--required);
+        p{
+          margin:0;
+        }
+      }
+      h3{
+        height:40px!important;
+      }
+      .days{
+        div{
+          width:auto!important;
+          height: 40px!important;
+        }
+      }
+  }
+  .legende{
+    div{
+      margin: 20px 2px;
+    }
+  }
+}
+
+.mdp{
+  display: grid;
+  justify-content: center;
+  margin: auto;
+  top: 40%;
+  position: absolute;
+  width:100%;
+  *{
+    width:80%;
+    margin:auto;
+    display:flex;
+    justify-content: center;
+    margin-top:10px;
+  }
+}
+
+.portrait{
+  .formulaire{
+    button{
+      white-space: nowrap;
+    }
+    div{
+      justify-content: space-between;
+      p{
+        text-align: right;
+        width:50%;
+      }
+    }
+    padding: 40px 0px;
+    .date{
+      white-space: nowrap;
+      margin-bottom:15px;
+    }
+    .inputs{
+      div{
+        justify-content: space-between;
+        width: 100%;
+        margin: 2px 0px;
+        p, div, input, button, select{
+          width:50%;
+        }
+        .column{
+          input{
+            width:82%;
+          }
+        }
+      }
+    }
+    .blocbas{
+      p{width:30%;white-space: nowrap;}
+      input, button, select{
+        width:60%;
+      }
+    }
+    .resumes{
+      justify-content: center;
+      .prestas{
+        .small p{
+          font-size: 11px;
+        }
+        p{
+          text-align: left;
+          width:50px;
+          white-space: nowrap;
+        }
+        p:nth-child(2)
+        {
+          max-width:55%;
+          min-width:55%;
+          width:55%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+    .save{
+      display: flex;
+      flex-flow: wrap;
+    }
+  }
+}
+
+.ant{background:var(--scroll) !important;color: #00000050;
+}
+
+.calendar{
+  margin:2%;
+  .month{
+    background-color: var(--fond);
+    border:3px ridge var(--required);
+    h3{
+      color:var(--required);
+    }
+    .days{
+      div{
+        background:unset;
+        border:1px solid var(--principale);
+      }
+      .reserve, .demande, .autre, .essai, .over{
+        filter: drop-shadow(2px 2px 3px black);
+      }
+    }
+  }
+}
+.annee{
+  button{
+    top: 8px;
+  }
+}
+.legende{
+  div{
+    margin: 20px 2px;
+  }
+}
+
+
+.calendar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  
+  .month {
+    border: 1px solid #ddd;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #f9f9f9;
+    border-radius: 10px;
+  }
+  
+  h3 {
+    margin: 5px 0;
+    font-size: 1.2em;
+    text-align: center;
+  }
+  
+  .week-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    padding-bottom: 5px;
+  }
+  
+  .days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    width: 100%;
+  }
+  
+  .days div, .blocday {
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: white;
+    font-size: 0.9em;
+    transition:0.5s;
+  }
+
+  .legende{
+    display:flex;
+    justify-content: center;
+    div{
+        width:150px!important;
+        margin:20px 30px;
+    }
+  }
+
+  .days div:hover{
+    cursor:pointer;
+    font-size:20px;
+    border-color:red;
+  }
+  
+  .dday, .reserve, .demande, .essai, .autre, .over {
+    color: white;
+    font-weight: bold;
+  }
+  .legende {
+    button{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin:0px 2px!important;
+  }
+  }
+  .dday{
+    background: rgb(184, 68, 25)!important;
+  }
+  .reserve{
+    background: rgb(41, 114, 197)!important;
+  }
+  .demande{
+    background: rgb(241, 50, 225)!important;
+  }
+  .essai{
+    background: rgb(182, 118, 0)!important;
+  }
+  .autre{
+    background: rgb(175, 167, 118)!important;
+  }
+  .over{
+    background: black!important;
+    color:white!important;
+  }
+  .noday{
+    border: 1px solid transparent!important;
+    background: unset!important;
+  }
+
+  .tooltip {
+    position: fixed;
+    background: rgba(0, 0, 0);
+    color: white;
+    padding: 8px;
+    border-radius: 5px;
+    font-size: 14px;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  .annee{
+    display:flex;
+    justify-content: center;
+    p{
+        font-weight:bold;
+        font-size:25px;
+        margin:10px 25px;
+        transition:0.5s;
+    }
+    p:hover{
+        cursor:pointer;
+        color:red;
+    }
+  }
+  .nopointer{
+      pointer-events: none!important;
+  }
+  .column{
+    flex-direction: column;
+  }
+
+  .formulaire{
+    .nopointer{
+      width:350px;
+      text-align: center;
+    }
+    padding:40px 20px;
+    div{
+      margin:2px 0px;
+      display:flex;
+      justify-content: center;
+    }
+    p{
+      margin:0;
+    }
+    .retour{
+      position:absolute;
+      left:20px;
+      top:20px;
+      font-weight:bold;
+    }
+    .retour:hover{
+      cursor:pointer;
+      color:red;
+    }
+    .date{
+      p{
+        font-size:25px;
+        font-weight:bold;
+        padding:0px 20px;
+      }
+      p:hover{
+        cursor:pointer;
+        color:red;
+      }
+    }
+    .date2{
+      margin-bottom:20px;
+
+    }
+    .inputs{
+      flex-flow: wrap;
+      div{
+        justify-content: space-between;
+        width: fit-content;
+        margin:2px 20px;
+        p{
+          width:200px;
+          text-align: right;
+          position: relative;
+          top:0px;
+        }
+      }
+    }
+    .save{
+      
+      margin-top:20px;
+    }
+    .nom{
+      font-style:italic;
+      padding:0px 10px;
+      opacity:0.6;
+    }
+    .resumes{
+        div{
+            padding: 10px;
+            flex-direction: column;
+            border: 1px solid black;
+            div{
+                border:unset;
+                padding:unset;
+            }
+        }
+    }
+  }
+
+  .flex{
+    display:flex;
+  }
+  .center{
+    justify-content: center;
+  }
+
+  .blockday{
+    position:relative;
+    .events{
+      position: absolute;
+  border: 1px solid var(--required);
+  background-color: var(--principale);
+  border-radius: 100%;
+  padding: 0px 5px;
+  bottom: -22px;
+  right: -6px;
+  z-index: 1;
+    }
+  }
+
+  .red{
+    color:red!important;
+    border-color:red!important;
+  }
+
+  input, select, button{
+    text-align: center;
+    padding:5px;
+    position:relative;
+    top:-5px;
+    width:150px;
+    margin:0px 10px;
+  }
+  button, select{
+    height: 30px;
+  }
+select{
+width:164px;
+}
+
+app-devis{
+    position:absolute;
+    width:100%;
+}
+.hidden{
+    opacity:0;
+    pointer-events: none;
+}
+.delete{
+  background:red;
+  color:white;
+  font-weight:bold;
+}
+.prestas{
+  width: 90%;
+  div{
+    flex-direction: row!important;
+    justify-content: space-between;
+    p{
+      width:50px;
+      white-space: nowrap;
+    }
+    p:nth-child(2)
+    {
+      max-width:55%;
+      min-width:55%;
+      width:55%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  .entetes{
+    font-weight:bold;
+  }
+}
