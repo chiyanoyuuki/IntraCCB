@@ -74,6 +74,18 @@ export class AppComponent implements OnInit{
     else this.portrait = false;
   }
 
+  @HostListener('window:popstate', ['$event'])
+  onPopState(event: Event) {
+
+    if(!this.jourClicked && this.portrait && this.month){this.month=undefined;this.monthIndex=undefined;}
+    else if(this.jourClicked && this.portrait && this.jourClicked.mode == 'undefined')this.onRetour();
+    else if(this.jourClicked && this.portrait && this.jourClicked.mode != 'undefined')this.jourClicked.mode = undefined;
+
+    // Bloquer la navigation en remettant l'URL actuelle
+    history.pushState(null, '', window.location.href);
+  }
+
+
   ngOnInit()
   {
     window.addEventListener("beforeunload", function (e) {
