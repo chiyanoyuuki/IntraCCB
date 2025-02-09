@@ -90,7 +90,7 @@ export class AppComponent implements OnInit{
   {
     history.pushState(null, '', location.href);
 
-    document.addEventListener('backbutton', (event) => {
+    window.addEventListener('backbutton', (event) => {
       if(!this.jourClicked && this.portrait && this.month){this.month=undefined;this.monthIndex=undefined;}
       else if(this.jourClicked && this.portrait && this.jourClicked.mode == 'undefined')this.onRetour();
       else if(this.jourClicked && this.portrait && this.jourClicked.mode != 'undefined')this.jourClicked.mode = undefined;
@@ -98,6 +98,13 @@ export class AppComponent implements OnInit{
       event.preventDefault(); // Empêche le retour en arrière
       event.stopPropagation();
     }, false);
+    
+    window.addEventListener("beforeunload", (e) => {
+      if(!this.jourClicked && this.portrait && this.month){this.month=undefined;this.monthIndex=undefined;}
+      else if(this.jourClicked && this.portrait && this.jourClicked.mode == 'undefined')this.onRetour();
+      else if(this.jourClicked && this.portrait && this.jourClicked.mode != 'undefined')this.jourClicked.mode = undefined;
+      e.preventDefault();
+    });
 
     (pdfjsLib as any).GlobalWorkerOptions.workerSrc = "pdf.worker.js";
 
