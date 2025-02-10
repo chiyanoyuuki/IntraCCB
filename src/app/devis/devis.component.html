@@ -510,7 +510,7 @@
           <div class="dataplanning flex">
   
           <div *ngFor="let invitee of invitees;let i=index; trackBy: trackByIndex" class="inviteesinput">
-            <select [(ngModel)]="invitee[0]" (change)="changetypeinvitee(i)">
+            <select [(ngModel)]="invitee[0]" (change)="changetypeinvitee(invitee,true)">
               <option *ngFor="let type of typeinvitee;let i=index" [ngValue]="i">{{type}}</option>
             </select>
             <ng-container *ngFor="let horaire of invitee;let j=index; trackBy: trackByIndex">
@@ -519,7 +519,7 @@
             <select [(ngModel)]="invitee[9]">
               <option *ngFor="let collegue of collegues;let i=index" [ngValue]="i">{{collegue[0]+" "+collegue[1]}}</option>
             </select>
-            <button (click)="changetypeinvitee(i)">Calculer</button>
+            <button (click)="changetypeinvitee(invitee)">Calculer</button>
             <button (click)="deleteInvitee(i)">Supprimer</button>
           </div>
         </div>

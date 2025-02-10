@@ -204,7 +204,7 @@
   <div *ngIf="jourClicked.statut!='essai'" class="blocbas">
     <p>Factures : </p>
     <select [(ngModel)]="selectedValue" (change)="clickFacture($event)" *ngIf="jourClicked.factures.length>0">
-      <option *ngFor="let facture of jourClicked.factures;let i=index" [class.red]="diffs&&diffs.factures&&diffs.factures[i]" [value]="i">{{formatNumber(facture.numero)+"_"+facture.annee + " : "+facture.solde+ "€ ("+facture.creation+")"}}</option>
+      <option *ngFor="let facture of jourClicked.factures;let i=index" [class.red]="diffs&&diffs.factures&&diffs.factures[i]" [value]="i">{{formatNumber(facture.numero)+"_"+facture.annee + " : "+(facture.solde?facture.solde:calcPaye())+ "€ ("+facture.creation+")"}}</option>
     </select>
     <button (click)="clickFacture()">Ajouter Facture</button>
   </div>
@@ -216,8 +216,8 @@
 
   <div *ngIf="jourClicked.statut!='essai'" class="blocbas">
     <p>Planning : </p>
-    <button class="nom" *ngIf="jourClicked.planning&&jourClicked.planning.creation" [class.red]="diffs&&diffs.planning" (click)="clickPlanning()">{{jourClicked.devis.creation}}</button>
-    <button *ngIf="!jourClicked.planning||!jourClicked.planning.creation" (click)="clickPlanning()">Editer</button>
+    <button class="nom" *ngIf="jourClicked.planning&&jourClicked.planning.date" [class.red]="diffs&&diffs.planning" (click)="clickPlanning()">{{jourClicked.planning.date}}</button>
+    <button *ngIf="!jourClicked.planning||!jourClicked.planning.date" (click)="clickPlanning()">Editer</button>
   </div>
 
   <div *ngIf="jourClicked.statut!='essai'" class="blocbas">

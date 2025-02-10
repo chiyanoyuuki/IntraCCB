@@ -300,7 +300,7 @@ export class DevisComponent implements OnInit {
           if(this.data.devis.annee) this.values[2] = this.data.devis.annee;
           if(this.data.devis.echeance) this.values[13] = this.data.devis.echeance;
       }
-      else if(this.data.mode=='planning')
+      else if(this.data.mode=='planning' && !this.data.planning.date)
       {
         this.values[51]=this.data.date;
         if(this.data.mariage&&this.data.mariage.domaine)this.values[52]=this.data.mariage.domaine;
@@ -310,21 +310,80 @@ export class DevisComponent implements OnInit {
         if(this.data.devis&&this.data.devis.prestas)
         {
           this.invitees = [];
+          let renfort = false;
           this.data.devis.prestas.forEach((p:any)=>{
-            if(p.bride)
+            if(p.nom.includes("Renfort")||p.nom.includes("renfort")) renfort = true;
+            if(p.bride && !this.invitees.find((i:any)=>i[0]==1))
             {
               this.addInvitee();
-              this.invitees[this.invitees.length-1][0] = 1;
+              if(!p.nom.includes("Forfait"))
+              {
+                if(p.nom.includes("Maquillage"))this.invitees[this.invitees.length-1][4] = "";
+                else if(p.nom.includes("Coiffure"))this.invitees[this.invitees.length-1][3] = "";
+              }
+              this.changetypeinvitee(this.invitees[this.invitees.length-1],true);
             }
             else if(p.nom.includes("Invitée"))
             {
               for(let i=0;i<p.qte;i++)
               {
                 this.addInvitee();
+                if(!p.nom.includes("Forfait"))
+                {
+                  if(p.nom.includes("Maquillage"))this.invitees[this.invitees.length-1][4] = "";
+                  else if(p.nom.includes("Coiffure"))this.invitees[this.invitees.length-1][3] = "";
+                }
+                this.changetypeinvitee(this.invitees[this.invitees.length-1]);
               }
             }
           });
+          if(renfort)
+          {
+            let invitees = this.invitees.filter((p:any)=>p[0]==0);
+            let nb = Math.floor(invitees.length/2);
+            if(nb>0)
+            {
+              for(let i=0;i<nb;i++)
+              {
+                let pos = invitees.length-nb+i;
+                invitees[pos][9] = 1;
+                if(i==0)
+                {
+                  invitees[pos][1] = this.invitees[0][1];
+                  invitees[pos][2] = this.invitees[0][2];
+  
+                  if(invitees[pos][3]!="")
+                  {
+                    if(this.invitees[i][3])invitees[pos][3] = this.invitees[i][3];
+                    else if(this.invitees[i][4])invitees[pos][3] = this.invitees[i][4];
+                  }
+                  if(invitees[pos][4]!="")
+                  {
+                    if(this.invitees[i][3])invitees[pos][4] = this.invitees[i][3];
+                    else if(this.invitees[i][4])invitees[pos][4] = this.invitees[i][4];
+                  }
+                }
+                else
+                {
+                  console.log(invitees[pos],invitees[pos-1]);
+                  if(invitees[pos][3]!="")invitees[pos][3]=invitees[pos-1][5];
+                  if(invitees[pos][4]!="")invitees[pos][4]=invitees[pos-1][5];
+                }
+                
+                this.changetypeinvitee(invitees[pos]);
+              }
+            }
+          }
         }
+      }
+      else if(this.data.mode=='planning' && this.data.planning.date)
+      {
+        this.collegues = this.data.planning.collegues;
+        this.invitees = this.data.planning.invitees;
+        this.values[51] = this.data.planning.date;
+        this.values[52] = this.data.planning.domaine;
+        this.values[53] = this.data.planning.adresse;
+        this.values[54] = this.data.planning.codepostal;
       }
       else if(this.data.mode=='facture')
       {
@@ -528,6 +587,17 @@ export class DevisComponent implements OnInit {
       if(this.data.factureClicked==-1)this.data.factures.push(facture);
       else this.data.factures[this.data.factureClicked] = facture;
     }
+    else if(this.mode=="planning")
+    {
+      let planning : any = {};
+      planning.date = this.values[51];
+      planning.domaine = this.values[52];
+      planning.adresse = this.values[53];
+      planning.codepostal = this.values[54];
+      planning.invitees = this.invitees;
+      planning.collegues = this.collegues;
+      this.data.planning = planning;
+    }
     
     if(this.values[4]!="")this.data.nom = this.values[4];
     if(this.values[6]!="")this.data.adresse = this.values[6];
@@ -560,13 +630,18 @@ calculate()
   this.invitees.sort((a:any,b:any)=>{return (this.toDate(a[5]) - this.toDate(b[5]))});
 }
 
+actualiser()
+{
+  this.calculate();
+}
+
 addInvitee()
 {
   this.calculate();
   
   if(this.invitees.length==0)
   {
-    this.invitees.push([0,"8h30","8h45","9h00","9h00","10h15","15h30 à 16h00","jusqu'à 16h00","16h00",0]);
+    this.invitees.push([0,"8h30","8h45","9h00","9h00","10h15","","","",0]);
   }
   else
   {
@@ -605,9 +680,10 @@ getNbInvitee(c:number, i:number, t:any)
   return count;
 }
 
-changetypeinvitee(i:number)
+changetypeinvitee(invitee:any,change:boolean=false)
 {
-  let invitee = this.invitees[i];
+  if(change){invitee[0]=(invitee[0]==0?1:0);}
+
   if(invitee[0]==1)
   {
     if(invitee[3]!=""&&invitee[4]!="")invitee[5]=this.addMinutesToTime(invitee[3],120);

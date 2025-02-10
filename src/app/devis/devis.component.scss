@@ -6,7 +6,7 @@
     min-width: 595px !important;
   }
   .inputs {
-    width: -moz-available;
+    width: 50%;
     height: 842px !important;
     border: 2px solid transparent;
     position: relative;
@@ -212,9 +212,6 @@
     position:relative;
     .odd {
       background-color: rgba(171, 131, 186, 0.1333333333);
-    }
-    .onlyonerow{
-      top: 10px!important;
     }
     td{
       border:1px solid black;
