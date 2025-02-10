@@ -300,6 +300,32 @@ export class DevisComponent implements OnInit {
           if(this.data.devis.annee) this.values[2] = this.data.devis.annee;
           if(this.data.devis.echeance) this.values[13] = this.data.devis.echeance;
       }
+      else if(this.data.mode=='planning')
+      {
+        this.values[51]=this.data.date;
+        if(this.data.mariage&&this.data.mariage.domaine)this.values[52]=this.data.mariage.domaine;
+        if(this.data.mariage&&this.data.mariage.adresse)this.values[53]=this.data.mariage.adresse;
+        if(this.data.mariage&&this.data.mariage.codepostal)this.values[54]=this.data.mariage.codepostal;
+
+        if(this.data.devis&&this.data.devis.prestas)
+        {
+          this.invitees = [];
+          this.data.devis.prestas.forEach((p:any)=>{
+            if(p.bride)
+            {
+              this.addInvitee();
+              this.invitees[this.invitees.length-1][0] = 1;
+            }
+            else if(p.nom.includes("Invitée"))
+            {
+              for(let i=0;i<p.qte;i++)
+              {
+                this.addInvitee();
+              }
+            }
+          });
+        }
+      }
       else if(this.data.mode=='facture')
       {
         if(this.data.factureClicked!=-1)
@@ -538,19 +564,25 @@ addInvitee()
 {
   this.calculate();
   
-
-  this.invitees.push([
-    0,
-    "",
-    "",
-    this.invitees.length>0?this.invitees[this.invitees.length-1][5]:"",
-    this.invitees.length>0?this.invitees[this.invitees.length-1][5]:"",
-    this.invitees.length>0?this.addMinutesToTime(this.invitees[this.invitees.length-1][5],75):"",
-    this.invitees.length>0?this.invitees[this.invitees.length-1][6]:"",
-    this.invitees.length>0?this.invitees[this.invitees.length-1][7]:"",
-    this.invitees.length>0?this.invitees[this.invitees.length-1][8]:"",
-    this.invitees.length>0?this.invitees[this.invitees.length-1][9]:0
-  ]);
+  if(this.invitees.length==0)
+  {
+    this.invitees.push([0,"8h30","8h45","9h00","9h00","10h15","15h30 à 16h00","jusqu'à 16h00","16h00",0]);
+  }
+  else
+  {
+    this.invitees.push([
+      0,
+      "",
+      "",
+      this.invitees.length>0?this.invitees[this.invitees.length-1][5]:"",
+      this.invitees.length>0?this.invitees[this.invitees.length-1][5]:"",
+      this.invitees.length>0?this.addMinutesToTime(this.invitees[this.invitees.length-1][5],75):"",
+      this.invitees.length>0?this.invitees[this.invitees.length-1][6]:"",
+      this.invitees.length>0?this.invitees[this.invitees.length-1][7]:"",
+      this.invitees.length>0?this.invitees[this.invitees.length-1][8]:"",
+      this.invitees.length>0?this.invitees[this.invitees.length-1][9]:0
+    ]);
+  }
 }
 
 getInvitees(c:any)

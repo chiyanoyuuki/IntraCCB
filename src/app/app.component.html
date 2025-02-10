@@ -142,39 +142,55 @@
         <input type="text" placeholder="Heure.." [(ngModel)]="jourClicked.essai.heure" [class.red]="diffs&&diffs.essai&&diffs.essai.heure"/>
       </div>
     </div>
+    <div>
+      <p>Mariage : </p>
+      <div class="column">
+        <input type="text" placeholder="Domaine.." [(ngModel)]="jourClicked.mariage.domaine" [class.red]="diffs&&diffs.mariage&&diffs.mariage.domaine"/>
+        <input type="text" placeholder="Adresse.." [(ngModel)]="jourClicked.mariage.adresse" [class.red]="diffs&&diffs.mariage&&diffs.mariage.adresse"/>
+        <input type="text" placeholder="Code Postal.." [(ngModel)]="jourClicked.mariage.codepostal" [class.red]="diffs&&diffs.mariage&&diffs.mariage.codepostal"/>
+      </div>
+    </div>
   </div>
 
-  <div class="inputs" *ngIf="jourClicked.statut=='essai'">
+  <div class="inputs inputsessai" *ngIf="jourClicked.statut=='essai'">
     <div>
-      <p>Nom : </p>
+      <p>Nom :&nbsp;</p>
       <p>{{jourClicked.nom}}</p>
     </div>
     <div>
-      <p>Adresse : </p>
+      <p>Adresse :&nbsp;</p>
       <p>{{jourClicked.adresse}}</p>
     </div>
     <div>
-      <p>Code postal & Ville : </p>
+      <p>Code postal & Ville :&nbsp;</p>
       <p>{{jourClicked.codepostal}}</p>
     </div>
     <div>
-      <p>Téléphone : </p>
+      <p>Téléphone :&nbsp;</p>
       <p>{{jourClicked.tel}}</p>
     </div>
     <div>
-      <p>Mail : </p>
+      <p>Mail :&nbsp;</p>
       <p>{{jourClicked.mail}}</p>
     </div>
     <div>
-      <p>Statut : </p>
+      <p>Statut :&nbsp;</p>
       <p>{{jourClicked.statut}}</p>
     </div>
     <div>
-      <p>Essai : </p>
+      <p>Essai :&nbsp;</p>
       <div class="column">
         <p>{{jourClicked.essai.date}}</p>
         <p>{{jourClicked.essai.lieu}}</p>
         <p>{{jourClicked.essai.heure}}</p>
+      </div>
+    </div>
+    <div>
+      <p>Mariage :&nbsp;</p>
+      <div class="column" *ngIf="jourClicked.mariage">
+        <p>{{jourClicked.mariage.domaine}}</p>
+        <p>{{jourClicked.mariage.adresse}}</p>
+        <p>{{jourClicked.mariage.codepostal}}</p>
       </div>
     </div>
   </div>
@@ -200,7 +216,8 @@
 
   <div *ngIf="jourClicked.statut!='essai'" class="blocbas">
     <p>Planning : </p>
-    <button>Editer</button>
+    <button class="nom" *ngIf="jourClicked.planning&&jourClicked.planning.creation" [class.red]="diffs&&diffs.planning" (click)="clickPlanning()">{{jourClicked.devis.creation}}</button>
+    <button *ngIf="!jourClicked.planning||!jourClicked.planning.creation" (click)="clickPlanning()">Editer</button>
   </div>
 
   <div *ngIf="jourClicked.statut!='essai'" class="blocbas">

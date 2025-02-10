@@ -97,6 +97,12 @@ export class AppComponent implements OnInit{
 
   ngOnInit()
   {
+    if(isDevMode())
+    {
+      this.okmdp = true;
+      this.init();
+    }
+
     window.addEventListener('beforeunload', (event:any) => {
       event.preventDefault();
       event.returnValue = '';
@@ -189,9 +195,9 @@ export class AppComponent implements OnInit{
     this.jourClickedSave.mode=undefined;
     this.jourClicked.factureClicked=-1;
     this.jourClickedSave.factureClicked=-1;
-    if(this.jourClicked)
-    if (JSON.stringify(this.jourClicked) !== JSON.stringify(this.jourClickedSave)) {
-      this.diffs = this.findDifferences(this.jourClicked,this.jourClickedSave);
+    this.diffs = this.findDifferences(this.jourClicked,this.jourClickedSave);
+
+    if (Object.keys(this.diffs).length > 0) {
       Swal.fire({
         title: 'Attention',
         text: 'Vous avez des modifications non enregistrées. Voulez-vous vraiment quitter ?',
@@ -208,7 +214,7 @@ export class AppComponent implements OnInit{
           else if(i==2)
           {
             this.diffs = undefined;
-            this.jourClicked = {date:this.jourClicked.date,statut:"demande",etape:0,factures:[], devis:{}, planning:{}, essai:{}};
+            this.jourClicked = {date:this.jourClicked.date,statut:"demande",etape:0,factures:[], devis:{}, planning:{}, essai:{}, mariage:{}};
             this.jourClickedSave = JSON.parse(JSON.stringify(this.jourClicked));
           }
         }
@@ -222,7 +228,7 @@ export class AppComponent implements OnInit{
       else if(i==2)
       {
         this.diffs = undefined;
-        this.jourClicked = {date:this.jourClicked.date,statut:"demande",etape:0,factures:[], devis:{}, planning:{}, essai:{}};
+        this.jourClicked = {date:this.jourClicked.date,statut:"demande",etape:0,factures:[], devis:{}, planning:{}, essai:{}, mariage:{}};
         this.jourClickedSave = JSON.parse(JSON.stringify(this.jourClicked));
       }
     }
@@ -497,6 +503,11 @@ export class AppComponent implements OnInit{
     this.devis.init(this.getMaxs());
     this.selectedValue = null;
   }
+  clickPlanning()
+  {
+    this.jourClicked.mode='planning';
+    this.devis.init();
+  }
 
   showTooltip(event: MouseEvent, monthIndex: number, day: number): void {
     if(this.isOccupied(this.year,monthIndex,day)=="nothing")return;
@@ -552,7 +563,7 @@ export class AppComponent implements OnInit{
     }
     else
     {
-      this.jourClicked = {date:dateStr,statut:"demande",etape:0,factures:[], devis:{}, planning:{}, essai:{}};
+      this.jourClicked = {date:dateStr,statut:"demande",etape:0,factures:[], devis:{}, planning:{}, essai:{},mariage:{}};
       this.jourClickedSave = JSON.parse(JSON.stringify(this.jourClicked));
     }
   }
@@ -604,10 +615,12 @@ export class AppComponent implements OnInit{
 
   save()
   {
-    let exist = this.occupiedDates.find((d:any)=>d.date==this.jourClicked.data);
+    console.log(this.jourClicked);
+
+    let exist = this.jourClicked.id;
     if(!exist){this.occupiedDates.push(this.jourClicked);}
 
-    const data : any = {factures:[],devis:{},planning:{},etape:0,date:this.jourClicked.date};
+    const data : any = {factures:[],devis:{},planning:{},essai:{},mariage:{},etape:0,date:this.jourClicked.date};
     if(this.jourClicked.id)data.id = this.jourClicked.id;
     if(this.jourClicked.date)data.date = this.jourClicked.date;
     if(this.jourClicked.nom)data.nom = this.jourClicked.nom;
@@ -616,14 +629,13 @@ export class AppComponent implements OnInit{
     if(this.jourClicked.codepostal)data.codepostal = this.jourClicked.codepostal;
     if(this.jourClicked.mail)data.mail = this.jourClicked.mail;
     if(this.jourClicked.essai)data.essai = this.jourClicked.essai;
+    if(this.jourClicked.mariage)data.mariage = this.jourClicked.mariage;
     if(this.jourClicked.prestataires)data.prestataires = this.jourClicked.prestataires;
     if(this.jourClicked.tel)data.tel = this.jourClicked.tel;
     if(this.jourClicked.etape)data.etape = this.jourClicked.etape;
     if(this.jourClicked.devis)data.devis = this.jourClicked.devis;
     if(this.jourClicked.factures)data.factures = this.jourClicked.factures;
     if(this.jourClicked.planning)data.planning = this.jourClicked.planning;
-
-    exist = this.jourClicked.id != undefined;
 
     from(
       fetch(
