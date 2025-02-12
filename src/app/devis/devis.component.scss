@@ -1,9 +1,14 @@
 #htmlContent {
     width: 595px !important;
-    height: 842px !important;
-    border: 2px solid transparent;
+    height: 848px !important;
     position: relative;
     min-width: 595px !important;
+  }
+  .noplanning{
+    width: 590px !important;
+    min-width: 590px !important;
+    height: 840px !important;
+    padding:5px;
   }
   .inputs {
     width: 50%;
@@ -155,6 +160,15 @@
     border-bottom: 1px solid black;
     }
   }
+  .lignesprestas{
+    .lignepres{
+      position:relative;
+      select, button{
+        width:unset!important;
+        position: relative;
+      }
+    }
+  }
   .nomslignes{
     padding: 2vh 0vw;
   }
@@ -198,6 +212,12 @@
   }
   select{
     width: 108px;
+  }
+  textarea{
+    width: 100px;
+  font-size: 9px;
+  height: 40px;
+  resize:none;
   }
   .artist{
     position: relative;

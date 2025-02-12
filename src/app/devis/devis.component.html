@@ -502,36 +502,30 @@
         />
       </div>
   
-      <div class="flex" *ngIf="mode == 'planning'">
-        <div class="nomslignes">
-          <p>NOM&nbsp;</p>
-          <p *ngFor="let top of planningtop">{{top.fr}}&nbsp;</p>
+      <div *ngIf="mode=='planning'" class="lignesprestas">
+        <div class="flex">
+          <input type="text" [(ngModel)]="finprestas" placeholder="Fin prestations.." (input)="onCeremonieInput()">
+          <input type="text" [(ngModel)]="ceremonie" placeholder="Cérémonie.." (input)="onCeremonieInput()">
         </div>
-          <div class="dataplanning flex">
-  
-          <div *ngFor="let invitee of invitees;let i=index; trackBy: trackByIndex" class="inviteesinput">
-            <select [(ngModel)]="invitee[0]" (change)="changetypeinvitee(invitee,true)">
-              <option *ngFor="let type of typeinvitee;let i=index" [ngValue]="i">{{type}}</option>
-            </select>
-            <ng-container *ngFor="let horaire of invitee;let j=index; trackBy: trackByIndex">
-              <input type="text" *ngIf="j!=0&&j<9" [(ngModel)]="invitees[i][j]"/>
-            </ng-container>
-            <select [(ngModel)]="invitee[9]">
-              <option *ngFor="let collegue of collegues;let i=index" [ngValue]="i">{{collegue[0]+" "+collegue[1]}}</option>
-            </select>
-            <button (click)="changetypeinvitee(invitee)">Calculer</button>
-            <button (click)="deleteInvitee(i)">Supprimer</button>
-          </div>
+        <div *ngFor="let collegue of collegues;let i=index;">
+          <ng-container *ngIf="getplanningprestas(i).length>0">
+            <div class="flex">
+              <p>{{collegue[0]+" "+collegue[1]}}</p>
+              <input type="text" [(ngModel)]="collegue[4]" placeholder="Arrivée..">
+              <input type="text" [(ngModel)]="collegue[5]" placeholder="Retouches..">
+              <input type="text" [(ngModel)]="collegue[6]" placeholder="Disponibilite..">
+            </div>
+            <div *ngFor="let presta of getplanningprestas(i);let x=index" class="lignepres flex">
+              <p>{{presta.index+" - "+x+':'+getInvIndex(presta.index)}}</p>
+              <textarea [(ngModel)]="presta.nom"></textarea>
+              <select [(ngModel)]="presta.presta" class="selectpresta" (change)="changePrestataire($event,presta)">
+                <option *ngFor="let collegue of collegues;let i=index" [value]="i">{{collegue[0]+" "+collegue[1]}}</option>
+              </select>
+              <button *ngIf="x!=0" (click)="monter(x,presta)">Monter</button>
+              <button *ngIf="x!=(getplanningprestas(i).length-1)" (click)="descendre(x,presta)">Descendre</button>
+            </div>
+          </ng-container>
         </div>
-        
-      </div>
-      <div class="flex big center between marg" *ngIf="mode == 'planning'">
-        <button (click)="remplir(6)">Remplir retouches</button>
-        <button (click)="remplir(7)">Remplir disponibilité</button>
-        <button (click)="remplir(8)">Remplir cérémonie</button>
-      </div>
-      <div class="marg">
-        <button class="flex center" (click)="addInvitee()" *ngIf="mode == 'planning'">Ajouter invitée</button>
       </div>
   
       <div class="domaine" *ngIf="mode == 'planning'">
@@ -552,7 +546,7 @@
   
           <div *ngFor="let collegue of collegues;let i=index; trackBy: trackByIndex" class="inviteesinput">
             <ng-container *ngFor="let data of collegue;let j=index; trackBy: trackByIndex">
-              <input type="text" [(ngModel)]="collegues[i][j]"/>
+              <input *ngIf="j<4" type="text" [(ngModel)]="collegues[i][j]"/>
             </ng-container>
             <button (click)="deleteCollegue(i)">Supprimer</button>
           </div>

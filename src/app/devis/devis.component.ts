@@ -55,6 +55,9 @@ export class DevisComponent implements OnInit {
       prix: 420,
       onlyOne: true,
       bride: true,
+      time:120,
+      maquillage:true,
+      coiffure:true
     },
     {
       nom: 'Maquillage Mariée',
@@ -62,6 +65,8 @@ export class DevisComponent implements OnInit {
       prix: 220,
       onlyOne: true,
       bride: true,
+      time:60,
+      maquillage:true
     },
     {
       nom: 'Coiffure Mariée',
@@ -69,12 +74,17 @@ export class DevisComponent implements OnInit {
       prix: 220,
       onlyOne: true,
       bride: true,
+      time:60,
+      coiffure:true
     },
     {
       nom: 'Maquillage et coiffure supplémentaire (Mariage civil, seconde mise en beauté)',
       en: 'Additional Makeup and Hairstyling (Civil Wedding, Second Beauty Touch-Up)',
       prix: 300,
       bride: true,
+      time:120,
+      maquillage:true,
+      coiffure:true
     },
     {
       nom: 'Invitée (jour-J)',
@@ -85,31 +95,44 @@ export class DevisComponent implements OnInit {
       nom: 'Forfait Invitée Complet',
       en: 'Complete Guest Package',
       prix: 130,
+      time:75,
+      maquillage:true,
+      coiffure:true
     },
     {
       nom: 'Coiffure Invitée (Attache complète)',
       en: 'Guest Hairstyling (Full Updo)',
       prix: 80,
+      time:45,
+      coiffure:true
     },
     {
       nom: 'Coiffure Invitée (Attache partielle)',
       en: 'Guest Hairstyling (Partial Updo)',
       prix: 70,
+      time:45,
+      coiffure:true
     },
     {
       nom: 'Brushing Hollywoodien Invitée',
       en: 'Hollywood Blowout (Guest)',
       prix: 70,
+      time:45,
+      coiffure:true
     },
     {
       nom: 'Maquillage Invitée',
       en: 'Guest Makeup',
       prix: 65,
+      time:45,
+      maquillage:true
     },
     {
       nom: 'Coiffure enfant (-13ans)',
       en: 'Child Hairstyling (-13 years)',
       prix: 30,
+      time:20,
+      coiffure:true
     },
     {
       nom: 'Options',
@@ -131,6 +154,8 @@ export class DevisComponent implements OnInit {
       en: 'Groom Makeup',
       prix: 30,
       onlyOne: true,
+      time:30,
+      maquillage:true
     },
     {
       nom: 'Présence avant 7h',
@@ -146,11 +171,13 @@ export class DevisComponent implements OnInit {
     },
   ];
 
-  typeinvitee = ["Invitée","Mariée"]
+  typeinvitee = ["Invitée","Mariée"];
+  ceremonie: any = "";
+  finprestas: any = "";
 
   collegues = [
-    ["Cloé","CHAUDRON","06.68.64.44.02","cloe.chaudron@outlook.com"],
-    ["Celma","SAHIDET","06.80.84.42.52","sahidetcelma@gmail.com"]
+    ["Cloé","CHAUDRON","06.68.64.44.02","cloe.chaudron@outlook.com","","",""],
+    ["Celma","SAHIDET","06.80.84.42.52","sahidetcelma@gmail.com","","",""]
   ]
 
   invitees:any = [[0,"8h30","8h45","9h00","9h00","10h15","15h30 à 16h00","jusqu'à 16h00","16h00",0]];
@@ -159,9 +186,15 @@ export class DevisComponent implements OnInit {
     fr:"ARRIVEE"
   },{
     fr:"INSTALLATION"
-  },{fr:"MAQUILLAGE"},{fr:"COIFFURE"},{fr:"FIN PRESTATION"},{fr:"RETOUCHES"},{fr:"DISPONIBILITE"},{fr:"CEREMONIE"}]
+  },{fr:"MAQUILLAGE"},{fr:"COIFFURE"},{fr:"FIN PRESTATION"},{fr:"RETOUCHES"},{fr:"DISPONIBILITE"},{fr:"CEREMONIE"}
+  ];
 
   lg = 'Français';
+
+  planningprestas: any;
+
+  intitules : any = [];
+  renfort = false;
 
   mode = 'devis';
   public innerWidth: any = window.innerWidth;
@@ -193,7 +226,128 @@ export class DevisComponent implements OnInit {
     else this.paysage = true;
   }
 
-  
+  onCeremonieInput()
+  {
+    if(this.ceremonie.match(/^[0-9]{2}h[0-9]{2}$/g))
+    {
+      this.invitees.forEach((i:any)=>i[8]=this.ceremonie);
+      this.changeForCeremonie();
+    }
+  }
+
+  onFinPrestasInput()
+  {
+    if(this.finprestas.match(/^[0-9]{2}h[0-9]{2}$/g))
+    {
+      this.changeForCeremonie();
+    }
+  }
+
+  changeForCeremonie()
+  {
+    for(let c=0;c<this.collegues.length;c++)
+      {
+        let temps = this.ceremonie;
+        let tempstot = -60;
+        if(this.finprestas.match(/^[0-9]{2}h[0-9]{2}$/g)) 
+        {
+          tempstot = 0;
+          temps = this.finprestas;
+        }
+
+        let prestas = this.getplanningprestas(c);
+
+        if(prestas.length>0)
+        {
+          prestas.forEach((p:any)=>tempstot-=p.time);
+
+          temps = this.addMinutesToTime(temps,tempstot);
+
+          let inv = this.invitees.find((i:any)=>i[9]==c);
+
+          if(inv[3]!="")inv[3]=temps;
+          if(inv[4]!="")inv[4]=temps;
+        }
+      }
+      this.adaptStart();
+  }
+
+  adaptStart()
+  {
+    if(this.invitees.filter((i:any)=>i[9]==1).length>0)
+    {
+      let firstInv0 = this.invitees.find((i:any)=>i[9]==0);
+      let firstInv1 = this.invitees.find((i:any)=>i[9]==1);
+
+      let debut1 = firstInv0[3];
+      if(debut1=="") debut1 = firstInv0[4];
+      let debut2 = firstInv1[3];
+      if(debut2=="") debut2 = firstInv1[4];
+
+      if(debut1!=debut2)
+      {
+        let ecart = this.differenceMinutes(debut1,debut2);
+        if(this.estPlusTot(debut1,debut2))
+        {
+          let newhour = this.addMinutesToTime(debut2,-ecart);
+          if(firstInv1[3]!="")firstInv1[3] = newhour;
+          if(firstInv1[4]!="")firstInv1[4] = newhour;
+        }
+        else
+        {
+          let newhour = this.addMinutesToTime(debut1,-ecart);
+          if(firstInv0[3]!="")firstInv0[3] = newhour;
+          if(firstInv0[4]!="")firstInv0[4] = newhour;
+        }
+        this.actualiser();
+        this.adaptRetouches();
+      }
+    }
+    else{this.actualiser();}
+  } 
+
+  adaptRetouches()
+  {
+      let firstInv0 = this.invitees.filter((i:any)=>i[9]==0);
+      firstInv0 = firstInv0[firstInv0.length-1];
+      let firstInv1 = this.invitees.filter((i:any)=>i[9]==1);
+      firstInv1 = firstInv1[firstInv1.length-1];
+
+      let debut1 = firstInv0[5];
+      let debut2 = firstInv1[5];
+
+      if(this.estPlusTot(debut1,debut2))
+      {
+        this.invitees.filter((i:any)=>i[9]==0).forEach((i:any)=>i[6]=debut2);
+        this.invitees.filter((i:any)=>i[9]==1).forEach((i:any)=>i[6]="");
+      }
+      else
+      {
+        this.invitees.filter((i:any)=>i[9]==1).forEach((i:any)=>i[6]=debut1);
+        this.invitees.filter((i:any)=>i[9]==0).forEach((i:any)=>i[6]="");
+      }
+  } 
+
+  estPlusTot(heure1: string, heure2: string): boolean {
+    const [h1, m1] = heure1.split('h').map(Number);
+    const [h2, m2] = heure2.split('h').map(Number);
+
+    const totalMinutes1 = h1 * 60 + m1;
+    const totalMinutes2 = h2 * 60 + m2;
+
+    return totalMinutes1 < totalMinutes2;
+  }
+
+  differenceMinutes(heure1: string, heure2: string): number {
+    const [h1, m1] = heure1.split('h').map(Number);
+    const [h2, m2] = heure2.split('h').map(Number);
+
+    const totalMinutes1 = h1 * 60 + m1;
+    const totalMinutes2 = h2 * 60 + m2;
+
+    return Math.abs(totalMinutes2 - totalMinutes1);
+  }
+
   onInput(value:any, setyear:any=false): void {
     value = value.replace(/\D/g, '');
     if (value.length > 2) value = value.slice(0, 2) + '/' + value.slice(2);
@@ -227,6 +381,91 @@ export class DevisComponent implements OnInit {
     return value;
   }
 
+  monter(idx:any, presta:any)
+  {
+    let prestas = this.getplanningprestas(presta.presta);
+
+    let p1 = prestas[idx-1];
+    let p2 = prestas[idx];
+
+    let i1 = this.invitees.find((i:any)=>i[10]==p1.index);
+    let i2 = this.invitees.find((i:any)=>i[10]==p2.index);
+
+    if(i1[1]!="")
+      {
+        let arrivee = i1[1];
+        let installation = this.addMinutesToTime(arrivee,15);
+        let debut = this.addMinutesToTime(arrivee,30);
+  
+        i1[1]="";
+        i1[2]="";
+  
+        i2[1]=arrivee;
+        i2[2]=installation;
+        if(i2[3]!="")i2[3]=debut;
+        if(i2[4]!="")i2[4]=debut;
+      }
+
+    let idxi1 = this.invitees.indexOf(i1);
+    let idxi2 = this.invitees.indexOf(i2);
+    let idxp1 = this.planningprestas.indexOf(p1);
+    let idxp2 = this.planningprestas.indexOf(p2);
+
+    this.planningprestas[idxp1] = JSON.parse(JSON.stringify(p2));
+    this.planningprestas[idxp2] = JSON.parse(JSON.stringify(p1));
+
+    this.invitees[idxi1] = JSON.parse(JSON.stringify(i2));
+    this.invitees[idxi2] = JSON.parse(JSON.stringify(i1));
+
+    this.actualiser();
+  }
+
+  descendre(idx:any, presta:any)
+  {
+    let prestas = this.getplanningprestas(presta.presta);
+
+    let p1 = prestas[idx];
+    let p2 = prestas[idx+1];
+
+    let i1 = this.invitees.find((i:any)=>i[10]==p1.index);
+    let i2 = this.invitees.find((i:any)=>i[10]==p2.index);
+
+    if(i1[1]!="")
+      {
+        let arrivee = i1[1];
+        let installation = this.addMinutesToTime(arrivee,15);
+        let debut = this.addMinutesToTime(arrivee,30);
+  
+        i1[1]="";
+        i1[2]="";
+  
+        i2[1]=arrivee;
+        i2[2]=installation;
+        if(i2[3]!="")i2[3]=debut;
+        if(i2[4]!="")i2[4]=debut;
+      }
+
+    let idxi1 = this.invitees.indexOf(i1);
+    let idxi2 = this.invitees.indexOf(i2);
+    let idxp1 = this.planningprestas.indexOf(p1);
+    let idxp2 = this.planningprestas.indexOf(p2);
+
+    this.planningprestas[idxp1] = JSON.parse(JSON.stringify(p2));
+    this.planningprestas[idxp2] = JSON.parse(JSON.stringify(p1));
+
+    this.invitees[idxi1] = JSON.parse(JSON.stringify(i2));
+    this.invitees[idxi2] = JSON.parse(JSON.stringify(i1));
+
+    this.actualiser();
+  }
+
+  getInvIndex(x:any)
+  {
+    let invitee = this.invitees.find((i:any)=>i[10]==x);
+    return this.invitees.indexOf(invitee);
+  }
+
+
   deleteAll()
   {
     this.prestas.forEach((p:any)=>p.qte=0);
@@ -237,6 +476,10 @@ export class DevisComponent implements OnInit {
   {
     this.inited=false;
     this.prestas = JSON.parse(JSON.stringify(this.baseprestas));
+
+    this.invitees = [];
+    this.intitules = [];
+    this.collegues = [this.collegues[0],this.collegues[1]];
     
     const now = new Date();
     let twoweeks = new Date();
@@ -302,78 +545,36 @@ export class DevisComponent implements OnInit {
       }
       else if(this.data.mode=='planning' && !this.data.planning.date)
       {
-        this.values[51]=this.data.date;
-        if(this.data.mariage&&this.data.mariage.domaine)this.values[52]=this.data.mariage.domaine;
-        if(this.data.mariage&&this.data.mariage.adresse)this.values[53]=this.data.mariage.adresse;
-        if(this.data.mariage&&this.data.mariage.codepostal)this.values[54]=this.data.mariage.codepostal;
-
-        if(this.data.devis&&this.data.devis.prestas)
-        {
-          this.invitees = [];
-          let renfort = false;
-          this.data.devis.prestas.forEach((p:any)=>{
-            if(p.nom.includes("Renfort")||p.nom.includes("renfort")) renfort = true;
-            if(p.bride && !this.invitees.find((i:any)=>i[0]==1))
-            {
-              this.addInvitee();
-              if(!p.nom.includes("Forfait"))
-              {
-                if(p.nom.includes("Maquillage"))this.invitees[this.invitees.length-1][4] = "";
-                else if(p.nom.includes("Coiffure"))this.invitees[this.invitees.length-1][3] = "";
-              }
-              this.changetypeinvitee(this.invitees[this.invitees.length-1],true);
-            }
-            else if(p.nom.includes("Invitée"))
-            {
-              for(let i=0;i<p.qte;i++)
-              {
-                this.addInvitee();
-                if(!p.nom.includes("Forfait"))
-                {
-                  if(p.nom.includes("Maquillage"))this.invitees[this.invitees.length-1][4] = "";
-                  else if(p.nom.includes("Coiffure"))this.invitees[this.invitees.length-1][3] = "";
-                }
-                this.changetypeinvitee(this.invitees[this.invitees.length-1]);
-              }
-            }
-          });
-          if(renfort)
+        this.planningprestas = [];
+        let mariee : any;
+        let prestas = this.data.devis.prestas;
+        prestas.forEach((p:any)=>{
+          let presta = this.prestas.find((pres:any)=>pres.nom == p.nom);
+          if(presta&&presta.time)
           {
-            let invitees = this.invitees.filter((p:any)=>p[0]==0);
-            let nb = Math.floor(invitees.length/2);
-            if(nb>0)
+            p.coiffure = presta.coiffure;
+            p.maquillage = presta.maquillage;
+            p.time = presta.time;
+
+            for(let i=0;i<p.qte;i++)
             {
-              for(let i=0;i<nb;i++)
+              let press = JSON.parse(JSON.stringify(p));
+              press.presta = 0;
+              press.index = this.planningprestas.length;
+              if(press.bride)mariee = JSON.parse(JSON.stringify(press));
+              else
               {
-                let pos = invitees.length-nb+i;
-                invitees[pos][9] = 1;
-                if(i==0)
-                {
-                  invitees[pos][1] = this.invitees[0][1];
-                  invitees[pos][2] = this.invitees[0][2];
-  
-                  if(invitees[pos][3]!="")
-                  {
-                    if(this.invitees[i][3])invitees[pos][3] = this.invitees[i][3];
-                    else if(this.invitees[i][4])invitees[pos][3] = this.invitees[i][4];
-                  }
-                  if(invitees[pos][4]!="")
-                  {
-                    if(this.invitees[i][3])invitees[pos][4] = this.invitees[i][3];
-                    else if(this.invitees[i][4])invitees[pos][4] = this.invitees[i][4];
-                  }
-                }
-                else
-                {
-                  console.log(invitees[pos],invitees[pos-1]);
-                  if(invitees[pos][3]!="")invitees[pos][3]=invitees[pos-1][5];
-                  if(invitees[pos][4]!="")invitees[pos][4]=invitees[pos-1][5];
-                }
-                
-                this.changetypeinvitee(invitees[pos]);
+                this.planningprestas.push(press);
+                this.addInvitee(press);
               }
             }
           }
+        });
+        if(mariee)
+        {
+          mariee.index = this.planningprestas.length;
+          this.planningprestas.push(mariee);
+          this.addInvitee(mariee);
         }
       }
       else if(this.data.mode=='planning' && this.data.planning.date)
@@ -384,6 +585,9 @@ export class DevisComponent implements OnInit {
         this.values[52] = this.data.planning.domaine;
         this.values[53] = this.data.planning.adresse;
         this.values[54] = this.data.planning.codepostal;
+        this.planningprestas = this.data.planning.planningprestas;
+        this.ceremonie = this.data.planning.ceremonie;
+        this.finprestas = this.data.planning.finprestas;
       }
       else if(this.data.mode=='facture')
       {
@@ -474,6 +678,30 @@ export class DevisComponent implements OnInit {
       }
 
       this.inited=true;
+  }
+
+  changePrestataire(event: any, presta:any) {
+    let artiste = event.target.value;
+
+    let index = presta.index;
+    let invitee = this.invitees.find((i:any)=>i[10]==index);
+    let invindex = this.invitees.indexOf(invitee);
+
+    let invartiste = this.invitees.filter((i:any)=>i[9]==invitee[9]);
+    let indexartiste = invartiste.indexOf(invitee);
+    if(invartiste.length>1 && indexartiste == 0)
+    {
+      invartiste[1][1] = invitee[1];
+      invartiste[1][2] = invitee[2];
+    }
+
+    this.invitees.splice(invindex,1);
+    this.addInvitee(presta, artiste);
+  }
+
+  getplanningprestas(i:number)
+  {
+    return this.planningprestas.filter((p:any)=>p.presta==i);
   }
 
   addPrestas()
@@ -596,6 +824,9 @@ export class DevisComponent implements OnInit {
       planning.codepostal = this.values[54];
       planning.invitees = this.invitees;
       planning.collegues = this.collegues;
+      planning.planningprestas = this.planningprestas;
+      planning.ceremonie = this.ceremonie;
+      planning.finprestas = this.finprestas;
       this.data.planning = planning;
     }
     
@@ -632,32 +863,113 @@ calculate()
 
 actualiser()
 {
-  this.calculate();
+  for(let i=0;i<this.collegues.length;i++)
+  {
+    let invitees = this.invitees.filter((inv:any)=>inv[9]==i)
+    for(let j=0;j<invitees.length;j++)
+    {
+      let invitee = invitees[j];
+      let presta = this.planningprestas.find((p:any)=>p.index==invitee[10]);
+      if(j==0)
+      {
+        let debut = "";
+        if(presta.maquillage) debut = invitee[3];
+        else if(presta.coiffure) debut = invitee[4];
+
+        let arrivee = this.addMinutesToTime(debut,-30);
+        let installation = this.addMinutesToTime(debut,-15);
+
+        invitee[1] = arrivee;
+        invitee[2] = installation;
+        invitee[5] = this.addMinutesToTime(debut,presta.time);
+      }
+      else
+      {
+        let debut = invitees[j-1][5];
+
+        invitee[3] = presta.maquillage?debut:"";
+        invitee[4] = presta.coiffure?debut:"";
+        invitee[5] = this.addMinutesToTime(debut,presta.time);
+      }
+    }
+  }
+
+  let tab : any = [];
+    this.invitees.forEach((i:any)=>{
+      tab.push(JSON.parse(JSON.stringify(this.planningprestas.find((p:any)=>i[10]==p.index))));
+    })
+    this.planningprestas = tab;
 }
 
-addInvitee()
-{
-  this.calculate();
-  
-  if(this.invitees.length==0)
+addInvitee(presta:any,artiste:any=0)
+{  
+  let invitees = this.invitees.filter((i:any)=>i[9]==artiste);
+  if(invitees.length==0)
   {
-    this.invitees.push([0,"8h30","8h45","9h00","9h00","10h15","","","",0]);
+    let arrivee = this.collegues[artiste][4]!=""?this.collegues[artiste][4]:"8h30";
+    let installation = this.addMinutesToTime(arrivee,15);
+    let debut = this.addMinutesToTime(arrivee,30);
+
+    this.invitees.push([
+      presta.bride?1:0,
+      arrivee,
+      installation,
+      presta.maquillage?debut:"",
+      presta.coiffure?debut:"",
+      this.addMinutesToTime(debut,presta.time),
+      this.collegues[artiste][5]!=""?this.collegues[artiste][5]:"",
+      this.collegues[artiste][6]!=""?this.collegues[artiste][6]:"",
+      this.ceremonie!=""?this.ceremonie:"",
+      artiste,
+      presta.index
+    ]);
   }
   else
   {
     this.invitees.push([
-      0,
+      presta.bride?1:0,
       "",
       "",
-      this.invitees.length>0?this.invitees[this.invitees.length-1][5]:"",
-      this.invitees.length>0?this.invitees[this.invitees.length-1][5]:"",
-      this.invitees.length>0?this.addMinutesToTime(this.invitees[this.invitees.length-1][5],75):"",
-      this.invitees.length>0?this.invitees[this.invitees.length-1][6]:"",
-      this.invitees.length>0?this.invitees[this.invitees.length-1][7]:"",
-      this.invitees.length>0?this.invitees[this.invitees.length-1][8]:"",
-      this.invitees.length>0?this.invitees[this.invitees.length-1][9]:0
+      presta.maquillage?invitees[invitees.length-1][5]:"",
+      presta.coiffure?invitees[invitees.length-1][5]:"",
+      this.addMinutesToTime(invitees[invitees.length-1][5],presta.time),
+      this.collegues[artiste][5]!=""?this.collegues[artiste][5]:"",
+      this.collegues[artiste][6]!=""?this.collegues[artiste][6]:"",
+      this.ceremonie!=""?this.ceremonie:"",
+      artiste,
+      presta.index
     ]);
   }
+  if(this.ceremonie!=""||this.finprestas!="")
+  {
+    this.onCeremonieInput();
+  }
+  else
+  {
+    this.actualiser();
+  }
+}
+
+cloeFinishesLater(data: any): boolean {
+  // Fonction pour convertir un horaire "10h20" en minutes
+  const horaireToMinutes = (horaire: string): number => {
+      const [heures, minutes] = horaire.split("h").map(Number);
+      return heures * 60 + minutes;
+  };
+
+  let maxHoraire1 = -Infinity;
+  let maxHoraire2 = -Infinity;
+
+  for (const row of data) {
+      const horaire = horaireToMinutes(row[5]);
+      if (row[9] === 0) {
+          maxHoraire1 = Math.max(maxHoraire1, horaire);
+      } else if (row[9] === 1) {
+          maxHoraire2 = Math.max(maxHoraire2, horaire);
+      }
+  }
+
+  return maxHoraire1 > maxHoraire2;
 }
 
 getInvitees(c:any)
@@ -680,11 +992,16 @@ getNbInvitee(c:number, i:number, t:any)
   return count;
 }
 
-changetypeinvitee(invitee:any,change:boolean=false)
+changetypeinvitee(invitee:any,change:boolean=false, temps:any=0)
 {
   if(change){invitee[0]=(invitee[0]==0?1:0);}
 
-  if(invitee[0]==1)
+  if(temps!=0)
+  {
+    if(invitee[3]!="")invitee[5]=this.addMinutesToTime(invitee[3],temps);
+    else if(invitee[4]!="")invitee[5]=this.addMinutesToTime(invitee[4],temps);
+  }
+  else if(invitee[0]==1)
   {
     if(invitee[3]!=""&&invitee[4]!="")invitee[5]=this.addMinutesToTime(invitee[3],120);
     else if(invitee[3]!="")invitee[5]=this.addMinutesToTime(invitee[3],60);
@@ -723,7 +1040,7 @@ addMinutesToTime(timeStr: string, minutesToAdd: number): string {
   let newHours = date.getHours();
   let newMinutes = date.getMinutes();
 
-  let retour = newHours + 'h' +(newMinutes<10?newMinutes+'0':newMinutes);
+  let retour = newHours + 'h' +(newMinutes<10?'0'+newMinutes:newMinutes);
 
   // Formater en "HHhMM" (ajout d'un zéro si besoin)
   return retour;
@@ -798,10 +1115,17 @@ checkDisplay(row: number, col: number, c:number) {
       }
       else
       {
-        if (this.values[1] < 100) nom = nom + '0';
-        if (this.values[1] < 10) nom = nom + '0';
-        nom = nom + this.values[1];
-        nom = nom + '_' + this.values[2];
+        let value = this.values[1];
+        let annee = this.values[2];
+        if(this.mode == "facture") 
+        {
+          value = this.values[55];
+          annee = this.values[56];
+        }
+        if (value < 100) nom = nom + '0';
+        if (value < 10) nom = nom + '0';
+        nom = nom + value;
+        nom = nom + '_' + annee;
       }
 
       pdf.save(nom + '.pdf');
@@ -811,7 +1135,7 @@ checkDisplay(row: number, col: number, c:number) {
 
   addCollegue()
   {
-    this.collegues.push(["","","",""]);
+    this.collegues.push(["","","","","","",""]);
   }
 
   getCollegues()
