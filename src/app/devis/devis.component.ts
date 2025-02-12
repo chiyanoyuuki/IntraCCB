@@ -310,8 +310,10 @@ export class DevisComponent implements OnInit {
       } else {
         let inv = this.invitees.find((i: any) => i[9] == c);
 
-        if (inv[3] != '') inv[3] = this.collegues[c][4];
-        if (inv[4] != '') inv[4] = this.collegues[c][4];
+        if (inv[3] != '')
+          inv[3] = this.addMinutesToTime(this.collegues[c][4], 30);
+        if (inv[4] != '')
+          inv[4] = this.addMinutesToTime(this.collegues[c][4], 30);
       }
     }
     if (this.collegues[1][4] == '') this.adaptStart();
