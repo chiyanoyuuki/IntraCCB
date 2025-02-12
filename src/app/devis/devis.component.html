@@ -1,252 +1,258 @@
-<div [class.flex]="paysage" [class.portrait]="!paysage" *ngIf="data&&inited">
-    <div id="htmlContent" *ngIf="mode!='planning'" class="noplanning">
-      <img src="logo.png" class="logo" />
-      <p class="rosebg" style="color: white" *ngIf="lg == 'Français'">
-        {{ mode == "devis" ? "DEVIS" : "FACTURE" }}
+<div [class.flex]="paysage" [class.portrait]="!paysage" *ngIf="data && inited">
+  <div id="htmlContent" *ngIf="mode != 'planning'" class="noplanning">
+    <img src="logo.png" class="logo" />
+    <p class="rosebg" style="color: white" *ngIf="lg == 'Français'">
+      {{ mode == "devis" ? "DEVIS" : "FACTURE" }}
+    </p>
+    <p class="rosebg" style="color: white" *ngIf="lg == 'Anglais'">
+      {{ mode == "devis" ? "QUOTE" : "INVOICE" }}
+    </p>
+    <p class="date">
+      Date :
+      {{ mode == "devis" ? formatDate(values[0]) : formatDate(values[57]) }}
+    </p>
+    <div class="ligne"></div>
+
+    <div class="content">
+      <p class="devis tinytext" *ngIf="mode == 'devis'">
+        {{ lg == "Français" ? "DEVIS N°" : "QUOTE N°" }}
+        {{ values[1] < 100 ? "0" : "" }}{{ values[1] < 10 ? "0" : ""
+        }}{{ values[1] }}-{{ values[2] }}
       </p>
-      <p class="rosebg" style="color: white" *ngIf="lg == 'Anglais'">
-        {{ mode == "devis" ? "QUOTE" : "INVOICE" }}
+      <p class="devis tinytext" *ngIf="mode == 'facture'">
+        {{ lg == "Français" ? "FACTURE N°" : "INVOICE N°" }}
+        {{ values[55] < 100 ? "0" : "" }}{{ values[55] < 10 ? "0" : ""
+        }}{{ values[55] }}-{{ values[56] }}
       </p>
-      <p class="date">Date : {{ mode=='devis' ? formatDate(values[0]) : formatDate(values[57]) }}</p>
-      <div class="ligne"></div>
-  
-      <div class="content">
-        <p class="devis tinytext" *ngIf="mode=='devis'">
-          {{ lg == 'Français' ? "DEVIS N°" : "QUOTE N°" }}
-          {{ values[1] < 100 ? "0" : "" }}{{ values[1] < 10 ? "0" : ""
-          }}{{ values[1] }}-{{ values[2] }}
-        </p>
-        <p class="devis tinytext" *ngIf="mode=='facture'">
-          {{ lg == 'Français' ? "FACTURE N°" : "INVOICE N°" }}
-          {{ values[55] < 100 ? "0" : "" }}{{ values[55] < 10 ? "0" : ""
-          }}{{ values[55] }}-{{ values[56] }}
-        </p>
-        <div class="flex between">
-          <div class="cloe">
-            <p>{{ values[3] }}</p>
-            <p>{{ values[5] }}</p>
-            <p>{{ values[7] }}</p>
-            <p>{{ values[9] }}</p>
-            <p class="nobold">{{ values[11] }}</p>
-          </div>
-          <div class="cloe client">
-            <p>{{ values[4] }}</p>
-            <p>{{ values[6] }}</p>
-            <p>{{ values[8] }}</p>
-            <p>{{ values[10] }}</p>
-            <p class="nobold">{{ values[12] }}</p>
-          </div>
+      <div class="flex between">
+        <div class="cloe">
+          <p>{{ values[3] }}</p>
+          <p>{{ values[5] }}</p>
+          <p>{{ values[7] }}</p>
+          <p>{{ values[9] }}</p>
+          <p class="nobold">{{ values[11] }}</p>
         </div>
-        <div class="table margtop">
-          <p>{{ lg === "Français" ? "Quantité" : "Quantity" }}</p>
-          <p>{{ lg === "Français" ? "Description" : "Description" }}</p>
-          <p>{{ lg === "Français" ? "Prix Unitaire" : "Unit Price" }}</p>
-          <p>{{ lg === "Français" ? "Reduction" : "Discount" }}</p>
-          <p>{{ lg === "Français" ? "Total" : "Total" }}</p>
-        </div>
-        <div class="fullligne"></div>
-        <div class="table" *ngFor="let presta of prestas">
-          <ng-container *ngIf="presta.qte > 0 || presta.qte == '?'">
-            <p>
-              {{ presta.qte == "?" ? "À definir" : "" }}
-              {{ presta.qte != "?" && presta.kilorly ? (presta.qte * 2) : ""}}
-              {{ presta.qte != "?" && !presta.kilorly ? presta.qte : ""}}
-              {{ presta.kilorly && presta.qte != "?" ? "km" : ""
-              }}{{ presta.hourly && presta.qte != "?" ? "h" : "" }}
-            </p>
-            <p class="textoverflow">
-              {{ lg == "Anglais" && presta.en ? presta.en : presta.nom }}
-            </p>
-            <p>
-              {{ transform(presta.prix)
-              }}{{ presta.kilorly ? "/km" : "" }}{{ presta.hourly ? "/h" : "" }}€
-            </p>
-            <p>{{ presta.reduc && presta.reduc!=0?presta.reduc:"" }}{{ presta.reduc && presta.reduc!=0 ? "%" : "" }}</p>
-            <p *ngIf="calc(presta) > 0">
-              {{ transform(calc(presta))}}€
-            </p>
-            <p *ngIf="calc(presta) == 0" class="green">Offert</p>
-          </ng-container>
-        </div>
-        <div class="fullligne"></div>
-        <div class="flex">
-          <p class="tinytext echeance" *ngIf="mode == 'devis'">
-            {{ lg == "Français" ? "Échéance" : "Due Date" }} : {{ mode=='devis' ? values[13] : values[58] }}
-          </p>
-          <p class="tinytext echeance" *ngIf="mode == 'facture'">
-            {{ lg == "Français" ? "Prestation le" : "Service" }} :
-            {{ values[14] }}
-          </p>
-          <p class="bold">Total</p>
-          <p class="bold total">
-            {{ transform(calcTot()) }}€
-          </p>
-        </div>
-        <div class="flex minitxt">
-          <p *ngIf="mode == 'devis'">
-            {{ lg == "Français" ? "Prestation le" : "Service" }} :
-            {{ values[14] }}
-          </p>
-          <p class="tva">
-            {{
-              lg == "Français"
-                ? "TVA Non Applicable - article 293 B du CGI"
-                : "VAT Not Applicable - Article 293 B of the French General Tax Code (CGI)"
-            }}
-          </p>
-        </div>
-  
-        <p *ngIf="mode == 'devis' && calcares() > 0" class="tinytext bold">
-          {{ lg == "Français" ? "Montant arrhes" : "Deposit amount" }} : {{ transform(calcares()) }}€
-        </p>
-  
-        <div class="infos" *ngIf="mode == 'devis' && lg == 'Français'">
-          <p>
-            Ce devis concerne les prestations nommées. Il est soumis aux
-            conditions mentionnées ci-dessous :
-          </p>
-          <ul>
-            <li>
-              <p>
-                30% d'arrhes de la prestation mariée sont à verser afin de bloquer
-                la date.
-              </p>
-            </li>
-            <li><p>Le solde est à verser au plus tard le jour du mariage.</p></li>
-            <li>
-              <p>
-                Les indemnités kilométriques sont facturées au tarif de
-                0,40€/kilomètre. Péages en plus.
-              </p>
-            </li>
-            <li>
-              <p>
-                Les frais de déplacements sont à verser au plus tard le jour du
-                dit déplacement.
-              </p>
-            </li>
-            <li>
-              <p>
-                Le présent devis est valable jusqu'à la fin des prestations
-                mentionnées. Des prestations peuvent être modifiées, ajoutées mais
-                en aucun cas supprimées
-              </p>
-            </li>
-          </ul>
-        </div>
-  
-        <div class="infos" *ngIf="mode == 'devis' && lg == 'Anglais'">
-          <p>
-            This quote concerns the named services. It is subject to the
-            conditions listed below:
-          </p>
-          <ul>
-            <li>
-              <p>
-                A deposit of 30% of the bridal services is required to secure the
-                date.
-              </p>
-            </li>
-            <li>
-              <p>The remaining balance is due no later than the wedding day.</p>
-            </li>
-            <li>
-              <p>
-                Travel expenses are charged at the rate of 0.40€/kilometer. Tolls
-                are additional.
-              </p>
-            </li>
-            <li>
-              <p>
-                Travel fees must be paid no later than the day of the said trip.
-              </p>
-            </li>
-            <li>
-              <p>
-                This quote is valid until the completion of the mentioned
-                services. Services may be modified or added, but under no
-                circumstances can they be removed.
-              </p>
-            </li>
-          </ul>
-        </div>
-  
-        <p class="signature" *ngIf="mode == 'devis'">
-          {{
-            lg == "Français"
-              ? "Pour accepter ce devis, apposez votre signature ici et renvoyez-le"
-              : "To accept this quote, please sign here and return it"
-          }}
-          :
-        </p>
-  
-        <div class="resume" *ngIf="mode == 'facture'">
-          <p class="tinytext" *ngIf="this.values[15] != ''">
-            {{ lg == "Français" ? "Déjà versé" : "Already Paid" }} :
-            {{ transform(this.values[15]) }}€ {{getDateArrhes()}}
-          </p>
-          <p class="tinytext bold" *ngIf="this.values[15] != '' || this.values[60] != ''">
-            {{ lg == "Français" ? "Solde" : "Remaining balance" }} :
-            {{ values[60]!=""?values[60]:transform(calcTot(true)) }}€
-          </p>
-          <p class="tinytext">
-            {{ lg == "Français" ? "Mode de paiement" : "Payment Method" }} :
-            {{ values[16] }}
-          </p>
+        <div class="cloe client">
+          <p>{{ values[4] }}</p>
+          <p>{{ values[6] }}</p>
+          <p>{{ values[8] }}</p>
+          <p>{{ values[10] }}</p>
+          <p class="nobold">{{ values[12] }}</p>
         </div>
       </div>
-  
-      <div class="sign"></div>
-  
-      <div class="bottom">
-        <p class="rosebg" style="color: white">&nbsp;</p>
-        <div class="flex">
-          <div class="iban" *ngIf="lg == 'Français'">
-            <p>Coordonnées Bancaires</p>
-            <p>Nom : Société Générale</p>
-            <p>IBAN : FR76 3000 3031 8400 1500 2190 924</p>
-            <p>BIC : SOGEFRPP</p>
-            <p>SIRET : 883 822 801 00014</p>
-          </div>
-          <div class="iban" *ngIf="lg == 'Anglais'">
-            <p>Bank Details</p>
-            <p>Name : Société Générale</p>
-            <p>IBAN : FR76 3000 3031 8400 1500 2190 924</p>
-            <p>BIC : SOGEFRPP</p>
-            <p>SIRET : 883 822 801 00014</p>
-          </div>
-          <div class="thank">
-            <p>THANK</p>
-            <p>YOU</p>
-          </div>
+      <div class="table margtop">
+        <p>{{ lg === "Français" ? "Quantité" : "Quantity" }}</p>
+        <p>{{ lg === "Français" ? "Description" : "Description" }}</p>
+        <p>{{ lg === "Français" ? "Prix Unitaire" : "Unit Price" }}</p>
+        <p>{{ lg === "Français" ? "Reduction" : "Discount" }}</p>
+        <p>{{ lg === "Français" ? "Total" : "Total" }}</p>
+      </div>
+      <div class="fullligne"></div>
+      <div class="table" *ngFor="let presta of prestas">
+        <ng-container *ngIf="presta.qte > 0 || presta.qte == '?'">
+          <p>
+            {{ presta.qte == "?" ? "À definir" : "" }}
+            {{ presta.qte != "?" && presta.kilorly ? presta.qte * 2 : "" }}
+            {{ presta.qte != "?" && !presta.kilorly ? presta.qte : "" }}
+            {{ presta.kilorly && presta.qte != "?" ? "km" : ""
+            }}{{ presta.hourly && presta.qte != "?" ? "h" : "" }}
+          </p>
+          <p class="textoverflow">
+            {{ lg == "Anglais" && presta.en ? presta.en : presta.nom }}
+          </p>
+          <p>
+            {{ transform(presta.prix) }}{{ presta.kilorly ? "/km" : ""
+            }}{{ presta.hourly ? "/h" : "" }}€
+          </p>
+          <p>
+            {{ presta.reduc && presta.reduc != 0 ? presta.reduc : ""
+            }}{{ presta.reduc && presta.reduc != 0 ? "%" : "" }}
+          </p>
+          <p *ngIf="calc(presta) > 0">{{ transform(calc(presta)) }}€</p>
+          <p *ngIf="calc(presta) == 0" class="green">Offert</p>
+        </ng-container>
+      </div>
+      <div class="fullligne"></div>
+      <div class="flex">
+        <p class="tinytext echeance" *ngIf="mode == 'devis'">
+          {{ lg == "Français" ? "Échéance" : "Due Date" }} :
+          {{ mode == "devis" ? values[13] : values[58] }}
+        </p>
+        <p class="tinytext echeance" *ngIf="mode == 'facture'">
+          {{ lg == "Français" ? "Prestation le" : "Service" }} :
+          {{ values[14] }}
+        </p>
+        <p class="bold">Total</p>
+        <p class="bold total">{{ transform(calcTot()) }}€</p>
+      </div>
+      <div class="flex minitxt">
+        <p *ngIf="mode == 'devis'">
+          {{ lg == "Français" ? "Prestation le" : "Service" }} :
+          {{ values[14] }}
+        </p>
+        <p class="tva">
+          {{
+            lg == "Français"
+              ? "TVA Non Applicable - article 293 B du CGI"
+              : "VAT Not Applicable - Article 293 B of the French General Tax Code (CGI)"
+          }}
+        </p>
+      </div>
+
+      <p *ngIf="mode == 'devis' && calcares() > 0" class="tinytext bold">
+        {{ lg == "Français" ? "Montant arrhes" : "Deposit amount" }} :
+        {{ transform(calcares()) }}€
+      </p>
+
+      <div class="infos" *ngIf="mode == 'devis' && lg == 'Français'">
+        <p>
+          Ce devis concerne les prestations nommées. Il est soumis aux
+          conditions mentionnées ci-dessous :
+        </p>
+        <ul>
+          <li>
+            <p>
+              30% d'arrhes de la prestation mariée sont à verser afin de bloquer
+              la date.
+            </p>
+          </li>
+          <li><p>Le solde est à verser au plus tard le jour du mariage.</p></li>
+          <li>
+            <p>
+              Les indemnités kilométriques sont facturées au tarif de
+              0,40€/kilomètre. Péages en plus.
+            </p>
+          </li>
+          <li>
+            <p>
+              Les frais de déplacements sont à verser au plus tard le jour du
+              dit déplacement.
+            </p>
+          </li>
+          <li>
+            <p>
+              Le présent devis est valable jusqu'à la fin des prestations
+              mentionnées. Des prestations peuvent être modifiées, ajoutées mais
+              en aucun cas supprimées
+            </p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="infos" *ngIf="mode == 'devis' && lg == 'Anglais'">
+        <p>
+          This quote concerns the named services. It is subject to the
+          conditions listed below:
+        </p>
+        <ul>
+          <li>
+            <p>
+              A deposit of 30% of the bridal services is required to secure the
+              date.
+            </p>
+          </li>
+          <li>
+            <p>The remaining balance is due no later than the wedding day.</p>
+          </li>
+          <li>
+            <p>
+              Travel expenses are charged at the rate of 0.40€/kilometer. Tolls
+              are additional.
+            </p>
+          </li>
+          <li>
+            <p>
+              Travel fees must be paid no later than the day of the said trip.
+            </p>
+          </li>
+          <li>
+            <p>
+              This quote is valid until the completion of the mentioned
+              services. Services may be modified or added, but under no
+              circumstances can they be removed.
+            </p>
+          </li>
+        </ul>
+      </div>
+
+      <p class="signature" *ngIf="mode == 'devis'">
+        {{
+          lg == "Français"
+            ? "Pour accepter ce devis, apposez votre signature ici et renvoyez-le"
+            : "To accept this quote, please sign here and return it"
+        }}
+        :
+      </p>
+
+      <div class="resume" *ngIf="mode == 'facture'">
+        <p class="tinytext" *ngIf="this.values[15] != ''">
+          {{ lg == "Français" ? "Déjà versé" : "Already Paid" }} :
+          {{ transform(this.values[15]) }}€ {{ getDateArrhes() }}
+        </p>
+        <p
+          class="tinytext bold"
+          *ngIf="this.values[15] != '' || this.values[60] != ''"
+        >
+          {{ lg == "Français" ? "Solde" : "Remaining balance" }} :
+          {{ values[60] != "" ? values[60] : transform(calcTot(true)) }}€
+        </p>
+        <p class="tinytext">
+          {{ lg == "Français" ? "Mode de paiement" : "Payment Method" }} :
+          {{ values[16] }}
+        </p>
+      </div>
+    </div>
+
+    <div class="sign"></div>
+
+    <div class="bottom">
+      <p class="rosebg" style="color: white">&nbsp;</p>
+      <div class="flex">
+        <div class="iban" *ngIf="lg == 'Français'">
+          <p>Coordonnées Bancaires</p>
+          <p>Nom : Société Générale</p>
+          <p>IBAN : FR76 3000 3031 8400 1500 2190 924</p>
+          <p>BIC : SOGEFRPP</p>
+          <p>SIRET : 883 822 801 00014</p>
+        </div>
+        <div class="iban" *ngIf="lg == 'Anglais'">
+          <p>Bank Details</p>
+          <p>Name : Société Générale</p>
+          <p>IBAN : FR76 3000 3031 8400 1500 2190 924</p>
+          <p>BIC : SOGEFRPP</p>
+          <p>SIRET : 883 822 801 00014</p>
+        </div>
+        <div class="thank">
+          <p>THANK</p>
+          <p>YOU</p>
         </div>
       </div>
     </div>
-  
-    <div id="htmlContent" *ngIf="mode=='planning'">
-      <img src="logo.png" class="logo" />
-      <p class="rosebg" style="color: white" *ngIf="lg == 'Français'">
-        {{ values[50] }}
-      </p>
-      <p class="date">Date : {{ formatDate(values[51]) }}</p>
-      <div class="ligne"></div>
-  
-      <div class="content">
-        <div class="tableplann">
-          <div *ngFor="let top of planningtop" class="relative containerline">
-            <div class="orientedline"></div>
-            <p>&nbsp;</p>
-          </div>
-          <div class="absolute">
-            <div *ngFor="let top of planningtop;let i=index" class="relative">
-              <p>{{top.fr}}</p>
-            </div>
-          </div>
-          
+  </div>
+
+  <div id="htmlContent" *ngIf="mode == 'planning'">
+    <img src="logo.png" class="logo" />
+    <p class="rosebg" style="color: white" *ngIf="lg == 'Français'">
+      {{ values[50] }}
+    </p>
+    <p class="date">Date : {{ formatDate(values[51]) }}</p>
+    <div class="ligne"></div>
+
+    <div class="content">
+      <div class="tableplann">
+        <div *ngFor="let top of planningtop" class="relative containerline">
+          <div class="orientedline"></div>
+          <p>&nbsp;</p>
         </div>
-        
-        <ng-container *ngFor="let collegue of getCollegues();let c=index">
-        <table *ngIf="getInvitees(c).length>0">
+        <div class="absolute">
+          <div *ngFor="let top of planningtop; let i = index" class="relative">
+            <p>{{ top.fr }}</p>
+          </div>
+        </div>
+      </div>
+
+      <ng-container *ngFor="let collegue of getCollegues(); let c = index">
+        <table *ngIf="getInvitees(c).length > 0">
           <tr class="firstrow">
             <p class="invitee">&nbsp;</p>
             <td class="horaire">&nbsp;</td>
@@ -259,321 +265,451 @@
             <td class="horaire">&nbsp;</td>
             <td class="horaire">&nbsp;</td>
           </tr>
-          <tr *ngFor="let invitee of getInvitees(c);let i=index" class="relative">
-            <p class="invitee" [class.onlyonerow]="getInvitees(c).length==1">{{typeinvitee[invitee[0]] + ' ' + (invitee[0]==0?getNbInvitee(c,i,invitee[0]):'')}}</p>
-            <td class="horaire noborder" [class.odd]="i%2!=0">&nbsp;</td>
-            <ng-container *ngFor="let horaire of invitee;let j=index">
-              <td *ngIf="j>0&&j<9" class="horaire" [attr.rowspan]="checkRow(i, j,c)" [attr.colspan]="checkCol(i, j,c)" [class.none]="checkDisplay(i,j,c)" [class.odd]="i%2!=0">{{horaire}}</td>
+          <tr
+            *ngFor="let invitee of getInvitees(c); let i = index"
+            class="relative"
+          >
+            <p class="invitee" [class.onlyonerow]="getInvitees(c).length == 1">
+              {{
+                typeinvitee[invitee[0]] +
+                  " " +
+                  (invitee[0] == 0 ? getNbInvitee(c, i, invitee[0]) : "")
+              }}
+            </p>
+            <td class="horaire noborder" [class.odd]="i % 2 != 0">&nbsp;</td>
+            <ng-container *ngFor="let horaire of invitee; let j = index">
+              <td
+                *ngIf="j > 0 && j < 9"
+                class="horaire"
+                [attr.rowspan]="checkRow(i, j, c)"
+                [attr.colspan]="checkCol(i, j, c)"
+                [class.none]="checkDisplay(i, j, c)"
+                [class.odd]="i % 2 != 0"
+              >
+                {{ j == 6 && horaire != "" ? "Jusqu'à " : "" }}{{ horaire }}
+              </td>
             </ng-container>
-            </tr>
+          </tr>
         </table>
-        <p class="artist" *ngIf="getInvitees(0).length!=invitees.length">Artiste : {{collegue[0]+" "+collegue[1]}}</p>
+        <p class="artist" *ngIf="getInvitees(0).length != invitees.length">
+          Artiste : {{ collegue[0] + " " + collegue[1] }}
+        </p>
       </ng-container>
-        
-      </div>
-  
-      
-  
-      <div class="bottom" *ngIf="mode!='planning'">
-        <p class="rosebg" style="color: white">&nbsp;</p>
-        <div class="flex">
-          <div class="iban" *ngIf="lg == 'Français'">
-            <p>Coordonnées Bancaires</p>
-            <p>Nom : Société Générale</p>
-            <p>IBAN : FR76 3000 3031 8400 1500 2190 924</p>
-            <p>BIC : SOGEFRPP</p>
-            <p>SIRET : 883 822 801 00014</p>
-          </div>
-          <div class="iban" *ngIf="lg == 'Anglais'">
-            <p>Bank Details</p>
-            <p>Name : Société Générale</p>
-            <p>IBAN : FR76 3000 3031 8400 1500 2190 924</p>
-            <p>BIC : SOGEFRPP</p>
-            <p>SIRET : 883 822 801 00014</p>
-          </div>
-          <div class="thank">
-            <p>THANK</p>
-            <p>YOU</p>
-          </div>
+    </div>
+
+    <div class="bottom" *ngIf="mode != 'planning'">
+      <p class="rosebg" style="color: white">&nbsp;</p>
+      <div class="flex">
+        <div class="iban" *ngIf="lg == 'Français'">
+          <p>Coordonnées Bancaires</p>
+          <p>Nom : Société Générale</p>
+          <p>IBAN : FR76 3000 3031 8400 1500 2190 924</p>
+          <p>BIC : SOGEFRPP</p>
+          <p>SIRET : 883 822 801 00014</p>
         </div>
-      </div>
-      <div class="bottomplann">
-        <p class="rosebg" style="color: white">&nbsp;</p>
-        <div class="adres">
-          <p>{{values[52]==""?"Domaine":values[52]}}</p>
-          <p>{{values[53]==""?"Adresse":values[53]}}</p>
-          <p>{{values[54]==""?"Code postal + Ville":values[54]}}</p>
+        <div class="iban" *ngIf="lg == 'Anglais'">
+          <p>Bank Details</p>
+          <p>Name : Société Générale</p>
+          <p>IBAN : FR76 3000 3031 8400 1500 2190 924</p>
+          <p>BIC : SOGEFRPP</p>
+          <p>SIRET : 883 822 801 00014</p>
         </div>
-        <p class="cont">CONTACT</p>
-        <div class="flex between">
-          <div *ngFor="let collegue of getCollegues()">
-            <p>{{collegue[0]+" "+collegue[1]}}</p>
-            <p>{{collegue[2]}}</p>
-            <p>{{collegue[3]}}</p>
-          </div>
+        <div class="thank">
+          <p>THANK</p>
+          <p>YOU</p>
         </div>
       </div>
     </div>
-  
-    <div class="inputs">
-        <button (click)="return()">Retour</button>
-      <button
-        class="flex center"
-        (click)="lg == 'Français' ? (lg = 'Anglais') : (lg = 'Français')"
-      >
-        {{ lg }}
-      </button>
-      <div class="flex boutons" *ngIf="false">
-        <button (click)="mode = 'devis'">Devis</button>
-        <button (click)="mode = 'facture'">Facture</button>
-        <button (click)="mode = 'planning'">Planning</button>
+    <div class="bottomplann">
+      <p class="rosebg" style="color: white">&nbsp;</p>
+      <div class="adres">
+        <p>{{ values[52] == "" ? "Domaine" : values[52] }}</p>
+        <p>{{ values[53] == "" ? "Adresse" : values[53] }}</p>
+        <p>{{ values[54] == "" ? "Code postal + Ville" : values[54] }}</p>
       </div>
-      <div class="flex">
-        <p>Importer : </p>
-        <input type="file" (change)="onFileSelected($event)" accept="application/pdf"/>
-      </div>
-      <div class="flex center">
-        <p>Date :</p>
-        <input type="text" *ngIf="mode=='devis'" [(ngModel)]="values[0]" placeholder="Date.." (input)="values[0]=onInput(values[0],true)"/>
-        <input type="text" *ngIf="mode=='facture'" [(ngModel)]="values[57]" placeholder="Date.." (input)="values[57]=onInput(values[57],true)"/>
-        <input type="text" *ngIf="mode=='planning'" [(ngModel)]="values[51]" placeholder="Date.." (input)="values[51]=onInput(values[51],true)"/>
-      </div>
-      <div class="ligne"></div>
-      <div class="flex right" *ngIf="mode!='planning'">
-        <p>{{ mode == "devis" ? "Devis N°" : "Facture N°" }}</p>
-        <input type="text" [(ngModel)]="values[1]" placeholder="N° du devis.." *ngIf="mode=='devis'"/>
-        <input type="text" [(ngModel)]="values[55]" placeholder="N° de facture.." *ngIf="mode=='facture'"/>
-        <p>-</p>
-        <input type="text" [(ngModel)]="values[2]" placeholder="Année.." *ngIf="mode=='devis'"/>
-        <input type="text" [(ngModel)]="values[56]" placeholder="Année.." *ngIf="mode=='facture'"/>
-      </div>
-      <div class="flex between" *ngIf="mode!='planning'">
-        <div class="flex big">
-          <input type="text" [(ngModel)]="values[3]" placeholder="Nom Cloé.." />
+      <p class="cont">CONTACT</p>
+      <div class="flex between">
+        <div *ngFor="let collegue of getCollegues()">
+          <p>{{ collegue[0] + " " + collegue[1] }}</p>
+          <p>{{ collegue[2] }}</p>
+          <p>{{ collegue[3] }}</p>
         </div>
-        <div class="flex right big">
-          <input type="text" [(ngModel)]="values[4]" placeholder="Nom client.." />
-        </div>
-      </div>
-      <div class="flex between" *ngIf="mode!='planning'">
-        <div class="flex big">
-          <input
-            type="text"
-            [(ngModel)]="values[5]"
-            placeholder="Adresse Cloé.."
-          />
-        </div>
-        <div class="flex right big">
-          <input
-            type="text"
-            [(ngModel)]="values[6]"
-            placeholder="Adresse client.."
-          />
-        </div>
-      </div>
-      <div class="flex between" *ngIf="mode!='planning'">
-        <div class="flex big">
-          <input
-            type="text"
-            [(ngModel)]="values[7]"
-            placeholder="Code postal + ville Cloé.."
-          />
-        </div>
-        <div class="flex right big">
-          <input
-            type="text"
-            [(ngModel)]="values[8]"
-            placeholder="Code postal + ville client.."
-          />
-        </div>
-      </div>
-      <div class="flex between" *ngIf="mode!='planning'">
-        <div class="flex big">
-          <input
-            type="text"
-            [(ngModel)]="values[9]"
-            placeholder="Téléphone Cloé.."
-          />
-        </div>
-        <div class="flex right big">
-          <input
-            type="text"
-            [(ngModel)]="values[10]"
-            placeholder="Téléphone client.."
-          />
-        </div>
-      </div>
-      <div class="flex between" *ngIf="mode!='planning'">
-        <div class="flex big">
-          <input type="text" [(ngModel)]="values[11]" placeholder="Mail Cloé.." />
-        </div>
-        <div class="flex right big">
-          <input
-            type="text"
-            [(ngModel)]="values[12]"
-            placeholder="Mail client.."
-          />
-        </div>
-      </div>
-  
-      <div class="prestas" [class.noOverflow]="!paysage" *ngIf="mode!='planning'">
-        <div class="flex">
-          <button (click)="deleteAll()">Delete all</button>
-          <button (click)="addPrestas()" *ngIf="mode=='facture'">Add prestas</button>
-        </div>
-        <div
-          *ngFor="let presta of prestas"
-          class="flex between"
-          [class.title]="presta.titre"
-        >
-          <ng-container *ngIf="!presta.titre; else elseBlock">
-            <div class="flex qte">
-              <p
-                [class.disabled]="presta.qte < 1"
-                class="clickable"
-                (click)="
-                  presta.qte > 0 ? (presta.qte = presta.qte - 1) : undefined
-                "
-              >
-                -
-              </p>
-              <input
-                type="text"
-                [(ngModel)]="presta.qte"
-                placeholder="Quantité.."
-              />
-              <p
-                class="clickable"
-                (click)="presta.qte = presta.qte + 1"
-                [class.disabled]="presta.qte > 0 && presta.onlyOne"
-              >
-                +
-              </p>
-            </div>
-            <input
-              type="text"
-              class="nom"
-              [(ngModel)]="presta.nom"
-              placeholder="Nom.."
-            />
-            <input type="text" [(ngModel)]="presta.prix" placeholder="Prix.." />
-            <input
-              type="text"
-              [(ngModel)]="presta.reduc"
-              placeholder="Réduction.."
-            />
-          </ng-container>
-          <ng-template #elseBlock>
-            <p>{{ presta.nom }}</p>
-          </ng-template>
-        </div>
-        <div class="flex center">
-          <button (click)="addPresta()">Ajouter prestation</button>
-        </div>
-      </div>
-  
-      <div class="flex between" *ngIf="mode!='planning'">
-        <div class="flex" *ngIf="mode == 'devis'">
-          <p>Échéance :</p>
-          <input type="text" [(ngModel)]="values[13]" placeholder="Échéance.." *ngIf="mode=='devis'"/>
-        </div>
-        <div class="flex right big">
-          <p>Total : {{ transform(calcTot()) }}</p>
-        </div>
-      </div>
-  
-      <div class="flex" *ngIf="mode!='planning'">
-        <p>Prestation le : {{values[14]}}</p>
-      </div>
-      <div class="flex" *ngIf="mode == 'facture'">
-        <p>Déjà versé :</p>
-        <input type="text" [(ngModel)]="values[15]" placeholder="Déjà versé.." />
-      </div>
-      <div class="flex" *ngIf="mode == 'facture'">
-        <p>Solde :</p>
-        <input type="text" [(ngModel)]="values[60]" placeholder="Solde.." />
-      </div>
-      <div class="flex" *ngIf="mode == 'facture'">
-        <p>Mode de paiement :</p>
-        <input
-          type="text"
-          [(ngModel)]="values[16]"
-          placeholder="Mode de paiement.."
-        />
-      </div>
-  
-      <div *ngIf="mode=='planning'" class="lignesprestas">
-        <div class="flex">
-          <input type="text" [(ngModel)]="finprestas" placeholder="Fin prestations.." (input)="onCeremonieInput()">
-          <input type="text" [(ngModel)]="ceremonie" placeholder="Cérémonie.." (input)="onCeremonieInput()">
-        </div>
-        <div *ngFor="let collegue of collegues;let i=index;">
-          <ng-container *ngIf="getplanningprestas(i).length>0">
-            <div class="flex">
-              <p>{{collegue[0]+" "+collegue[1]}}</p>
-              <input type="text" [(ngModel)]="collegue[4]" placeholder="Arrivée..">
-              <input type="text" [(ngModel)]="collegue[5]" placeholder="Retouches..">
-              <input type="text" [(ngModel)]="collegue[6]" placeholder="Disponibilite..">
-            </div>
-            <div *ngFor="let presta of getplanningprestas(i);let x=index" class="lignepres flex">
-              <p>{{presta.index+" - "+x+':'+getInvIndex(presta.index)}}</p>
-              <textarea [(ngModel)]="presta.nom"></textarea>
-              <select [(ngModel)]="presta.presta" class="selectpresta" (change)="changePrestataire($event,presta)">
-                <option *ngFor="let collegue of collegues;let i=index" [value]="i">{{collegue[0]+" "+collegue[1]}}</option>
-              </select>
-              <button *ngIf="x!=0" (click)="monter(x,presta)">Monter</button>
-              <button *ngIf="x!=(getplanningprestas(i).length-1)" (click)="descendre(x,presta)">Descendre</button>
-            </div>
-          </ng-container>
-        </div>
-      </div>
-  
-      <div class="domaine" *ngIf="mode == 'planning'">
-        <div class="flex">
-          <p>Domaine : </p>
-          <input type="text" [(ngModel)]="values[52]" placeholder="Domaine.."/></div>
-          <div class="flex">
-            <p>Adresse : </p>
-            <input type="text" [(ngModel)]="values[53]" placeholder="Adresse.."/></div>
-            <div class="flex">
-              <p>Code postal + Ville : </p>
-              <input type="text" [(ngModel)]="values[54]" placeholder="Code postal + Ville.."/></div>
-      </div>
-  
-  
-  <div class="flex" *ngIf="mode == 'planning'">
-          <div class="dataplanning flex">
-  
-          <div *ngFor="let collegue of collegues;let i=index; trackBy: trackByIndex" class="inviteesinput">
-            <ng-container *ngFor="let data of collegue;let j=index; trackBy: trackByIndex">
-              <input *ngIf="j<4" type="text" [(ngModel)]="collegues[i][j]"/>
-            </ng-container>
-            <button (click)="deleteCollegue(i)">Supprimer</button>
-          </div>
-        </div>
-        
-      </div>
-      <div class="marg">
-      <button class="flex center" (click)="addCollegue()" *ngIf="mode == 'planning'">Ajouter collègue</button>
-      </div>
-      
-      <br/>
-      <br/>
-      <br/>
-
-      <div>
-        <button (click)="save()" class="flex center">
-          Sauvegarder
-        </button>
-      </div>
-
-      <br/>
-  
-      <div>
-        <button (click)="generatePDFfromHTML()" class="flex center">
-          Générer PDF
-        </button>
       </div>
     </div>
   </div>
-  
+
+  <div class="inputs">
+    <button (click)="return()">Retour</button>
+    <button
+      class="flex center"
+      (click)="lg == 'Français' ? (lg = 'Anglais') : (lg = 'Français')"
+    >
+      {{ lg }}
+    </button>
+    <div class="flex boutons" *ngIf="false">
+      <button (click)="mode = 'devis'">Devis</button>
+      <button (click)="mode = 'facture'">Facture</button>
+      <button (click)="mode = 'planning'">Planning</button>
+    </div>
+    <div class="flex">
+      <p>Importer :</p>
+      <input
+        type="file"
+        (change)="onFileSelected($event)"
+        accept="application/pdf"
+      />
+    </div>
+    <div class="flex center">
+      <p>Date :</p>
+      <input
+        type="text"
+        *ngIf="mode == 'devis'"
+        [(ngModel)]="values[0]"
+        placeholder="Date.."
+        (input)="values[0] = onInput(values[0], true)"
+      />
+      <input
+        type="text"
+        *ngIf="mode == 'facture'"
+        [(ngModel)]="values[57]"
+        placeholder="Date.."
+        (input)="values[57] = onInput(values[57], true)"
+      />
+      <input
+        type="text"
+        *ngIf="mode == 'planning'"
+        [(ngModel)]="values[51]"
+        placeholder="Date.."
+        (input)="values[51] = onInput(values[51], true)"
+      />
+    </div>
+    <div class="ligne"></div>
+    <div class="flex right" *ngIf="mode != 'planning'">
+      <p>{{ mode == "devis" ? "Devis N°" : "Facture N°" }}</p>
+      <input
+        type="text"
+        [(ngModel)]="values[1]"
+        placeholder="N° du devis.."
+        *ngIf="mode == 'devis'"
+      />
+      <input
+        type="text"
+        [(ngModel)]="values[55]"
+        placeholder="N° de facture.."
+        *ngIf="mode == 'facture'"
+      />
+      <p>-</p>
+      <input
+        type="text"
+        [(ngModel)]="values[2]"
+        placeholder="Année.."
+        *ngIf="mode == 'devis'"
+      />
+      <input
+        type="text"
+        [(ngModel)]="values[56]"
+        placeholder="Année.."
+        *ngIf="mode == 'facture'"
+      />
+    </div>
+    <div class="flex between" *ngIf="mode != 'planning'">
+      <div class="flex big">
+        <input type="text" [(ngModel)]="values[3]" placeholder="Nom Cloé.." />
+      </div>
+      <div class="flex right big">
+        <input type="text" [(ngModel)]="values[4]" placeholder="Nom client.." />
+      </div>
+    </div>
+    <div class="flex between" *ngIf="mode != 'planning'">
+      <div class="flex big">
+        <input
+          type="text"
+          [(ngModel)]="values[5]"
+          placeholder="Adresse Cloé.."
+        />
+      </div>
+      <div class="flex right big">
+        <input
+          type="text"
+          [(ngModel)]="values[6]"
+          placeholder="Adresse client.."
+        />
+      </div>
+    </div>
+    <div class="flex between" *ngIf="mode != 'planning'">
+      <div class="flex big">
+        <input
+          type="text"
+          [(ngModel)]="values[7]"
+          placeholder="Code postal + ville Cloé.."
+        />
+      </div>
+      <div class="flex right big">
+        <input
+          type="text"
+          [(ngModel)]="values[8]"
+          placeholder="Code postal + ville client.."
+        />
+      </div>
+    </div>
+    <div class="flex between" *ngIf="mode != 'planning'">
+      <div class="flex big">
+        <input
+          type="text"
+          [(ngModel)]="values[9]"
+          placeholder="Téléphone Cloé.."
+        />
+      </div>
+      <div class="flex right big">
+        <input
+          type="text"
+          [(ngModel)]="values[10]"
+          placeholder="Téléphone client.."
+        />
+      </div>
+    </div>
+    <div class="flex between" *ngIf="mode != 'planning'">
+      <div class="flex big">
+        <input type="text" [(ngModel)]="values[11]" placeholder="Mail Cloé.." />
+      </div>
+      <div class="flex right big">
+        <input
+          type="text"
+          [(ngModel)]="values[12]"
+          placeholder="Mail client.."
+        />
+      </div>
+    </div>
+
+    <div
+      class="prestas"
+      [class.noOverflow]="!paysage"
+      *ngIf="mode != 'planning'"
+    >
+      <div class="flex">
+        <button (click)="deleteAll()">Delete all</button>
+        <button (click)="addPrestas()" *ngIf="mode == 'facture'">
+          Add prestas
+        </button>
+      </div>
+      <div
+        *ngFor="let presta of prestas"
+        class="flex between"
+        [class.title]="presta.titre"
+      >
+        <ng-container *ngIf="!presta.titre; else elseBlock">
+          <div class="flex qte">
+            <p
+              [class.disabled]="presta.qte < 1"
+              class="clickable"
+              (click)="
+                presta.qte > 0 ? (presta.qte = presta.qte - 1) : undefined
+              "
+            >
+              -
+            </p>
+            <input
+              type="text"
+              [(ngModel)]="presta.qte"
+              placeholder="Quantité.."
+            />
+            <p
+              class="clickable"
+              (click)="presta.qte = presta.qte + 1"
+              [class.disabled]="presta.qte > 0 && presta.onlyOne"
+            >
+              +
+            </p>
+          </div>
+          <input
+            type="text"
+            class="nom"
+            [(ngModel)]="presta.nom"
+            placeholder="Nom.."
+          />
+          <input type="text" [(ngModel)]="presta.prix" placeholder="Prix.." />
+          <input
+            type="text"
+            [(ngModel)]="presta.reduc"
+            placeholder="Réduction.."
+          />
+        </ng-container>
+        <ng-template #elseBlock>
+          <p>{{ presta.nom }}</p>
+        </ng-template>
+      </div>
+      <div class="flex center">
+        <button (click)="addPresta()">Ajouter prestation</button>
+      </div>
+    </div>
+
+    <div class="flex between" *ngIf="mode != 'planning'">
+      <div class="flex" *ngIf="mode == 'devis'">
+        <p>Échéance :</p>
+        <input
+          type="text"
+          [(ngModel)]="values[13]"
+          placeholder="Échéance.."
+          *ngIf="mode == 'devis'"
+        />
+      </div>
+      <div class="flex right big">
+        <p>Total : {{ transform(calcTot()) }}</p>
+      </div>
+    </div>
+
+    <div class="flex" *ngIf="mode != 'planning'">
+      <p>Prestation le : {{ values[14] }}</p>
+    </div>
+    <div class="flex" *ngIf="mode == 'facture'">
+      <p>Déjà versé :</p>
+      <input type="text" [(ngModel)]="values[15]" placeholder="Déjà versé.." />
+    </div>
+    <div class="flex" *ngIf="mode == 'facture'">
+      <p>Solde :</p>
+      <input type="text" [(ngModel)]="values[60]" placeholder="Solde.." />
+    </div>
+    <div class="flex" *ngIf="mode == 'facture'">
+      <p>Mode de paiement :</p>
+      <input
+        type="text"
+        [(ngModel)]="values[16]"
+        placeholder="Mode de paiement.."
+      />
+    </div>
+
+    <div *ngIf="mode == 'planning'" class="lignesprestas">
+      <div class="flex">
+        <input
+          type="text"
+          [(ngModel)]="finprestas"
+          placeholder="Fin prestations.."
+          (input)="onCeremonieInput()"
+        />
+        <input
+          type="text"
+          [(ngModel)]="ceremonie"
+          placeholder="Cérémonie.."
+          (input)="onCeremonieInput()"
+        />
+      </div>
+      <div *ngFor="let collegue of collegues; let i = index">
+        <ng-container *ngIf="getplanningprestas(i).length > 0">
+          <div class="flex">
+            <p>{{ collegue[0] + " " + collegue[1] }}</p>
+            <input
+              type="text"
+              [(ngModel)]="collegue[4]"
+              placeholder="Arrivée.."
+              (input)="onArriveeInput(i)"
+            />
+            <input
+              type="text"
+              [(ngModel)]="collegue[5]"
+              placeholder="Retouches.."
+              (input)="onRetoucheInput(i)"
+            />
+            <input
+              type="text"
+              [(ngModel)]="collegue[6]"
+              placeholder="Disponibilite.."
+              (input)="onDispoInput(i)"
+            />
+          </div>
+          <div
+            *ngFor="let presta of getplanningprestas(i); let x = index"
+            class="lignepres flex"
+          >
+            <p>
+              {{ presta.index + " - " + x + ":" + getInvIndex(presta.index) }}
+            </p>
+            <textarea [(ngModel)]="presta.nom"></textarea>
+            <select
+              [(ngModel)]="presta.presta"
+              class="selectpresta"
+              (change)="changePrestataire($event, presta)"
+            >
+              <option
+                *ngFor="let collegue of collegues; let i = index"
+                [value]="i"
+              >
+                {{ collegue[0] + " " + collegue[1] }}
+              </option>
+            </select>
+            <button *ngIf="x != 0" (click)="monter(x, presta)">Monter</button>
+            <button
+              *ngIf="x != getplanningprestas(i).length - 1"
+              (click)="descendre(x, presta)"
+            >
+              Descendre
+            </button>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="domaine" *ngIf="mode == 'planning'">
+      <div class="flex">
+        <p>Domaine :</p>
+        <input type="text" [(ngModel)]="values[52]" placeholder="Domaine.." />
+      </div>
+      <div class="flex">
+        <p>Adresse :</p>
+        <input type="text" [(ngModel)]="values[53]" placeholder="Adresse.." />
+      </div>
+      <div class="flex">
+        <p>Code postal + Ville :</p>
+        <input
+          type="text"
+          [(ngModel)]="values[54]"
+          placeholder="Code postal + Ville.."
+        />
+      </div>
+    </div>
+
+    <div class="flex" *ngIf="mode == 'planning'">
+      <div class="dataplanning flex">
+        <div
+          *ngFor="
+            let collegue of collegues;
+            let i = index;
+            trackBy: trackByIndex
+          "
+          class="inviteesinput"
+        >
+          <ng-container
+            *ngFor="let data of collegue; let j = index; trackBy: trackByIndex"
+          >
+            <input *ngIf="j < 4" type="text" [(ngModel)]="collegues[i][j]" />
+          </ng-container>
+          <button (click)="deleteCollegue(i)">Supprimer</button>
+        </div>
+      </div>
+    </div>
+    <div class="marg">
+      <button
+        class="flex center"
+        (click)="addCollegue()"
+        *ngIf="mode == 'planning'"
+      >
+        Ajouter collègue
+      </button>
+    </div>
+
+    <br />
+    <br />
+    <br />
+
+    <div>
+      <button (click)="save()" class="flex center">Sauvegarder</button>
+    </div>
+
+    <br />
+
+    <div>
+      <button (click)="generatePDFfromHTML()" class="flex center">
+        Générer PDF
+      </button>
+    </div>
+  </div>
+</div>

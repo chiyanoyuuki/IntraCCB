@@ -1,193 +1,200 @@
 #htmlContent {
-    width: 595px !important;
-    height: 848px !important;
-    position: relative;
-    min-width: 595px !important;
-  }
-  .noplanning{
-    width: 590px !important;
-    min-width: 590px !important;
-    height: 840px !important;
-    padding:5px;
-  }
-  .inputs {
-    width: 50%;
-    height: 842px !important;
-    border: 2px solid transparent;
-    position: relative;
-  }
-  .portrait .inputs {
-    width: 595px !important;
-  }
-  * {
-    -webkit-user-select: none; /* Safari */
-    -ms-user-select: none; /* IE 10 and IE 11 */
-    user-select: none; /* Standard syntax */
-  }
-  .textoverflow {
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }
-  .rosebg {
-    background-color: #ab83ba22;
-    font-size: 25.1px;
-    text-align: center;
-    letter-spacing: 15px;
-  }
-  .center {
-    justify-content: center;
-  }
-  .right {
-    justify-content: right;
-  }
-  input {
-    text-align: center;
-    width: 80px;
-    margin: 0px 5px;
-  }
-  .inputs .flex {
-    width: 100%;
-    margin: 2px 0px;
-  }
-  .big input, .big button{
-    width: 180px;
-  }
-  .logo {
-    width: 30%;
-    margin: auto;
-    display: flex;
-    margin-top: 5px;
-    margin-bottom: 10px;
-  }
-  p {
-    font-family: "Cardo", serif !important;
-    font-weight: 400;
-    font-style: normal;
-    margin: 0;
-    font-size: 14px;
-    letter-spacing: 1px;
-  }
-  .date {
-    text-align: center;
-    font-size: 15px;
-  }
-  .ligne {
-    border-bottom: 1px solid black;
-    width: 90%;
-    display: flex;
-    margin: auto;
-  }
-  .fullligne {
-    border-bottom: 1px solid black;
-    width: 100%;
-    display: flex;
-    margin: auto;
-  }
-  .margtop {
-    margin-top: 25px;
-  }
-  .marg{
-    padding:20px!important;
-  }
-  .content {
-    padding: 0px 15px;
-    position: relative;
-  }
-  .cloe p {
-    font-weight: bold;
-    position: relative;
-  }
-  .none{display:none;}
-  .noborder{
-    border:unset!important;
-    border-top: 1px solid black !important;
-    border-bottom: 1px solid black !important;
-    padding-left: 15px;
-  }
-  .nobold {
-    font-weight: unset !important;
-  }
-  .bold {
-    font-weight: bold !important;
-  }
-  .flex {
-    display: flex;
-  }
-  .between {
-    justify-content: space-between;
-  }
-  .tinytext {
-    font-size: 12px !important;
-  }
-  .devis {
-    text-align: right;
-  }
-  .client p {
-    text-align: right;
-  }
-  .relative{
-    position:relative;
-  }
-  .absolute{
-    position: absolute;
-    display: flex;
-    left: 120px;
-  }
-  .invitee{
-    white-space: nowrap;
+  width: 595px !important;
+  height: 835px !important;
+  position: relative;
+  min-width: 595px !important;
+}
+.noplanning .bottom {
+  padding-bottom: 20px;
+}
+.noplanning {
+  width: 590px !important;
+  min-width: 590px !important;
+  height: 840px !important;
+  padding: 5px;
+}
+.inputs {
+  width: 50%;
+  height: 842px !important;
+  border: 2px solid transparent;
+  position: relative;
+}
+.portrait .inputs {
+  width: 595px !important;
+}
+* {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
+.textoverflow {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.rosebg {
+  background-color: #ab83ba22;
+  font-size: 25.1px;
+  text-align: center;
+  letter-spacing: 15px;
+}
+.center {
+  justify-content: center;
+}
+.right {
+  justify-content: right;
+}
+input {
+  text-align: center;
+  width: 80px;
+  margin: 0px 5px;
+}
+.inputs .flex {
+  width: 100%;
+  margin: 2px 0px;
+}
+.big input,
+.big button {
+  width: 180px;
+}
+.logo {
+  width: 30%;
+  margin: auto;
+  display: flex;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+p {
+  font-family: "Cardo", serif !important;
+  font-weight: 400;
+  font-style: normal;
+  margin: 0;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+.date {
+  text-align: center;
+  font-size: 15px;
+}
+.ligne {
+  border-bottom: 1px solid black;
+  width: 90%;
+  display: flex;
+  margin: auto;
+}
+.fullligne {
+  border-bottom: 1px solid black;
+  width: 100%;
+  display: flex;
+  margin: auto;
+}
+.margtop {
+  margin-top: 25px;
+}
+.marg {
+  padding: 20px !important;
+}
+.content {
+  padding: 0px 15px;
+  position: relative;
+}
+.cloe p {
+  font-weight: bold;
+  position: relative;
+}
+.none {
+  display: none;
+}
+.noborder {
+  border: unset !important;
+  border-top: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  padding-left: 15px;
+}
+.nobold {
+  font-weight: unset !important;
+}
+.bold {
+  font-weight: bold !important;
+}
+.flex {
+  display: flex;
+}
+.between {
+  justify-content: space-between;
+}
+.tinytext {
+  font-size: 12px !important;
+}
+.devis {
+  text-align: right;
+}
+.client p {
+  text-align: right;
+}
+.relative {
+  position: relative;
+}
+.absolute {
+  position: absolute;
+  display: flex;
+  left: 120px;
+}
+.invitee {
+  white-space: nowrap;
   position: absolute;
   left: 5px;
-    top: 2px;
+  top: 2px;
+}
+.inviteesinput {
+  display: flex;
+  flex-direction: column;
+  input {
+    margin: unset !important;
+    width: 100px !important;
   }
-  .inviteesinput {
-    display: flex;
-    flex-direction: column;
-    input{
-    margin:unset!important;
-    width: 100px!important;
-    }
-  }
-  .dataplanning{
-    overflow-x: scroll;
-    overflow-y: hidden;
-    padding: 2vh 0vw;
-    max-width: 70%;
-  }
-  .firstrow{
-    opacity:0;
-    td{
+}
+.dataplanning {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  padding: 2vh 0vw;
+  max-width: 70%;
+}
+.firstrow {
+  opacity: 0;
+  td {
     border: 1px solid transparent;
     border-bottom: 1px solid black;
-    }
   }
-  .lignesprestas{
-    .lignepres{
-      position:relative;
-      select, button{
-        width:unset!important;
-        position: relative;
-      }
-    }
-  }
-  .nomslignes{
-    padding: 2vh 0vw;
-  }
-  .nomslignes p{
+}
+.lignesprestas {
+  .lignepres {
     position: relative;
-    top: 2px;
-    text-align: right;
-    height: 22px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    select,
+    button {
+      width: unset !important;
+      position: relative;
+    }
   }
-  .tableplann {
-    display: flex;
-    height: 85px;
-    padding-left: 62px;
-    
-    p {
-      width: 63.25px;
+}
+.nomslignes {
+  padding: 2vh 0vw;
+}
+.nomslignes p {
+  position: relative;
+  top: 2px;
+  text-align: right;
+  height: 22px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tableplann {
+  display: flex;
+  height: 85px;
+  padding-left: 62px;
+
+  p {
+    width: 63.25px;
     white-space: nowrap;
     text-align: center;
     font-size: 10px !important;
@@ -196,239 +203,236 @@
     height: 40px;
     top: 62px;
     position: relative;
-    }
-    .containerline{
-      position:relative;
-      width:63.25px;
-    }
-    .orientedline{
-      left: 0px;
+  }
+  .containerline {
+    position: relative;
+    width: 63.25px;
+  }
+  .orientedline {
+    left: 0px;
     position: absolute;
     border-left: 1px solid black;
     height: 85px;
     transform: rotate(45deg);
     transform-origin: bottom left;
-    }
   }
-  select{
-    width: 108px;
-  }
-  textarea{
-    width: 100px;
+}
+select {
+  width: 108px;
+}
+textarea {
+  width: 100px;
   font-size: 9px;
   height: 40px;
-  resize:none;
+  resize: none;
+}
+.artist {
+  position: relative;
+  top: -22px;
+  text-align: right;
+  font-style: italic;
+}
+table {
+  border-collapse: collapse;
+  top: -21px;
+  left: -14px;
+  position: relative;
+  .odd {
+    background-color: rgba(171, 131, 186, 0.1333333333);
   }
-  .artist{
-    position: relative;
-    top: -22px;
-    text-align: right;
-    font-style: italic;
+  td {
+    border: 1px solid black;
   }
-  table{
-    border-collapse: collapse;
-    top: -21px;
-    left: -14px;
-    position:relative;
-    .odd {
-      background-color: rgba(171, 131, 186, 0.1333333333);
-    }
-    td{
-      border:1px solid black;
-    }
-    .firsttd{
-      width:75px;
-    }
-    .horaire{
-      width:60px;
-      min-width:60px;
-      max-width:60px;
-      text-align: center;
-    }
+  .firsttd {
+    width: 75px;
   }
-  .noplanning {
-    .table{
-      display: flex;
-      p {
-        width: 10%;
-        white-space: nowrap;
-        text-align: center;
-        font-size: 10px !important;
-      }
-        p:nth-child(2) {
-          width: 45%;
-        }
-        p:nth-child(3) {
-          width: 20%;
-        }
-        p:nth-child(5) {
-          width: 15%;
-        }
-      
-    }
-    
-  }
-  .echeance {
-    width: 75%;
-  }
-  .total {
-    width: 15%;
-    text-align: right;
-  }
-  .boutons {
-    justify-content: space-evenly;
-    button {
-      width: 30%;
-    }
-  }
-  .resume {
-    position: relative;
-    top: 100px;
-  }
-  .minitxt {
-    position: relative;
-    width: 100%;
-    top: -4px;
-    p {
-      font-size: 12px !important;
-      width: 100%;
-    }
-    .tva {
-      text-align: right;
-      font-size: 8px !important;
-      white-space: nowrap;
-    }
-  }
-  .infos p {
-    font-size: 9px !important;
-  }
-  ul {
-    margin: 0;
-    font-size: 9px;
-    padding: 0px 20px;
-  }
-  .infos {
-    margin-top: 20px;
-  }
-  .signature {
-    font-size: 10px !important;
-    margin-top: 10px;
-  }
-  .iban p {
-    color: #ab83ba;
-    font-size: 12px !important;
-  }
-  .thank p {
-    color: #87528e;
-    font-size: 29px !important;
+  .horaire {
+    width: 60px;
+    min-width: 60px;
+    max-width: 60px;
     text-align: center;
   }
-  .bottomplann{
-    position: absolute;
-    bottom: 0px;
-    width: 100%;
-    .cont{
-      color: #87528e;
-      text-decoration: underline;
-      font-weight:bold;
-    }
-    .flex{
-      p{
-        font-size: 11px;
-      }
-    }
-  }
-  .adres{
-    border:1px solid black;
-    width: 250px;
-    padding:5px 0px;
-    margin:15px 0px;
-    p{
-      padding:0px 5px;
-    }
-    p:nth-child(1) {
-      font-weight:bold;
-      border-bottom:1px solid black;
+}
+.noplanning {
+  .table {
+    display: flex;
+    p {
+      width: 10%;
+      white-space: nowrap;
+      text-align: center;
+      font-size: 10px !important;
     }
     p:nth-child(2) {
-      font-style: italic;
-      padding-top:5px;
+      width: 45%;
     }
     p:nth-child(3) {
-      font-style: italic;
+      width: 20%;
+    }
+    p:nth-child(5) {
+      width: 15%;
     }
   }
-  .domaine{
-    display: flex;
-    flex-direction: column;
-    p{
-      width:30%;
-    }
-    input{
-      width:50%;
-    }
+}
+.echeance {
+  width: 75%;
+}
+.total {
+  width: 15%;
+  text-align: right;
+}
+.boutons {
+  justify-content: space-evenly;
+  button {
+    width: 30%;
   }
-  .bottom {
-    position: absolute;
-    bottom: 0px;
+}
+.resume {
+  position: relative;
+  top: 100px;
+}
+.minitxt {
+  position: relative;
+  width: 100%;
+  top: -4px;
+  p {
+    font-size: 12px !important;
     width: 100%;
-    .flex {
-      margin: 0px 20px;
-    }
-    .iban {
-      width: 60%;
-    }
-    .thank {
-      width: 40%;
-      p {
-        font-weight: bold;
-        letter-spacing: 10px;
-      }
-    }
   }
-  .disabled {
-    color: white !important;
-    pointer-events: none;
+  .tva {
+    text-align: right;
+    font-size: 8px !important;
+    white-space: nowrap;
   }
-  .green {
+}
+.infos p {
+  font-size: 9px !important;
+}
+ul {
+  margin: 0;
+  font-size: 9px;
+  padding: 0px 20px;
+}
+.infos {
+  margin-top: 20px;
+}
+.signature {
+  font-size: 10px !important;
+  margin-top: 10px;
+}
+.iban p {
+  color: #ab83ba;
+  font-size: 12px !important;
+}
+.thank p {
+  color: #87528e;
+  font-size: 29px !important;
+  text-align: center;
+}
+.bottomplann {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  .cont {
+    color: #87528e;
+    text-decoration: underline;
     font-weight: bold;
-    color: rgb(57, 155, 57);
   }
-  .prestas {
-    max-height: 300px;
-    overflow-y: scroll;
-    border: 1px solid black;
-    margin: 20px 0px;
-    padding: 10px;
-    .flex {
-      width: unset;
-    }
-    input {
-      width: 60px;
+  .flex {
+    p {
       font-size: 11px;
     }
-    .qte {
-      width: 100px;
-    }
-    .nom {
-      width: 80%;
-      text-align: center;
-    }
   }
-  .title {
-    p {
-      text-align: center;
-      width: 100% !important;
-      border-bottom: 1px solid black;
-    }
+}
+.adres {
+  border: 1px solid black;
+  width: 250px;
+  padding: 5px 0px;
+  margin: 15px 0px;
+  p {
+    padding: 0px 5px;
   }
-  .clickable:hover {
-    cursor: pointer;
+  p:nth-child(1) {
     font-weight: bold;
-    color: red;
+    border-bottom: 1px solid black;
   }
-  .noOverflow {
-    max-height: unset !important;
-    overflow: hidden !important;
+  p:nth-child(2) {
+    font-style: italic;
+    padding-top: 5px;
   }
-  
+  p:nth-child(3) {
+    font-style: italic;
+  }
+}
+.domaine {
+  display: flex;
+  flex-direction: column;
+  p {
+    width: 30%;
+  }
+  input {
+    width: 50%;
+  }
+}
+.bottom {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  .flex {
+    margin: 0px 20px;
+  }
+  .iban {
+    width: 60%;
+  }
+  .thank {
+    width: 40%;
+    p {
+      font-weight: bold;
+      letter-spacing: 10px;
+    }
+  }
+}
+.disabled {
+  color: white !important;
+  pointer-events: none;
+}
+.green {
+  font-weight: bold;
+  color: rgb(57, 155, 57);
+}
+.prestas {
+  max-height: 300px;
+  overflow-y: scroll;
+  border: 1px solid black;
+  margin: 20px 0px;
+  padding: 10px;
+  .flex {
+    width: unset;
+  }
+  input {
+    width: 60px;
+    font-size: 11px;
+  }
+  .qte {
+    width: 100px;
+  }
+  .nom {
+    width: 80%;
+    text-align: center;
+  }
+}
+.title {
+  p {
+    text-align: center;
+    width: 100% !important;
+    border-bottom: 1px solid black;
+  }
+}
+.clickable:hover {
+  cursor: pointer;
+  font-weight: bold;
+  color: red;
+}
+.noOverflow {
+  max-height: unset !important;
+  overflow: hidden !important;
+}

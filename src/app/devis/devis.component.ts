@@ -1,4 +1,13 @@
-import { Component, EventEmitter, HostListener, Input, isDevMode, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  isDevMode,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { jsPDF } from 'jspdf';
 import { CommonModule, DatePipe } from '@angular/common';
@@ -17,7 +26,6 @@ import { ReadpdfService } from '../../services/readpdf.service';
   providers: [DatePipe],
 })
 export class DevisComponent implements OnInit {
-
   @Output() retour = new EventEmitter<string>();
 
   @Input() data: any;
@@ -55,9 +63,9 @@ export class DevisComponent implements OnInit {
       prix: 420,
       onlyOne: true,
       bride: true,
-      time:120,
-      maquillage:true,
-      coiffure:true
+      time: 120,
+      maquillage: true,
+      coiffure: true,
     },
     {
       nom: 'Maquillage Mariée',
@@ -65,8 +73,8 @@ export class DevisComponent implements OnInit {
       prix: 220,
       onlyOne: true,
       bride: true,
-      time:60,
-      maquillage:true
+      time: 60,
+      maquillage: true,
     },
     {
       nom: 'Coiffure Mariée',
@@ -74,17 +82,17 @@ export class DevisComponent implements OnInit {
       prix: 220,
       onlyOne: true,
       bride: true,
-      time:60,
-      coiffure:true
+      time: 60,
+      coiffure: true,
     },
     {
       nom: 'Maquillage et coiffure supplémentaire (Mariage civil, seconde mise en beauté)',
       en: 'Additional Makeup and Hairstyling (Civil Wedding, Second Beauty Touch-Up)',
       prix: 300,
       bride: true,
-      time:120,
-      maquillage:true,
-      coiffure:true
+      time: 120,
+      maquillage: true,
+      coiffure: true,
     },
     {
       nom: 'Invitée (jour-J)',
@@ -95,44 +103,44 @@ export class DevisComponent implements OnInit {
       nom: 'Forfait Invitée Complet',
       en: 'Complete Guest Package',
       prix: 130,
-      time:75,
-      maquillage:true,
-      coiffure:true
+      time: 75,
+      maquillage: true,
+      coiffure: true,
     },
     {
       nom: 'Coiffure Invitée (Attache complète)',
       en: 'Guest Hairstyling (Full Updo)',
       prix: 80,
-      time:45,
-      coiffure:true
+      time: 45,
+      coiffure: true,
     },
     {
       nom: 'Coiffure Invitée (Attache partielle)',
       en: 'Guest Hairstyling (Partial Updo)',
       prix: 70,
-      time:45,
-      coiffure:true
+      time: 45,
+      coiffure: true,
     },
     {
       nom: 'Brushing Hollywoodien Invitée',
       en: 'Hollywood Blowout (Guest)',
       prix: 70,
-      time:45,
-      coiffure:true
+      time: 45,
+      coiffure: true,
     },
     {
       nom: 'Maquillage Invitée',
       en: 'Guest Makeup',
       prix: 65,
-      time:45,
-      maquillage:true
+      time: 45,
+      maquillage: true,
     },
     {
       nom: 'Coiffure enfant (-13ans)',
       en: 'Child Hairstyling (-13 years)',
       prix: 30,
-      time:20,
-      coiffure:true
+      time: 20,
+      coiffure: true,
     },
     {
       nom: 'Options',
@@ -154,8 +162,8 @@ export class DevisComponent implements OnInit {
       en: 'Groom Makeup',
       prix: 30,
       onlyOne: true,
-      time:30,
-      maquillage:true
+      time: 30,
+      maquillage: true,
     },
     {
       nom: 'Présence avant 7h',
@@ -171,36 +179,73 @@ export class DevisComponent implements OnInit {
     },
   ];
 
-  typeinvitee = ["Invitée","Mariée"];
-  ceremonie: any = "";
-  finprestas: any = "";
+  typeinvitee = ['Invitée', 'Mariée'];
+  ceremonie: any = '';
+  finprestas: any = '';
 
   collegues = [
-    ["Cloé","CHAUDRON","06.68.64.44.02","cloe.chaudron@outlook.com","","",""],
-    ["Celma","SAHIDET","06.80.84.42.52","sahidetcelma@gmail.com","","",""]
-  ]
+    [
+      'Cloé',
+      'CHAUDRON',
+      '06.68.64.44.02',
+      'cloe.chaudron@outlook.com',
+      '',
+      '',
+      '',
+    ],
+    [
+      'Celma',
+      'SAHIDET',
+      '06.80.84.42.52',
+      'sahidetcelma@gmail.com',
+      '',
+      '',
+      '',
+    ],
+  ];
 
-  invitees:any = [[0,"8h30","8h45","9h00","9h00","10h15","15h30 à 16h00","jusqu'à 16h00","16h00",0]];
+  invitees: any = [
+    [
+      0,
+      '8h30',
+      '8h45',
+      '9h00',
+      '9h00',
+      '10h15',
+      '15h30 à 16h00',
+      "jusqu'à 16h00",
+      '16h00',
+      0,
+    ],
+  ];
 
-  planningtop = [{
-    fr:"ARRIVEE"
-  },{
-    fr:"INSTALLATION"
-  },{fr:"MAQUILLAGE"},{fr:"COIFFURE"},{fr:"FIN PRESTATION"},{fr:"RETOUCHES"},{fr:"DISPONIBILITE"},{fr:"CEREMONIE"}
+  planningtop = [
+    {
+      fr: 'ARRIVEE',
+    },
+    {
+      fr: 'INSTALLATION',
+    },
+    { fr: 'MAQUILLAGE' },
+    { fr: 'COIFFURE' },
+    { fr: 'FIN PRESTATION' },
+    { fr: 'RETOUCHES' },
+    { fr: 'DISPONIBILITE' },
+    { fr: 'CEREMONIE' },
   ];
 
   lg = 'Français';
 
   planningprestas: any;
 
-  intitules : any = [];
+  intitules: any = [];
   renfort = false;
 
   mode = 'devis';
   public innerWidth: any = window.innerWidth;
   public innerHeight: any = window.innerHeight;
   paysage = true;
-  inited=false;
+  inited = false;
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
@@ -212,12 +257,13 @@ export class DevisComponent implements OnInit {
     else this.paysage = true;
   }
 
-  constructor(private datePipe: DatePipe, private http: HttpClient, private readPDF : ReadpdfService) {
-    
-  }
+  constructor(
+    private datePipe: DatePipe,
+    private http: HttpClient,
+    private readPDF: ReadpdfService
+  ) {}
 
   ngOnInit() {
-    
     this.baseprestas.forEach((presta: any) => {
       presta.qte = 0;
     });
@@ -226,107 +272,145 @@ export class DevisComponent implements OnInit {
     else this.paysage = true;
   }
 
-  onCeremonieInput()
-  {
-    if(this.ceremonie.match(/^[0-9]{2}h[0-9]{2}$/g))
-    {
-      this.invitees.forEach((i:any)=>i[8]=this.ceremonie);
+  onCeremonieInput() {
+    if (this.ceremonie.match(/^[0-9]{2}h[0-9]{2}$/g)) {
+      this.invitees.forEach((i: any) => (i[8] = this.ceremonie));
       this.changeForCeremonie();
     }
   }
 
-  onFinPrestasInput()
-  {
-    if(this.finprestas.match(/^[0-9]{2}h[0-9]{2}$/g))
-    {
+  onFinPrestasInput() {
+    if (this.finprestas.match(/^[0-9]{2}h[0-9]{2}$/g)) {
       this.changeForCeremonie();
     }
   }
 
-  changeForCeremonie()
-  {
-    for(let c=0;c<this.collegues.length;c++)
-      {
+  changeForCeremonie() {
+    for (let c = 0; c < this.collegues.length; c++) {
+      if (this.collegues[c][4] == '') {
         let temps = this.ceremonie;
         let tempstot = -60;
-        if(this.finprestas.match(/^[0-9]{2}h[0-9]{2}$/g)) 
-        {
+        if (this.finprestas.match(/^[0-9]{2}h[0-9]{2}$/g)) {
           tempstot = 0;
           temps = this.finprestas;
         }
 
         let prestas = this.getplanningprestas(c);
 
-        if(prestas.length>0)
-        {
-          prestas.forEach((p:any)=>tempstot-=p.time);
+        if (prestas.length > 0) {
+          prestas.forEach((p: any) => (tempstot -= p.time));
 
-          temps = this.addMinutesToTime(temps,tempstot);
+          temps = this.addMinutesToTime(temps, tempstot);
 
-          let inv = this.invitees.find((i:any)=>i[9]==c);
+          let inv = this.invitees.find((i: any) => i[9] == c);
 
-          if(inv[3]!="")inv[3]=temps;
-          if(inv[4]!="")inv[4]=temps;
+          if (inv[3] != '') inv[3] = temps;
+          if (inv[4] != '') inv[4] = temps;
         }
+      } else {
+        let inv = this.invitees.find((i: any) => i[9] == c);
+
+        if (inv[3] != '') inv[3] = this.collegues[c][4];
+        if (inv[4] != '') inv[4] = this.collegues[c][4];
       }
-      this.adaptStart();
+    }
+    if (this.collegues[1][4] == '') this.adaptStart();
+    else this.actualiser();
   }
 
-  adaptStart()
-  {
-    if(this.invitees.filter((i:any)=>i[9]==1).length>0)
-    {
-      let firstInv0 = this.invitees.find((i:any)=>i[9]==0);
-      let firstInv1 = this.invitees.find((i:any)=>i[9]==1);
+  onArriveeInput(i: any) {
+    let value: any = this.collegues[i][4];
+    if (value.match(/^[0-9]{2}h[0-9]{2}$/g)) {
+      this.changeForCeremonie();
+    } else if (value == '') {
+      if (this.ceremonie != '') this.onCeremonieInput();
+      else if (this.finprestas != '') this.onFinPrestasInput();
+      this.invitees.forEach((inv: any) => (inv[6] = ''));
+    }
+  }
+
+  onRetoucheInput(i: any) {
+    let value: any = this.collegues[i][5];
+    if (value.match(/^[0-9]{2}h[0-9]{2}$/g)) {
+      this.invitees
+        .filter((inv: any) => inv[9] == i)
+        .forEach((inv: any) => (inv[6] = value));
+    } else if (value == '') {
+      this.invitees
+        .filter((inv: any) => inv[9] == i)
+        .forEach((inv: any) => (inv[6] = ''));
+      if (this.ceremonie != '') this.onCeremonieInput();
+      else if (this.finprestas != '') this.onFinPrestasInput();
+    }
+  }
+
+  onDispoInput(i: any) {
+    let value: any = this.collegues[i][6];
+    if (value.match(/^[0-9]{2}h[0-9]{2}$/g)) {
+      this.invitees
+        .filter((inv: any) => inv[9] == i)
+        .forEach((inv: any) => (inv[7] = value));
+    } else if (value == '') {
+      this.invitees
+        .filter((inv: any) => inv[9] == i)
+        .forEach((inv: any) => (inv[7] = ''));
+    }
+  }
+
+  adaptStart() {
+    if (this.invitees.filter((i: any) => i[9] == 1).length > 0) {
+      let firstInv0 = this.invitees.find((i: any) => i[9] == 0);
+      let firstInv1 = this.invitees.find((i: any) => i[9] == 1);
 
       let debut1 = firstInv0[3];
-      if(debut1=="") debut1 = firstInv0[4];
+      if (debut1 == '') debut1 = firstInv0[4];
       let debut2 = firstInv1[3];
-      if(debut2=="") debut2 = firstInv1[4];
+      if (debut2 == '') debut2 = firstInv1[4];
 
-      if(debut1!=debut2)
-      {
-        let ecart = this.differenceMinutes(debut1,debut2);
-        if(this.estPlusTot(debut1,debut2))
-        {
-          let newhour = this.addMinutesToTime(debut2,-ecart);
-          if(firstInv1[3]!="")firstInv1[3] = newhour;
-          if(firstInv1[4]!="")firstInv1[4] = newhour;
-        }
-        else
-        {
-          let newhour = this.addMinutesToTime(debut1,-ecart);
-          if(firstInv0[3]!="")firstInv0[3] = newhour;
-          if(firstInv0[4]!="")firstInv0[4] = newhour;
+      if (debut1 != debut2) {
+        let ecart = this.differenceMinutes(debut1, debut2);
+        if (this.estPlusTot(debut1, debut2)) {
+          let newhour = this.addMinutesToTime(debut2, -ecart);
+          if (firstInv1[3] != '') firstInv1[3] = newhour;
+          if (firstInv1[4] != '') firstInv1[4] = newhour;
+        } else {
+          let newhour = this.addMinutesToTime(debut1, -ecart);
+          if (firstInv0[3] != '') firstInv0[3] = newhour;
+          if (firstInv0[4] != '') firstInv0[4] = newhour;
         }
         this.actualiser();
         this.adaptRetouches();
       }
+    } else {
+      this.actualiser();
     }
-    else{this.actualiser();}
-  } 
+  }
 
-  adaptRetouches()
-  {
-      let firstInv0 = this.invitees.filter((i:any)=>i[9]==0);
-      firstInv0 = firstInv0[firstInv0.length-1];
-      let firstInv1 = this.invitees.filter((i:any)=>i[9]==1);
-      firstInv1 = firstInv1[firstInv1.length-1];
+  adaptRetouches() {
+    let firstInv0 = this.invitees.filter((i: any) => i[9] == 0);
+    firstInv0 = firstInv0[firstInv0.length - 1];
+    let firstInv1 = this.invitees.filter((i: any) => i[9] == 1);
+    firstInv1 = firstInv1[firstInv1.length - 1];
 
-      let debut1 = firstInv0[5];
-      let debut2 = firstInv1[5];
+    let debut1 = firstInv0[5];
+    let debut2 = firstInv1[5];
 
-      if(this.estPlusTot(debut1,debut2))
-      {
-        this.invitees.filter((i:any)=>i[9]==0).forEach((i:any)=>i[6]=debut2);
-        this.invitees.filter((i:any)=>i[9]==1).forEach((i:any)=>i[6]="");
-      }
-      else
-      {
-        this.invitees.filter((i:any)=>i[9]==1).forEach((i:any)=>i[6]=debut1);
-        this.invitees.filter((i:any)=>i[9]==0).forEach((i:any)=>i[6]="");
-      }
-  } 
+    if (this.estPlusTot(debut1, debut2)) {
+      this.invitees
+        .filter((i: any) => i[9] == 0)
+        .forEach((i: any) => (i[6] = debut2));
+      this.invitees
+        .filter((i: any) => i[9] == 1)
+        .forEach((i: any) => (i[6] = ''));
+    } else {
+      this.invitees
+        .filter((i: any) => i[9] == 1)
+        .forEach((i: any) => (i[6] = debut1));
+      this.invitees
+        .filter((i: any) => i[9] == 0)
+        .forEach((i: any) => (i[6] = ''));
+    }
+  }
 
   estPlusTot(heure1: string, heure2: string): boolean {
     const [h1, m1] = heure1.split('h').map(Number);
@@ -348,22 +432,19 @@ export class DevisComponent implements OnInit {
     return Math.abs(totalMinutes2 - totalMinutes1);
   }
 
-  onInput(value:any, setyear:any=false): void {
+  onInput(value: any, setyear: any = false): void {
     value = value.replace(/\D/g, '');
     if (value.length > 2) value = value.slice(0, 2) + '/' + value.slice(2);
     if (value.length > 5) value = value.slice(0, 5) + '/' + value.slice(5);
 
-    if(setyear)
-    {
-      if(value.length>3)
-      {
-        this.values[2] = value.substring(value.length-4);
-        this.values[56] = value.substring(value.length-4);
+    if (setyear) {
+      if (value.length > 3) {
+        this.values[2] = value.substring(value.length - 4);
+        this.values[56] = value.substring(value.length - 4);
       }
     }
 
-    if(value.length==10&&this.mode=='devis')
-    {
+    if (value.length == 10 && this.mode == 'devis') {
       const [day, month, year] = value.split('/').map(Number);
       const date = new Date(year, month - 1, day); // Mois commence à 0 en JS
 
@@ -375,36 +456,34 @@ export class DevisComponent implements OnInit {
       const newMonth = String(date.getMonth() + 1).padStart(2, '0'); // Mois commence à 0
       const newYear = date.getFullYear();
 
-      this.values[13]=newDay+"/"+newMonth+"/"+newYear;
+      this.values[13] = newDay + '/' + newMonth + '/' + newYear;
     }
 
     return value;
   }
 
-  monter(idx:any, presta:any)
-  {
+  monter(idx: any, presta: any) {
     let prestas = this.getplanningprestas(presta.presta);
 
-    let p1 = prestas[idx-1];
+    let p1 = prestas[idx - 1];
     let p2 = prestas[idx];
 
-    let i1 = this.invitees.find((i:any)=>i[10]==p1.index);
-    let i2 = this.invitees.find((i:any)=>i[10]==p2.index);
+    let i1 = this.invitees.find((i: any) => i[10] == p1.index);
+    let i2 = this.invitees.find((i: any) => i[10] == p2.index);
 
-    if(i1[1]!="")
-      {
-        let arrivee = i1[1];
-        let installation = this.addMinutesToTime(arrivee,15);
-        let debut = this.addMinutesToTime(arrivee,30);
-  
-        i1[1]="";
-        i1[2]="";
-  
-        i2[1]=arrivee;
-        i2[2]=installation;
-        if(i2[3]!="")i2[3]=debut;
-        if(i2[4]!="")i2[4]=debut;
-      }
+    if (i1[1] != '') {
+      let arrivee = i1[1];
+      let installation = this.addMinutesToTime(arrivee, 15);
+      let debut = this.addMinutesToTime(arrivee, 30);
+
+      i1[1] = '';
+      i1[2] = '';
+
+      i2[1] = arrivee;
+      i2[2] = installation;
+      if (i2[3] != '') i2[3] = debut;
+      if (i2[4] != '') i2[4] = debut;
+    }
 
     let idxi1 = this.invitees.indexOf(i1);
     let idxi2 = this.invitees.indexOf(i2);
@@ -420,30 +499,28 @@ export class DevisComponent implements OnInit {
     this.actualiser();
   }
 
-  descendre(idx:any, presta:any)
-  {
+  descendre(idx: any, presta: any) {
     let prestas = this.getplanningprestas(presta.presta);
 
     let p1 = prestas[idx];
-    let p2 = prestas[idx+1];
+    let p2 = prestas[idx + 1];
 
-    let i1 = this.invitees.find((i:any)=>i[10]==p1.index);
-    let i2 = this.invitees.find((i:any)=>i[10]==p2.index);
+    let i1 = this.invitees.find((i: any) => i[10] == p1.index);
+    let i2 = this.invitees.find((i: any) => i[10] == p2.index);
 
-    if(i1[1]!="")
-      {
-        let arrivee = i1[1];
-        let installation = this.addMinutesToTime(arrivee,15);
-        let debut = this.addMinutesToTime(arrivee,30);
-  
-        i1[1]="";
-        i1[2]="";
-  
-        i2[1]=arrivee;
-        i2[2]=installation;
-        if(i2[3]!="")i2[3]=debut;
-        if(i2[4]!="")i2[4]=debut;
-      }
+    if (i1[1] != '') {
+      let arrivee = i1[1];
+      let installation = this.addMinutesToTime(arrivee, 15);
+      let debut = this.addMinutesToTime(arrivee, 30);
+
+      i1[1] = '';
+      i1[2] = '';
+
+      i2[1] = arrivee;
+      i2[2] = installation;
+      if (i2[3] != '') i2[3] = debut;
+      if (i2[4] != '') i2[4] = debut;
+    }
 
     let idxi1 = this.invitees.indexOf(i1);
     let idxi2 = this.invitees.indexOf(i2);
@@ -459,35 +536,30 @@ export class DevisComponent implements OnInit {
     this.actualiser();
   }
 
-  getInvIndex(x:any)
-  {
-    let invitee = this.invitees.find((i:any)=>i[10]==x);
+  getInvIndex(x: any) {
+    let invitee = this.invitees.find((i: any) => i[10] == x);
     return this.invitees.indexOf(invitee);
   }
 
-
-  deleteAll()
-  {
-    this.prestas.forEach((p:any)=>p.qte=0);
+  deleteAll() {
+    this.prestas.forEach((p: any) => (p.qte = 0));
   }
 
-
-  init(maxs:any = undefined)
-  {
-    this.inited=false;
+  init(maxs: any = undefined) {
+    this.inited = false;
     this.prestas = JSON.parse(JSON.stringify(this.baseprestas));
 
     this.invitees = [];
     this.intitules = [];
-    this.collegues = [this.collegues[0],this.collegues[1]];
-    
+    this.collegues = [this.collegues[0], this.collegues[1]];
+
     const now = new Date();
     let twoweeks = new Date();
     twoweeks = new Date(twoweeks.getTime() + 14 * 24 * 60 * 60 * 1000);
     let sixmonth = new Date();
     sixmonth = new Date(sixmonth.getTime() + 30 * 24 * 6 * 60 * 60 * 1000);
     this.values[0] = this.datePipe.transform(now, 'dd/MM/yyyy') || '';
-    this.values[1] = maxs?maxs.maxDevis+1:'1';
+    this.values[1] = maxs ? maxs.maxDevis + 1 : '1';
     this.values[2] = this.datePipe.transform(now, 'yyyy') || '';
     this.values[3] = 'Cloé Chaudron';
     this.values[5] = '126 Rue de la Cerisaie';
@@ -498,16 +570,16 @@ export class DevisComponent implements OnInit {
     this.values[14] = this.datePipe.transform(sixmonth, 'dd/MM/yyyy') || '';
     this.values[15] = '';
     this.values[16] = 'Virement';
-    this.values[50] = "PLANNING";
+    this.values[50] = 'PLANNING';
     this.values[51] = this.datePipe.transform(sixmonth, 'dd/MM/yyyy') || '';
-    this.values[52] = "";
-    this.values[53] = "";
-    this.values[54] = "";
-    this.values[55] = maxs?maxs.maxFacture+1:'1';
+    this.values[52] = '';
+    this.values[53] = '';
+    this.values[54] = '';
+    this.values[55] = maxs ? maxs.maxFacture + 1 : '1';
     this.values[56] = this.datePipe.transform(now, 'yyyy') || '';
     this.values[57] = this.datePipe.transform(now, 'dd/MM/yyyy') || '';
     this.values[58] = this.datePipe.transform(twoweeks, 'dd/MM/yyyy') || '';
-    this.values[60] = "";
+    this.values[60] = '';
 
     this.mode = this.data.mode;
 
@@ -518,306 +590,300 @@ export class DevisComponent implements OnInit {
     this.values[12] = this.data.mail;
     this.values[14] = this.data.date;
 
-    if(this.data.mode=='devis'&&this.data.devis)
-      {
-        if(this.data.devis.prestas)
-          {
-            this.data.devis.prestas.forEach((p:any)=>{
-              let presta = this.prestas.find((pres:any)=>p.nom.includes(pres.nom));
-              if(presta)
-              {
-                presta.qte = p.qte;
-                presta.prix = p.prix;
-                presta.reduc = p.reduc?p.reduc:0;
-                presta.nom = p.nom;
-              }
-              else
-              {
-                this.prestas.push({qte:p.qte,nom:p.nom,prix:p.prix,reduc:(p.reduc?p.reduc:0)});
-              }
-            })
-          }
-
-          if(this.data.devis.creation) this.values[0] = this.data.devis.creation;
-          if(this.data.devis.numero) this.values[1] = this.data.devis.numero;
-          if(this.data.devis.annee) this.values[2] = this.data.devis.annee;
-          if(this.data.devis.echeance) this.values[13] = this.data.devis.echeance;
-      }
-      else if(this.data.mode=='planning' && !this.data.planning.date)
-      {
-        this.planningprestas = [];
-        let mariee : any;
-        let prestas = this.data.devis.prestas;
-        prestas.forEach((p:any)=>{
-          let presta = this.prestas.find((pres:any)=>pres.nom == p.nom);
-          if(presta&&presta.time)
-          {
-            p.coiffure = presta.coiffure;
-            p.maquillage = presta.maquillage;
-            p.time = presta.time;
-
-            for(let i=0;i<p.qte;i++)
-            {
-              let press = JSON.parse(JSON.stringify(p));
-              press.presta = 0;
-              press.index = this.planningprestas.length;
-              if(press.bride)mariee = JSON.parse(JSON.stringify(press));
-              else
-              {
-                this.planningprestas.push(press);
-                this.addInvitee(press);
-              }
-            }
+    if (this.data.mode == 'devis' && this.data.devis) {
+      if (this.data.devis.prestas) {
+        this.data.devis.prestas.forEach((p: any) => {
+          let presta = this.prestas.find((pres: any) =>
+            p.nom.includes(pres.nom)
+          );
+          if (presta) {
+            presta.qte = p.qte;
+            presta.prix = p.prix;
+            presta.reduc = p.reduc ? p.reduc : 0;
+            presta.nom = p.nom;
+          } else {
+            this.prestas.push({
+              qte: p.qte,
+              nom: p.nom,
+              prix: p.prix,
+              reduc: p.reduc ? p.reduc : 0,
+            });
           }
         });
-        if(mariee)
-        {
-          mariee.index = this.planningprestas.length;
-          this.planningprestas.push(mariee);
-          this.addInvitee(mariee);
-        }
       }
-      else if(this.data.mode=='planning' && this.data.planning.date)
-      {
-        this.collegues = this.data.planning.collegues;
-        this.invitees = this.data.planning.invitees;
-        this.values[51] = this.data.planning.date;
-        this.values[52] = this.data.planning.domaine;
-        this.values[53] = this.data.planning.adresse;
-        this.values[54] = this.data.planning.codepostal;
-        this.planningprestas = this.data.planning.planningprestas;
-        this.ceremonie = this.data.planning.ceremonie;
-        this.finprestas = this.data.planning.finprestas;
+
+      if (this.data.devis.creation) this.values[0] = this.data.devis.creation;
+      if (this.data.devis.numero) this.values[1] = this.data.devis.numero;
+      if (this.data.devis.annee) this.values[2] = this.data.devis.annee;
+      if (this.data.devis.echeance) this.values[13] = this.data.devis.echeance;
+    } else if (this.data.mode == 'planning' && !this.data.planning.date) {
+      this.planningprestas = [];
+      let mariee: any;
+      let prestas = this.data.devis.prestas;
+      prestas.forEach((p: any) => {
+        let presta = this.prestas.find((pres: any) => pres.nom == p.nom);
+        if (presta && presta.time) {
+          p.coiffure = presta.coiffure;
+          p.maquillage = presta.maquillage;
+          p.time = presta.time;
+
+          for (let i = 0; i < p.qte; i++) {
+            let press = JSON.parse(JSON.stringify(p));
+            press.presta = 0;
+            press.index = this.planningprestas.length;
+            if (press.bride) mariee = JSON.parse(JSON.stringify(press));
+            else {
+              this.planningprestas.push(press);
+              this.addInvitee(press);
+            }
+          }
+        }
+      });
+      if (mariee) {
+        mariee.index = this.planningprestas.length;
+        this.planningprestas.push(mariee);
+        this.addInvitee(mariee);
       }
-      else if(this.data.mode=='facture')
-      {
-        if(this.data.factureClicked!=-1)
-        {
-          let facture = this.data.factures[this.data.factureClicked];
+    } else if (this.data.mode == 'planning' && this.data.planning.date) {
+      this.collegues = this.data.planning.collegues;
+      this.invitees = this.data.planning.invitees;
+      this.values[51] = this.data.planning.date;
+      this.values[52] = this.data.planning.domaine;
+      this.values[53] = this.data.planning.adresse;
+      this.values[54] = this.data.planning.codepostal;
+      this.planningprestas = this.data.planning.planningprestas;
+      this.ceremonie = this.data.planning.ceremonie;
+      this.finprestas = this.data.planning.finprestas;
+    } else if (this.data.mode == 'facture') {
+      if (this.data.factureClicked != -1) {
+        let facture = this.data.factures[this.data.factureClicked];
 
-          if(facture.prestas)
-            {
-              facture.prestas.forEach((p:any)=>{
-                let presta = this.prestas.find((pres:any)=>p.nom.includes(pres.nom));
-                if(presta)
-                {
-                  presta.qte = p.qte;
-                  presta.prix = p.prix;
-                  presta.reduc = p.reduc?p.reduc:0;
-                  presta.nom = p.nom;
-                }
-                else
-                {
-                  this.prestas.push({qte:p.qte,nom:p.nom,prix:p.prix,reduc:(p.reduc?p.reduc:0)});
-                }
-              })
-            }
-  
-            if(facture.creation) this.values[57] = facture.creation;
-            if(facture.numero) this.values[55] = facture.numero;
-            if(facture.annee) this.values[56] = facture.annee;
-            if(facture.solde) this.values[60] = facture.solde;
-
-            if(this.data.factures.length>0)
-            {
-              let prix = 0;
-              for(let i=0;i<this.data.factureClicked;i++)
-              {
-                if(i!=this.data.factureClicked)
-                {
-                  let f = this.data.factures[i];
-                  if(f.solde) prix += parseFloat(f.solde);
-                  else
-                  {
-                    f.prestas.forEach((p:any)=>{
-                      prix+=this.calc(p);
-                    })
-                  }
-                }
-              }
-              this.values[15] = prix;
-            }
-        }
-        else if(this.data.etape==1)
-        {
-          this.prestas.push({qte:1,nom:"Paiement Arrhes",prix:this.calcaresFromDevis(),reduc:0})
-        }
-        else if(this.data.etape>1)
-        {
-          this.data.devis.prestas.forEach((p:any)=>{
-            let presta = this.prestas.find((pres:any)=>p.nom.includes(pres.nom));
-            if(presta)
-            {
+        if (facture.prestas) {
+          facture.prestas.forEach((p: any) => {
+            let presta = this.prestas.find((pres: any) =>
+              p.nom.includes(pres.nom)
+            );
+            if (presta) {
               presta.qte = p.qte;
               presta.prix = p.prix;
-              presta.reduc = p.reduc?p.reduc:0;
+              presta.reduc = p.reduc ? p.reduc : 0;
               presta.nom = p.nom;
+            } else {
+              this.prestas.push({
+                qte: p.qte,
+                nom: p.nom,
+                prix: p.prix,
+                reduc: p.reduc ? p.reduc : 0,
+              });
             }
-            else
-            {
-              this.prestas.push({qte:p.qte,nom:p.nom,prix:p.prix,reduc:(p.reduc?p.reduc:0)});
-            }
-          })
-          let prix = 0;
-          this.data.factures.forEach((f:any)=>{
-            if(f.solde)prix += parseFloat(f.solde);
-            else
-            {
-              f.prestas.forEach((p:any)=>{
-                prix+=this.calc(p);
-              })
-            }
+          });
+        }
 
-            f.prestas.forEach((p:any)=>{
-              let prest = this.prestas.find((pres:any)=>pres.nom==p.nom&&pres.prix==p.prix&&pres.qte==p.qte);
-              if(prest)prest.qte=0;
-            })
-          })
+        if (facture.creation) this.values[57] = facture.creation;
+        if (facture.numero) this.values[55] = facture.numero;
+        if (facture.annee) this.values[56] = facture.annee;
+        if (facture.solde) this.values[60] = facture.solde;
+
+        if (this.data.factures.length > 0) {
+          let prix = 0;
+          for (let i = 0; i < this.data.factureClicked; i++) {
+            if (i != this.data.factureClicked) {
+              let f = this.data.factures[i];
+              if (f.solde) prix += parseFloat(f.solde);
+              else {
+                f.prestas.forEach((p: any) => {
+                  prix += this.calc(p);
+                });
+              }
+            }
+          }
           this.values[15] = prix;
         }
-      }
+      } else if (this.data.etape == 1) {
+        this.prestas.push({
+          qte: 1,
+          nom: 'Paiement Arrhes',
+          prix: this.calcaresFromDevis(),
+          reduc: 0,
+        });
+      } else if (this.data.etape > 1) {
+        this.data.devis.prestas.forEach((p: any) => {
+          let presta = this.prestas.find((pres: any) =>
+            p.nom.includes(pres.nom)
+          );
+          if (presta) {
+            presta.qte = p.qte;
+            presta.prix = p.prix;
+            presta.reduc = p.reduc ? p.reduc : 0;
+            presta.nom = p.nom;
+          } else {
+            this.prestas.push({
+              qte: p.qte,
+              nom: p.nom,
+              prix: p.prix,
+              reduc: p.reduc ? p.reduc : 0,
+            });
+          }
+        });
+        let prix = 0;
+        this.data.factures.forEach((f: any) => {
+          if (f.solde) prix += parseFloat(f.solde);
+          else {
+            f.prestas.forEach((p: any) => {
+              prix += this.calc(p);
+            });
+          }
 
-      this.inited=true;
+          f.prestas.forEach((p: any) => {
+            let prest = this.prestas.find(
+              (pres: any) =>
+                pres.nom == p.nom && pres.prix == p.prix && pres.qte == p.qte
+            );
+            if (prest) prest.qte = 0;
+          });
+        });
+        this.values[15] = prix;
+      }
+    }
+
+    this.inited = true;
   }
 
-  changePrestataire(event: any, presta:any) {
+  changePrestataire(event: any, presta: any) {
     let artiste = event.target.value;
 
     let index = presta.index;
-    let invitee = this.invitees.find((i:any)=>i[10]==index);
+    let invitee = this.invitees.find((i: any) => i[10] == index);
     let invindex = this.invitees.indexOf(invitee);
 
-    let invartiste = this.invitees.filter((i:any)=>i[9]==invitee[9]);
+    let invartiste = this.invitees.filter((i: any) => i[9] == invitee[9]);
     let indexartiste = invartiste.indexOf(invitee);
-    if(invartiste.length>1 && indexartiste == 0)
-    {
+    if (invartiste.length > 1 && indexartiste == 0) {
       invartiste[1][1] = invitee[1];
       invartiste[1][2] = invitee[2];
     }
 
-    this.invitees.splice(invindex,1);
+    this.invitees.splice(invindex, 1);
     this.addInvitee(presta, artiste);
   }
 
-  getplanningprestas(i:number)
-  {
-    return this.planningprestas.filter((p:any)=>p.presta==i);
+  getplanningprestas(i: number) {
+    return this.planningprestas.filter((p: any) => p.presta == i);
   }
 
-  addPrestas()
-  {
-    let arrhes = this.prestas.find((p:any)=>p.nom=="Paiement Arrhes");
-    if(arrhes) arrhes.qte = 0;
-    this.data.devis.prestas.forEach((p:any)=>{
-      let presta = this.prestas.find((pres:any)=>p.nom.includes(pres.nom));
-      if(presta)
-      {
+  addPrestas() {
+    let arrhes = this.prestas.find((p: any) => p.nom == 'Paiement Arrhes');
+    if (arrhes) arrhes.qte = 0;
+    this.data.devis.prestas.forEach((p: any) => {
+      let presta = this.prestas.find((pres: any) => p.nom.includes(pres.nom));
+      if (presta) {
         presta.qte = p.qte;
         presta.prix = p.prix;
-        presta.reduc = p.reduc?p.reduc:0;
+        presta.reduc = p.reduc ? p.reduc : 0;
         presta.nom = p.nom;
-      }
-      else
-      {
-        let presta : any = {qte:p.qte,nom:p.nom,prix:p.prix,reduc:(p.reduc?p.reduc:0)};
-        if(p.nom.includes("Frais de déplacement"))presta.kilorly = true;
+      } else {
+        let presta: any = {
+          qte: p.qte,
+          nom: p.nom,
+          prix: p.prix,
+          reduc: p.reduc ? p.reduc : 0,
+        };
+        if (p.nom.includes('Frais de déplacement')) presta.kilorly = true;
         this.prestas.push(presta);
       }
-    })
+    });
     let prix = 0;
-    this.data.factures.forEach((f:any)=>{
-      if(f.solde)prix += parseFloat(f.solde);
-      else
-      {
-        f.prestas.forEach((p:any)=>{
-          prix+=this.calc(p);
-        })
+    this.data.factures.forEach((f: any) => {
+      if (f.solde) prix += parseFloat(f.solde);
+      else {
+        f.prestas.forEach((p: any) => {
+          prix += this.calc(p);
+        });
       }
 
-      f.prestas.forEach((p:any)=>{
-        let prest = this.prestas.find((pres:any)=>pres.nom==p.nom&&pres.prix==p.prix&&pres.qte==p.qte);
-        if(prest)prest.qte=0;
-      })
-    })
+      f.prestas.forEach((p: any) => {
+        let prest = this.prestas.find(
+          (pres: any) =>
+            pres.nom == p.nom && pres.prix == p.prix && pres.qte == p.qte
+        );
+        if (prest) prest.qte = 0;
+      });
+    });
     this.values[15] = prix;
   }
 
-  async onFileSelected(event: Event)
-  {
-    let tmp : any= await this.readPDF.onFileSelected(event);
-    if(tmp.date) this.values[0] = tmp.date;
-    if(tmp.devis) this.values[1] = tmp.devis;
-    if(tmp.annee)this.values[2] = tmp.annee;
-    if(tmp.nom)this.values[4] = tmp.nom;
-    if(tmp.adresse)this.values[6] = tmp.adresse;
-    if(tmp.codepostal)this.values[8] = tmp.codepostal;
-    if(tmp.tel)this.values[10] = tmp.tel;
-    if(tmp.mail)this.values[12] = tmp.mail;
-    if(tmp.echeance)this.values[13] = tmp.echeance;
-    if(tmp.prestas)
-    {
-      tmp.prestas.forEach((p:any)=>{
-        let presta = this.prestas.find((pres:any)=>pres.nom==p.nom);
-        if(presta)
-        {
+  async onFileSelected(event: Event) {
+    let tmp: any = await this.readPDF.onFileSelected(event);
+    if (tmp.date) this.values[0] = tmp.date;
+    if (tmp.devis) this.values[1] = tmp.devis;
+    if (tmp.annee) this.values[2] = tmp.annee;
+    if (tmp.nom) this.values[4] = tmp.nom;
+    if (tmp.adresse) this.values[6] = tmp.adresse;
+    if (tmp.codepostal) this.values[8] = tmp.codepostal;
+    if (tmp.tel) this.values[10] = tmp.tel;
+    if (tmp.mail) this.values[12] = tmp.mail;
+    if (tmp.echeance) this.values[13] = tmp.echeance;
+    if (tmp.prestas) {
+      tmp.prestas.forEach((p: any) => {
+        let presta = this.prestas.find((pres: any) => pres.nom == p.nom);
+        if (presta) {
           presta.qte = p.qte;
           presta.prix = p.prix;
-          presta.reduc = p.reduc?p.reduc:0;
+          presta.reduc = p.reduc ? p.reduc : 0;
+        } else {
+          this.prestas.push({
+            qte: p.qte,
+            nom: p.nom,
+            prix: p.prix,
+            reduc: p.reduc ? p.reduc : 0,
+          });
         }
-        else
-        {
-          this.prestas.push({qte:p.qte,nom:p.nom,prix:p.prix,reduc:(p.reduc?p.reduc:0)});
-        }
-      })
+      });
     }
   }
 
-  getDateArrhes(){
-    if(this.data.factures[0])
-    {
-      return '('+this.data.factures[0].creation+')';
+  getDateArrhes() {
+    if (this.data.factures[0]) {
+      return '(' + this.data.factures[0].creation + ')';
     }
-    return "";
+    return '';
   }
 
-  return(){
+  return() {
     this.init();
     this.retour.emit();
   }
 
-  save()
-  {
-    if(this.mode=='devis')
-    {
-      let devis : any = {};
-      devis.prestas = this.prestas.filter((p:any)=>p.qte>0 || p.qte=="?");
+  save() {
+    if (this.mode == 'devis') {
+      let devis: any = {};
+      devis.prestas = this.prestas.filter(
+        (p: any) => p.qte > 0 || p.qte == '?'
+      );
       devis.creation = this.values[0];
       devis.numero = this.values[1];
       devis.annee = this.values[2];
       devis.echeance = this.values[13];
       this.data.devis = devis;
-      if(this.data.etape==0)this.data.etape = 1;
-    }
-    else if(this.mode=='facture')
-    {
-      let facture : any = {};
-      facture.prestas = this.prestas.filter((p:any)=>p.qte>0 || p.qte=="?");
+      if (this.data.etape == 0) this.data.etape = 1;
+    } else if (this.mode == 'facture') {
+      let facture: any = {};
+      facture.prestas = this.prestas.filter(
+        (p: any) => p.qte > 0 || p.qte == '?'
+      );
       facture.creation = this.values[57];
       facture.numero = this.values[55];
       facture.annee = this.values[56];
       facture.solde = this.calcTot(true);
-      if(this.values[60]) facture.solde = this.values[60];
-      if(this.data.factures.length==0)
-      {
+      if (this.values[60]) facture.solde = this.values[60];
+      if (this.data.factures.length == 0) {
         this.data.etape = 2;
-        if(this.data.statut=="demande")this.data.statut = "reserve";
+        if (this.data.statut == 'demande') this.data.statut = 'reserve';
       }
-      if(this.data.factureClicked==-1)this.data.factures.push(facture);
+      if (this.data.factureClicked == -1) this.data.factures.push(facture);
       else this.data.factures[this.data.factureClicked] = facture;
-    }
-    else if(this.mode=="planning")
-    {
-      let planning : any = {};
+    } else if (this.mode == 'planning') {
+      let planning: any = {};
       planning.date = this.values[51];
       planning.domaine = this.values[52];
       planning.adresse = this.values[53];
@@ -829,259 +895,255 @@ export class DevisComponent implements OnInit {
       planning.finprestas = this.finprestas;
       this.data.planning = planning;
     }
-    
-    if(this.values[4]!="")this.data.nom = this.values[4];
-    if(this.values[6]!="")this.data.adresse = this.values[6];
-    if(this.values[8]!="")this.data.codepostal = this.values[8];
-    if(this.values[10]!="")this.data.tel = this.values[10];
-    if(this.values[12]!="")this.data.mail = this.values[12];
+
+    if (this.values[4] != '') this.data.nom = this.values[4];
+    if (this.values[6] != '') this.data.adresse = this.values[6];
+    if (this.values[8] != '') this.data.codepostal = this.values[8];
+    if (this.values[10] != '') this.data.tel = this.values[10];
+    if (this.values[12] != '') this.data.mail = this.values[12];
 
     this.retour.emit();
   }
 
-  checkRow(row: number, col: number, c:number): number {
+  checkRow(row: number, col: number, c: number): number {
     let tab = this.getInvitees(c);
 
     const value = tab[row][col];
     let count = 1;
-    
+
     for (let i = row + 1; i < tab.length; i++) {
-        if (value != "" && tab[i][col] === value) {
-            count++;
-        } else {
-            break;
-        }
+      if (value != '' && tab[i][col] === value) {
+        count++;
+      } else {
+        break;
+      }
     }
 
     return count;
-}
+  }
 
-calculate()
-{
-  this.invitees.sort((a:any,b:any)=>{return (this.toDate(a[5]) - this.toDate(b[5]))});
-}
+  calculate() {
+    this.invitees.sort((a: any, b: any) => {
+      return this.toDate(a[5]) - this.toDate(b[5]);
+    });
+  }
 
-actualiser()
-{
-  for(let i=0;i<this.collegues.length;i++)
-  {
-    let invitees = this.invitees.filter((inv:any)=>inv[9]==i)
-    for(let j=0;j<invitees.length;j++)
-    {
-      let invitee = invitees[j];
-      let presta = this.planningprestas.find((p:any)=>p.index==invitee[10]);
-      if(j==0)
-      {
-        let debut = "";
-        if(presta.maquillage) debut = invitee[3];
-        else if(presta.coiffure) debut = invitee[4];
+  actualiser() {
+    for (let i = 0; i < this.collegues.length; i++) {
+      let invitees = this.invitees.filter((inv: any) => inv[9] == i);
+      for (let j = 0; j < invitees.length; j++) {
+        let invitee = invitees[j];
+        let presta = this.planningprestas.find(
+          (p: any) => p.index == invitee[10]
+        );
+        if (j == 0) {
+          let debut = '';
+          if (presta.maquillage) debut = invitee[3];
+          else if (presta.coiffure) debut = invitee[4];
 
-        let arrivee = this.addMinutesToTime(debut,-30);
-        let installation = this.addMinutesToTime(debut,-15);
+          let arrivee = this.addMinutesToTime(debut, -30);
+          let installation = this.addMinutesToTime(debut, -15);
 
-        invitee[1] = arrivee;
-        invitee[2] = installation;
-        invitee[5] = this.addMinutesToTime(debut,presta.time);
+          invitee[1] = arrivee;
+          invitee[2] = installation;
+          invitee[5] = this.addMinutesToTime(debut, presta.time);
+        } else {
+          let debut = invitees[j - 1][5];
+
+          invitee[3] = presta.maquillage ? debut : '';
+          invitee[4] = presta.coiffure ? debut : '';
+          invitee[5] = this.addMinutesToTime(debut, presta.time);
+        }
       }
-      else
-      {
-        let debut = invitees[j-1][5];
+    }
 
-        invitee[3] = presta.maquillage?debut:"";
-        invitee[4] = presta.coiffure?debut:"";
-        invitee[5] = this.addMinutesToTime(debut,presta.time);
-      }
+    let tab: any = [];
+    this.invitees.forEach((i: any) => {
+      tab.push(
+        JSON.parse(
+          JSON.stringify(
+            this.planningprestas.find((p: any) => i[10] == p.index)
+          )
+        )
+      );
+    });
+    this.planningprestas = tab;
+  }
+
+  addInvitee(presta: any, artiste: any = 0) {
+    let invitees = this.invitees.filter((i: any) => i[9] == artiste);
+    if (invitees.length == 0) {
+      let arrivee =
+        this.collegues[artiste][4] != '' ? this.collegues[artiste][4] : '8h30';
+      let installation = this.addMinutesToTime(arrivee, 15);
+      let debut = this.addMinutesToTime(arrivee, 30);
+
+      this.invitees.push([
+        presta.bride ? 1 : 0,
+        arrivee,
+        installation,
+        presta.maquillage ? debut : '',
+        presta.coiffure ? debut : '',
+        this.addMinutesToTime(debut, presta.time),
+        this.collegues[artiste][5] != '' ? this.collegues[artiste][5] : '',
+        this.collegues[artiste][6] != '' ? this.collegues[artiste][6] : '',
+        this.ceremonie != '' ? this.ceremonie : '',
+        artiste,
+        presta.index,
+      ]);
+    } else {
+      this.invitees.push([
+        presta.bride ? 1 : 0,
+        '',
+        '',
+        presta.maquillage ? invitees[invitees.length - 1][5] : '',
+        presta.coiffure ? invitees[invitees.length - 1][5] : '',
+        this.addMinutesToTime(invitees[invitees.length - 1][5], presta.time),
+        this.collegues[artiste][5] != '' ? this.collegues[artiste][5] : '',
+        this.collegues[artiste][6] != '' ? this.collegues[artiste][6] : '',
+        this.ceremonie != '' ? this.ceremonie : '',
+        artiste,
+        presta.index,
+      ]);
+    }
+    if (this.ceremonie != '' || this.finprestas != '') {
+      this.onCeremonieInput();
+    } else {
+      this.actualiser();
     }
   }
 
-  let tab : any = [];
-    this.invitees.forEach((i:any)=>{
-      tab.push(JSON.parse(JSON.stringify(this.planningprestas.find((p:any)=>i[10]==p.index))));
-    })
-    this.planningprestas = tab;
-}
-
-addInvitee(presta:any,artiste:any=0)
-{  
-  let invitees = this.invitees.filter((i:any)=>i[9]==artiste);
-  if(invitees.length==0)
-  {
-    let arrivee = this.collegues[artiste][4]!=""?this.collegues[artiste][4]:"8h30";
-    let installation = this.addMinutesToTime(arrivee,15);
-    let debut = this.addMinutesToTime(arrivee,30);
-
-    this.invitees.push([
-      presta.bride?1:0,
-      arrivee,
-      installation,
-      presta.maquillage?debut:"",
-      presta.coiffure?debut:"",
-      this.addMinutesToTime(debut,presta.time),
-      this.collegues[artiste][5]!=""?this.collegues[artiste][5]:"",
-      this.collegues[artiste][6]!=""?this.collegues[artiste][6]:"",
-      this.ceremonie!=""?this.ceremonie:"",
-      artiste,
-      presta.index
-    ]);
-  }
-  else
-  {
-    this.invitees.push([
-      presta.bride?1:0,
-      "",
-      "",
-      presta.maquillage?invitees[invitees.length-1][5]:"",
-      presta.coiffure?invitees[invitees.length-1][5]:"",
-      this.addMinutesToTime(invitees[invitees.length-1][5],presta.time),
-      this.collegues[artiste][5]!=""?this.collegues[artiste][5]:"",
-      this.collegues[artiste][6]!=""?this.collegues[artiste][6]:"",
-      this.ceremonie!=""?this.ceremonie:"",
-      artiste,
-      presta.index
-    ]);
-  }
-  if(this.ceremonie!=""||this.finprestas!="")
-  {
-    this.onCeremonieInput();
-  }
-  else
-  {
-    this.actualiser();
-  }
-}
-
-cloeFinishesLater(data: any): boolean {
-  // Fonction pour convertir un horaire "10h20" en minutes
-  const horaireToMinutes = (horaire: string): number => {
-      const [heures, minutes] = horaire.split("h").map(Number);
+  cloeFinishesLater(data: any): boolean {
+    // Fonction pour convertir un horaire "10h20" en minutes
+    const horaireToMinutes = (horaire: string): number => {
+      const [heures, minutes] = horaire.split('h').map(Number);
       return heures * 60 + minutes;
-  };
+    };
 
-  let maxHoraire1 = -Infinity;
-  let maxHoraire2 = -Infinity;
+    let maxHoraire1 = -Infinity;
+    let maxHoraire2 = -Infinity;
 
-  for (const row of data) {
+    for (const row of data) {
       const horaire = horaireToMinutes(row[5]);
       if (row[9] === 0) {
-          maxHoraire1 = Math.max(maxHoraire1, horaire);
+        maxHoraire1 = Math.max(maxHoraire1, horaire);
       } else if (row[9] === 1) {
-          maxHoraire2 = Math.max(maxHoraire2, horaire);
+        maxHoraire2 = Math.max(maxHoraire2, horaire);
       }
+    }
+
+    return maxHoraire1 > maxHoraire2;
   }
 
-  return maxHoraire1 > maxHoraire2;
-}
-
-getInvitees(c:any)
-{
-  return this.invitees.filter((i:any)=>i[9]==c);
-}
-
-trackByIndex(index: number, item: any): number {
-  return index;
-}
-
-getNbInvitee(c:number, i:number, t:any)
-{
-  let tab = this.getInvitees(c);
-  let count = 1;
-  for(let x=0;x<i;x++)
-  {
-    if(tab[x][0]==t)count++;
+  getInvitees(c: any) {
+    return this.invitees.filter((i: any) => i[9] == c);
   }
-  return count;
-}
 
-changetypeinvitee(invitee:any,change:boolean=false, temps:any=0)
-{
-  if(change){invitee[0]=(invitee[0]==0?1:0);}
-
-  if(temps!=0)
-  {
-    if(invitee[3]!="")invitee[5]=this.addMinutesToTime(invitee[3],temps);
-    else if(invitee[4]!="")invitee[5]=this.addMinutesToTime(invitee[4],temps);
+  trackByIndex(index: number, item: any): number {
+    return index;
   }
-  else if(invitee[0]==1)
-  {
-    if(invitee[3]!=""&&invitee[4]!="")invitee[5]=this.addMinutesToTime(invitee[3],120);
-    else if(invitee[3]!="")invitee[5]=this.addMinutesToTime(invitee[3],60);
-    else if(invitee[4]!="")invitee[5]=this.addMinutesToTime(invitee[4],60);
+
+  getNbInvitee(c: number, i: number, t: any) {
+    let tab = this.getInvitees(c);
+    let count = 1;
+    for (let x = 0; x < i; x++) {
+      if (tab[x][0] == t) count++;
+    }
+    return count;
   }
-  else if(invitee[0]==0)
-  {
-    if(invitee[3]!=""&&invitee[4]!="")invitee[5]=this.addMinutesToTime(invitee[3],75);
-    else if(invitee[3]!="")invitee[5]=this.addMinutesToTime(invitee[3],45);
-    else if(invitee[4]!="")invitee[5]=this.addMinutesToTime(invitee[4],45);
+
+  changetypeinvitee(invitee: any, change: boolean = false, temps: any = 0) {
+    if (change) {
+      invitee[0] = invitee[0] == 0 ? 1 : 0;
+    }
+
+    if (temps != 0) {
+      if (invitee[3] != '')
+        invitee[5] = this.addMinutesToTime(invitee[3], temps);
+      else if (invitee[4] != '')
+        invitee[5] = this.addMinutesToTime(invitee[4], temps);
+    } else if (invitee[0] == 1) {
+      if (invitee[3] != '' && invitee[4] != '')
+        invitee[5] = this.addMinutesToTime(invitee[3], 120);
+      else if (invitee[3] != '')
+        invitee[5] = this.addMinutesToTime(invitee[3], 60);
+      else if (invitee[4] != '')
+        invitee[5] = this.addMinutesToTime(invitee[4], 60);
+    } else if (invitee[0] == 0) {
+      if (invitee[3] != '' && invitee[4] != '')
+        invitee[5] = this.addMinutesToTime(invitee[3], 75);
+      else if (invitee[3] != '')
+        invitee[5] = this.addMinutesToTime(invitee[3], 45);
+      else if (invitee[4] != '')
+        invitee[5] = this.addMinutesToTime(invitee[4], 45);
+    }
   }
-}
 
-toDate(time:string):any
-{
-  let [hours, minutes] = time.split("h").map(Number);
+  toDate(time: string): any {
+    let [hours, minutes] = time.split('h').map(Number);
 
-  // Créer un objet Date avec l'heure et les minutes
-  let date = new Date();
-  date.setHours(hours);
-  date.setMinutes(minutes);
+    // Créer un objet Date avec l'heure et les minutes
+    let date = new Date();
+    date.setHours(hours);
+    date.setMinutes(minutes);
 
-  return date;
-}
+    return date;
+  }
 
-addMinutesToTime(timeStr: string, minutesToAdd: number): string {
-  // Extraire l'heure et les minutes depuis le format "HHhMM"
-  let [hours, minutes] = timeStr.split("h").map(Number);
+  addMinutesToTime(timeStr: string, minutesToAdd: number): string {
+    // Extraire l'heure et les minutes depuis le format "HHhMM"
+    let [hours, minutes] = timeStr.split('h').map(Number);
 
-  // Créer un objet Date avec l'heure et les minutes
-  let date = new Date();
-  date.setHours(hours);
-  date.setMinutes(minutes + minutesToAdd);
+    // Créer un objet Date avec l'heure et les minutes
+    let date = new Date();
+    date.setHours(hours);
+    date.setMinutes(minutes + minutesToAdd);
 
-  // Récupérer la nouvelle heure et minutes
-  let newHours = date.getHours();
-  let newMinutes = date.getMinutes();
+    // Récupérer la nouvelle heure et minutes
+    let newHours = date.getHours();
+    let newMinutes = date.getMinutes();
 
-  let retour = newHours + 'h' +(newMinutes<10?'0'+newMinutes:newMinutes);
+    let retour =
+      newHours + 'h' + (newMinutes < 10 ? '0' + newMinutes : newMinutes);
 
-  // Formater en "HHhMM" (ajout d'un zéro si besoin)
-  return retour;
-}
+    // Formater en "HHhMM" (ajout d'un zéro si besoin)
+    return retour;
+  }
 
-deleteInvitee(i:any)
-{
-  this.invitees.splice(i,1);
+  deleteInvitee(i: any) {
+    this.invitees.splice(i, 1);
 
-  this.calculate();
-}
-deleteCollegue(i:any)
-{
-  this.collegues.splice(i,1);
-}
+    this.calculate();
+  }
+  deleteCollegue(i: any) {
+    this.collegues.splice(i, 1);
+  }
 
-checkCol(row: number, col: number, c:number): number {
-  let tab = this.getInvitees(c);
+  checkCol(row: number, col: number, c: number): number {
+    let tab = this.getInvitees(c);
 
-  const value = tab[row][col];
-  let count = 1;
-  
-  for (let i = col + 1; i < tab[row].length; i++) {
-      if (value != "" && tab[row][i] === value) {
-          count++;
+    const value = tab[row][col];
+    let count = 1;
+
+    for (let i = col + 1; i < tab[row].length; i++) {
+      if (value != '' && tab[row][i] === value) {
+        count++;
       } else {
-          break;
+        break;
       }
+    }
+
+    return count;
   }
 
-  return count;
-}
+  checkDisplay(row: number, col: number, c: number) {
+    let tab = this.getInvitees(c);
 
-checkDisplay(row: number, col: number, c:number) {
-  let tab = this.getInvitees(c);
-
-  const value = tab[row][col];
-  if(value != "" && tab[row][col-1]===value) return true;
-  if(row>0&&value != "" && tab[row-1][col]===value) return true;
-  else return false;
-}
+    const value = tab[row][col];
+    if (value != '' && tab[row][col - 1] === value) return true;
+    if (row > 0 && value != '' && tab[row - 1][col] === value) return true;
+    else return false;
+  }
 
   generatePDFfromHTML() {
     const element = document.getElementById('htmlContent');
@@ -1109,16 +1171,12 @@ checkDisplay(row: number, col: number, c:number) {
 
       let nom = 'DEVIS_';
       if (this.mode == 'facture') nom = 'FACTURE_';
-      if (this.mode == 'planning')
-      {
-        nom = 'PLANNING_'+this.values[51];
-      }
-      else
-      {
+      if (this.mode == 'planning') {
+        nom = 'PLANNING_' + this.values[51];
+      } else {
         let value = this.values[1];
         let annee = this.values[2];
-        if(this.mode == "facture") 
-        {
+        if (this.mode == 'facture') {
           value = this.values[55];
           annee = this.values[56];
         }
@@ -1133,17 +1191,14 @@ checkDisplay(row: number, col: number, c:number) {
     });
   }
 
-  addCollegue()
-  {
-    this.collegues.push(["","","","","","",""]);
+  addCollegue() {
+    this.collegues.push(['', '', '', '', '', '', '']);
   }
 
-  getCollegues()
-  {
+  getCollegues() {
     let retour = [];
-    for(let i=0;i<this.collegues.length;i++)
-    {
-      if(this.getInvitees(i).length>0)retour.push(this.collegues[i]);
+    for (let i = 0; i < this.collegues.length; i++) {
+      if (this.getInvitees(i).length > 0) retour.push(this.collegues[i]);
     }
     return retour;
   }
@@ -1152,24 +1207,18 @@ checkDisplay(row: number, col: number, c:number) {
     this.prestas.push({ nom: '', qte: 0, prix: 50, reduc: '' });
   }
 
-  remplir(i:number)
-  {
-    for(let c=0;c<this.collegues.length;c++)
-    {
+  remplir(i: number) {
+    for (let c = 0; c < this.collegues.length; c++) {
       let invitees = this.getInvitees(c);
-      let invitee = invitees.find((inv:any)=>inv[i]!="");
-      
-      if(invitee)
-      {
-        if(i!=8)
-        {
-          invitees.forEach((inv:any)=>{
+      let invitee = invitees.find((inv: any) => inv[i] != '');
+
+      if (invitee) {
+        if (i != 8) {
+          invitees.forEach((inv: any) => {
             inv[i] = invitee[i];
           });
-        }
-        else
-        {
-          this.invitees.forEach((inv:any)=>{
+        } else {
+          this.invitees.forEach((inv: any) => {
             inv[i] = invitee[i];
           });
         }
@@ -1179,16 +1228,15 @@ checkDisplay(row: number, col: number, c:number) {
 
   calc(presta: any) {
     let prix = presta.prix * presta.qte;
-    if(presta.kilorly)
-    {
-      if(presta.qte <= 10) prix = 0;
-      else
-      {
+    if (presta.kilorly) {
+      if (presta.qte <= 10) prix = 0;
+      else {
         prix = (presta.qte - 10) * 2 * presta.prix;
       }
     }
     if (presta.reduc) prix = prix - (prix * presta.reduc) / 100;
-    if(Number.isInteger(presta.prix) || presta.kilorly) prix = Math.floor(prix);
+    if (Number.isInteger(presta.prix) || presta.kilorly)
+      prix = Math.floor(prix);
     return prix;
   }
 
@@ -1226,9 +1274,8 @@ checkDisplay(row: number, col: number, c:number) {
   }
 
   transform(value: any): string {
-    if(typeof value === "string")
-    {
-      value = value.replace(/[^0-9\.,]/g,"");
+    if (typeof value === 'string') {
+      value = value.replace(/[^0-9\.,]/g, '');
       value = parseFloat(value);
     }
 
