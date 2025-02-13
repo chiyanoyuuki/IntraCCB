@@ -166,6 +166,9 @@ p {
     border-bottom: 1px solid black;
   }
 }
+.botbot{
+  padding:5px 20px;
+}
 .lignesprestas {
   .lignepres {
     position: relative;
@@ -174,6 +177,28 @@ p {
       width: unset !important;
       position: relative;
     }
+    input{
+      width:30px!important;
+    }
+    .checkmaqu{
+      margin-left: 26px;
+      margin-right: 40px;
+    }
+  }
+  .disabled{
+    pointer-events: none;
+    opacity: 0.3;
+    color: black !important;
+  }
+  .topartiste{
+    p{text-align: center;}
+    p:nth-child(1){width:110px;}
+    p:nth-child(2){width:130px;}
+    p:nth-child(3){width:50px;}
+    p:nth-child(4){width:70px;}
+    p:nth-child(5){width:55px;}
+    p:nth-child(6){width:75px;}
+    p:nth-child(7){width:75px;}
   }
 }
 .nomslignes {

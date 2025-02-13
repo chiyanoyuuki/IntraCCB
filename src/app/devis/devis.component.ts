@@ -277,6 +277,10 @@ export class DevisComponent implements OnInit {
       this.invitees.forEach((i: any) => (i[8] = this.ceremonie));
       this.changeForCeremonie();
     }
+    else if(this.ceremonie == "")
+    {
+      this.invitees.forEach((i:any)=>i[8]="");
+    }
   }
 
   onFinPrestasInput() {
@@ -298,25 +302,31 @@ export class DevisComponent implements OnInit {
         let prestas = this.getplanningprestas(c);
 
         if (prestas.length > 0) {
-          prestas.forEach((p: any) => (tempstot -= p.time));
+          prestas.forEach((p: any) => tempstot -= p.time);
 
           temps = this.addMinutesToTime(temps, tempstot);
 
           let inv = this.invitees.find((i: any) => i[9] == c);
+          let presta = this.planningprestas.find((p:any)=>p.index==inv[10]);
 
-          if (inv[3] != '') inv[3] = temps;
-          if (inv[4] != '') inv[4] = temps;
+          if (presta.maquillage) inv[3] = temps;
+          else inv[3] = "";
+          if (presta.coiffure) inv[4] = temps;
+          else inv[4] = "";
         }
       } else {
         let inv = this.invitees.find((i: any) => i[9] == c);
+        let presta = this.planningprestas.find((p:any)=>p.index==inv[10]);
 
-        if (inv[3] != '')
+        if (presta.maquillage)
           inv[3] = this.addMinutesToTime(this.collegues[c][4], 30);
-        if (inv[4] != '')
+        else inv[3] = "";
+        if (presta.coiffure)
           inv[4] = this.addMinutesToTime(this.collegues[c][4], 30);
+        else inv[4] = "";
       }
     }
-    if (this.collegues[1][4] == '') this.adaptStart();
+    if (this.collegues[0][4] == '' && this.collegues[1][4] == '' && this.getplanningprestas(0).length>0 && this.getplanningprestas(1).length>0) this.adaptStart();
     else this.actualiser();
   }
 
@@ -548,6 +558,7 @@ export class DevisComponent implements OnInit {
   }
 
   init(maxs: any = undefined) {
+    let data = JSON.parse(JSON.stringify(this.data));
     this.inited = false;
     this.prestas = JSON.parse(JSON.stringify(this.baseprestas));
 
@@ -573,7 +584,7 @@ export class DevisComponent implements OnInit {
     this.values[15] = '';
     this.values[16] = 'Virement';
     this.values[50] = 'PLANNING';
-    this.values[51] = this.datePipe.transform(sixmonth, 'dd/MM/yyyy') || '';
+    this.values[51] = data.date;
     this.values[52] = '';
     this.values[53] = '';
     this.values[54] = '';
@@ -583,18 +594,18 @@ export class DevisComponent implements OnInit {
     this.values[58] = this.datePipe.transform(twoweeks, 'dd/MM/yyyy') || '';
     this.values[60] = '';
 
-    this.mode = this.data.mode;
+    this.mode = data.mode;
 
-    this.values[4] = this.data.nom;
-    this.values[6] = this.data.adresse;
-    this.values[8] = this.data.codepostal;
-    this.values[10] = this.data.tel;
-    this.values[12] = this.data.mail;
-    this.values[14] = this.data.date;
+    this.values[4] = data.nom;
+    this.values[6] = data.adresse;
+    this.values[8] = data.codepostal;
+    this.values[10] = data.tel;
+    this.values[12] = data.mail;
+    this.values[14] = data.date;
 
-    if (this.data.mode == 'devis' && this.data.devis) {
-      if (this.data.devis.prestas) {
-        this.data.devis.prestas.forEach((p: any) => {
+    if (data.mode == 'devis' && data.devis) {
+      if (data.devis.prestas) {
+        data.devis.prestas.forEach((p: any) => {
           let presta = this.prestas.find((pres: any) =>
             p.nom.includes(pres.nom)
           );
@@ -614,51 +625,57 @@ export class DevisComponent implements OnInit {
         });
       }
 
-      if (this.data.devis.creation) this.values[0] = this.data.devis.creation;
-      if (this.data.devis.numero) this.values[1] = this.data.devis.numero;
-      if (this.data.devis.annee) this.values[2] = this.data.devis.annee;
-      if (this.data.devis.echeance) this.values[13] = this.data.devis.echeance;
-    } else if (this.data.mode == 'planning' && !this.data.planning.date) {
+      if (data.devis.creation) this.values[0] = data.devis.creation;
+      if (data.devis.numero) this.values[1] = data.devis.numero;
+      if (data.devis.annee) this.values[2] = data.devis.annee;
+      if (data.devis.echeance) this.values[13] = data.devis.echeance;
+    } else if (data.mode == 'planning' && !data.planning.date) {
+      this.values[52] = data.mariage.domaine;
+      this.values[53] = data.mariage.adresse;
+      this.values[54] = data.mariage.codepostal;
       this.planningprestas = [];
       let mariee: any;
-      let prestas = this.data.devis.prestas;
-      prestas.forEach((p: any) => {
-        let presta = this.prestas.find((pres: any) => pres.nom == p.nom);
-        if (presta && presta.time) {
-          p.coiffure = presta.coiffure;
-          p.maquillage = presta.maquillage;
-          p.time = presta.time;
-
-          for (let i = 0; i < p.qte; i++) {
-            let press = JSON.parse(JSON.stringify(p));
-            press.presta = 0;
-            press.index = this.planningprestas.length;
-            if (press.bride) mariee = JSON.parse(JSON.stringify(press));
-            else {
-              this.planningprestas.push(press);
-              this.addInvitee(press);
+      let prestas = data.devis.prestas;
+      if(prestas)
+      {
+        prestas.forEach((p: any) => {
+          let presta = this.prestas.find((pres: any) => pres.nom == p.nom);
+          if (presta && presta.time) {
+            p.coiffure = presta.coiffure;
+            p.maquillage = presta.maquillage;
+            p.time = presta.time;
+  
+            for (let i = 0; i < p.qte; i++) {
+              let press = JSON.parse(JSON.stringify(p));
+              press.presta = 0;
+              press.index = this.planningprestas.length;
+              if (press.bride) mariee = JSON.parse(JSON.stringify(press));
+              else {
+                this.planningprestas.push(press);
+                this.addInvitee(press);
+              }
             }
           }
-        }
-      });
+        });
+      }
       if (mariee) {
         mariee.index = this.planningprestas.length;
         this.planningprestas.push(mariee);
         this.addInvitee(mariee);
       }
-    } else if (this.data.mode == 'planning' && this.data.planning.date) {
-      this.collegues = this.data.planning.collegues;
-      this.invitees = this.data.planning.invitees;
-      this.values[51] = this.data.planning.date;
-      this.values[52] = this.data.planning.domaine;
-      this.values[53] = this.data.planning.adresse;
-      this.values[54] = this.data.planning.codepostal;
-      this.planningprestas = this.data.planning.planningprestas;
-      this.ceremonie = this.data.planning.ceremonie;
-      this.finprestas = this.data.planning.finprestas;
-    } else if (this.data.mode == 'facture') {
-      if (this.data.factureClicked != -1) {
-        let facture = this.data.factures[this.data.factureClicked];
+    } else if (data.mode == 'planning' && data.planning.date) {
+      this.collegues = data.planning.collegues;
+      this.invitees = data.planning.invitees;
+      this.values[51] = data.planning.date;
+      this.values[52] = data.planning.domaine;
+      this.values[53] = data.planning.adresse;
+      this.values[54] = data.planning.codepostal;
+      this.planningprestas = data.planning.planningprestas;
+      this.ceremonie = data.planning.ceremonie;
+      this.finprestas = data.planning.finprestas;
+    } else if (data.mode == 'facture') {
+      if (data.factureClicked != -1) {
+        let facture = data.factures[data.factureClicked];
 
         if (facture.prestas) {
           facture.prestas.forEach((p: any) => {
@@ -686,11 +703,11 @@ export class DevisComponent implements OnInit {
         if (facture.annee) this.values[56] = facture.annee;
         if (facture.solde) this.values[60] = facture.solde;
 
-        if (this.data.factures.length > 0) {
+        if (data.factures.length > 0) {
           let prix = 0;
-          for (let i = 0; i < this.data.factureClicked; i++) {
-            if (i != this.data.factureClicked) {
-              let f = this.data.factures[i];
+          for (let i = 0; i < data.factureClicked; i++) {
+            if (i != data.factureClicked) {
+              let f = data.factures[i];
               if (f.solde) prix += parseFloat(f.solde);
               else {
                 f.prestas.forEach((p: any) => {
@@ -701,15 +718,15 @@ export class DevisComponent implements OnInit {
           }
           this.values[15] = prix;
         }
-      } else if (this.data.etape == 1) {
+      } else if (data.etape == 1) {
         this.prestas.push({
           qte: 1,
           nom: 'Paiement Arrhes',
           prix: this.calcaresFromDevis(),
           reduc: 0,
         });
-      } else if (this.data.etape > 1) {
-        this.data.devis.prestas.forEach((p: any) => {
+      } else if (data.etape > 1) {
+        data.devis.prestas.forEach((p: any) => {
           let presta = this.prestas.find((pres: any) =>
             p.nom.includes(pres.nom)
           );
@@ -728,7 +745,7 @@ export class DevisComponent implements OnInit {
           }
         });
         let prix = 0;
-        this.data.factures.forEach((f: any) => {
+        data.factures.forEach((f: any) => {
           if (f.solde) prix += parseFloat(f.solde);
           else {
             f.prestas.forEach((p: any) => {
@@ -767,6 +784,55 @@ export class DevisComponent implements OnInit {
 
     this.invitees.splice(invindex, 1);
     this.addInvitee(presta, artiste);
+  }
+
+  onCheckBoxClick()
+  {
+    if (this.ceremonie != '' || this.finprestas != '') {
+      this.onCeremonieInput();
+    } else {
+      this.actualiser();
+    }
+  }
+
+  onTimeInput(presta:any)
+  {
+    if(presta.time.match(/^[0-9]+$/))
+    {
+      presta.time = parseInt(presta.time);
+      if (this.ceremonie != '' || this.finprestas != '') {
+        this.onCeremonieInput();
+      } else {
+        this.actualiser();
+      }
+    }
+  }
+
+  deletePresta(presta:any)
+  {
+    let indexpresta = this.planningprestas.indexOf(presta);
+    let inv = this.invitees.find((i:any)=>i[10]==presta.index);
+    let indexinv = this.invitees.indexOf(inv);
+
+    this.planningprestas.splice(indexpresta,1);
+    this.invitees.splice(indexinv,1);
+    
+    if (this.ceremonie != '' || this.finprestas != '') {
+      this.onCeremonieInput();
+    } else {
+      this.actualiser();
+    }
+  }
+
+  addPlanningPresta()
+  {
+    let presta = JSON.parse(JSON.stringify(this.planningprestas[0]));
+    presta.index = this.planningprestas.length;
+    presta.nom = "";
+    presta.time = 30;
+    presta.presta = 0;
+    this.planningprestas.push(presta);
+    this.addInvitee(presta);
   }
 
   getplanningprestas(i: number) {

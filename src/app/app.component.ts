@@ -50,6 +50,8 @@ export class AppComponent implements OnInit {
   jourClicked: any = undefined;
   jourClickedSave: any = undefined;
 
+  artiste="celma";
+
   weekDays: string[] = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
 
   occupiedDates: any[] = [];
@@ -277,7 +279,7 @@ export class AppComponent implements OnInit {
       .get<any>(
         'http' +
           (isDevMode() ? '' : 's') +
-          '://chiyanh.cluster031.hosting.ovh.net/cloeplanning'
+          '://chiyanh.cluster031.hosting.ovh.net/'+this.artiste+'planning'
       )
       .subscribe((data) => {
         console.log('HTTP : CloePlanning', data);
@@ -396,7 +398,7 @@ export class AppComponent implements OnInit {
       }
       d.devis.numero = numero++;
       requete +=
-        "UPDATE cloeplanning SET devis = '" +
+        "UPDATE "+this.artiste+"planning SET devis = '" +
         JSON.stringify(d.devis) +
         "' WHERE ID = " +
         d.id +
@@ -465,7 +467,7 @@ export class AppComponent implements OnInit {
       .forEach((dev: any) => {
         let d: any = JSON.parse(JSON.stringify(dev));
         requete +=
-          "UPDATE cloeplanning SET factures = '" +
+          "UPDATE "+this.artiste+"planning SET factures = '" +
           JSON.stringify(d.factures) +
           "' WHERE ID = " +
           d.id +
@@ -823,7 +825,7 @@ export class AppComponent implements OnInit {
       fetch(
         'http' +
           (isDevMode() ? '' : 's') +
-          '://chiyanh.cluster031.hosting.ovh.net/cloeplanning' +
+          '://chiyanh.cluster031.hosting.ovh.net/'+this.artiste+'planning' +
           (exist ? 'update' : 'create'),
         {
           body: JSON.stringify(data),
@@ -857,7 +859,7 @@ export class AppComponent implements OnInit {
           fetch(
             'http' +
               (isDevMode() ? '' : 's') +
-              '://chiyanh.cluster031.hosting.ovh.net/cloeplanningdelete',
+              '://chiyanh.cluster031.hosting.ovh.net/'+this.artiste+'planningdelete',
             {
               body: JSON.stringify(data),
               headers: {
@@ -882,7 +884,14 @@ export class AppComponent implements OnInit {
   }
 
   checkMdp() {
-    if (this.mdp == environment.password) this.okmdp = true;
+    if (this.mdp == environment.password){
+      this.okmdp = true;
+      this.artiste = "cloe";
+    }
+    else if (this.mdp == environment.password2){
+      this.okmdp = true;
+      this.artiste = "celma";
+    }
     this.init();
   }
 }
