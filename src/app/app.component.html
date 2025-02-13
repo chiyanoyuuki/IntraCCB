@@ -269,7 +269,7 @@
 <div *ngIf="portrait&&!jourClicked&&!month" class="stats">
   <div>
     <p>Prochain événement :</p>
-    <p *ngIf="prochain">{{prochain.date+" : "+prochain.nom+" - "+prochain.statut}}</p>
+    <p *ngIf="prochain">{{getFullDate(prochain.date)+" : "+prochain.nom+" - ("+prochain.statut+")"}}</p>
   </div>
 </div>
 
@@ -284,7 +284,7 @@
   <div><p>Reste à payer : </p><p>{{notPaid()}}</p></div>
   <div><p>Paiements renforts : </p><p>{{renforts()}}</p></div>
   <div><p>&nbsp;</p></div>
-  <div><p>{{month?'Total du mois : ':'Total de l'année : '}}</p><p>{{totalThunes()}}</p></div>
+  <div><p>{{month?'Total du mois : ':'Total de l\'année : '}}</p><p>{{totalThunes()}}</p></div>
 </div>
 
 <div *ngIf="portrait&&!jourClicked&&!month" style="padding-bottom:50px;">

@@ -456,6 +456,21 @@ export class AppComponent implements OnInit {
     return parseInt(total)+"€";
   }
 
+  getFullDate(dateStr:any)
+  {
+    const [day, month, year] = dateStr.split('/').map(Number);
+    const date = new Date(year, month - 1, day); // Mois commence à 0 en JS
+
+    // Formater la date en "Jeudi 12 avril"
+    return new Intl.DateTimeFormat('fr-FR', {
+        weekday: 'long', // Nom du jour en toutes lettres
+        day: 'numeric', // Jour du mois
+        month: 'long', // Nom du mois en toutes lettres
+    }).format(date).split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+  }
+
   getallfactures(){
     let factures = this.allfactures.filter((f: any) => f.facture.annee == this.year);
     factures = factures.sort((a:any,b:any)=>{return a.facture.numero - b.facture.numero;});
