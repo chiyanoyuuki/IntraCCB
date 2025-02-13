@@ -558,6 +558,7 @@ export class DevisComponent implements OnInit {
   }
 
   init(maxs: any = undefined) {
+    console.log(this.data);
     let data = JSON.parse(JSON.stringify(this.data));
     this.inited = false;
     this.prestas = JSON.parse(JSON.stringify(this.baseprestas));

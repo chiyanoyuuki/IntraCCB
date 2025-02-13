@@ -84,7 +84,7 @@
   </ng-container>
 </div>
 
-<app-devis #devis [class.hidden]="jourClicked&&jourClicked.mode==undefined" [data]="jourClicked" (retour)="jourClicked.mode=undefined;"></app-devis>
+<app-devis #devis [class.hidden]="jourClicked&&jourClicked.mode==undefined" [data]="jourClicked" (retour)="onDevisRetour()"></app-devis>
 
 <div class="formulaire" *ngIf="jourClicked && jourClicked.mode==undefined">
   <p class="retour" (click)="onRetour()">< Retour</p>
@@ -264,6 +264,46 @@
   <button class="demande">Demande</button>
   <button class="essai">Essai</button>
   <button class="autre">Autre (Shooting, Tournage, Animation..)</button>
+</div>
+
+<div *ngIf="portrait&&!jourClicked&&!month" class="stats">
+  <div>
+    <p>Prochain événement :</p>
+    <p *ngIf="prochain">{{prochain.date+" : "+prochain.nom+" - "+prochain.statut}}</p>
+  </div>
+</div>
+
+<div *ngIf="portrait&&!jourClicked" class="stats">
+  <div><p>Demandes : </p><p>{{getStatut('demande')}}</p></div>
+  <div><p>Réservés : </p><p>{{getStatut('reserve')}}</p></div>
+  <div><p>Essais : </p><p>{{getStatut('essai')}}</p></div>
+  <div><p>Autre : </p><p>{{getStatut('autre')}}</p></div>
+  <div><p>Terminés : </p><p>{{getStatut('999')}}</p></div>
+  <div><p>&nbsp;</p></div>
+  <div><p>Déjà payé : </p><p>{{alreadyPaid()}}</p></div>
+  <div><p>Reste à payer : </p><p>{{notPaid()}}</p></div>
+  <div><p>Paiements renforts : </p><p>{{renforts()}}</p></div>
+  <div><p>&nbsp;</p></div>
+  <div><p>{{month?'Total du mois : ':'Total de l'année : '}}</p><p>{{totalThunes()}}</p></div>
+</div>
+
+<div *ngIf="portrait&&!jourClicked&&!month" style="padding-bottom:50px;">
+  <div class="flex between alldata">
+    <div>
+      <p>Devis</p>
+      <select [(ngModel)]="alldev" (change)="clickAllDevis($event)">
+        <option [ngValue]="undefined"></option>
+        <option *ngFor="let dev of getalldevis()" [ngValue]="dev">{{formatNumber(dev.devis.numero)+" - "+dev.nom}}</option>
+      </select>
+    </div>
+    <div>
+      <p>Factures</p>
+      <select [(ngModel)]="allfac" (change)="clickAllFactures($event)">
+        <option [ngValue]="undefined"></option>
+        <option *ngFor="let fac of getallfactures()" [ngValue]="fac">{{formatNumber(fac.facture.numero)+" - "+fac.nom}}</option>
+      </select>
+    </div>
+  </div>
 </div>
 
 <div *ngIf="tooltip.visible" class="tooltip" [ngStyle]="{'top.px': tooltip.y, 'left.px': tooltip.x}">

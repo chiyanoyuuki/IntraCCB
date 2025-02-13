@@ -11,6 +11,51 @@ button, input{
 input{
   background-color: var(--fond);
 }
+.alldata{
+  div{
+    width:50%;
+    p{
+      text-align: center;
+      margin:0;
+    }
+    select{
+      top: unset;
+      width: unset;
+      height: unset;
+      padding: unset;
+      margin: unset;
+      border: 1px solid var(--required);
+      background-color: var(--fond);
+      margin: auto;
+      display: flex;
+      max-width: 90%;
+    }
+  }
+  
+}
+.stats{
+  margin: 10px;
+  background-color: var(--fond);
+  padding: 10px;
+  p{
+    margin:0;
+  }
+  div{
+    display:flex;
+    p:nth-child(1){
+      width:45%;
+      text-align:right;
+      margin-right:5px;
+    }
+    p:nth-child(2){
+      font-weight:bold;
+      color:var(--required);
+    }
+  }
+}
+.between{
+  justify-content: space-between;
+}
 .portrait{
   height:100%;
   .annee{
@@ -20,7 +65,7 @@ input{
   }
   .calendar{
     margin:5%;
-    max-height:80%;
+    max-height:40%;
     overflow-y:scroll;
     border-top: 3px solid var(--required);
     padding: 3px;

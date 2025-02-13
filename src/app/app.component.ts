@@ -50,11 +50,12 @@ export class AppComponent implements OnInit {
   jourClicked: any = undefined;
   jourClickedSave: any = undefined;
 
-  artiste="celma";
+  artiste="cloe";
 
   weekDays: string[] = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
 
   occupiedDates: any[] = [];
+  prochain: any;
 
   tooltip = {
     visible: false,
@@ -67,6 +68,12 @@ export class AppComponent implements OnInit {
   extractedText: string = '';
   loading: boolean = false;
 
+  alldevis:any = [];
+  allfactures:any = [];
+  allplannings:any = [];
+  alldev:any=undefined;
+  allfac:any=undefined;
+
   etapes = ['Devis', 'Arrhes'];
   changed = false;
   event = 0;
@@ -75,6 +82,8 @@ export class AppComponent implements OnInit {
   month: any = undefined;
   monthIndex: any = undefined;
   selectedValue: any = null;
+
+  monthsvalues: any = [];
 
   mdp = '';
   okmdp = false;
@@ -147,6 +156,12 @@ export class AppComponent implements OnInit {
     (pdfjsLib as any).GlobalWorkerOptions.workerSrc = 'pdf.worker.js';
 
     if (this.innerHeight > this.innerWidth) this.portrait = true;
+  }
+
+  onDevisRetour()
+  {
+    if(this.portrait&&!this.month) this.jourClicked = undefined;
+    else this.jourClicked.mode=undefined;
   }
 
   init() {
@@ -310,11 +325,147 @@ export class AppComponent implements OnInit {
             this.occupiedDates.push(obj);
           });
 
+          this.alldevis = this.occupiedDates.filter((d:any)=>d.devis&&d.devis.creation);
+
+          this.allfactures = this.occupiedDates.filter((d: any) => d.factures.length > 0);
+          this.allfactures = this.allfactures.flatMap((date:any) => 
+            date.factures.map((facture:any) => ({
+                ...date, 
+                facture: facture
+            }))
+        );
+
+        let grouped: any = {};
+        this.occupiedDates.forEach(item => {
+          const [day, month, year] = item.date.split("/"); // Extraire les parties de la date
+          const key = `${month}-${year}`; // Clé sous forme "MM-YYYY"
+  
+          if (!grouped[key]) {
+            grouped[key] = { mois: parseInt(month), annee: year, dates: [] };
+          }
+          grouped[key].dates.push(item);
+        });
+        this.monthsvalues = Object.values(grouped);
+
+        const today = new Date();
+        this.prochain = this.occupiedDates
+        .map(obj => ({
+            ...obj,
+            dateObj: new Date(obj.date.split('/').reverse().join('-')) // Convertit "dd/mm/aaaa" en "aaaa-mm-dd"
+        }))
+        .filter(obj => obj.dateObj > today) // Filtre les dates futures
+        .sort((a, b) => a.dateObj - b.dateObj) // Trie par date la plus proche
+        [0];
+
         //this.showNumeros();
         //this.checkNumerosDevis();
         //this.checkNumerosFactures(2024);
         //showFactures();
       });
+  }
+
+  getStatut(statut:any, i:any=-1)
+  {
+    let cpt = 0;
+    let data = this.monthsvalues.filter((m:any)=>m.annee==this.year);
+    if(this.month) data = this.monthsvalues.filter((m:any)=>m.annee==this.year&&parseInt(m.mois)==(this.monthIndex+1));
+    data.forEach((d:any)=>{
+      d.dates.forEach((date:any)=>{
+        if(date.statut==statut||date.etape==statut) cpt++;
+      })
+    })
+    return cpt;
+  }
+
+  alreadyPaid(i:any=-1)
+  {
+    let total:any = 0;
+    let data = this.monthsvalues.filter((m:any)=>m.annee==this.year);
+    if(this.month) data = this.monthsvalues.filter((m:any)=>m.annee==this.year&&parseInt(m.mois)==(this.monthIndex+1));
+    data.forEach((d:any)=>{
+      let dates = d.dates.filter((date:any)=>date.factures.length>0);
+      dates.forEach((date:any)=>{
+        date.factures.forEach((facture:any)=>{
+          if(facture.solde)
+            total+=parseFloat(facture.solde)
+          else
+          {
+            facture.prestas.forEach((p:any)=>total+=parseFloat(this.calc(p)));
+          }
+        });
+      })
+    })
+    return parseInt(total)+"€";
+  }
+
+  notPaid(i:any=-1)
+  {
+    let total:any = 0;
+    let data = this.monthsvalues.filter((m:any)=>m.annee==this.year);
+    if(this.month) data = this.monthsvalues.filter((m:any)=>m.annee==this.year&&parseInt(m.mois)==(this.monthIndex+1));
+    data.forEach((d:any)=>{
+      let dates = d.dates;
+      dates.forEach((date:any)=>{
+        if(date.devis&&date.devis.prestas)
+        {
+          date.devis.prestas.forEach((p:any)=>total+=parseFloat(this.calc(p)));
+        }
+        if(date.factures&&date.factures.length>0)
+        {
+          date.factures.forEach((f:any)=>{
+            if(!f.solde)f.prestas.forEach((p:any)=>total-=parseFloat(this.calc(p)));
+            else total-=parseFloat(f.solde);
+          });
+        }
+      })
+    })
+    return parseInt(total)+"€";
+  }
+
+  totalThunes(i:any=-1)
+  {
+    let total:any = 0;
+    let data = this.monthsvalues.filter((m:any)=>m.annee==this.year);
+    if(this.month) data = this.monthsvalues.filter((m:any)=>m.annee==this.year&&parseInt(m.mois)==(this.monthIndex+1));
+    data.forEach((d:any)=>{
+      let dates = d.dates;
+      dates.forEach((date:any)=>{
+        if(date.devis&&date.devis.prestas)
+        {
+          date.devis.prestas.forEach((p:any)=>total+=parseFloat(this.calc(p)));
+        }
+        if(date.prestataires&&date.prestataires>0)
+          total-=parseFloat(date.prestataires);
+      })
+    })
+    return parseInt(total)+"€ ("+parseInt(""+(total-(total*0.24)))+"€ net)";
+  }
+
+  renforts(i:any=-1)
+  {
+    let total:any = 0;
+    let data = this.monthsvalues.filter((m:any)=>m.annee==this.year);
+    if(this.month) data = this.monthsvalues.filter((m:any)=>m.annee==this.year&&parseInt(m.mois)==(this.monthIndex+1));
+    data.forEach((d:any)=>{
+      let dates = d.dates;
+      dates.forEach((date:any)=>{
+        if(date.prestataires&&date.prestataires>0)
+          total+=parseFloat(date.prestataires);
+      })
+    })
+    return parseInt(total)+"€";
+  }
+
+  getallfactures(){
+    let factures = this.allfactures.filter((f: any) => f.facture.annee == this.year);
+    factures = factures.sort((a:any,b:any)=>{return a.facture.numero - b.facture.numero;});
+    return factures;
+  }
+
+  getalldevis(){
+    let devis = this.alldevis.filter((f: any) => f.devis.annee == this.year);
+    devis = devis.sort((a:any,b:any)=>{return a.devis.numero - b.devis.numero;});
+    return devis;
   }
 
   showFactures() {
@@ -533,7 +684,8 @@ export class AppComponent implements OnInit {
     return prix + (prix < 100 ? ',00' : '') + '€';
   }
 
-  calc(presta: any) {
+  calc(presta: any):any {
+    if(presta.qte=="?")return 0;
     let prix = presta.prix * presta.qte;
     if (presta.kilorly) {
       if (presta.qte <= 10) prix = 0;
@@ -650,9 +802,13 @@ export class AppComponent implements OnInit {
     this.devis.init(this.getMaxs());
   }
   clickFacture(i: any = undefined) {
-    if (i) {
-      this.jourClicked.factureClicked = i.target.value;
+    if (i!=undefined) {
+      if(i.target)
+        this.jourClicked.factureClicked = i.target.value;
+      else
+        this.jourClicked.factureClicked = i;
     } else this.jourClicked.factureClicked = -1;
+    console.log(this.jourClicked.factureClicked);
     this.jourClicked.mode = 'facture';
     this.devis.init(this.getMaxs());
     this.selectedValue = null;
@@ -660,6 +816,29 @@ export class AppComponent implements OnInit {
   clickPlanning() {
     this.jourClicked.mode = 'planning';
     this.devis.init();
+  }
+
+  clickAllDevis(date:any)
+  {
+    if(this.alldev==undefined)return;
+    this.jourClicked = this.occupiedDates.find((d:any)=>d.id==this.alldev.id);
+    this.jourClickedSave = JSON.parse(JSON.stringify(this.jourClicked));
+    let int = setInterval(()=>{this.clickDevis();clearInterval(int);},500);
+  }
+
+  clickAllFactures(date:any)
+  {
+    if(this.allfac==undefined)return;
+    this.jourClicked = this.occupiedDates.find((d:any)=>d.id==this.allfac.id);
+    this.jourClickedSave = JSON.parse(JSON.stringify(this.jourClicked));
+    let factures = this.jourClicked.factures;
+    let index = 0;
+    if(factures.length>1)
+    {
+      let facture = factures.find((f:any)=>f.numero==this.allfac.facture.numero&&f.creation==this.allfac.facture.creation);
+      index = factures.indexOf(facture);
+    }
+    let int = setInterval(()=>{this.clickFacture(index);clearInterval(int);},500);
   }
 
   showTooltip(event: MouseEvent, monthIndex: number, day: number): void {
