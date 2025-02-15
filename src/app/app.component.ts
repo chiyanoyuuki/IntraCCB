@@ -1004,14 +1004,48 @@ export class AppComponent implements OnInit {
     }
   }
 
+  clickProchain() {
+    const [d, m, y] = this.prochain.date.split('/').map(Number);
+    this.clickJour(m-1, d, y);
+  }
+
   changeJour(i: number) {
     const [day, month, year] = this.jourClicked.date.split('/').map(Number);
-    const date = new Date(year, month - 1, day);
-    date.setDate(date.getDate() + i);
-    const previousDay = date.getDate();
-    const previousMonth = date.getMonth();
-    const previousYear = date.getFullYear();
-    this.clickJour(previousMonth, previousDay, previousYear);
+    let today = new Date(year, month - 1, day);
+    if(i==1)
+    {
+      today.setDate(today.getDate() + 1);
+      let prochain: any = this.occupiedDates
+      .map(obj => ({
+          ...obj,
+          dateObj: new Date(obj.date.split('/').reverse().join('-')) // Convertit "dd/mm/aaaa" en "aaaa-mm-dd"
+      }))
+      .filter(obj => obj.dateObj > today); // Filtre les dates futures
+      prochain = prochain.sort((a:any, b:any) => a.dateObj - b.dateObj);// Trie par date la plus proche
+      if(prochain.length>0)
+        {
+          prochain = prochain[0];
+          const [d, m, y] = prochain.date.split('/').map(Number);
+          this.clickJour(m-1, d, y);
+        }
+    }
+    else
+    {
+      today.setDate(today.getDate() - 1);
+      let prochain: any = this.occupiedDates
+      .map(obj => ({
+          ...obj,
+          dateObj: new Date(obj.date.split('/').reverse().join('-')) // Convertit "dd/mm/aaaa" en "aaaa-mm-dd"
+      }))
+      .filter(obj => obj.dateObj < today);
+      prochain = prochain.sort((a:any, b:any) => a.dateObj - b.dateObj); // Trie par date la plus proche
+      if(prochain.length>0)
+      {
+        prochain = prochain[prochain.length-1];
+        const [d, m, y] = prochain.date.split('/').map(Number);
+        this.clickJour(m-1, d, y);
+      }
+    }
   }
 
   changeEvent(i: any) {

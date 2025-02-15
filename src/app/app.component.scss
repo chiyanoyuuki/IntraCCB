@@ -1,4 +1,6 @@
-
+body{
+  cursor: url('../../public/cochon.png') 16 16, auto!important;
+}
 
 
 button, input, select{
@@ -8,6 +10,10 @@ button, input, select{
   font-weight: bold;
   border-radius: 10px;
   filter: drop-shadow(2px 2px 3px black);
+}
+.clickable{
+  border: 1px solid var(--required);
+  border-radius: 20px;
 }
 input{
   background-color: var(--fond);

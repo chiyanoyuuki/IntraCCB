@@ -266,7 +266,7 @@
   <button class="autre">Autre (Shooting, Tournage, Animation..)</button>
 </div>
 
-<div *ngIf="!jourClicked&&!month" class="stats">
+<div *ngIf="!jourClicked&&!month" class="stats clickable" (click)="clickProchain()">
   <div>
     <p>Prochain événement :</p>
     <p *ngIf="prochain">{{getFullDate(prochain.date)+" : "+prochain.nom+" - ("+prochain.statut+")"}}</p>
