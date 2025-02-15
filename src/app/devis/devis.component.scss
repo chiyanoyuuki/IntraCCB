@@ -1,3 +1,29 @@
+
+.inputs{
+  button, input, select, textarea{
+  border:1px solid var(--scroll);
+  background-color: var(--principale);
+  margin:1px;
+  border-radius: 10px;
+}
+select{
+  
+  color: white;
+}
+button{
+  padding: 0px 15px;
+  margin: 0px 5px;
+  border: 1px solid var(--required);
+  filter: drop-shadow(1px 1px 2px var(--required));
+  margin-bottom: 5px;
+  color: white;
+}
+p{
+  color:var(--required);
+  font-weight:bold!important;
+}
+}
+
 #htmlContent {
   width: 595px !important;
   height: 835px !important;
@@ -14,13 +40,26 @@
   padding: 5px;
 }
 .inputs {
-  width: 50%;
+  min-width: 45vw;
   height: 842px !important;
-  border: 2px solid transparent;
   position: relative;
+  margin-top: 10px;
+  padding: 0px 10px;
+  padding-top: 10px;
+  border-left: 5px ridge var(--scroll);
+  padding-left:10px;
+  margin-left:10px;
+}
+.bottombuttons{
+  margin-top:10px;
+  padding-bottom:20px;
 }
 .portrait .inputs {
-  width: 595px !important;
+  border-top: 5px ridge var(--scroll);
+  width: 585px !important;
+  border-left: unset;
+  padding-left:10px;
+  margin-left:unset;
 }
 * {
   -webkit-user-select: none; /* Safari */
@@ -91,7 +130,9 @@ p {
   margin-top: 25px;
 }
 .marg {
-  padding: 20px !important;
+  margin-bottom: 15px !important;
+  border-bottom: 2px solid var(--required);
+  padding-bottom: 10px;
 }
 .content {
   padding: 0px 15px;
@@ -146,14 +187,17 @@ p {
   top: 2px;
 }
 .inviteesinput {
+  
   display: flex;
   flex-direction: column;
   input {
-    margin: unset !important;
+    margin: 1px;
     width: 100px !important;
   }
 }
 .dataplanning {
+  scrollbar-color: var(--principale) var(--scroll);
+  scrollbar-width: thin;
   overflow-x: scroll;
   overflow-y: hidden;
   padding: 2vh 0vw;
@@ -177,12 +221,15 @@ p {
       width: unset !important;
       position: relative;
     }
+    select{
+      width:70px!important;
+    }
     input{
       width:30px!important;
     }
     .checkmaqu{
-      margin-left: 26px;
-      margin-right: 40px;
+      margin-left: 15px;
+      margin-right: 15px;
     }
   }
   .disabled{
@@ -193,12 +240,39 @@ p {
   .topartiste{
     p{text-align: center;}
     p:nth-child(1){width:110px;}
-    p:nth-child(2){width:130px;}
-    p:nth-child(3){width:50px;}
-    p:nth-child(4){width:70px;}
-    p:nth-child(5){width:55px;}
-    p:nth-child(6){width:75px;}
-    p:nth-child(7){width:75px;}
+    p:nth-child(2){width:65px;}
+    p:nth-child(3){width:85px;}
+    p:nth-child(4){width:100px;}
+    p:nth-child(5){width:45px;}
+    p:nth-child(6){width:50px;}
+  }
+}
+.topceremonie{
+  justify-content: center;
+  padding: 5px 0px;
+  background-color: var(--fond);
+  margin: 15px 0px !important;
+  border: 2px solid var(--required);
+  p{
+    position: relative;
+    top:2px;
+  }
+  input{
+    margin:0px 10px;
+  }
+}
+.topcollegue{
+  justify-content: center;
+  border-bottom: 2px ridge var(--scroll);
+  padding: 5px 0px;
+  margin: 5px 0px !important;
+  border-top: 2px ridge var(--scroll);
+  p{
+    position: relative;
+    top:2px;
+  }
+  input{
+    margin:0px 10px;
   }
 }
 .nomslignes {
@@ -391,8 +465,16 @@ ul {
 .domaine {
   display: flex;
   flex-direction: column;
+  background-color: var(--fond);
+  width: 80%;
+  justify-content: center;
+  margin: auto;
+  margin-top: 20px;
+  border-top: 2px ridge var(--required);
+  border-bottom: 2px ridge var(--required);
+  padding: 10px 10px;
   p {
-    width: 30%;
+    width: 35%;
   }
   input {
     width: 50%;
@@ -425,9 +507,11 @@ ul {
   color: rgb(57, 155, 57);
 }
 .prestas {
+  scrollbar-color: var(--principale) var(--scroll);
+  scrollbar-width: thin;
   max-height: 300px;
   overflow-y: scroll;
-  border: 1px solid black;
+  border: 1px solid var(--required);
   margin: 20px 0px;
   padding: 10px;
   .flex {
@@ -449,7 +533,8 @@ ul {
   p {
     text-align: center;
     width: 100% !important;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid var(--required);
+    margin: 10px 0px;
   }
 }
 .clickable:hover {

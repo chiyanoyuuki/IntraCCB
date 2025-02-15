@@ -185,13 +185,13 @@
       </p>
 
       <div class="resume" *ngIf="mode == 'facture'">
-        <p class="tinytext" *ngIf="this.values[15] != ''">
+        <p class="tinytext" *ngIf="values[15] != ''">
           {{ lg == "Français" ? "Déjà versé" : "Already Paid" }} :
-          {{ transform(this.values[15]) }}€ {{ getDateArrhes() }}
+          {{ transform(values[15]) }}€ {{ getDateArrhes() }}
         </p>
         <p
           class="tinytext bold"
-          *ngIf="this.values[15] != '' || this.values[60] != ''"
+          *ngIf="values[15] != '' || values[60] != '' || data.factures.length==0"
         >
           {{ lg == "Français" ? "Solde" : "Remaining balance" }} :
           {{ values[60] != "" ? values[60] : transform(calcTot(true)) }}€
@@ -343,17 +343,15 @@
 
   <div class="inputs">
     <button (click)="return()">Retour</button>
-    <button
-      class="flex center"
+    <div class="flex center">
+      <p>Langue : </p>
+      <button
       (click)="lg == 'Français' ? (lg = 'Anglais') : (lg = 'Français')"
     >
       {{ lg }}
     </button>
-    <div class="flex boutons" *ngIf="false">
-      <button (click)="mode = 'devis'">Devis</button>
-      <button (click)="mode = 'facture'">Facture</button>
-      <button (click)="mode = 'planning'">Planning</button>
     </div>
+    
     <div class="flex" *ngIf="false">
       <p>Importer :</p>
       <input
@@ -518,7 +516,7 @@
             />
             <p
               class="clickable"
-              (click)="presta.qte = presta.qte + 1"
+              (click)="addQte(presta)"
               [class.disabled]="presta.qte > 0 && presta.onlyOne"
             >
               +
@@ -557,7 +555,7 @@
         />
       </div>
       <div class="flex right big">
-        <p>Total : {{ transform(calcTot()) }}</p>
+        <p>Total : {{ transform(calcTot()) }}€</p>
       </div>
     </div>
 
@@ -582,13 +580,15 @@
     </div>
 
     <div *ngIf="mode == 'planning'" class="lignesprestas">
-      <div class="flex">
+      <div class="flex topceremonie">
+        <p>Fin prestations : </p>
         <input
           type="text"
           [(ngModel)]="finprestas"
           placeholder="Fin prestations.."
           (input)="onCeremonieInput()"
         />
+        <p>Début cérémonie : </p>
         <input
           type="text"
           [(ngModel)]="ceremonie"
@@ -599,7 +599,7 @@
 
       <div *ngFor="let collegue of collegues; let i = index">
         <ng-container *ngIf="getplanningprestas(i).length > 0">
-          <div class="flex">
+          <div class="flex topcollegue">
             <p>{{ collegue[0] + " " + collegue[1] }}</p>
             <input
               type="text"
@@ -626,8 +626,8 @@
             <p>&nbsp;</p>
             <p>&nbsp;</p>
             <p>Temps</p>
-            <p>Maquillage</p>
-            <p>Coiffure</p>
+            <p>Maqu</p>
+            <p>Coif</p>
           </div>
           <div
             *ngFor="let presta of getplanningprestas(i); let x = index"
@@ -643,7 +643,7 @@
                 *ngFor="let collegue of collegues; let i = index"
                 [value]="i"
               >
-                {{ collegue[0] + " " + collegue[1] }}
+                {{ collegue[0] }}
               </option>
             </select>
             <button [class.disabled]="x == 0" (click)="monter(x, presta)">Monter</button>
@@ -658,13 +658,15 @@
             <input type="checkbox" [(ngModel)]="presta.coiffure" (change)="onCheckBoxClick()">
             <button (click)="deletePresta(presta)">Supprimer</button>
           </div>
+
+          <div *ngIf="mode=='planning'" class="flex center">
+            <button (click)="addPlanningPresta(i)" >Ajouter prestation</button>
+          </div>
         </ng-container>
       </div>
     </div>
 
-    <div>
-      <button (click)="addPlanningPresta()" class="flex center">Ajouter prestation</button>
-    </div>
+   
 
     <div class="domaine" *ngIf="mode == 'planning'">
       <div class="flex">
@@ -704,30 +706,21 @@
         </div>
       </div>
     </div>
-    <div class="marg">
+    <div class="marg flex center" 
+    *ngIf="mode == 'planning'">
       <button
-        class="flex center"
         (click)="addCollegue()"
-        *ngIf="mode == 'planning'"
       >
         Ajouter collègue
       </button>
     </div>
 
-    <br />
-    <br />
-    <br />
-
-    <div>
-      <button (click)="save()" class="flex center">Sauvegarder</button>
-    </div>
-
-    <br />
-
-    <div>
-      <button (click)="generatePDFfromHTML()" class="flex center">
+    <div class="flex center bottombuttons">
+      <button (click)="generatePDFfromHTML()">
         Générer PDF
       </button>
+      <button (click)="save()">Sauvegarder</button>
     </div>
+
   </div>
 </div>

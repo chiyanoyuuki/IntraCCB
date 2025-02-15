@@ -44,3 +44,4 @@ Thumbs.db
 #Other
 src/environments/environment.ts
 src/environments/environment.prod.ts
+public/mockdata.json

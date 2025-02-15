@@ -87,7 +87,7 @@
 <app-devis #devis [class.hidden]="jourClicked&&jourClicked.mode==undefined" [data]="jourClicked" (retour)="onDevisRetour()"></app-devis>
 
 <div class="formulaire" *ngIf="jourClicked && jourClicked.mode==undefined">
-  <p class="retour" (click)="onRetour()">< Retour</p>
+  <button class="retour" (click)="onRetour()">< Retour</button>
 
   <div class="date">
     <p (click)="changeJour(-1)"><</p>
@@ -197,24 +197,24 @@
 
   <div *ngIf="jourClicked.statut!='essai'" class="blocbas">
     <p>Devis : </p>
-    <button class="nom" *ngIf="jourClicked.devis&&jourClicked.devis.creation" [class.red]="diffs&&diffs.devis" (click)="clickDevis()">{{formatNumber(jourClicked.devis.numero)+"_"+jourClicked.devis.annee + " ("+jourClicked.devis.creation+")"}}</button>
+    <button class="nom" *ngIf="jourClicked.devis&&jourClicked.devis.creation" [class.red]="diffs&&diffs.devis" (click)="clickDevis()">{{formatNumber(jourClicked.devis.numero)+"_"+jourClicked.devis.annee}}</button>
     <button *ngIf="!jourClicked.devis||!jourClicked.devis.creation" (click)="clickDevis()">Editer</button>
   </div>
 
-  <div *ngIf="jourClicked.statut!='essai'" class="blocbas">
+  <div *ngIf="jourClicked.statut!='essai'&&jourClicked.devis&&jourClicked.devis.creation" class="blocbas">
     <p>Factures : </p>
-    <select [(ngModel)]="selectedValue" (change)="clickFacture($event)" *ngIf="jourClicked.factures.length>0">
-      <option *ngFor="let facture of jourClicked.factures;let i=index" [class.red]="diffs&&diffs.factures&&diffs.factures[i]" [value]="i">{{formatNumber(facture.numero)+"_"+facture.annee + " : "+(facture.solde?facture.solde:calcPaye())+ "€ ("+facture.creation+")"}}</option>
+    <select [(ngModel)]="selectedValue" (change)="clickFacture($event)" [class.red]="diffs&&diffs.factures">
+      <option [value]="-1">Nouvelle facture</option>
+      <option *ngFor="let facture of jourClicked.factures;let i=index"  [value]="i">{{formatNumber(facture.numero)+"_"+facture.annee + " : "+(facture.solde?facture.solde:calcPaye())+ "€ ("+facture.creation+")"}}</option>
     </select>
-    <button (click)="clickFacture()">Ajouter Facture</button>
   </div>
 
-  <div *ngIf="jourClicked.statut!='essai'" class="blocbas">
-    <p>Prestataires : </p>
+  <div *ngIf="jourClicked.statut!='essai'&&jourClicked.devis&&jourClicked.devis.creation" class="blocbas">
+    <p>Paiement Prestataires : </p>
     <input type="text" [(ngModel)]="jourClicked.prestataires" placeholder="Paiement Prestataires.."/>
   </div>
 
-  <div *ngIf="jourClicked.statut!='essai'" class="blocbas">
+  <div *ngIf="jourClicked.statut!='essai'&&jourClicked.devis&&jourClicked.devis.creation" class="blocbas">
     <p>Planning : </p>
     <button class="nom" *ngIf="jourClicked.planning&&jourClicked.planning.date" [class.red]="diffs&&diffs.planning" (click)="clickPlanning()">{{jourClicked.planning.date}}</button>
     <button *ngIf="!jourClicked.planning||!jourClicked.planning.date" (click)="clickPlanning()">Editer</button>
@@ -266,14 +266,14 @@
   <button class="autre">Autre (Shooting, Tournage, Animation..)</button>
 </div>
 
-<div *ngIf="portrait&&!jourClicked&&!month" class="stats">
+<div *ngIf="!jourClicked&&!month" class="stats">
   <div>
     <p>Prochain événement :</p>
     <p *ngIf="prochain">{{getFullDate(prochain.date)+" : "+prochain.nom+" - ("+prochain.statut+")"}}</p>
   </div>
 </div>
 
-<div *ngIf="portrait&&!jourClicked" class="stats">
+<div *ngIf="!jourClicked" class="stats">
   <div><p>Demandes : </p><p>{{getStatut('demande')}}</p></div>
   <div><p>Réservés : </p><p>{{getStatut('reserve')}}</p></div>
   <div><p>Essais : </p><p>{{getStatut('essai')}}</p></div>
@@ -287,7 +287,7 @@
   <div><p>{{month?'Total du mois : ':'Total de l\'année : '}}</p><p>{{totalThunes()}}</p></div>
 </div>
 
-<div *ngIf="portrait&&!jourClicked&&!month" style="padding-bottom:50px;">
+<div *ngIf="!jourClicked&&!month" style="padding-bottom:50px;">
   <div class="flex between alldata">
     <div>
       <p>Devis</p>

@@ -35,6 +35,11 @@ export class DevisComponent implements OnInit {
   prestas: any = [];
   baseprestas: any = [
     {
+      nom: 'Frais de déplacement',
+      en: 'Travel Expenses',
+      titre: true,
+    },
+    {
       nom: 'Frais de déplacement Jour-J (Aller/Retour)',
       en: 'D-Day Travel Expenses (Round Trip)',
       prix: 0.4,
@@ -719,14 +724,14 @@ export class DevisComponent implements OnInit {
           }
           this.values[15] = prix;
         }
-      } else if (data.etape == 1) {
+      } else if (data.factures.length==0) {
         this.prestas.push({
           qte: 1,
           nom: 'Paiement Arrhes',
           prix: this.calcaresFromDevis(),
           reduc: 0,
         });
-      } else if (data.etape > 1) {
+      } else if (data.factures.length>0) {
         data.devis.prestas.forEach((p: any) => {
           let presta = this.prestas.find((pres: any) =>
             p.nom.includes(pres.nom)
@@ -767,6 +772,20 @@ export class DevisComponent implements OnInit {
     }
 
     this.inited = true;
+    if(this.data.download)
+    {
+      let int = setInterval(()=>{this.generatePDFfromHTML();this.data.download=undefined;this.return();clearInterval(int);},10);
+    }
+
+    const screenWidth = window.innerWidth;
+    
+    if(!this.paysage)
+    {
+      const scaleFactor = screenWidth / 605;
+      document.body.style.transform = `scale(${scaleFactor})`;
+      document.body.style.transformOrigin = "top left";
+    }
+    
   }
 
   changePrestataire(event: any, presta: any) {
@@ -825,13 +844,12 @@ export class DevisComponent implements OnInit {
     }
   }
 
-  addPlanningPresta()
+  addPlanningPresta(i:any)
   {
-    let presta = JSON.parse(JSON.stringify(this.planningprestas[0]));
+    let presta = JSON.parse(JSON.stringify(this.getplanningprestas(i)[0]));
     presta.index = this.planningprestas.length;
     presta.nom = "";
     presta.time = 30;
-    presta.presta = 0;
     this.planningprestas.push(presta);
     this.addInvitee(presta);
   }
@@ -919,7 +937,6 @@ export class DevisComponent implements OnInit {
   }
 
   return() {
-    this.init();
     this.retour.emit();
   }
 
@@ -1215,7 +1232,12 @@ export class DevisComponent implements OnInit {
   }
 
   generatePDFfromHTML() {
+    if(!this.paysage)
+      {
+    document.body.style.transform = `scale(1)`;
+      }
     const element = document.getElementById('htmlContent');
+    
 
     html2canvas(element!, { scale: 4 }).then((canvas) => {
       const imgData = canvas.toDataURL('image/jpeg');
@@ -1258,6 +1280,16 @@ export class DevisComponent implements OnInit {
       pdf.save(nom + '.pdf');
       //this.trackVisit();
     });
+    if(!this.paysage)
+      {
+    const screenWidth = window.innerWidth;
+    const scaleFactor = screenWidth / 605;
+    document.body.style.transform = `scale(${scaleFactor})`;
+      }
+  }
+  addQte(presta:any)
+  {
+    presta.qte = parseInt(presta.qte) + 1;
   }
 
   addCollegue() {

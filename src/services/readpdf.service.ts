@@ -111,7 +111,6 @@ export class ReadpdfService {
       }
       else if(ligne.includes("€"))
       {
-        console.log(ligne);
         let match = ligne.match(/^([0-9]+ *(km|h)? *|[ÀA] d[eé]finir *)/g);
         if(match)
         {
@@ -177,7 +176,6 @@ export class ReadpdfService {
         this.cloe.forEach((info:any)=>{
           if(ligne.startsWith(info+" "))
           {
-            console.log("ok:"+info);
             ligne = ligne.substring((info+" ").length);
             if(ligne.includes("@")) obj.mail = ligne;
             else if(ligne.replace(/[^0-9]/g,"").match(/[0-9]{8,12}/g)) obj.tel = ligne;

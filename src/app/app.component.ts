@@ -105,10 +105,13 @@ export class AppComponent implements OnInit {
 
   @HostListener('window:popstate', ['$event'])
   onPopState(event: Event) {
-    history.pushState(null, '', location.href);
-    event.preventDefault();
-    event.stopPropagation();
-    this.onMobileReturn();
+    if(!isDevMode())
+    {
+      history.pushState(null, '', location.href);
+      event.preventDefault();
+      event.stopPropagation();
+      this.onMobileReturn();
+    }
   }
 
   public test() {}
@@ -131,27 +134,24 @@ export class AppComponent implements OnInit {
       this.init();
     }
 
-    window.addEventListener('beforeunload', (event: any) => {
-      event.preventDefault();
-      event.returnValue = '';
-      this.onMobileReturn();
-    });
-
-    history.pushState(null, '', location.href);
-
-    window.addEventListener('backbutton', (event) => {
+    if(! isDevMode())
+    {
+      window.addEventListener('beforeunload', (event: any) => {
+        event.preventDefault();
+        event.returnValue = '';
+        this.onMobileReturn();
+      });
+  
       history.pushState(null, '', location.href);
-      event.preventDefault();
-      event.stopPropagation();
-      this.onMobileReturn();
-    });
-    /*
-    window.addEventListener("beforeunload", (event) => {
-      history.pushState(null, '', location.href);
-      event.preventDefault();
-      event.stopPropagation();
-      this.onMobileReturn();
-    });*/
+  
+      window.addEventListener('backbutton', (event) => {
+        if(isDevMode())return;
+        history.pushState(null, '', location.href);
+        event.preventDefault();
+        event.stopPropagation();
+        this.onMobileReturn();
+      });
+    }
 
     (pdfjsLib as any).GlobalWorkerOptions.workerSrc = 'pdf.worker.js';
 
@@ -162,6 +162,9 @@ export class AppComponent implements OnInit {
   {
     if(this.portrait&&!this.month) this.jourClicked = undefined;
     else this.jourClicked.mode=undefined;
+    document.body.style.transform = `scale(1)`;
+    document.body.style.transformOrigin = "top left";
+    let int = setInterval(()=>{window.scrollTo({ top: 0, left: 0 });document.documentElement.scrollIntoView();document.documentElement.scrollTop = 0;document.body.scrollTop = 0;clearInterval(int);},100);
   }
 
   init() {
@@ -290,7 +293,18 @@ export class AppComponent implements OnInit {
   }
 
   getData() {
-    this.http
+    if(isDevMode())
+    {
+      this.http.get<any[]>('mockdata.json').subscribe(
+        (data:any) => {
+          console.log("Mock Data",data);
+          this.initData(data);
+        }
+      );
+    }
+    else
+    {
+      this.http
       .get<any>(
         'http' +
           (isDevMode() ? '' : 's') +
@@ -298,7 +312,14 @@ export class AppComponent implements OnInit {
       )
       .subscribe((data) => {
         console.log('HTTP : CloePlanning', data);
-        this.occupiedDates = data;
+        this.initData(data);
+      });
+    }
+  }
+
+  initData(data:any)
+  {
+    this.occupiedDates = data;
 
         data
           .filter((d: any) => d.essai && d.essai.date && d.essai.date != '')
@@ -361,7 +382,6 @@ export class AppComponent implements OnInit {
         //this.checkNumerosDevis();
         //this.checkNumerosFactures(2024);
         //showFactures();
-      });
   }
 
   getStatut(statut:any, i:any=-1)
@@ -613,7 +633,6 @@ export class AppComponent implements OnInit {
 
     allFactures.forEach((facture: any) => {
       if (facture.annee != annee) {
-        console.log('anneediff');
         numero = 1;
         annee = facture.annee;
       }
@@ -817,13 +836,21 @@ export class AppComponent implements OnInit {
     this.devis.init(this.getMaxs());
   }
   clickFacture(i: any = undefined) {
+    console.log(i);
     if (i!=undefined) {
       if(i.target)
+      {
         this.jourClicked.factureClicked = i.target.value;
+      }
       else
+      {
         this.jourClicked.factureClicked = i;
-    } else this.jourClicked.factureClicked = -1;
-    console.log(this.jourClicked.factureClicked);
+      }
+    } 
+    else 
+    {
+      this.jourClicked.factureClicked = -1;
+    }
     this.jourClicked.mode = 'facture';
     this.devis.init(this.getMaxs());
     this.selectedValue = null;
@@ -837,6 +864,7 @@ export class AppComponent implements OnInit {
   {
     if(this.alldev==undefined)return;
     this.jourClicked = this.occupiedDates.find((d:any)=>d.id==this.alldev.id);
+    this.jourClicked.download = true;
     this.jourClickedSave = JSON.parse(JSON.stringify(this.jourClicked));
     let int = setInterval(()=>{this.clickDevis();clearInterval(int);},500);
   }
@@ -845,6 +873,7 @@ export class AppComponent implements OnInit {
   {
     if(this.allfac==undefined)return;
     this.jourClicked = this.occupiedDates.find((d:any)=>d.id==this.allfac.id);
+    this.jourClicked.download = true;
     this.jourClickedSave = JSON.parse(JSON.stringify(this.jourClicked));
     let factures = this.jourClicked.factures;
     let index = 0;
@@ -853,7 +882,7 @@ export class AppComponent implements OnInit {
       let facture = factures.find((f:any)=>f.numero==this.allfac.facture.numero&&f.creation==this.allfac.facture.creation);
       index = factures.indexOf(facture);
     }
-    let int = setInterval(()=>{this.clickFacture(index);clearInterval(int);},500);
+    let int = setInterval(()=>{this.clickFacture(index);clearInterval(int);},10);
   }
 
   showTooltip(event: MouseEvent, monthIndex: number, day: number): void {
@@ -981,7 +1010,7 @@ export class AppComponent implements OnInit {
   }
 
   save() {
-    console.log(this.jourClicked);
+    if(isDevMode())return;
 
     let exist = this.jourClicked.id;
     if (!exist) {
@@ -1039,6 +1068,7 @@ export class AppComponent implements OnInit {
   }
 
   delete() {
+    if(isDevMode())return;
     Swal.fire({
       title: 'Attention',
       text: 'Voulez vous vraiment supprimer ces données ?',

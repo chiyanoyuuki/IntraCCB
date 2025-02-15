@@ -1,8 +1,9 @@
 
 
 
-button, input{
-  border:1px solid black;
+button, input, select{
+  border:1px solid var(--required);
+  margin-bottom: 1px !important;
   background-color: var(--principale);
   font-weight: bold;
   border-radius: 10px;
@@ -11,6 +12,7 @@ button, input{
 input{
   background-color: var(--fond);
 }
+.save button{margin-top: 10px!important;}
 .alldata{
   div{
     width:50%;
@@ -57,7 +59,7 @@ input{
   justify-content: space-between;
 }
 .portrait{
-  height:100%;
+  overflow:hidden;
   .annee{
     button{
       top: 8px;
@@ -65,7 +67,7 @@ input{
   }
   .calendar{
     margin:5%;
-    max-height:40%;
+    max-height:300px;
     overflow-y:scroll;
     border-top: 3px solid var(--required);
     padding: 3px;
@@ -141,6 +143,7 @@ input{
   }
 }
 
+
 .portrait{
   .formulaire{
     button{
@@ -163,12 +166,22 @@ input{
         justify-content: space-between;
         width: 100%;
         margin: 2px 0px;
-        p, div, input, button, select{
+        p{
           width:50%;
+          color: var(--required);
+        }
+        input{
+          width:165px;
+        }
+        select{
+          width:177px;
+        }
+        .column{
+          width:215px;
         }
         .column{
           input{
-            width:82%;
+            width:84%;
           }
         }
       }
@@ -182,9 +195,21 @@ input{
       }
     }
     .blocbas{
-      p{width:30%;white-space: nowrap;}
-      input, button, select{
-        width:60%;
+      p{white-space: nowrap;}
+      button{
+        width:190px;
+      }
+      p{
+        width:50%;
+        color: var(--required);
+      }
+      input{
+        width:165px;
+      }
+      select{
+        width:190px;
+        text-overflow: ellipsis;
+        overflow: hidden;
       }
     }
     .resumes{
@@ -378,6 +403,11 @@ input{
   }
   .nopointer{
       pointer-events: none!important;
+      
+  }
+  .annee .nopointer, .formulaire .date .nopointer{
+    color:var(--required);
+      font-weight:bold;
   }
   .column{
     flex-direction: column;
@@ -399,8 +429,8 @@ input{
     }
     .retour{
       position:absolute;
-      left:20px;
-      top:20px;
+      left:5px;
+      top:5px;
       font-weight:bold;
     }
     .retour:hover{
@@ -409,9 +439,16 @@ input{
     }
     .date{
       p{
+        padding:0px 10px;
+        width:5%!important;
         font-size:25px;
         font-weight:bold;
-        padding:0px 20px;
+        color:var(--required);
+      }
+      .nopointer{
+        padding:0px 0px;
+        width:90%!important;
+        text-align: center!important;
       }
       p:hover{
         cursor:pointer;
@@ -443,13 +480,12 @@ input{
     .nom{
       font-style:italic;
       padding:0px 10px;
-      opacity:0.6;
     }
     .resumes{
         div{
             padding: 10px;
             flex-direction: column;
-            border: 1px solid black;
+            border: 1px solid var(--required);
             div{
                 border:unset;
                 padding:unset;
@@ -506,6 +542,7 @@ app-devis{
 .hidden{
     opacity:0;
     pointer-events: none;
+    height:0px!important;
 }
 .delete{
   background:red;
@@ -532,5 +569,12 @@ app-devis{
   }
   .entetes{
     font-weight:bold;
+    p{
+      color:var(--required);
+    }
   }
+}
+button, select{
+  color:white!important;
+  text-shadow: 1px 1px 1px var(--required)!important;
 }
