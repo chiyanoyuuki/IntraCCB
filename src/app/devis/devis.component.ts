@@ -790,13 +790,13 @@ export class DevisComponent implements OnInit {
     const screenWidth = window.innerWidth;
     const contentWidth = document.getElementById("htmlContent")!.offsetWidth;
   
-    const scale = screenWidth / contentWidth;
+    const scale = contentWidth / screenWidth;
 
     const metaViewport = document.querySelector("meta[name=viewport]");
     if (metaViewport) {
       metaViewport.setAttribute(
         "content",
-        `width=device-width, initial-scale=${scale}, maximum-scale=${scale}`
+        `width=${contentWidth}, initial-scale=1, maximum-scale=1`
       );
     }
     window.scrollTo({ top: 0, left: 0 });document.documentElement.scrollIntoView();document.documentElement.scrollTop = 0;document.body.scrollTop = 0;clearInterval(int);},100);
