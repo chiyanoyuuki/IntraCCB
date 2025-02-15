@@ -790,14 +790,26 @@ export class DevisComponent implements OnInit {
     const screenWidth = window.innerWidth;
     const contentWidth = document.getElementById("htmlContent")!.offsetWidth;
   
-    const scaleFactor = screenWidth / contentWidth;
-    document.body.style.transform = `scale(${scaleFactor})`;
-    document.body.style.transformOrigin = "top left";
+    const scale = screenWidth / contentWidth;
+
+    const metaViewport = document.querySelector("meta[name=viewport]");
+    if (metaViewport) {
+      metaViewport.setAttribute(
+        "content",
+        `width=device-width, initial-scale=${scale}, maximum-scale=${scale}`
+      );
+    }
     window.scrollTo({ top: 0, left: 0 });document.documentElement.scrollIntoView();document.documentElement.scrollTop = 0;document.body.scrollTop = 0;clearInterval(int);},100);
   }
 
   cancelViewport(){
-    document.body.style.transform = "";
+    const metaViewport = document.querySelector("meta[name=viewport]");
+    if (metaViewport) {
+      metaViewport.setAttribute(
+        "content",
+        `width=device-width, initial-scale=1, maximum-scale=1`
+      );
+    }
   }
 
   changePrestataire(event: any, presta: any) {

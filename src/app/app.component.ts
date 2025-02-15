@@ -166,8 +166,16 @@ export class AppComponent implements OnInit {
   }
 
   cancelViewport(){
-    document.body.style.transform = "";
-    let int = setInterval(()=>{window.scrollTo({ top: 0, left: 0 });document.documentElement.scrollIntoView();document.documentElement.scrollTop = 0;document.body.scrollTop = 0;clearInterval(int);},100);
+    let int = setInterval(()=>{
+    const metaViewport = document.querySelector("meta[name=viewport]");
+    if (metaViewport) {
+      metaViewport.setAttribute(
+        "content",
+        `width=device-width, initial-scale=1, maximum-scale=1`
+      );
+    }
+    window.scrollTo({ top: 0, left: 0 });document.documentElement.scrollIntoView();document.documentElement.scrollTop = 0;document.body.scrollTop = 0;clearInterval(int);},100);
+
   }
 
   init() {
