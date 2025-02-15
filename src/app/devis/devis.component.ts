@@ -781,11 +781,23 @@ export class DevisComponent implements OnInit {
     
     if(!this.paysage)
     {
-      const scaleFactor = screenWidth / 605;
-      document.body.style.transform = `scale(${scaleFactor})`;
-      document.body.style.transformOrigin = "top left";
+      this.adjustViewport();
     }
-    
+  }
+
+  adjustViewport() {
+    let int = setInterval(()=>{
+    const screenWidth = window.innerWidth;
+    const contentWidth = document.getElementById("htmlContent")!.offsetWidth;
+  
+    const scaleFactor = screenWidth / contentWidth;
+    document.body.style.transform = `scale(${scaleFactor})`;
+    document.body.style.transformOrigin = "top left";
+    window.scrollTo({ top: 0, left: 0 });document.documentElement.scrollIntoView();document.documentElement.scrollTop = 0;document.body.scrollTop = 0;clearInterval(int);},100);
+  }
+
+  cancelViewport(){
+    document.body.style.transform = "";
   }
 
   changePrestataire(event: any, presta: any) {
@@ -1233,9 +1245,10 @@ export class DevisComponent implements OnInit {
 
   generatePDFfromHTML() {
     if(!this.paysage)
-      {
-    document.body.style.transform = `scale(1)`;
-      }
+    {
+      this.cancelViewport();
+    }
+
     const element = document.getElementById('htmlContent');
     
 
@@ -1281,11 +1294,9 @@ export class DevisComponent implements OnInit {
       //this.trackVisit();
     });
     if(!this.paysage)
-      {
-    const screenWidth = window.innerWidth;
-    const scaleFactor = screenWidth / 605;
-    document.body.style.transform = `scale(${scaleFactor})`;
-      }
+    {
+      this.adjustViewport();
+    }
   }
   addQte(presta:any)
   {

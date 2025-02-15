@@ -162,8 +162,11 @@ export class AppComponent implements OnInit {
   {
     if(this.portrait&&!this.month) this.jourClicked = undefined;
     else this.jourClicked.mode=undefined;
-    document.body.style.transform = `scale(1)`;
-    document.body.style.transformOrigin = "top left";
+    this.cancelViewport();
+  }
+
+  cancelViewport(){
+    document.body.style.transform = "";
     let int = setInterval(()=>{window.scrollTo({ top: 0, left: 0 });document.documentElement.scrollIntoView();document.documentElement.scrollTop = 0;document.body.scrollTop = 0;clearInterval(int);},100);
   }
 

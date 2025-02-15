@@ -1,5 +1,5 @@
 <div [class.flex]="paysage" [class.portrait]="!paysage" *ngIf="data && inited">
-  <div id="htmlContent" *ngIf="mode != 'planning'" class="noplanning">
+  <div #htmlContent id="htmlContent" *ngIf="mode != 'planning'" class="noplanning">
     <img src="logo.png" class="logo" />
     <p class="rosebg" style="color: white" *ngIf="lg == 'Français'">
       {{ mode == "devis" ? "DEVIS" : "FACTURE" }}
@@ -230,7 +230,7 @@
     </div>
   </div>
 
-  <div id="htmlContent" *ngIf="mode == 'planning'">
+  <div #htmlContent id="htmlContent" *ngIf="mode == 'planning'">
     <img src="logo.png" class="logo" />
     <p class="rosebg" style="color: white" *ngIf="lg == 'Français'">
       {{ values[50] }}
