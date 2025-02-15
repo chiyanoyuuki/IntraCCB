@@ -171,7 +171,7 @@ export class AppComponent implements OnInit {
     if (metaViewport) {
       metaViewport.setAttribute(
         "content",
-        `width=device-width, initial-scale=1, maximum-scale=1`
+        `width=device-width, initial-scale=1`
       );
     }
     window.scrollTo({ top: 0, left: 0 });document.documentElement.scrollIntoView();document.documentElement.scrollTop = 0;document.body.scrollTop = 0;clearInterval(int);},100);
@@ -416,14 +416,24 @@ export class AppComponent implements OnInit {
     data.forEach((d:any)=>{
       let dates = d.dates.filter((date:any)=>date.factures.length>0);
       dates.forEach((date:any)=>{
-        date.factures.forEach((facture:any)=>{
-          if(facture.solde)
-            total+=parseFloat(facture.solde)
-          else
+        if(date.etape==999)
+        {
+          if(date.devis&&date.devis.prestas)
           {
-            facture.prestas.forEach((p:any)=>total+=parseFloat(this.calc(p)));
+            date.devis.prestas.forEach((p:any)=>total+=parseFloat(this.calc(p)));
           }
-        });
+        }
+        else
+        {
+          date.factures.forEach((facture:any)=>{
+            if(facture.solde)
+              total+=parseFloat(facture.solde)
+            else
+            {
+              facture.prestas.forEach((p:any)=>total+=parseFloat(this.calc(p)));
+            }
+          });
+        }
       })
     })
     return parseInt(total)+"€";
@@ -435,7 +445,7 @@ export class AppComponent implements OnInit {
     let data = this.monthsvalues.filter((m:any)=>m.annee==this.year);
     if(this.month) data = this.monthsvalues.filter((m:any)=>m.annee==this.year&&parseInt(m.mois)==(this.monthIndex+1));
     data.forEach((d:any)=>{
-      let dates = d.dates;
+      let dates = d.dates.filter((dat:any)=>dat.etape!=999);
       dates.forEach((date:any)=>{
         if(date.devis&&date.devis.prestas)
         {
