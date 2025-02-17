@@ -72,7 +72,9 @@
       }
     ],
     "planning": {},
-    "essai": {},
+    "essai": {
+      "date": "07/03/2025"
+    },
     "mariage": {
       "adresse": "209 Rte des Cartouses",
       "domaine": "Domaine de l'Ermitage",
@@ -1207,7 +1209,9 @@
       }
     ],
     "planning": {},
-    "essai": {},
+    "essai": {
+      "date": "23/02/2025"
+    },
     "mariage": {
       "adresse": "765 D900",
       "domaine": "Le Domaine d’Egenia",
@@ -4748,8 +4752,8 @@
   {
     "id": 107,
     "date": "14/06/2025",
-    "nom": "Laura",
-    "statut": "demande",
+    "nom": "Laura Mitrovic",
+    "statut": "reserve",
     "adresse": "",
     "codepostal": "",
     "tel": "",
@@ -4787,29 +4791,52 @@
           "nom": "Forfait Mariée Complet",
           "qte": 1,
           "prix": 420,
+          "time": 120,
           "bride": true,
-          "reduc": 0,
-          "onlyOne": true
+          "reduc": "10",
+          "onlyOne": true,
+          "coiffure": true,
+          "maquillage": true
         },
         {
           "en": "Complete Guest Package",
           "nom": "Forfait Invitée Complet",
           "qte": 6,
           "prix": 130,
-          "reduc": 0
+          "time": 75,
+          "reduc": 0,
+          "coiffure": true,
+          "maquillage": true
         },
         {
           "en": "Guest Hairstyling (Full Updo)",
           "nom": "Coiffure Invitée (Attache complète)",
           "qte": 3,
           "prix": 80,
-          "reduc": 0
+          "time": 45,
+          "reduc": 0,
+          "coiffure": true
         }
       ],
       "creation": "11/02/2025",
       "echeance": "25/02/2025"
     },
-    "factures": [],
+    "factures": [
+      {
+        "annee": "2025",
+        "solde": 113,
+        "numero": 5,
+        "prestas": [
+          {
+            "nom": "Paiement Arrhes",
+            "qte": 1,
+            "prix": 113,
+            "reduc": 0
+          }
+        ],
+        "creation": "15/02/2025"
+      }
+    ],
     "planning": {},
     "essai": {},
     "mariage": {
@@ -4818,7 +4845,7 @@
       "codepostal": "84410 Crillon-le-Brave"
     },
     "prestataires": 690,
-    "etape": 1
+    "etape": 2
   },
   {
     "id": 109,
@@ -5001,5 +5028,39 @@
     },
     "prestataires": 0,
     "etape": 2
+  },
+  {
+    "id": 110,
+    "date": "15/07/2025",
+    "nom": "Hélène Toury",
+    "statut": "demande",
+    "adresse": "",
+    "codepostal": "",
+    "tel": "",
+    "mail": "",
+    "devis": {},
+    "factures": [],
+    "planning": {},
+    "essai": {},
+    "mariage": {},
+    "prestataires": 0,
+    "etape": 0
+  },
+  {
+    "id": 111,
+    "date": "11/07/2026",
+    "nom": "Ophélie Ladinetti",
+    "statut": "demande",
+    "adresse": "31 D chemin du Mas Ricaud",
+    "codepostal": "30340 ROUSSON",
+    "tel": "0668644402",
+    "mail": "ophelielad.84@hotmail.fr",
+    "devis": {},
+    "factures": [],
+    "planning": {},
+    "essai": {},
+    "mariage": {},
+    "prestataires": 0,
+    "etape": 0
   }
 ]

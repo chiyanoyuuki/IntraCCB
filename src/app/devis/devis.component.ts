@@ -613,7 +613,7 @@ export class DevisComponent implements OnInit {
       if (data.devis.prestas) {
         data.devis.prestas.forEach((p: any) => {
           let presta = this.prestas.find((pres: any) =>
-            p.nom.includes(pres.nom)
+            p.nom.includes(pres.nom) && !pres.titre
           );
           if (presta) {
             presta.qte = p.qte;
@@ -686,7 +686,7 @@ export class DevisComponent implements OnInit {
         if (facture.prestas) {
           facture.prestas.forEach((p: any) => {
             let presta = this.prestas.find((pres: any) =>
-              p.nom.includes(pres.nom)
+              p.nom.includes(pres.nom) && !pres.titre
             );
             if (presta) {
               presta.qte = p.qte;
@@ -734,7 +734,7 @@ export class DevisComponent implements OnInit {
       } else if (data.factures.length>0) {
         data.devis.prestas.forEach((p: any) => {
           let presta = this.prestas.find((pres: any) =>
-            p.nom.includes(pres.nom)
+            p.nom.includes(pres.nom) && !pres.titre
           );
           if (presta) {
             presta.qte = p.qte;
@@ -886,7 +886,7 @@ export class DevisComponent implements OnInit {
     let arrhes = this.prestas.find((p: any) => p.nom == 'Paiement Arrhes');
     if (arrhes) arrhes.qte = 0;
     this.data.devis.prestas.forEach((p: any) => {
-      let presta = this.prestas.find((pres: any) => p.nom.includes(pres.nom));
+      let presta = this.prestas.find((pres: any) => p.nom.includes(pres.nom) && !pres.titre);
       if (presta) {
         presta.qte = p.qte;
         presta.prix = p.prix;
