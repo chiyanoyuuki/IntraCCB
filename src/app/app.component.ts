@@ -16,6 +16,7 @@ import * as Tesseract from 'tesseract.js';
 import { PDFDocumentProxy, getDocument } from 'pdfjs-dist';
 import * as pdfjsLib from 'pdfjs-dist';
 import { DevisComponent } from './devis/devis.component';
+import { DeviscelmaComponent } from './deviscelma/deviscelma.component';
 import { from } from 'rxjs';
 import Swal from 'sweetalert2';
 import { environment } from '../environments/environment';
@@ -23,12 +24,13 @@ import { environment } from '../environments/environment';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, FormsModule, CommonModule, DevisComponent],
+  imports: [RouterOutlet, FormsModule, CommonModule, DevisComponent, DeviscelmaComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
   @ViewChild('devis') devis!: DevisComponent;
+  @ViewChild('deviscelma') deviscelma!: DeviscelmaComponent;
 
   months: string[] = [
     'Janvier',
@@ -189,6 +191,59 @@ export class AppComponent implements OnInit {
     return value;
   }
 
+  sendEmail() {
+    const to = this.jourClicked.mail;
+    const subject = encodeURIComponent('Disponibilité pour votre mariage du '+this.formatDate(this.jourClicked.date));
+    const body = encodeURIComponent('Bonjour '+this.jourClicked.nom+',\n\n'
+      +'J’espère que vous allez bien.\n\n'
+      +'Je me permets de revenir vers vous concernant votre mariage du '+this.formatDate(this.jourClicked.date)+' prochain.\n'
+      +'N’ayant pas encore reçu de confirmation de votre part, je souhaitais savoir si vous souhaitiez toujours faire appel à mes services.\n\n'
+      +'À noter que j’ai récemment reçu une autre demande pour cette même date.\n'
+      +'Afin de pouvoir organiser mon planning au mieux, pourriez-vous me tenir informée de votre décision ?\n\n'
+      +'N’hésitez pas à me contacter si vous avez la moindre question.\n\n'
+      +'Au plaisir d’échanger avec vous,\n'
+      +'Belle journée à vous. 🌞\n'
+    );
+    
+    if(this.jourClicked.mail)
+    {
+      const mailtoLink = `mailto:${to}?subject=${subject}&body=${body}`;
+      window.location.href = mailtoLink;
+    }
+    else if(this.jourClicked.mariagenet&&this.jourClicked.mariagenet!="")
+    {
+      navigator.clipboard.writeText(decodeURIComponent(body));
+      window.open("https://www.mariages.net/emp-AdminSolicitudesShow.php?id_solicitud="+this.jourClicked.mariagenet, '_blank');
+    }
+    else
+    {
+      navigator.clipboard.writeText(decodeURIComponent(body));
+    }
+  }
+
+  sendEmails() {
+    let mariees = this.occupiedDates.filter((d:any)=>d.statut=="demande"&&d.mail&&d.mail!="");
+    mariees = mariees.map((m:any)=>m.mail);
+
+    const to = "cloe.chaudron@outlook.com";
+    const cc = [].join(',');
+    const bcc = mariees.join(',');
+    const subject = encodeURIComponent('Disponibilité pour votre mariage');
+    const body = encodeURIComponent('Bonjour Madame,\n\n'
+      +'J’espère que vous allez bien.\n\n'
+      +'Je me permets de revenir vers vous concernant votre mariage.\n'
+      +'N’ayant pas encore reçu de confirmation de votre part, je souhaitais savoir si vous souhaitiez toujours faire appel à mes services.\n\n'
+      +'À noter que j’ai récemment reçu une autre demande pour cette même date.\n'
+      +'Afin de pouvoir organiser mon planning au mieux, pourriez-vous me tenir informée de votre décision ?\n\n'
+      +'N’hésitez pas à me contacter si vous avez la moindre question.\n\n'
+      +'Au plaisir d’échanger avec vous,\n'
+      +'Belle journée à vous. 🌞\n'
+    );
+
+    const mailtoLink = `mailto:${to}?cc=${cc}&bcc=${bcc}&subject=${subject}&body=${body}`;
+    window.location.href = mailtoLink;
+  }
+
   otherMonth(i: number) {
     this.monthIndex = this.monthIndex + i;
     if (this.monthIndex < 0) {
@@ -306,6 +361,27 @@ export class AppComponent implements OnInit {
   getData() {
     if(isDevMode())
     {
+      if(this.artiste=="celma")
+      {
+        this.initData([{
+          "id": 43,
+          "date": "19/04/2025",
+          "nom": "Test",
+          "statut": "reserve",
+          "adresse": "",
+          "codepostal": "",
+          "tel": "",
+          "mail": "",
+          "devis": {},
+          "factures": [],
+          "planning": {},
+          "essai": {},
+          "mariage": {},
+          "prestataires": 0,
+          "etape": 0
+        }]);
+        return;
+      }
       this.http.get<any[]>('mockdata.json').subscribe(
         (data:any) => {
           console.log("Mock Data",data);
@@ -852,9 +928,15 @@ export class AppComponent implements OnInit {
     return { maxDevis, maxFacture };
   }
 
+  initDevis()
+  {
+    if(this.artiste=="cloe")this.devis.init(this.getMaxs());
+    else if(this.artiste=="celma")this.deviscelma.init(this.getMaxs());
+  }
+
   clickDevis() {
     this.jourClicked.mode = 'devis';
-    this.devis.init(this.getMaxs());
+    this.initDevis();
   }
   clickFacture(i: any = undefined) {
     console.log(i);
@@ -873,12 +955,12 @@ export class AppComponent implements OnInit {
       this.jourClicked.factureClicked = -1;
     }
     this.jourClicked.mode = 'facture';
-    this.devis.init(this.getMaxs());
+    this.initDevis();
     this.selectedValue = null;
   }
   clickPlanning() {
     this.jourClicked.mode = 'planning';
-    this.devis.init();
+    this.initDevis();
   }
 
   clickAllDevis(date:any)
@@ -1086,13 +1168,12 @@ export class AppComponent implements OnInit {
     if (this.jourClicked.nom) data.nom = this.jourClicked.nom;
     if (this.jourClicked.statut) data.statut = this.jourClicked.statut;
     if (this.jourClicked.adresse) data.adresse = this.jourClicked.adresse;
-    if (this.jourClicked.codepostal)
-      data.codepostal = this.jourClicked.codepostal;
+    if (this.jourClicked.codepostal) data.codepostal = this.jourClicked.codepostal;
     if (this.jourClicked.mail) data.mail = this.jourClicked.mail;
     if (this.jourClicked.essai) data.essai = this.jourClicked.essai;
     if (this.jourClicked.mariage) data.mariage = this.jourClicked.mariage;
-    if (this.jourClicked.prestataires)
-      data.prestataires = this.jourClicked.prestataires;
+    if (this.jourClicked.mariagenet) data.mariagenet = this.jourClicked.mariagenet;
+    if (this.jourClicked.prestataires) data.prestataires = this.jourClicked.prestataires;
     if (this.jourClicked.tel) data.tel = this.jourClicked.tel;
     if (this.jourClicked.etape) data.etape = this.jourClicked.etape;
     if (this.jourClicked.devis) data.devis = this.jourClicked.devis;

@@ -18,14 +18,14 @@ import { HttpClient } from '@angular/common/http';
 import { ReadpdfService } from '../../services/readpdf.service';
 
 @Component({
-  selector: 'app-devis',
+  selector: 'app-deviscelma',
   standalone: true,
   imports: [RouterOutlet, FormsModule, CommonModule],
-  templateUrl: './devis.component.html',
-  styleUrl: './devis.component.scss',
+  templateUrl: './deviscelma.component.html',
+  styleUrl: './deviscelma.component.scss',
   providers: [DatePipe],
 })
-export class DevisComponent implements OnInit {
+export class DeviscelmaComponent implements OnInit {
   @Output() retour = new EventEmitter<string>();
 
   @Input() data: any;
@@ -189,20 +189,21 @@ export class DevisComponent implements OnInit {
   finprestas: any = '';
 
   collegues = [
-    [
-      'Cloé',
-      'CHAUDRON',
-      '06.68.64.44.02',
-      'cloe.chaudron@outlook.com',
-      '',
-      '',
-      '',
-    ],
+    
     [
       'Celma',
       'SAHIDET',
       '06.80.84.42.52',
       'sahidetcelma@gmail.com',
+      '',
+      '',
+      '',
+    ],
+    [
+      'Cloé',
+      'CHAUDRON',
+      '06.68.64.44.02',
+      'cloe.chaudron@outlook.com',
       '',
       '',
       '',
@@ -580,11 +581,11 @@ export class DevisComponent implements OnInit {
     this.values[0] = this.datePipe.transform(now, 'dd/MM/yyyy') || '';
     this.values[1] = maxs ? maxs.maxDevis + 1 : '1';
     this.values[2] = this.datePipe.transform(now, 'yyyy') || '';
-    this.values[3] = 'Cloé Chaudron';
-    this.values[5] = '126 Rue de la Cerisaie';
-    this.values[7] = '84400 Gargas';
-    this.values[9] = '+33 6 68 64 44 02';
-    this.values[11] = 'cloe.chaudron@outlook.com';
+    this.values[3] = 'Celma Sahidet';
+    this.values[5] = 'Siret : 9298283900014';
+    this.values[7] = '';
+    this.values[9] = '+33 6 80 84 42 52';
+    this.values[11] = 'sahidetcelma@gmail.com';
     this.values[13] = this.datePipe.transform(twoweeks, 'dd/MM/yyyy') || '';
     this.values[14] = this.datePipe.transform(sixmonth, 'dd/MM/yyyy') || '';
     this.values[15] = '';

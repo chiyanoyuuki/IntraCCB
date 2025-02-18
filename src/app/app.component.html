@@ -84,7 +84,8 @@
   </ng-container>
 </div>
 
-<app-devis #devis [class.hidden]="jourClicked&&jourClicked.mode==undefined" [data]="jourClicked" (retour)="onDevisRetour()"></app-devis>
+<app-devis #devis *ngIf="artiste=='cloe'" [class.hidden]="jourClicked&&jourClicked.mode==undefined" [data]="jourClicked" (retour)="onDevisRetour()"></app-devis>
+<app-deviscelma #deviscelma *ngIf="artiste=='celma'" [class.hidden]="jourClicked&&jourClicked.mode==undefined" [data]="jourClicked" (retour)="onDevisRetour()"></app-deviscelma>
 
 <div class="formulaire" *ngIf="jourClicked && jourClicked.mode==undefined">
   <button class="retour" (click)="onRetour()">< Retour</button>
@@ -125,6 +126,10 @@
     <div>
       <p>Mail : </p>
       <input type="text" [(ngModel)]="jourClicked.mail" placeholder="Mail.." [class.red]="diffs&&diffs.mail"/>
+    </div>
+    <div>
+      <p>Mariage.Net :</p>
+      <input type="text" [(ngModel)]="jourClicked.mariagenet" placeholder="Mariage.Net.." [class.red]="diffs&&diffs.mariagenet"/>
     </div>
     <div>
       <p>Statut : </p>
@@ -256,6 +261,7 @@
     <button (click)="end()">Cloturer</button>
     <button class="delete" (click)="delete()" *ngIf="jourClicked.id&&jourClicked.statut!='essai'">Supprimer</button>
     <button *ngIf="jourClicked.statut=='essai'" (click)="goToWed()">Aller au mariage</button>
+    <button *ngIf="jourClicked.statut=='demande'" (click)="sendEmail()">Relance</button>
   </div>
 </div>
 
@@ -302,6 +308,14 @@
         <option [ngValue]="undefined"></option>
         <option *ngFor="let fac of getallfactures()" [ngValue]="fac">{{formatNumber(fac.facture.numero)+" - "+fac.nom}}</option>
       </select>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!jourClicked&&!month" style="padding-bottom:50px;">
+  <div class="flex between alldata">
+    <div>
+      <button (click)="sendEmails()">Relance</button>
     </div>
   </div>
 </div>
