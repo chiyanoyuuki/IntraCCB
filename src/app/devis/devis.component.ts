@@ -704,6 +704,7 @@ export class DevisComponent implements OnInit {
           });
         }
 
+        if (facture.type) this.values[16] = facture.type;
         if (facture.creation) this.values[57] = facture.creation;
         if (facture.numero) this.values[55] = facture.numero;
         if (facture.annee) this.values[56] = facture.annee;
@@ -981,6 +982,7 @@ export class DevisComponent implements OnInit {
       facture.prestas = this.prestas.filter(
         (p: any) => p.qte > 0 || p.qte == '?'
       );
+      facture.type = this.values[16];
       facture.creation = this.values[57];
       facture.numero = this.values[55];
       facture.annee = this.values[56];
