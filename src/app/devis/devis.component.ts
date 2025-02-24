@@ -278,7 +278,7 @@ export class DevisComponent implements OnInit {
   }
 
   onCeremonieInput() {
-    if (this.ceremonie.match(/^[0-9]{2}h[0-9]{2}$/g)) {
+    if (this.ceremonie.match(/^[0-9]{1,2}h[0-9]{2}$/g)) {
       this.invitees.forEach((i: any) => (i[8] = this.ceremonie));
       this.changeForCeremonie();
     }
@@ -289,7 +289,7 @@ export class DevisComponent implements OnInit {
   }
 
   onFinPrestasInput() {
-    if (this.finprestas.match(/^[0-9]{2}h[0-9]{2}$/g)) {
+    if (this.finprestas.match(/^[0-9]{1,2}h[0-9]{2}$/g)) {
       this.changeForCeremonie();
     }
   }
@@ -299,7 +299,7 @@ export class DevisComponent implements OnInit {
       if (this.collegues[c][4] == '') {
         let temps = this.ceremonie;
         let tempstot = -60;
-        if (this.finprestas.match(/^[0-9]{2}h[0-9]{2}$/g)) {
+        if (this.finprestas.match(/^[0-9]{1,2}h[0-9]{2}$/g)) {
           tempstot = 0;
           temps = this.finprestas;
         }
@@ -337,7 +337,7 @@ export class DevisComponent implements OnInit {
 
   onArriveeInput(i: any) {
     let value: any = this.collegues[i][4];
-    if (value.match(/^[0-9]{2}h[0-9]{2}$/g)) {
+    if (value.match(/^[0-9]{1,2}h[0-9]{2}$/g)) {
       this.changeForCeremonie();
     } else if (value == '') {
       if (this.ceremonie != '') this.onCeremonieInput();
@@ -348,7 +348,7 @@ export class DevisComponent implements OnInit {
 
   onRetoucheInput(i: any) {
     let value: any = this.collegues[i][5];
-    if (value.match(/^[0-9]{2}h[0-9]{2}$/g)) {
+    if (value.match(/^[0-9]{1,2}h[0-9]{2}$/g)) {
       this.invitees
         .filter((inv: any) => inv[9] == i)
         .forEach((inv: any) => (inv[6] = value));
@@ -363,7 +363,7 @@ export class DevisComponent implements OnInit {
 
   onDispoInput(i: any) {
     let value: any = this.collegues[i][6];
-    if (value.match(/^[0-9]{2}h[0-9]{2}$/g)) {
+    if (value.match(/^[0-9]{1,2}h[0-9]{2}$/g)) {
       this.invitees
         .filter((inv: any) => inv[9] == i)
         .forEach((inv: any) => (inv[7] = value));
@@ -831,8 +831,30 @@ export class DevisComponent implements OnInit {
     this.addInvitee(presta, artiste);
   }
 
-  onCheckBoxClick()
+  onCheckBoxClick(type:any, presta:any)
   {
+    if(!presta.maquillage&&!presta.coiffure)
+    {
+      if(type=='m')presta.coiffure=true;
+      else presta.maquillage=true;
+    }
+    else
+    {
+      if(presta.maquillage&&presta.coiffure) presta.time = presta.time * 2;
+      else presta.time = presta.time / 2;
+    }
+    
+    let invitee = this.invitees.find((i:any)=>i[10]==presta.index);
+
+    let debut = invitee[3];
+    if(debut=="") debut = invitee[4];
+
+    if(presta.maquillage) invitee[3] = debut;
+    else invitee[3] = "";
+
+    if(presta.coiffure) invitee[4] = debut;
+    else invitee[4] = "";
+
     if (this.ceremonie != '' || this.finprestas != '') {
       this.onCeremonieInput();
     } else {
@@ -1385,6 +1407,7 @@ export class DevisComponent implements OnInit {
         prix += this.calc(presta);
       });
     if (prix != 0) prix = 0.3 * prix;
+    else prix = 0.3 * this.calcTot();
     return Math.floor(prix);
   }
   calcaresFromDevis() {

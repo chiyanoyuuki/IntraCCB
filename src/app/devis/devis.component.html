@@ -736,7 +736,7 @@
             <p>Coif</p>
           </div>
           <div
-            *ngFor="let presta of getplanningprestas(i); let x = index"
+            *ngFor="let presta of getplanningprestas(i); let x = index;trackBy: trackByIndex"
             class="lignepres flex"
           >
             <textarea [(ngModel)]="presta.nom"></textarea>
@@ -760,8 +760,8 @@
               Descendre
             </button>
             <input type="text" [(ngModel)]="presta.time" (input)="onTimeInput(presta)"/>
-            <input type="checkbox" [(ngModel)]="presta.maquillage" (change)="onCheckBoxClick()" class="checkmaqu">
-            <input type="checkbox" [(ngModel)]="presta.coiffure" (change)="onCheckBoxClick()">
+            <input type="checkbox" [(ngModel)]="presta.maquillage" (change)="onCheckBoxClick('m',presta)" class="checkmaqu">
+            <input type="checkbox" [(ngModel)]="presta.coiffure" (change)="onCheckBoxClick('c',presta)">
             <button (click)="deletePresta(presta)">Supprimer</button>
           </div>
 
