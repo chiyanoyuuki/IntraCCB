@@ -29,6 +29,32 @@ export class DevisComponent implements OnInit {
   @Output() retour = new EventEmitter<string>();
 
   @Input() data: any;
+  @Input() artiste: any;
+
+  /*
+    0 = devis.creation
+    1 = devis.numero
+    2 = devis.annee
+    3 = 'Cloé Chaudron';
+    5 = '126 Rue de la Cerisaie';
+    7 = '84400 Gargas';
+    9 = '+33 6 68 64 44 02';
+    11 = 'cloe.chaudron@outlook.com';
+    13 = this.datePipe.transform(twoweeks, 'dd/MM/yyyy') || '';
+    14 = this.datePipe.transform(sixmonth, 'dd/MM/yyyy') || '';
+    15 = '';
+    16 = 'Virement';
+    50 = 'PLANNING';
+    51 = data.date;
+    52 = '';
+    53 = '';
+    54 = '';
+    55 = maxs ? maxs.maxFacture + 1 : '1';
+    56 = this.datePipe.transform(now, 'yyyy') || '';
+    57 = this.datePipe.transform(now, 'dd/MM/yyyy') || '';
+    58 = this.datePipe.transform(twoweeks, 'dd/MM/yyyy') || '';
+    60 = '';
+  */
 
   values: any = [];
   dataprestas: any = [];
@@ -269,12 +295,198 @@ export class DevisComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    if(this.artiste=="celma")this.basePrestasCelma();
     this.baseprestas.forEach((presta: any) => {
       presta.qte = 0;
     });
     this.prestas = JSON.parse(JSON.stringify(this.baseprestas));
     if (this.innerHeight > this.innerWidth) this.paysage = false;
     else this.paysage = true;
+  }
+
+  basePrestasCelma()
+  {
+    this.baseprestas = [
+      {
+        nom: 'Frais de déplacement',
+        en: 'Travel Expenses',
+        titre: true,
+      },
+      {
+        nom: 'Frais de déplacement Jour-J (Aller/Retour)',
+        en: 'D-Day Travel Expenses (Round Trip)',
+        prix: 0.4,
+        kilorly: true,
+      },
+      {
+        nom: 'Frais de déplacement Essai (Aller/Retour)',
+        en: 'Trial Travel Expenses (Round Trip)',
+        prix: 0.4,
+        kilorly: true,
+      },
+      {
+        nom: 'Frais de déplacement renfort (Aller/Retour)',
+        en: 'Backup Travel Expenses (Round Trip)',
+        prix: 0.4,
+        kilorly: true,
+      },
+      {
+        nom: 'Coiffure & Maquillage',
+        en: 'Guest (D-Day)',
+        titre: true,
+      },
+      {
+        nom: 'Forfait Mariée (1 essai + Jour J)',
+        prix: 420,
+        bride: true,
+        time: 120,
+        maquillage: false,
+        coiffure: true,
+      },
+      {
+        nom: 'Forfait suivi de Mariée',
+        prix: 50,
+        hourly: true,
+        bride: true,
+        time: 120,
+        maquillage: false,
+        coiffure: true,
+      },
+      {
+        nom: 'Forfait "Elles" (1 essai commun + Jour J)',
+        prix: 800,
+        hourly: true,
+        bride: true,
+        time: 120,
+        maquillage: false,
+        coiffure: true,
+      },
+      {
+        nom: 'Forfait "Ils" (Jour J)',
+        prix: 70,
+        hourly: true,
+        bride: true,
+        time: 120,
+        maquillage: false,
+        coiffure: true,
+      },
+      {
+        nom: 'Coiffure Mariée / Marié',
+        en: 'Bride & Groom Hairstyle',
+        titre: true,
+      },
+      {
+        nom: 'Forfait Coiffure Mariée (1 essai + Jour J)',
+        prix: 220,
+        bride: true,
+        time: 120,
+        maquillage: false,
+        coiffure: true,
+      },
+      {
+        nom: 'Transformation de coiffure',
+        prix: 50,
+        bride: true,
+        time: 120,
+        maquillage: false,
+        coiffure: true,
+      },
+      {
+        nom: 'Coiffure marié (Jour J)',
+        prix: 20,
+        bride: true,
+        time: 120,
+        maquillage: false,
+        coiffure: true,
+      },
+      {
+        nom: 'Coiffure invitées',
+        en: 'Guest (D-Day)',
+        titre: true,
+      },
+      {
+        nom: 'Brushing',
+        en: 'Complete Guest Package',
+        prix: 40,
+        time: 75,
+        maquillage: false,
+        coiffure: true,
+      },
+      {
+        nom: 'Attache partielle',
+        en: 'Complete Guest Package',
+        prix: 70,
+        time: 75,
+        maquillage: false,
+        coiffure: true,
+      },
+      {
+        nom: 'Attache complète sans préparation des cheveux',
+        en: 'Complete Guest Package',
+        prix: 70,
+        time: 75,
+        maquillage: false,
+        coiffure: true,
+      },
+      {
+        nom: 'Attache complète avec préparation des cheveux',
+        en: 'Complete Guest Package',
+        prix: 80,
+        time: 75,
+        maquillage: false,
+        coiffure: true,
+      },
+      {
+        nom: 'Maquillage Mariée / Marié',
+        en: 'Guest (D-Day)',
+        titre: true,
+      },
+      {
+        nom: 'Forfait Maquillage Mariée (1 essai + Jour J)',
+        prix: 220,
+        bride: true,
+        time: 120,
+        maquillage: false,
+        coiffure: true,
+      },
+      {
+        nom: 'Transformation de maquillage',
+        prix: 50,
+        bride: true,
+        time: 120,
+        maquillage: false,
+        coiffure: true,
+      },
+      {
+        nom: 'Maquillage marié (Jour J)',
+        prix: 20,
+        bride: true,
+        time: 120,
+        maquillage: false,
+        coiffure: true,
+      },
+      {
+        nom: 'Maquillage invitées',
+        en: 'Guest (D-Day)',
+        titre: true,
+      },
+      {
+        nom: 'Maquillage invitée',
+        prix: 65,
+        bride: true,
+        time: 120,
+        maquillage: false,
+        coiffure: true,
+      },
+      {
+        nom: 'Pose d\implants (fournis) / de faux-cils (non fournis)',
+        prix: 10,
+        bride: true,
+        time: 120,
+        maquillage: false,
+        coiffure: true,
+      },
+    ];
   }
 
   onCeremonieInput() {

@@ -84,8 +84,7 @@
   </ng-container>
 </div>
 
-<app-devis #devis *ngIf="artiste=='cloe'" [class.hidden]="jourClicked&&jourClicked.mode==undefined" [data]="jourClicked" (retour)="onDevisRetour()"></app-devis>
-<app-deviscelma #deviscelma *ngIf="artiste=='celma'" [class.hidden]="jourClicked&&jourClicked.mode==undefined" [data]="jourClicked" (retour)="onDevisRetour()"></app-deviscelma>
+<app-devis #devis [class.hidden]="jourClicked&&jourClicked.mode==undefined" [data]="jourClicked" [artiste]="artiste" (retour)="onDevisRetour()"></app-devis>
 
 <div class="formulaire" *ngIf="jourClicked && jourClicked.mode==undefined">
   <button class="retour" (click)="onRetour()">< Retour</button>

@@ -16,7 +16,6 @@ import * as Tesseract from 'tesseract.js';
 import { PDFDocumentProxy, getDocument } from 'pdfjs-dist';
 import * as pdfjsLib from 'pdfjs-dist';
 import { DevisComponent } from './devis/devis.component';
-import { DeviscelmaComponent } from './deviscelma/deviscelma.component';
 import { from } from 'rxjs';
 import Swal from 'sweetalert2';
 import { environment } from '../environments/environment';
@@ -24,13 +23,14 @@ import { environment } from '../environments/environment';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, FormsModule, CommonModule, DevisComponent, DeviscelmaComponent],
+  imports: [RouterOutlet, FormsModule, CommonModule, DevisComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
   @ViewChild('devis') devis!: DevisComponent;
-  @ViewChild('deviscelma') deviscelma!: DeviscelmaComponent;
+
+  artiste="celma";
 
   months: string[] = [
     'Janvier',
@@ -47,14 +47,12 @@ export class AppComponent implements OnInit {
     'Décembre',
   ];
   
-  safedev = false;
+  safedev = true;
 
   year = 2025;
 
   jourClicked: any = undefined;
   jourClickedSave: any = undefined;
-
-  artiste="cloe";
 
   weekDays: string[] = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
 
@@ -133,10 +131,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (isDevMode()) {
-      this.okmdp = true;
-      this.init();
-    }
 
     if(! isDevMode())
     {
@@ -368,19 +362,83 @@ export class AppComponent implements OnInit {
         this.initData([{
           "id": 43,
           "date": "19/04/2025",
-          "nom": "Test",
+          "nom": "Charles Poure",
           "statut": "reserve",
-          "adresse": "",
-          "codepostal": "",
-          "tel": "",
-          "mail": "",
-          "devis": {},
+          "adresse": "55 avenue foch",
+          "codepostal": "52 344 Paris",
+          "tel": "+33 6 55 22 11 44",
+          "mail": "charles.poure@mail.com",
+          "devis": {
+            "prestas": [
+              {
+                "nom": "Frais de déplacement Jour-J (Aller/Retour)",
+                "en": "D-Day Travel Expenses (Round Trip)",
+                "prix": 0.4,
+                "kilorly": true,
+                "qte": 20
+              },
+              {
+                "nom": "Forfait Mariée Complet",
+                "en": "Complete Bride Package",
+                "prix": 420,
+                "onlyOne": true,
+                "bride": true,
+                "time": 120,
+                "maquillage": true,
+                "coiffure": true,
+                "qte": 1
+              },
+              {
+                "nom": "Forfait Invitée Complet",
+                "en": "Complete Guest Package",
+                "prix": 130,
+                "time": 75,
+                "maquillage": true,
+                "coiffure": true,
+                "qte": 1
+              },
+              {
+                "nom": "Coiffure Invitée (Attache complète)",
+                "en": "Guest Hairstyling (Full Updo)",
+                "prix": 80,
+                "time": 45,
+                "coiffure": true,
+                "qte": 1
+              },
+              {
+                "nom": "Brushing Hollywoodien Invitée",
+                "en": "Hollywood Blowout (Guest)",
+                "prix": 70,
+                "time": 45,
+                "coiffure": true,
+                "qte": 1
+              },
+              {
+                "nom": "Suivi Mariée",
+                "en": "Bride Follow-Up",
+                "prix": 50,
+                "hourly": true,
+                "qte": 2
+              }
+            ],
+            "creation": "24/02/2025",
+            "numero": 1,
+            "annee": "2025",
+            "echeance": "10/03/2025"
+          },
           "factures": [],
           "planning": {},
-          "essai": {},
-          "mariage": {},
+          "essai": {
+            "date": "10/08/2025",
+            "lieu": "Nul part"
+          },
+          "mariage": {
+            "domaine": "Domaine de la vie",
+            "adresse": "111 avenue jean",
+            "codepostal": "67 854 apt"
+          },
           "prestataires": 0,
-          "etape": 0
+          "etape": 1
         }]);
         return;
       }
@@ -932,8 +990,7 @@ export class AppComponent implements OnInit {
 
   initDevis()
   {
-    if(this.artiste=="cloe")this.devis.init(this.getMaxs());
-    else if(this.artiste=="celma")this.deviscelma.init(this.getMaxs());
+    this.devis.init(this.getMaxs());
   }
 
   clickDevis() {
@@ -1253,6 +1310,11 @@ export class AppComponent implements OnInit {
     else if (this.mdp == environment.password2){
       this.okmdp = true;
       this.artiste = "celma";
+      document.documentElement.style.setProperty('--fond', '#8dba8238');
+      document.documentElement.style.setProperty('--principale', '#8bba82');
+      document.documentElement.style.setProperty('--scroll', '#638e523b');
+      document.documentElement.style.setProperty('--gris-shadow', '#505050');
+      document.documentElement.style.setProperty('--required', '#578e52');
     }
     this.init();
   }
