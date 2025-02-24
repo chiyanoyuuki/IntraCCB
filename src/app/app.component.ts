@@ -46,6 +46,8 @@ export class AppComponent implements OnInit {
     'Novembre',
     'Décembre',
   ];
+  
+  safedev = false;
 
   year = 2025;
 
@@ -359,7 +361,7 @@ export class AppComponent implements OnInit {
   }
 
   getData() {
-    if(isDevMode())
+    if(this.safedev&&isDevMode())
     {
       if(this.artiste=="celma")
       {
@@ -395,7 +397,7 @@ export class AppComponent implements OnInit {
       .get<any>(
         'http' +
           (isDevMode() ? '' : 's') +
-          '://chiyanh.cluster031.hosting.ovh.net/'+this.artiste+'planning'
+          '://chiyanh.cluster031.hosting.ovh.net/cloeplanning.php?artiste='+this.artiste
       )
       .subscribe((data) => {
         console.log('HTTP : CloePlanning', data);
@@ -1147,7 +1149,7 @@ export class AppComponent implements OnInit {
   }
 
   save() {
-    if(isDevMode())return;
+    if(this.safedev&&isDevMode())return;
 
     let exist = this.jourClicked.id;
     if (!exist) {
@@ -1184,8 +1186,8 @@ export class AppComponent implements OnInit {
       fetch(
         'http' +
           (isDevMode() ? '' : 's') +
-          '://chiyanh.cluster031.hosting.ovh.net/'+this.artiste+'planning' +
-          (exist ? 'update' : 'create'),
+          '://chiyanh.cluster031.hosting.ovh.net/cloeplanning' +
+          (exist ? 'update' : 'create')+'.php?artiste='+this.artiste,
         {
           body: JSON.stringify(data),
           headers: {
@@ -1219,7 +1221,7 @@ export class AppComponent implements OnInit {
           fetch(
             'http' +
               (isDevMode() ? '' : 's') +
-              '://chiyanh.cluster031.hosting.ovh.net/'+this.artiste+'planningdelete',
+              '://chiyanh.cluster031.hosting.ovh.net/cloeplanningdelete.php?artiste='+this.artiste,
             {
               body: JSON.stringify(data),
               headers: {

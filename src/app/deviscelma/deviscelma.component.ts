@@ -1415,41 +1415,8 @@ export class DeviscelmaComponent implements OnInit {
     return value.toFixed(2).replace('.', ','); // Affiche avec 2 décimales
   }
 
-  getDevis() {
-    this.http
-      .get<any>(
-        'http' +
-          (isDevMode() ? '' : 's') +
-          '://chiyanh.cluster031.hosting.ovh.net/devisget'
-      )
-      .subscribe((data) => {
-        this.values[1] = data.num;
-      });
-  }
-
   formatDate(dateStr: any) {
     const [day, month, year] = dateStr.split('/'); // Sépare le format dd/mm/yyyy
     return this.lg === 'Anglais' ? `${month}/${day}/${year}` : dateStr;
-  }
-
-  trackVisit() {
-    const dataToSend = {
-      num: this.values[1] + 1,
-    };
-    from(
-      fetch(
-        'http' +
-          (isDevMode() ? '' : 's') +
-          '://chiyanh.cluster031.hosting.ovh.net/devisset',
-        {
-          body: JSON.stringify(dataToSend),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          method: 'POST',
-          mode: 'no-cors',
-        }
-      )
-    ).subscribe((data: any) => {});
   }
 }
