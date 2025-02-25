@@ -132,6 +132,12 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
 
+    if(isDevMode())
+    {
+      this.okmdp = true;
+      this.init();
+    }
+
     if(! isDevMode())
     {
       window.addEventListener('beforeunload', (event: any) => {
@@ -359,6 +365,11 @@ export class AppComponent implements OnInit {
     {
       if(this.artiste=="celma")
       {
+        document.documentElement.style.setProperty('--fond', '#8dba8238');
+        document.documentElement.style.setProperty('--principale', '#8bba82');
+        document.documentElement.style.setProperty('--scroll', '#638e523b');
+        document.documentElement.style.setProperty('--gris-shadow', '#505050');
+        document.documentElement.style.setProperty('--required', '#578e52');
         this.initData([{
           "id": 43,
           "date": "19/04/2025",
@@ -440,6 +451,8 @@ export class AppComponent implements OnInit {
           "prestataires": 0,
           "etape": 1
         }]);
+        this.clickJour(3,19,2025);
+        let int = setInterval(()=>{this.clickFacture();clearInterval(int);},50);
         return;
       }
       this.http.get<any[]>('mockdata.json').subscribe(

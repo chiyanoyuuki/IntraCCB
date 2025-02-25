@@ -841,7 +841,7 @@ DEVIS CELMA
 ==================-->
 
 <div class="celmacss" [class.flex]="paysage" [class.portrait]="!paysage" *ngIf="artiste=='celma'&&data && inited">
-  <div #htmlContent id="htmlContent" *ngIf="mode == 'devis'" class="noplanning">
+  <div #htmlContent id="htmlContent" *ngIf="mode == 'devis'" class="devis">
     <div class="topleftinfos">
       <p>CS</p>
       <p>Celma Sahidet</p>
@@ -913,136 +913,52 @@ DEVIS CELMA
     </div>
   </div>
 
-  <div #htmlContent id="htmlContent" *ngIf="mode == 'facture'" class="noplanning">
-    <img src="logo.png" class="logo" />
-    <p class="rosebg" style="color: white" *ngIf="lg == 'Français'">
-      {{ "FACTURE" }}
-    </p>
-    <p class="rosebg" style="color: white" *ngIf="lg == 'Anglais'">
-      {{ "INVOICE" }}
-    </p>
-    <p class="date">
-      Date :
-      {{ formatDate(values[57]) }}
-    </p>
-    <div class="ligne"></div>
+  <div #htmlContent id="htmlContent" *ngIf="mode == 'facture'" class="facture">
+    <div class="toptitle">
+      <p>Facture</p>
+    </div>
 
-    <div class="content">
-      <p class="devis tinytext" *ngIf="mode == 'facture'">
-        {{ lg == "Français" ? "FACTURE N°" : "INVOICE N°" }}
-        {{ values[55] < 100 ? "0" : "" }}{{ values[55] < 10 ? "0" : ""
-        }}{{ values[55] }}-{{ values[56] }}
-      </p>
-      <div class="flex between">
-        <div class="cloe">
-          <p>{{ values[3] }}</p>
-          <p>{{ values[5] }}</p>
-          <p>{{ values[7] }}</p>
-          <p>{{ values[9] }}</p>
-          <p class="nobold">{{ values[11] }}</p>
-        </div>
-        <div class="cloe client">
-          <p>{{ values[4] }}</p>
-          <p>{{ values[6] }}</p>
-          <p>{{ values[8] }}</p>
-          <p>{{ values[10] }}</p>
-          <p class="nobold">{{ values[12] }}</p>
-        </div>
-      </div>
-      <div class="table margtop">
-        <p>{{ lg === "Français" ? "Quantité" : "Quantity" }}</p>
-        <p>{{ lg === "Français" ? "Description" : "Description" }}</p>
-        <p>{{ lg === "Français" ? "Prix Unitaire" : "Unit Price" }}</p>
-        <p>{{ lg === "Français" ? "Reduction" : "Discount" }}</p>
-        <p>{{ lg === "Français" ? "Total" : "Total" }}</p>
-      </div>
-      <div class="fullligne"></div>
-      <div class="table" *ngFor="let presta of prestas">
-        <ng-container *ngIf="presta.qte > 0 || presta.qte == '?'">
-          <p>
-            {{ presta.qte == "?" ? "À definir" : "" }}
+    <div class="topleftinfos">
+      <p>SAHIDET Celma</p>
+      <p>{{'Date de délivrance : Le '+values[0] | uppercase}}</p>
+      <p>{{'Numéro de facture : '+(values[1] < 100 ? "0" : "")+(values[1] < 10 ? "0" : "")+values[55]+'_'+values[56] | uppercase}}</p>
+    </div>
+
+    <div class="topprestas">
+      <p>{{'Description' | uppercase}}</p>
+      <p>{{'Quantité' | uppercase}}</p>
+      <p>{{'Réduction' | uppercase}}</p>
+      <p>{{'Total' | uppercase}}</p>
+    </div>
+
+    <div class="prestations">
+      <ng-container *ngFor="let presta of prestas">
+        <div *ngIf="presta.qte > 0 || presta.qte == '?'" class="prestation">
+          <p>{{presta.nom}}</p>
+          <p>{{ presta.qte == "?" ? "À definir" : "" }}
             {{ presta.qte != "?" && presta.kilorly ? presta.qte * 2 : "" }}
             {{ presta.qte != "?" && !presta.kilorly ? presta.qte : "" }}
             {{ presta.kilorly && presta.qte != "?" ? "km" : ""
-            }}{{ presta.hourly && presta.qte != "?" ? "h" : "" }}
-          </p>
-          <p class="textoverflow">
-            {{ lg == "Anglais" && presta.en ? presta.en : presta.nom }}
-          </p>
-          <p>
-            {{ transform(presta.prix) }}{{ presta.kilorly ? "/km" : ""
-            }}{{ presta.hourly ? "/h" : "" }}€
-          </p>
-          <p>
-            {{ presta.reduc && presta.reduc != 0 ? presta.reduc : ""
-            }}{{ presta.reduc && presta.reduc != 0 ? "%" : "" }}
-          </p>
-          <p *ngIf="calc(presta) > 0">{{ transform(calc(presta)) }}€</p>
+            }}{{ presta.hourly && presta.qte != "?" ? "h" : "" }}</p>
+          <p>{{presta.reduc&&presta.reduc!=""?presta.reduc+'%':''}}</p>
+          <p *ngIf="calc(presta) > 0">{{ transform(calc(presta)) }} €</p>
           <p *ngIf="calc(presta) == 0" class="green">Offert</p>
-        </ng-container>
-      </div>
-      <div class="fullligne"></div>
-      <div class="flex">
-        <p class="tinytext echeance" *ngIf="mode == 'facture'">
-          {{ lg == "Français" ? "Prestation le" : "Service" }} :
-          {{ values[14] }}
-        </p>
-        <p class="bold">Total</p>
-        <p class="bold total">{{ transform(calcTot()) }}€</p>
-      </div>
-      <div class="flex minitxt">
-        <p class="tva">
-          {{
-            lg == "Français"
-              ? "TVA Non Applicable - article 293 B du CGI"
-              : "VAT Not Applicable - Article 293 B of the French General Tax Code (CGI)"
-          }}
-        </p>
-      </div>
-
-      <div class="resume" *ngIf="mode == 'facture'">
-        <p class="tinytext" *ngIf="values[15] != ''">
-          {{ lg == "Français" ? "Déjà versé" : "Already Paid" }} :
-          {{ transform(values[15]) }}€ {{ getDateArrhes() }}
-        </p>
-        <p
-          class="tinytext bold"
-          *ngIf="values[15] != '' || values[60] != '' || data.factures.length==0"
-        >
-          {{ lg == "Français" ? "Solde" : "Remaining balance" }} :
-          {{ values[60] != "" ? values[60] : transform(calcTot(true)) }}€
-        </p>
-        <p class="tinytext">
-          {{ lg == "Français" ? "Mode de paiement" : "Payment Method" }} :
-          {{ values[16] }}
-        </p>
+        </div>
+      </ng-container>
+      <div class="totalprestation">
+        <p>TOTAL : {{transform(calcTot())}} €</p>
       </div>
     </div>
 
-    <div class="sign"></div>
+    <div class="bottominfos">
+      <p>Sahidet Celma</p>
+      <p>SIRET : 92398283900014</p>
+      <p>sahidetcelma&#64;gmail.com</p>
+      <p>+33 6 80 84 42 52</p>
+    </div>
 
-    <div class="bottom">
-      <p class="rosebg" style="color: white">&nbsp;</p>
-      <div class="flex">
-        <div class="iban" *ngIf="lg == 'Français'">
-          <p>Coordonnées Bancaires</p>
-          <p>Nom : Société Générale</p>
-          <p>IBAN : FR76 3000 3031 8400 1500 2190 924</p>
-          <p>BIC : SOGEFRPP</p>
-          <p>SIRET : 883 822 801 00014</p>
-        </div>
-        <div class="iban" *ngIf="lg == 'Anglais'">
-          <p>Bank Details</p>
-          <p>Name : Société Générale</p>
-          <p>IBAN : FR76 3000 3031 8400 1500 2190 924</p>
-          <p>BIC : SOGEFRPP</p>
-          <p>SIRET : 883 822 801 00014</p>
-        </div>
-        <div class="thank">
-          <p>THANK</p>
-          <p>YOU</p>
-        </div>
-      </div>
+    <div class="bottomrightlogo">
+      <p>CS</p>
     </div>
   </div>
 

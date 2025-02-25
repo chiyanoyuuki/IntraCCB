@@ -556,78 +556,62 @@ CELMA CSS
 
 .celmacss{
 
-  .topleftinfos{
-    position: absolute;
-    left: 30px;
-    p:nth-child(1)
-    {
-      font-size: 100px;
-      letter-spacing: -20px;
-      margin-bottom: -20px;
-      position: relative;
-      left: -8px;
+  .devis{
+    .topleftinfos{
+      position: absolute;
+      left: 30px;
+      p:nth-child(1)
+      {
+        font-size: 100px;
+        letter-spacing: -20px;
+        margin-bottom: -20px;
+        position: relative;
+        left: -8px;
+        color: var(--required);
+      }
+      p:nth-child(2)
+      {
+        font-weight:bold;
+        color: var(--required);
+      }
     }
-    p:nth-child(2){font-weight:bold;}
-  }
-
-  .topright{
-    position: absolute;
-    top: 20px;
-    right: 30px;
-    p{
-      font-size: 20px;
-      letter-spacing: 8px;
+  
+    .topright{
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      p{
+        font-size: 20px;
+        letter-spacing: 8px;
+      }
+      p:nth-child(1)
+      {
+        font-weight:bold;
+        color: var(--required);
+      }
+      p:nth-child(2)
+      {
+        font-weight:bold;
+        color: var(--required);
+      }
+      p:nth-child(4){letter-spacing: unset;font-size:18px;margin-top:10px;}
+      p:nth-child(5){letter-spacing: unset;font-size:18px;}
     }
-    p:nth-child(1){font-weight:bold;}
-    p:nth-child(2){font-weight:bold;}
-    p:nth-child(4){letter-spacing: unset;font-size:18px;margin-top:10px;}
-    p:nth-child(5){letter-spacing: unset;font-size:18px;}
-  }
-
-  .toptab{
-    display: flex;
-    position: absolute;
-    top: 250px;
-    width: 98%;
-    background-color: var(--principale);;
-    padding: 8px 0px;
-    p{
-      color:white;
-      font-weight:bold;
-    }
-    p:nth-child(1){
-      padding-left: 40px;
-      width:250px;
-    }
-    p:nth-child(2){
-      width: 80px;
-      text-align: center;
-    }
-    p:nth-child(3){
-      width: 80px;
-      text-align: center;
-    }
-    p:nth-child(4){
-      width: 100px;
-      text-align: center;
-    }
-  }
-
-  .prestations{
-    position: absolute;
-    top: 300px;
-    left: 40px;
-    .prestation{
-      display:flex;
-      border-bottom: 2px ridge var(--principale);;
-      padding-bottom: 5px;
-      margin-bottom: 5px;
-      p{font-size: 12px;}
+  
+    .toptab{
+      display: flex;
+      position: absolute;
+      top: 250px;
+      width: 98%;
+      background-color: var(--principale);;
+      padding: 8px 0px;
+      p{
+        color:white;
+        font-weight:bold;
+      }
       p:nth-child(1){
-        width:255px;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
+        padding-left: 40px;
+        width:250px;
       }
       p:nth-child(2){
         width: 80px;
@@ -642,61 +626,212 @@ CELMA CSS
         text-align: center;
       }
     }
-    .totalprestation{
-      display: flex;
-      border-bottom: 4px ridge var(--principale);;
-      padding: 15px 0px;
+  
+    .prestations{
+      position: absolute;
+      top: 300px;
+      left: 40px;
+      .prestation{
+        display:flex;
+        border-bottom: 2px ridge var(--principale);;
+        padding-bottom: 5px;
+        margin-bottom: 5px;
+        p{font-size: 12px;}
+        p:nth-child(1){
+          width:255px;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+        p:nth-child(2){
+          width: 80px;
+          text-align: center;
+        }
+        p:nth-child(3){
+          width: 80px;
+          text-align: center;
+        }
+        p:nth-child(4){
+          width: 100px;
+          text-align: center;
+        }
+      }
+      .totalprestation{
+        display: flex;
+        border-bottom: 4px ridge var(--principale);;
+        padding: 15px 0px;
+        p:nth-child(1){
+          font-size: 8px;
+          width: 320px;
+          position: relative;
+          top: 3px;
+          text-align: right;
+          padding-right: 30px;
+        }
+        p:nth-child(2){
+          font-weight: bold;
+          width: 80px;
+          color: var(--required);
+        }
+        p:nth-child(3){
+          text-align: center;
+          font-weight: bold;
+          color: var(--required);
+          width: 65px;
+        }
+      }
+    }
+  
+    .infosdevis{
+      position: absolute;
+      bottom: 160px;
+      padding: 0px 25px;
+      p{
+        font-size:10px;
+      }
+    }
+  
+    .bottomleft{
+      position: absolute;
+      bottom: 40px;
+      left: 40px;
       p:nth-child(1){
-        font-size: 9px;
-        width: 320px;
-        position: relative;
-        top: 3px;
-        text-align: right;
-        padding-right: 30px;
+        font-weight: bold;
+        letter-spacing: 3px;
+        color: var(--required);
       }
+      
       p:nth-child(2){
+        letter-spacing: 3px;
         font-weight: bold;
-        width: 80px;
+        color: var(--required);
       }
-      p:nth-child(3){
+    }
+  
+    .bottomright{
+      position: absolute;
+      bottom: 60px;
+      right: 60px;
+      p{
+        font-weight: bold;  
+        font-size: 20px;
+        color: var(--required);
+      }
+    }
+  }
+
+  .facture{
+    .toptitle{
+      position: relative;
+      top: 30px;
+      background-color: var(--required);
+      p{
+        color: white;
+        padding: 20px 0px;
         text-align: center;
-        font-weight: bold;
-        width: 65px;
+        font-size: 60px;
       }
     }
-  }
-
-  .infosdevis{
-    position: absolute;
-    bottom: 160px;
-    padding: 0px 25px;
-    p{
-      font-size:10px;
+    .topleftinfos{
+      position: relative;
+      top: 75px;
+      left: 50px;
+      p:nth-child(1)
+      {
+        font-weight:bold;
+        font-size: 18px;
+        margin-bottom: 10px;
+        color: var(--required);
+      }
     }
-  }
-
-  .bottomleft{
-    position: absolute;
-    bottom: 40px;
-    left: 40px;
-    p:nth-child(1){
-      font-weight: bold;
-      letter-spacing: 3px;
+    .topprestas{
+      position: relative;
+      top: 125px;
+      display: flex;
+      padding: 0px 40px;
+      p{
+        color: var(--required);
+        font-weight:bold;
+      }
+      p:nth-child(1)
+      {
+        width: 250px;
+      }
+      p:nth-child(2)
+      {
+        width: 100px;
+        text-align: center;
+      }
+      p:nth-child(3)
+      {
+        width: 100px;
+        text-align: center;
+      }
+      p:nth-child(4)
+      {
+        width: 100px;
+        text-align: center;
+      }
     }
-    
-    p:nth-child(2){
-      letter-spacing: 3px;
-      font-weight: bold;
+    .prestations{
+      position: relative;
+      top: 135px;
+      margin: 0px 40px;
+      padding: 20px 0px;
+      border-top: 2px ridge orange;
+      border-bottom: 2px ridge orange;
+      .prestation{
+        display:flex;
+        margin-bottom: 5px;
+        p{font-size: 12px;}
+        p:nth-child(1){
+          width:250px;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+        p:nth-child(2){
+          width: 100px;
+          text-align: center;
+        }
+        p:nth-child(3){
+          width: 100px;
+          text-align: center;
+        }
+        p:nth-child(4){
+          width: 100px;
+          text-align: center;
+        }
+      }
+      .totalprestation{
+        padding: 0px 30px;
+        margin-top: 15px;
+        p{
+          text-align: right;
+          font-weight: bold;
+          color: var(--required);
+        }
+      }
     }
-  }
-
-  .bottomright{
-    position: absolute;
-    bottom: 60px;
-    right: 60px;
-    p{
-      font-weight: bold;  
-      font-size: 20px;
+    .bottominfos{
+      position: absolute;
+      bottom: 65px;
+      left: 40px;
+    }
+    .bottomrightlogo{
+      position: absolute;
+      bottom: 60px;
+      right: 60px;
+      background-color: var(--required);
+      border-radius: 100%;
+      padding: 15px 20px;
+      p{
+        letter-spacing: -5px;
+        font-size: 50px;
+        color: white;
+        position: relative;
+        left: -4px;
+      }
     }
   }
   
@@ -706,23 +841,23 @@ CELMA CSS
     background-color: var(--principale);;
     margin:1px;
     border-radius: 10px;
-  }
-  select{
-    
-    color: white;
-  }
-  button{
-    padding: 0px 15px;
-    margin: 0px 5px;
-    border: 1px solid var(--principale);
-    filter: drop-shadow(1px 1px 2px var(--principale));
-    margin-bottom: 5px;
-    color: white;
-  }
-  p{
-    color:var(--principale);;
-    font-weight:bold!important;
-  }
+    }
+    select{
+      
+      color: white;
+    }
+    button{
+      padding: 0px 15px;
+      margin: 0px 5px;
+      border: 1px solid var(--principale);
+      filter: drop-shadow(1px 1px 2px var(--principale));
+      margin-bottom: 5px;
+      color: white;
+    }
+    p{
+      font-weight:bold!important;
+      color: var(--required);
+    }
   }
   
   #htmlContent {
@@ -809,7 +944,6 @@ CELMA CSS
     font-style: normal;
     margin: 0;
     font-size: 14px;
-    letter-spacing: 1px;
   }
   .date {
     text-align: center;
