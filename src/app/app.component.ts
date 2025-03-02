@@ -123,7 +123,10 @@ export class AppComponent implements OnInit {
 
   onMobileReturn() {
     history.pushState(null, '', location.href);
-    if (!this.jourClicked && this.portrait && this.month) {
+    if(this.jourClicked.leavewhenreturn){
+      this.jourClicked = undefined;
+    }
+    else if (!this.jourClicked && this.portrait && this.month) {
       this.month = undefined;
       this.monthIndex = undefined;
     } else if (this.jourClicked && this.portrait && !this.jourClicked.mode)
@@ -1075,7 +1078,9 @@ export class AppComponent implements OnInit {
   clickAllRens(event:any)
   {
     let jour = this.allrens.date.split("/");
-    this.clickJour(parseInt(jour[1])-1,parseInt(jour[0]),parseInt(jour[2]));
+    this.jourClicked = this.occupiedDates.find((d:any)=>d.id==this.allrens.id);
+    this.jourClicked.leavewhenreturn = true;
+    this.jourClickedSave = JSON.parse(JSON.stringify(this.jourClicked));
     let int = setInterval(()=>{this.openRenseignement();clearInterval(int);},10);
   }
 
