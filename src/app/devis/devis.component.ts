@@ -985,6 +985,18 @@ export class DevisComponent implements OnInit {
       }
     } else if (data.mode == 'renseignement'){
       this.informations = JSON.parse(JSON.stringify(this.data));
+      if(this.informations && this.informations.devis && this.informations.devis.prestas)
+      {
+        this.informations.devis.prestas.forEach((p:any)=>{
+          let presta = this.prestas.find((presta:any)=>presta.nom==p.nom);
+          if(presta)
+          {
+            p.maquillage = presta.maquillage;
+            p.coiffure = presta.coiffure;
+          }
+        })
+      }
+
       this.informations.complet = this.getNbPrestasInvitee(true,true);
       this.informations.maquillage = this.getNbPrestasInvitee(true,false);
       this.informations.coiffure = this.getNbPrestasInvitee(false,true);
