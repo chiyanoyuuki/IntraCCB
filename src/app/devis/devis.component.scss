@@ -4,6 +4,7 @@
   flex-direction: column;
   input{
     width: -moz-available;
+    width: -webkit-fill-available;
   }
 }
 .renseignement{
@@ -25,6 +26,7 @@
     }
     p:nth-child(2){
       width: -moz-available;
+      width: -webkit-fill-available;
       border-bottom:1px solid #808080;
     }
   }
@@ -56,6 +58,7 @@
       p:nth-child(2){
         text-align: center;
         width: -moz-available;
+        width: -webkit-fill-available;
         white-space: nowrap;
         border-bottom:1px solid #808080;
       }
@@ -65,6 +68,7 @@
     }
     .widthavailable{
       width: -moz-available;
+      width: -webkit-fill-available;
     }
     .column{
       flex-flow: column;
@@ -72,6 +76,7 @@
         color:black!important;
         text-align: center;
         width: -moz-available!important;
+        width: -webkit-fill-available!important;
         white-space: nowrap;
         border-bottom:1px solid #808080;
       }
@@ -95,6 +100,7 @@
     p{
       text-align: left;
       width: -moz-available;
+      width: -webkit-fill-available;
       white-space: nowrap;
       border-bottom:1px solid #808080;
     }
