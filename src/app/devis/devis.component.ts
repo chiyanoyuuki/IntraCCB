@@ -211,7 +211,7 @@ export class DevisComponent implements OnInit {
     },
   ];
 
-  typeinvitee = ['Invitée', 'Mariée'];
+  typeinvitee = [{fr:'Invitée',en:'Guest'}, {fr:'Mariée',en:'Bride'}];
   ceremonie: any = '';
   finprestas: any = '';
 
@@ -219,7 +219,7 @@ export class DevisComponent implements OnInit {
     [
       'Cloé',
       'CHAUDRON',
-      '06.68.64.44.02',
+      '+33 6 68 64 44 02',
       'cloe.chaudron@outlook.com',
       '',
       '',
@@ -228,7 +228,7 @@ export class DevisComponent implements OnInit {
     [
       'Celma',
       'SAHIDET',
-      '06.80.84.42.52',
+      '+33 6 80 84 42 52',
       'sahidetcelma@gmail.com',
       '',
       '',
@@ -252,18 +252,14 @@ export class DevisComponent implements OnInit {
   ];
 
   planningtop = [
-    {
-      fr: 'ARRIVEE',
-    },
-    {
-      fr: 'INSTALLATION',
-    },
-    { fr: 'MAQUILLAGE' },
-    { fr: 'COIFFURE' },
-    { fr: 'FIN PRESTATION' },
-    { fr: 'RETOUCHES' },
-    { fr: 'DISPONIBILITE' },
-    { fr: 'CEREMONIE' },
+      { "fr": "ARRIVEE", "en": "ARRIVAL" },
+      { "fr": "INSTALLATION", "en": "SETUP" },
+      { "fr": "MAQUILLAGE", "en": "MAKEUP" },
+      { "fr": "COIFFURE", "en": "HAIRSTYLING" },
+      { "fr": "FIN PRESTATION", "en": "END OF SERVICE" },
+      { "fr": "RETOUCHES", "en": "TOUCH-UPS" },
+      { "fr": "DISPONIBILITE", "en": "AVAILABILITY" },
+      { "fr": "CEREMONIE", "en": "CEREMONY" }
   ];
 
   lg = 'Français';

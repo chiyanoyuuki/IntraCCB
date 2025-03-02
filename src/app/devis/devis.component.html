@@ -342,8 +342,8 @@ DEVIS CLOE
 
   <div #htmlContent id="htmlContent" *ngIf="mode == 'planning'">
     <img src="logo.png" class="logo" />
-    <p class="rosebg" style="color: white" *ngIf="lg == 'Français'">
-      {{ values[50] }}
+    <p class="rosebg" style="color: white">
+      {{ lg=='Français'?'PLANNING':'SCHEDULE' }}
     </p>
     <p class="date">Date : {{ formatDate(values[51]) }}</p>
     <div class="ligne"></div>
@@ -356,7 +356,7 @@ DEVIS CLOE
         </div>
         <div class="absolute">
           <div *ngFor="let top of planningtop; let i = index" class="relative">
-            <p>{{ top.fr }}</p>
+            <p>{{ lg=='Français'?top.fr:top.en }}</p>
           </div>
         </div>
       </div>
@@ -381,7 +381,7 @@ DEVIS CLOE
           >
             <p class="invitee" [class.onlyonerow]="getInvitees(c).length == 1">
               {{
-                typeinvitee[invitee[0]] +
+                lg=='Français'?typeinvitee[invitee[0]].fr:typeinvitee[invitee[0]].en +
                   " " +
                   (invitee[0] == 0 ? getNbInvitee(c, i, invitee[0]) : "")
               }}
@@ -396,13 +396,13 @@ DEVIS CLOE
                 [class.none]="checkDisplay(i, j, c)"
                 [class.odd]="i % 2 != 0"
               >
-                {{ j == 6 && horaire != "" ? "Jusqu'à " : "" }}{{ horaire }}
+                {{ j == 6 && horaire != "" && lg=='Français' ? "Jusqu'à " : "" }}{{ j == 6 && horaire != "" && lg=='Anglais' ? "Until " : "" }}{{ horaire }}
               </td>
             </ng-container>
           </tr>
         </table>
         <p class="artist" *ngIf="getInvitees(0).length != invitees.length">
-          Artiste : {{ collegue[0] + " " + collegue[1] }}
+          {{lg=='Français'?'Artiste':'Artist'}} : {{ collegue[0] + " " + collegue[1] }}
         </p>
       </ng-container>
     </div>

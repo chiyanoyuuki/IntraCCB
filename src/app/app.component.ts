@@ -460,7 +460,7 @@ export class AppComponent implements OnInit {
           console.log("Mock Data",data);
           this.initData(data);
           this.clickJour(2,29,2025);
-          let int = setInterval(()=>{this.openRenseignement();clearInterval(int);},50);
+          let int = setInterval(()=>{this.clickPlanning();clearInterval(int);},50);
         }
       );
     }
