@@ -13,7 +13,7 @@ import { jsPDF } from 'jspdf';
 import { CommonModule, DatePipe } from '@angular/common';
 import html2canvas from 'html2canvas';
 import { FormsModule } from '@angular/forms';
-import { from } from 'rxjs';
+import { from, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ReadpdfService } from '../../services/readpdf.service';
 
@@ -56,6 +56,7 @@ export class DevisComponent implements OnInit {
     60 = '';
   */
 
+  informations:any;
   values: any = [];
   dataprestas: any = [];
   prestas: any = [];
@@ -982,6 +983,21 @@ export class DevisComponent implements OnInit {
         });
         this.values[15] = prix;
       }
+    } else if (data.mode == 'renseignement'){
+      this.informations = JSON.parse(JSON.stringify(this.data));
+      this.informations.complet = this.getNbPrestasInvitee(true,true);
+      this.informations.maquillage = this.getNbPrestasInvitee(true,false);
+      this.informations.coiffure = this.getNbPrestasInvitee(false,true);
+
+      this.informations.collegues = [];
+      this.informations.texte = ["","","","",""];
+      if(this.informations.planning&&this.informations.planning.planningprestas)
+      {
+        this.planningprestas = this.data.planning.planningprestas;
+        if(this.getplanningprestas(1).length>0) this.informations.collegues.push(this.collegues[1]);
+        if(this.getplanningprestas(2).length>0) this.informations.collegues.push(this.collegues[2]);
+        if(this.getplanningprestas(3).length>0) this.informations.collegues.push(this.collegues[3]);
+      }
     }
 
     this.inited = true;
@@ -996,6 +1012,50 @@ export class DevisComponent implements OnInit {
     {
       this.adjustViewport();
     }
+  }
+
+  textWithNbsp(texte:any)
+  {
+    return "&nbsp;" + texte.replace(/ /g,"&nbsp;");
+  }
+
+  getHeureArrivee()
+  {
+    if(!this.informations.planning||!this.informations.planning.invitees)return "";
+    return this.informations.planning.invitees.find((p:any)=>p[9]==0&&p[1]!="")[1];
+  }
+
+  getFinPrestas()
+  {
+    if(!this.informations.planning||!this.informations.planning.invitees)return "";
+    let invitees = this.informations.planning.invitees.filter((p:any)=>p[9]==0);
+    return invitees[invitees.length-1][5];
+  }
+
+  getNbPrestasInvitee(maquillage:boolean,coiffure:boolean)
+  {
+    if(!this.informations.devis || !this.informations.devis.prestas) return "";
+    let cpt = 0;
+    this.informations.devis.prestas.forEach((p:any)=>{
+      if(!p.bride)
+      {
+        if(!p.maquillage&&!maquillage)
+        {
+          if(!p.coiffure&&!coiffure){cpt+=p.qte;}
+          else if(p.coiffure&&coiffure){cpt+=p.qte;}
+        }
+        else if(p.maquillage&&maquillage)
+        {
+          if(!p.coiffure&&!coiffure){cpt+=p.qte;}
+          else if(p.coiffure&&coiffure){cpt+=p.qte;}
+        }
+      }
+    });
+    return parseInt(""+cpt)>0?parseInt(""+cpt):"";
+  }
+
+  generateRange(n: number): number[] {
+    return new Array(n).fill(0).map((_, index) => index);
   }
 
   adjustViewport() {

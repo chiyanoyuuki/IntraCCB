@@ -576,7 +576,16 @@ app-devis{
     }
   }
 }
+button:hover{
+  cursor:pointer;
+  opacity:0.5;
+}
 button, select{
   color:white!important;
   text-shadow: 1px 1px 1px var(--required)!important;
+}
+.renseignement{
+  color: var(--required) !important;
+  background-color: white;
+  border-color: var(--required);
 }

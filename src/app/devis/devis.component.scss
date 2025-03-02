@@ -1,5 +1,105 @@
 .cloecss{
-  
+.inputstexte{
+  display: flex;
+  flex-direction: column;
+  input{
+    width: -moz-available;
+  }
+}
+.renseignement{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 40px!important;
+  .margbot{
+    margin-bottom:20px;
+  }
+  .midsize{
+    display:flex;
+    width:45%;
+    p:nth-child(1){
+      width: fit-content;
+      white-space: nowrap;
+      color:var(--required);
+      font-weight:bold;
+    }
+    p:nth-child(2){
+      width: -moz-available;
+      border-bottom:1px solid #808080;
+    }
+  }
+  .glow{
+    div{
+      width:48%!important;
+    }
+    p{
+      font-size:17px;
+    }
+    p:nth-child(2){
+      font-weight:bold;
+    }
+  }
+  .infosmariee{
+    display:flex;
+    justify-content: space-between;
+    flex-flow: wrap;
+    div{
+      display:flex;
+      width:45%;
+      margin-bottom:5px;
+      p:nth-child(1){
+        width: fit-content;
+        white-space: nowrap;
+        color:var(--required);
+        font-weight:bold;
+      }
+      p:nth-child(2){
+        text-align: center;
+        width: -moz-available;
+        white-space: nowrap;
+        border-bottom:1px solid #808080;
+      }
+    }
+    .small{
+      width:20%;
+    }
+    .widthavailable{
+      width: -moz-available;
+    }
+    .column{
+      flex-flow: column;
+      p{
+        color:black!important;
+        text-align: center;
+        width: -moz-available!important;
+        white-space: nowrap;
+        border-bottom:1px solid #808080;
+      }
+    }
+  }
+  .trio{
+    div{
+      width:30%!important;
+    }
+  }
+  .onerow{flex-flow:unset;}
+  .titre{
+    font-size:17px;
+    width: fit-content;
+    white-space: nowrap;
+    color: var(--required);
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  .texteecrit{
+    p{
+      text-align: left;
+      width: -moz-available;
+      white-space: nowrap;
+      border-bottom:1px solid #808080;
+    }
+  }
+}
 .inputs{
   button, input, select, textarea{
   border:1px solid var(--scroll);

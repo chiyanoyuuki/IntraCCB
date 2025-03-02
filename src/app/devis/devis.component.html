@@ -451,7 +451,113 @@ DEVIS CLOE
     </div>
   </div>
 
-  <div class="inputs">
+  <div #htmlContent id="htmlContent" *ngIf="mode == 'renseignement'" class="noplanning renseignement">
+    <div class="infosmariee glow">
+      <div>
+        <p>Nom/Prénom :&nbsp;</p>
+        <p>{{informations.nom}}</p>
+      </div>
+      <div>
+        <p>Mariage le :&nbsp;</p>
+        <p>{{informations.date}}</p>
+      </div>
+    </div>
+
+    <div class="infosmariee">
+      <div>
+        <p>Adresse :&nbsp;</p>
+        <p>{{informations.adresse}}</p>
+      </div>
+      <div>
+        <p>Code postal :&nbsp;</p>
+        <p>{{informations.codepostal}}</p>
+      </div>
+      <div>
+        <p>Téléphone :&nbsp;</p>
+        <p>{{informations.tel}}</p>
+      </div>
+      <div>
+        <p>Mail :&nbsp;</p>
+        <p>{{informations.mail}}</p>
+      </div>
+    </div>
+
+    <div class="infosmariee">
+      <div>
+        <p>Domaine :&nbsp;</p>
+        <p>{{informations.mariage.domaine}}</p>
+      </div>
+      <div>
+        <p>Forfait invitée complet :&nbsp;</p>
+        <p>{{informations.complet}}</p>
+      </div>
+      <div>
+        <p>Adresse :&nbsp;</p>
+        <p>{{informations.mariage.adresse}}</p>
+      </div>
+      <div>
+        <p>Maquillage seul invitée :&nbsp;</p>
+        <p>{{informations.maquillage}}</p>
+      </div>
+      <div>
+        <p>Code postal :&nbsp;</p>
+        <p>{{informations.mariage.codepostal}}</p>
+      </div>
+      <div>
+        <p>Coiffure seule invitée :&nbsp;</p>
+        <p>{{informations.coiffure}}</p>
+      </div>
+      <div>
+        <p>Heure arrivée :&nbsp;</p>
+        <p>{{getHeureArrivee()}}</p>
+      </div>
+      <div></div>
+      <div>
+        <p>Fin des prestas :&nbsp;</p>
+        <p>{{getFinPrestas()}}</p>
+      </div>
+      <div></div>
+      <div>
+        <p>Heure cérémonie :&nbsp;</p>
+        <p>{{informations.planning.ceremonie}}</p>
+      </div>
+    </div>
+
+    <div class="infosmariee onerow">
+      <div>
+        <p>Essai le&nbsp;</p>
+        <p>{{informations.essai.date}}</p>
+      </div>
+      <div class="small">
+        <p>&nbsp;à&nbsp;</p> 
+        <p>{{informations.essai.heure}}</p>
+      </div>
+      <div class="widthavailable">
+        <p>&nbsp;à&nbsp;</p>
+        <p>{{informations.essai.lieu}}</p>
+      </div>
+    </div>
+
+
+    <div class="column">
+      <p class="titre">Renforts :</p>
+      <div class="infosmariee onerow trio">
+        <div *ngFor="let i of generateRange(3)" class="column">
+          <p *ngFor="let j of generateRange(4)">{{informations.collegues[i]?informations.collegues[i][j]:'&nbsp;'}}</p>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="column">
+      <p class="titre">Maquillage x Coiffure :</p>
+      <div class="texteecrit">
+        <p *ngFor="let i of generateRange(5)" [innerHTML]="textWithNbsp(informations.texte[i])"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="inputs" *ngIf="mode!='renseignement'">
     <button (click)="return()">Retour</button>
     <div class="flex center">
       <p>Langue : </p>
@@ -833,6 +939,20 @@ DEVIS CLOE
     </div>
 
   </div>
+
+  <div class="inputs" *ngIf="mode=='renseignement'">
+    <button (click)="return()">Retour</button>
+
+    <div class="inputstexte">
+      <input type="text" *ngFor="let i of generateRange(5)" [(ngModel)]="informations.texte[i]" />
+    </div>
+
+    <div class="flex center bottombuttons">
+      <button (click)="generatePDFfromHTML()">
+        Générer PDF
+      </button>
+    </div>
+  </div>
 </div>
 
 
@@ -1073,7 +1193,7 @@ DEVIS CELMA
     </div>
   </div>
 
-  <div class="inputs">
+  <div class="inputs" *ngIf="mode!='renseignement'">
     <button (click)="return()">Retour</button>
     <div class="flex center">
       <p>Langue : </p>

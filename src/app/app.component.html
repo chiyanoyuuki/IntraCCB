@@ -255,6 +255,7 @@
   </div>
 
   <div class="save">
+    <button (click)="openRenseignement()" class="renseignement">Renseignements</button>
     <button (click)="save()" *ngIf="jourClicked.statut!='essai'">Sauvegarder</button>
     <button (click)="onRetour(2)">Ajouter évênement</button>
     <button (click)="end()">Cloturer</button>

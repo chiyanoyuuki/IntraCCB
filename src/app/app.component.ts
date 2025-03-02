@@ -30,7 +30,7 @@ import { environment } from '../environments/environment';
 export class AppComponent implements OnInit {
   @ViewChild('devis') devis!: DevisComponent;
 
-  artiste="celma";
+  artiste="cloe";
 
   months: string[] = [
     'Janvier',
@@ -459,6 +459,8 @@ export class AppComponent implements OnInit {
         (data:any) => {
           console.log("Mock Data",data);
           this.initData(data);
+          this.clickJour(2,3,2025);
+          let int = setInterval(()=>{this.openRenseignement();clearInterval(int);},50);
         }
       );
     }
@@ -1008,6 +1010,10 @@ export class AppComponent implements OnInit {
 
   clickDevis() {
     this.jourClicked.mode = 'devis';
+    this.initDevis();
+  }
+  openRenseignement() {
+    this.jourClicked.mode = 'renseignement';
     this.initDevis();
   }
   clickFacture(i: any = undefined) {
