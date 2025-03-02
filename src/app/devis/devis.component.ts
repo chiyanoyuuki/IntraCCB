@@ -1010,6 +1010,10 @@ export class DevisComponent implements OnInit {
         if(this.getplanningprestas(2).length>0) this.informations.collegues.push(this.collegues[2]);
         if(this.getplanningprestas(3).length>0) this.informations.collegues.push(this.collegues[3]);
       }
+      else if(this.informations && this.informations.devis && this.informations.devis.prestas)
+      {
+        if(this.informations.devis.prestas.find((p:any)=>p.nom.includes("renfort"))) this.informations.collegues.push(this.collegues[1]);
+      }
     }
 
     this.inited = true;
