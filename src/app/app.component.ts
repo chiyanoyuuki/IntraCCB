@@ -73,8 +73,11 @@ export class AppComponent implements OnInit {
   alldevis:any = [];
   allfactures:any = [];
   allplannings:any = [];
+  allWedding:any = [];
   alldev:any=undefined;
   allfac:any=undefined;
+  allwed:any=undefined;
+  allrens:any=undefined;
 
   etapes = ['Devis', 'Arrhes'];
   changed = false;
@@ -459,8 +462,8 @@ export class AppComponent implements OnInit {
         (data:any) => {
           console.log("Mock Data",data);
           this.initData(data);
-          this.clickJour(2,29,2025);
-          let int = setInterval(()=>{this.clickPlanning();clearInterval(int);},50);
+          //this.clickJour(2,29,2025);
+          //let int = setInterval(()=>{this.clickPlanning();clearInterval(int);},50);
         }
       );
     }
@@ -516,7 +519,15 @@ export class AppComponent implements OnInit {
                 ...date, 
                 facture: facture
             }))
-        );
+          );
+
+        this.allWedding = this.occupiedDates.filter((date:any)=>date.statut!="essai");
+        this.allWedding = this.allWedding.sort((a:any,b:any) => {
+          let datea: any = new Date(a.date.split("/").reverse().join("-"));
+          let dateb: any = new Date(b.date.split("/").reverse().join("-"));
+          return datea - dateb;
+        });
+        console.log(this.allWedding);
 
         let grouped: any = {};
         this.occupiedDates.forEach(item => {
@@ -667,6 +678,11 @@ export class AppComponent implements OnInit {
     let factures = this.allfactures.filter((f: any) => f.facture.annee == this.year);
     factures = factures.sort((a:any,b:any)=>{return a.facture.numero - b.facture.numero;});
     return factures;
+  }
+
+  getallWed()
+  {
+    return this.allWedding.filter((date:any)=>date.date.split("/")[2]==this.year);
   }
 
   getalldevis(){
@@ -1048,6 +1064,19 @@ export class AppComponent implements OnInit {
     this.jourClicked.download = true;
     this.jourClickedSave = JSON.parse(JSON.stringify(this.jourClicked));
     let int = setInterval(()=>{this.clickDevis();clearInterval(int);},500);
+  }
+
+  clickAllWed(event:any)
+  {
+    let jour = this.allwed.date.split("/");
+    this.clickJour(parseInt(jour[1])-1,parseInt(jour[0]),parseInt(jour[2]));
+  }
+
+  clickAllRens(event:any)
+  {
+    let jour = this.allrens.date.split("/");
+    this.clickJour(parseInt(jour[1])-1,parseInt(jour[0]),parseInt(jour[2]));
+    let int = setInterval(()=>{this.openRenseignement();clearInterval(int);},10);
   }
 
   clickAllFactures(date:any)

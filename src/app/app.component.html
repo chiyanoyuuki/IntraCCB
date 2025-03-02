@@ -296,6 +296,25 @@
 <div *ngIf="!jourClicked&&!month" style="padding-bottom:50px;">
   <div class="flex between alldata">
     <div>
+      <p>Mariées</p>
+      <select [(ngModel)]="allwed" (change)="clickAllWed($event)">
+        <option [ngValue]="undefined"></option>
+        <option *ngFor="let wed of getallWed()" [ngValue]="wed">{{wed.nom +' - '+ wed.date }}</option>
+      </select>
+    </div>
+    <div>
+      <p>Renseignements</p>
+      <select [(ngModel)]="allrens" (change)="clickAllRens($event)">
+        <option [ngValue]="undefined"></option>
+        <option *ngFor="let rens of getallWed()" [ngValue]="rens">{{rens.nom +' - '+ rens.date }}</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!jourClicked&&!month" style="padding-bottom:50px;">
+  <div class="flex between alldata">
+    <div>
       <p>Devis</p>
       <select [(ngModel)]="alldev" (change)="clickAllDevis($event)">
         <option [ngValue]="undefined"></option>
