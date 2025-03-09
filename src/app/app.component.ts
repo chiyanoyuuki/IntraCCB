@@ -30,6 +30,7 @@ import { environment } from '../environments/environment';
 export class AppComponent implements OnInit {
   @ViewChild('devis') devis!: DevisComponent;
 
+  safedev = true;
   artiste="cloe";
 
   months: string[] = [
@@ -46,8 +47,6 @@ export class AppComponent implements OnInit {
     'Novembre',
     'Décembre',
   ];
-  
-  safedev = true;
 
   year = 2025;
 
@@ -465,7 +464,8 @@ export class AppComponent implements OnInit {
         (data:any) => {
           console.log("Mock Data",data);
           this.initData(data);
-          //this.clickJour(2,29,2025);
+          //m-1 pour le mois
+          //this.clickJour(8,27,2025);
           //let int = setInterval(()=>{this.clickPlanning();clearInterval(int);},50);
         }
       );
@@ -1349,6 +1349,19 @@ export class AppComponent implements OnInit {
         this.search = '';
       }
     });
+  /*
+  1 : 3.93 k
+  2 : 31.2 k
+  3 : 266 k
+  4 : 2.03 m
+  5 : 20.3 m
+
+  1 : 2.6 k
+  2 : 22.5 k 
+  3 : 191 k
+  4 : 1.46 m
+  5 : 14.6 m 
+  */
   }
 
   formatNumber(num: number) {

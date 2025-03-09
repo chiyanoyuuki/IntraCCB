@@ -796,6 +796,9 @@ DEVIS CLOE
     </div>
 
     <div *ngIf="mode == 'planning'" class="lignesprestas">
+      <div class="flex center">
+        <button (click)="actualiser()">Calculer</button>
+      </div>
       <div class="flex topceremonie">
         <p>Fin prestations : </p>
         <input
@@ -847,7 +850,7 @@ DEVIS CLOE
           </div>
           <div
             *ngFor="let presta of getplanningprestas(i); let x = index;trackBy: trackByIndex"
-            class="lignepres flex"
+            class="lignepres flex" [class.bride]="presta.bride"
           >
             <textarea [(ngModel)]="presta.nom"></textarea>
             <select

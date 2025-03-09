@@ -1180,9 +1180,9 @@ export class DevisComponent implements OnInit {
     let presta = JSON.parse(JSON.stringify(this.getplanningprestas(i)[0]));
     presta.index = this.planningprestas.length;
     presta.nom = "";
-    presta.time = 30;
+    presta.time = 45;
     this.planningprestas.push(presta);
-    this.addInvitee(presta);
+    this.addInvitee(presta,i);
   }
 
   getplanningprestas(i: number) {
@@ -1597,7 +1597,12 @@ export class DevisComponent implements OnInit {
       if (this.mode == 'facture') nom = 'FACTURE_';
       if (this.mode == 'planning') {
         nom = 'PLANNING_' + this.values[51];
-      } else {
+      }
+      else if(this.mode == 'renseignement')
+        {
+          nom = "RENSEIGNEMENT_"+this.informations.nom.toUpperCase().replace(/ +/g,"_");
+        } 
+        else {
         let value = this.values[1];
         let annee = this.values[2];
         if (this.mode == 'facture') {
