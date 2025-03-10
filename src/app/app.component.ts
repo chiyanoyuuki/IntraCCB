@@ -647,6 +647,25 @@ export class AppComponent implements OnInit {
     return parseInt(total)+"€ ("+parseInt(""+(total-(total*0.24)))+"€ net)";
   }
 
+  totalThunes2(i:any=-1)
+  {
+    let total:any = 0;
+    let data = this.monthsvalues.filter((m:any)=>m.annee==this.year);
+    if(this.month) data = this.monthsvalues.filter((m:any)=>m.annee==this.year&&parseInt(m.mois)==(this.monthIndex+1));
+    data.forEach((d:any)=>{
+      let dates = d.dates.filter((dat:any)=>dat.statut=="reserve");
+      dates.forEach((date:any)=>{
+        if(date.devis&&date.devis.prestas)
+        {
+          date.devis.prestas.forEach((p:any)=>total+=parseFloat(this.calc(p)));
+        }
+        if(date.prestataires&&date.prestataires>0)
+          total-=parseFloat(date.prestataires);
+      })
+    })
+    return parseInt(total)+"€ ("+parseInt(""+(total-(total*0.24)))+"€ net)";
+  }
+
   renforts(i:any=-1)
   {
     let total:any = 0;
