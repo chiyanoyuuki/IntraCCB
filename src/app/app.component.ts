@@ -653,7 +653,7 @@ export class AppComponent implements OnInit {
     let data = this.monthsvalues.filter((m:any)=>m.annee==this.year);
     if(this.month) data = this.monthsvalues.filter((m:any)=>m.annee==this.year&&parseInt(m.mois)==(this.monthIndex+1));
     data.forEach((d:any)=>{
-      let dates = d.dates.filter((dat:any)=>dat.statut=="reserve");
+      let dates = d.dates.filter((dat:any)=>dat.statut!="demande");
       dates.forEach((date:any)=>{
         if(date.devis&&date.devis.prestas)
         {
