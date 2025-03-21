@@ -88,7 +88,7 @@ input{
           background:unset;
           border:unset;
         }
-        .reserve, .demande, .autre, .essai, .over{
+        .reserve, .demande, .autre, .essai, .over, .perso{
           filter: drop-shadow(2px 2px 3px black);
         }
       }
@@ -257,7 +257,7 @@ input{
         background:unset;
         border:1px solid var(--principale);
       }
-      .reserve, .demande, .autre, .essai, .over{
+      .reserve, .demande, .autre, .essai, .over, .perso{
         filter: drop-shadow(2px 2px 3px black);
       }
     }
@@ -341,8 +341,12 @@ input{
     border-color:red;
   }
   
-  .dday, .reserve, .demande, .essai, .autre, .over {
+  .dday, .reserve, .demande, .essai, .autre, .over{
     color: white;
+    font-weight: bold;
+  }
+  .perso{
+    color:red;
     font-weight: bold;
   }
   .legende {
