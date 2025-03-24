@@ -215,11 +215,6 @@
   </div>
 
   <div *ngIf="jourClicked.statut!='essai'&&jourClicked.statut!='perso'&&jourClicked.devis&&jourClicked.devis.creation" class="blocbas">
-    <p>Paiement Prestataires : </p>
-    <input type="text" [(ngModel)]="jourClicked.prestataires" placeholder="Paiement Prestataires.."/>
-  </div>
-
-  <div *ngIf="jourClicked.statut!='essai'&&jourClicked.statut!='perso'&&jourClicked.devis&&jourClicked.devis.creation" class="blocbas">
     <p>Planning : </p>
     <button class="nom" *ngIf="jourClicked.planning&&jourClicked.planning.date" [class.red]="diffs&&diffs.planning" (click)="clickPlanning()">{{jourClicked.planning.date}}</button>
     <button *ngIf="!jourClicked.planning||!jourClicked.planning.date" (click)="clickPlanning()">Editer</button>

@@ -306,6 +306,10 @@ DEVIS CLOE
           {{ lg == "Français" ? "Solde" : "Remaining balance" }} :
           {{ values[60] != "" ? values[60] : transform(calcTot(true)) }}€
         </p>
+        <p class="tinytext" *ngIf="values[61]!=0">
+          {{ lg == "Français" ? "Paiement prestataires" : "Payment to providers" }} :
+          {{ transform(values[61]) }}€
+        </p>
         <p class="tinytext">
           {{ lg == "Français" ? "Mode de paiement" : "Payment Method" }} :
           {{ values[16] }}
@@ -794,6 +798,14 @@ DEVIS CLOE
         placeholder="Mode de paiement.."
       />
     </div>
+    <div class="flex" *ngIf="mode == 'facture'">
+      <p>Paiement prestataire :</p>
+      <input
+        type="text"
+        [(ngModel)]="values[61]"
+        placeholder="Paiement prestataire.."
+      />
+    </div>
 
     <div *ngIf="mode == 'planning'" class="lignesprestas">
       <div class="flex center">
@@ -976,7 +988,7 @@ DEVIS CELMA
     <div class="topright">
       <p>FACTURE</p>
       <p>PROFORMA</p>
-      <p>N°{{ values[1] < 100 ? "0" : "" }}{{ values[1] < 10 ? "0" : ""}}{{ values[1] }}-{{values[2]}}</p>
+      <p>N°{{ values[1] }}</p>
       <p>Du {{values[0]}}</p>
       <p>{{data.statut=='reserve'||data.statut=='demande'?'Mariage':'Prestation'}} le {{values[14]}}</p>
     </div>
@@ -1044,7 +1056,7 @@ DEVIS CELMA
     <div class="topleftinfos">
       <p>SAHIDET Celma</p>
       <p>{{'Date de délivrance : Le '+values[0] | uppercase}}</p>
-      <p>{{'Numéro de facture : '+(values[1] < 100 ? "0" : "")+(values[1] < 10 ? "0" : "")+values[55]+'_'+values[56] | uppercase}}</p>
+      <p>{{'Numéro de facture : '+values[55] | uppercase}}</p>
     </div>
 
     <div class="topprestas">
@@ -1431,6 +1443,14 @@ DEVIS CELMA
         type="text"
         [(ngModel)]="values[16]"
         placeholder="Mode de paiement.."
+      />
+    </div>
+    <div class="flex" *ngIf="mode == 'facture'">
+      <p>Paiement prestataire :</p>
+      <input
+        type="text"
+        [(ngModel)]="values[61]"
+        placeholder="Paiement prestataire.."
       />
     </div>
 

@@ -640,8 +640,9 @@ export class AppComponent implements OnInit {
         {
           date.devis.prestas.forEach((p:any)=>total+=parseFloat(this.calc(p)));
         }
-        if(date.prestataires&&date.prestataires>0)
-          total-=parseFloat(date.prestataires);
+        date.factures.forEach((f:any)=>{
+          total-=parseFloat(f.paiementprestas?f.paiementprestas:0);
+        })
       })
     })
     return parseInt(total)+"€ ("+parseInt(""+(total-(total*0.24)))+"€ net)";
@@ -659,8 +660,9 @@ export class AppComponent implements OnInit {
         {
           date.devis.prestas.forEach((p:any)=>total+=parseFloat(this.calc(p)));
         }
-        if(date.prestataires&&date.prestataires>0)
-          total-=parseFloat(date.prestataires);
+        date.factures.forEach((f:any)=>{
+          total-=parseFloat(f.paiementprestas?f.paiementprestas:0);
+        })
       })
     })
     return parseInt(total)+"€ ("+parseInt(""+(total-(total*0.24)))+"€ net)";
@@ -674,8 +676,9 @@ export class AppComponent implements OnInit {
     data.forEach((d:any)=>{
       let dates = d.dates;
       dates.forEach((date:any)=>{
-        if(date.prestataires&&date.prestataires>0)
-          total+=parseFloat(date.prestataires);
+        date.factures.forEach((f:any)=>{
+          total+=parseFloat(f.paiementprestas?f.paiementprestas:0);
+        })
       })
     })
     return parseInt(total)+"€";
@@ -1304,7 +1307,6 @@ export class AppComponent implements OnInit {
     if (this.jourClicked.essai) data.essai = this.jourClicked.essai;
     if (this.jourClicked.mariage) data.mariage = this.jourClicked.mariage;
     if (this.jourClicked.mariagenet) data.mariagenet = this.jourClicked.mariagenet;
-    if (this.jourClicked.prestataires) data.prestataires = this.jourClicked.prestataires;
     if (this.jourClicked.tel) data.tel = this.jourClicked.tel;
     if (this.jourClicked.etape) data.etape = this.jourClicked.etape;
     if (this.jourClicked.devis) data.devis = this.jourClicked.devis;

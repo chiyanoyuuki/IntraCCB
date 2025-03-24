@@ -788,6 +788,8 @@ export class DevisComponent implements OnInit {
     sixmonth = new Date(sixmonth.getTime() + 30 * 24 * 6 * 60 * 60 * 1000);
     this.values[0] = this.datePipe.transform(now, 'dd/MM/yyyy') || '';
     this.values[1] = maxs ? maxs.maxDevis + 1 : '1';
+    if(this.artiste=="celma")
+      this.values[1] = this.datePipe.transform(now, 'ddMMyy') + (maxs ? maxs.maxDevis + 1 : '1');
     this.values[2] = this.datePipe.transform(now, 'yyyy') || '';
     this.values[3] = 'Cloé Chaudron';
     this.values[5] = '126 Rue de la Cerisaie';
@@ -804,10 +806,13 @@ export class DevisComponent implements OnInit {
     this.values[53] = '';
     this.values[54] = '';
     this.values[55] = maxs ? maxs.maxFacture + 1 : '1';
+    if(this.artiste=="celma")
+      this.values[55] = this.datePipe.transform(now, 'ddMMyy') + (maxs ? maxs.maxFacture + 1 : '1');
     this.values[56] = this.datePipe.transform(now, 'yyyy') || '';
     this.values[57] = this.datePipe.transform(now, 'dd/MM/yyyy') || '';
     this.values[58] = this.datePipe.transform(twoweeks, 'dd/MM/yyyy') || '';
     this.values[60] = '';
+    this.values[61] = 0;
 
     this.mode = data.mode;
 
@@ -918,6 +923,7 @@ export class DevisComponent implements OnInit {
         if (facture.numero) this.values[55] = facture.numero;
         if (facture.annee) this.values[56] = facture.annee;
         if (facture.solde) this.values[60] = facture.solde;
+        if (facture.paiementprestas) this.values[61] = facture.paiementprestas;
 
         if (data.factures.length > 0) {
           let prix = 0;
@@ -1292,6 +1298,7 @@ export class DevisComponent implements OnInit {
       facture.creation = this.values[57];
       facture.numero = this.values[55];
       facture.annee = this.values[56];
+      facture.paiementprestas = this.values[61];
       facture.solde = this.calcTot(true);
       if (this.values[60]) facture.solde = this.values[60];
       if (this.data.factures.length == 0) {
