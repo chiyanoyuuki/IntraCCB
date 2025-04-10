@@ -1739,4 +1739,12 @@ export class DevisComponent implements OnInit {
     const [day, month, year] = dateStr.split('/'); // Sépare le format dd/mm/yyyy
     return this.lg === 'Anglais' ? `${month}/${day}/${year}` : dateStr;
   }
+
+  calcGains(i:any)
+  {
+    let tmp = this.getplanningprestas(i);
+    let somme = 0;
+    tmp.forEach((t:any)=>somme+=t.prix);
+    return this.transform(somme)+'€';
+  }
 }
