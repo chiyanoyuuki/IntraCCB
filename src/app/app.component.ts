@@ -554,6 +554,8 @@ export class AppComponent implements OnInit {
         .sort((a, b) => a.dateObj - b.dateObj) // Trie par date la plus proche
         [0];
 
+        console.log(data.filter((d:any)=>d.factures.length>0&&d.factures[0].annee==2025&&d.prestataires));
+
         //this.showNumeros();
         //this.checkNumerosDevis();
         //this.checkNumerosFactures(2024);
@@ -640,9 +642,16 @@ export class AppComponent implements OnInit {
         {
           date.devis.prestas.forEach((p:any)=>total+=parseFloat(this.calc(p)));
         }
-        date.factures.forEach((f:any)=>{
-          total-=parseFloat(f.paiementprestas?f.paiementprestas:0);
-        })
+        if(date.prestataires)
+        {
+          total-=parseFloat(date.prestataires);
+        }
+        else
+        {
+          date.factures.forEach((f:any)=>{
+            total-=parseFloat(f.paiementprestas?f.paiementprestas:0);
+          })
+        }
       })
     })
     return parseInt(total)+"€ ("+parseInt(""+(total-(total*0.24)))+"€ net)";
@@ -660,9 +669,16 @@ export class AppComponent implements OnInit {
         {
           date.devis.prestas.forEach((p:any)=>total+=parseFloat(this.calc(p)));
         }
-        date.factures.forEach((f:any)=>{
-          total-=parseFloat(f.paiementprestas?f.paiementprestas:0);
-        })
+        if(date.prestataires)
+          {
+            total-=parseFloat(date.prestataires);
+          }
+          else
+          {
+            date.factures.forEach((f:any)=>{
+              total-=parseFloat(f.paiementprestas?f.paiementprestas:0);
+            })
+          }
       })
     })
     return parseInt(total)+"€ ("+parseInt(""+(total-(total*0.24)))+"€ net)";

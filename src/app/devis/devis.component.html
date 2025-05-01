@@ -295,17 +295,19 @@ DEVIS CLOE
       </div>
 
       <div class="resume" *ngIf="mode == 'facture'">
-        <p class="tinytext" *ngIf="values[15] != ''">
-          {{ lg == "Français" ? "Déjà versé" : "Already Paid" }} :
-          {{ transform(values[15]) }}€ {{ getDateArrhes() }}
-        </p>
-        <p
-          class="tinytext bold"
+        <div class="flex between">
+          <p class="tinytext" *ngIf="values[15] != ''">
+            {{ lg == "Français" ? "Déjà versé" : "Already Paid" }} :
+            {{ transform(values[15]) }}€ {{ getDateArrhes() }}
+          </p>
+          <p
+          class="tinytext bold rightalign"
           *ngIf="values[15] != '' || values[60] != '' || data.factures.length==0"
         >
-          {{ lg == "Français" ? "Solde" : "Remaining balance" }} :
+          {{ lg == "Français" ? "Reste à payer" : "Remaining balance" }} :
           {{ values[60] != "" ? values[60] : transform(calcTot(true)) }}€
         </p>
+        </div>
         <p class="tinytext" *ngIf="values[61]!=0">
           {{ lg == "Français" ? "Paiement prestataires" : "Payment to providers" }} :
           {{ transform(values[61]) }}€
