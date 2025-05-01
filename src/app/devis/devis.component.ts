@@ -854,7 +854,7 @@ export class DevisComponent implements OnInit {
       this.values[52] = data.mariage.domaine;
       this.values[53] = data.mariage.adresse;
       this.values[54] = data.mariage.codepostal;
-      this.values[62] = data.mariage.ceremonie;
+      this.ceremonie = data.mariage.ceremonie;
       this.planningprestas = [];
       let mariee: any;
       let prestas = data.devis.prestas;
@@ -893,7 +893,7 @@ export class DevisComponent implements OnInit {
       this.values[53] = data.planning.adresse;
       this.values[54] = data.planning.codepostal;
       this.planningprestas = data.planning.planningprestas;
-      this.ceremonie = data.planning.ceremonie;
+      this.ceremonie = data.mariage.ceremonie;
       this.finprestas = data.planning.finprestas;
     } else if (data.mode == 'facture') {
       if (data.factureClicked != -1) {
@@ -1320,6 +1320,7 @@ export class DevisComponent implements OnInit {
       planning.planningprestas = this.planningprestas;
       planning.ceremonie = this.ceremonie;
       planning.finprestas = this.finprestas;
+      if(!this.data.mariage.ceremonie)this.data.mariage.ceremonie = this.ceremonie;
       this.data.planning = planning;
     }
 
