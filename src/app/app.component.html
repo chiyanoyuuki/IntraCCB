@@ -153,6 +153,7 @@
         <input type="text" placeholder="Domaine.." [(ngModel)]="jourClicked.mariage.domaine" [class.red]="diffs&&diffs.mariage&&diffs.mariage.domaine"/>
         <input type="text" placeholder="Adresse.." [(ngModel)]="jourClicked.mariage.adresse" [class.red]="diffs&&diffs.mariage&&diffs.mariage.adresse"/>
         <input type="text" placeholder="Code Postal.." [(ngModel)]="jourClicked.mariage.codepostal" [class.red]="diffs&&diffs.mariage&&diffs.mariage.codepostal"/>
+        <input type="text" placeholder="Heure Cérémonie.." [(ngModel)]="jourClicked.mariage.ceremonie" [class.red]="diffs&&diffs.mariage&&diffs.mariage.ceremonie"/>
       </div>
     </div>
   </div>
@@ -196,6 +197,7 @@
         <p>{{jourClicked.mariage.domaine}}</p>
         <p>{{jourClicked.mariage.adresse}}</p>
         <p>{{jourClicked.mariage.codepostal}}</p>
+        <p>{{jourClicked.mariage.ceremonie}}</p>
       </div>
     </div>
   </div>

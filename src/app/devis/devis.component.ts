@@ -813,6 +813,7 @@ export class DevisComponent implements OnInit {
     this.values[58] = this.datePipe.transform(twoweeks, 'dd/MM/yyyy') || '';
     this.values[60] = '';
     this.values[61] = 0;
+    this.values[62] = '';
 
     this.mode = data.mode;
 
@@ -853,6 +854,7 @@ export class DevisComponent implements OnInit {
       this.values[52] = data.mariage.domaine;
       this.values[53] = data.mariage.adresse;
       this.values[54] = data.mariage.codepostal;
+      this.values[62] = data.mariage.ceremonie;
       this.planningprestas = [];
       let mariee: any;
       let prestas = data.devis.prestas;
