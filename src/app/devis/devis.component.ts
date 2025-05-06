@@ -487,13 +487,14 @@ export class DevisComponent implements OnInit {
   }
 
   onCeremonieInput() {
-    if (this.ceremonie.match(/^[0-9]{1,2}h[0-9]{2}$/g)) {
-      this.invitees.forEach((i: any) => (i[8] = this.ceremonie));
-      this.changeForCeremonie();
-    }
-    else if(this.ceremonie == "")
+    
+    if(!this.ceremonie || this.ceremonie == "")
     {
       this.invitees.forEach((i:any)=>i[8]="");
+    }
+    else if (this.ceremonie.match(/^[0-9]{1,2}h[0-9]{2}$/g)) {
+      this.invitees.forEach((i: any) => (i[8] = this.ceremonie));
+      this.changeForCeremonie();
     }
   }
 
