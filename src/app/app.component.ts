@@ -648,9 +648,20 @@ export class AppComponent implements OnInit {
         }
         else
         {
+          let tot = 0;
           date.factures.forEach((f:any)=>{
-            total-=parseFloat(f.paiementprestas?f.paiementprestas:0);
+            tot+=parseFloat(f.paiementprestas?f.paiementprestas:0);
           })
+          if(tot==0)
+          {
+            if(date.planning&&date.planning.planningprestas)
+            {
+              date.planning.planningprestas.forEach((presta:any)=>{
+                if(presta.presta!=0) tot = tot + presta.prix
+              })
+            }
+          }
+          total -= tot;
         }
       })
     })
@@ -675,13 +686,43 @@ export class AppComponent implements OnInit {
           }
           else
           {
+            let tot = 0;
             date.factures.forEach((f:any)=>{
-              total-=parseFloat(f.paiementprestas?f.paiementprestas:0);
+              tot+=parseFloat(f.paiementprestas?f.paiementprestas:0);
             })
+            if(tot==0)
+            {
+              if(date.planning&&date.planning.planningprestas)
+              {
+                date.planning.planningprestas.forEach((presta:any)=>{
+                  if(presta.presta!=0) tot = tot + presta.prix
+                })
+              }
+            }
+            total -= tot;
           }
       })
     })
     return parseInt(total)+"€ ("+parseInt(""+(total-(total*0.24)))+"€ net)";
+  }
+
+  
+  calcPrestataires()
+  {
+    let total = 0;
+    this.jourClicked.factures.forEach((facture:any)=>{
+      if(facture.paiementprestas) total = total + facture.paiementprestas;
+    })
+    if(total==0)
+    {
+      if(this.jourClicked.planning&&this.jourClicked.planning.planningprestas)
+      {
+        this.jourClicked.planning.planningprestas.forEach((presta:any)=>{
+          if(presta.presta!=0) total = total + presta.prix
+        })
+      }
+    }
+    return total;
   }
 
   renforts(i:any=-1)
@@ -692,12 +733,28 @@ export class AppComponent implements OnInit {
     data.forEach((d:any)=>{
       let dates = d.dates;
       dates.forEach((date:any)=>{
+        let tot = 0;
         date.factures.forEach((f:any)=>{
-          total+=parseFloat(f.paiementprestas?f.paiementprestas:0);
+          tot+=parseFloat(f.paiementprestas?f.paiementprestas:0);
         })
+        if(tot==0)
+        {
+          if(date.planning&&date.planning.planningprestas)
+          {
+            date.planning.planningprestas.forEach((presta:any)=>{
+              if(presta.presta!=0) tot = tot + presta.prix
+            })
+          }
+        }
+        total += tot;
       })
     })
     return parseInt(total)+"€";
+  }
+
+  calcTotMinusPrestas()
+  {
+    return parseFloat(this.calcTot().replace(/[^0-9]*/,"")) - this.calcPrestataires();
   }
 
   getFullDate(dateStr:any)
