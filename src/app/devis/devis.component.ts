@@ -898,6 +898,7 @@ export class DevisComponent implements OnInit {
       this.finprestas = data.planning.finprestas;
     } else if (data.mode == 'facture') {
       if (data.factureClicked != -1) {
+        console.log("facture 0");
         let facture = data.factures[data.factureClicked];
 
         if (facture.prestas) {
@@ -944,6 +945,7 @@ export class DevisComponent implements OnInit {
           this.values[15] = prix;
         }
       } else if (data.factures.length==0) {
+        console.log("facture 1");
         this.prestas.push({
           qte: 1,
           nom: 'Paiement Arrhes',
@@ -951,6 +953,7 @@ export class DevisComponent implements OnInit {
           reduc: 0,
         });
       } else if (data.factures.length>0) {
+        console.log("facture 2");
         data.devis.prestas.forEach((p: any) => {
           let presta = this.prestas.find((pres: any) =>
             p.nom.includes(pres.nom) && !pres.titre
@@ -987,6 +990,18 @@ export class DevisComponent implements OnInit {
           });
         });
         this.values[15] = prix;
+
+        if(!data.factures.find((f:any)=>f.paiementprestas&&f.paiementprestas!=0))
+        {
+          if(data.planning&&data.planning.planningprestas)
+          {
+            let tot = 0;
+            data.planning.planningprestas.forEach((presta:any)=>{
+              if(presta.presta!=0) tot = tot + presta.prix
+            })
+            this.values[61] = tot;
+          }
+        }
       }
     } else if (data.mode == 'renseignement'){
       this.informations = JSON.parse(JSON.stringify(this.data));
