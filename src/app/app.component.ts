@@ -486,6 +486,7 @@ export class AppComponent implements OnInit {
           '://chiyanh.cluster031.hosting.ovh.net/cloeplanning.php?artiste='+this.artiste
       )
       .subscribe((data) => {
+        data = data.filter((d:any)=>d.statut!="essai");
         console.log('HTTP : CloePlanning', data);
         this.initData(data);
       });
@@ -497,7 +498,7 @@ export class AppComponent implements OnInit {
     this.occupiedDates = data;
 
         data
-          .filter((d: any) => d.essai && d.essai.date && d.essai.date != '' && d.statut != "essai")
+          .filter((d: any) => d.essai && d.essai.date && d.essai.date != '')
           .forEach((d: any) => {
             let obj = {
               nom: d.nom,
@@ -1362,7 +1363,12 @@ export class AppComponent implements OnInit {
   }
 
   save() {
-    if(this.safedev&&isDevMode())return;
+    if(this.safedev&&isDevMode())
+    {
+      console.log(this.jourClicked);
+      return;
+    }
+    if(this.jourClicked.statut=="essai")return;
 
     let exist = this.jourClicked.id;
     if (!exist) {
