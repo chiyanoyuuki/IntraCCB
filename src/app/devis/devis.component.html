@@ -348,6 +348,18 @@ DEVIS CLOE
     </div>
   </div>
 
+  <div class="popup-backdrop" *ngIf="popupVisible">
+    <div class="popup-box">
+      <h3>Modifier le nom</h3>
+      <input type="text" [(ngModel)]="inputValue" placeholder="Entrez un nouveau nom" />
+
+      <div class="popup-actions">
+        <button (click)="cancel()">Annuler</button>
+        <button (click)="validate()">Valider</button>
+      </div>
+    </div>
+  </div>
+
   <div #htmlContent id="htmlContent" *ngIf="mode == 'planning'">
     <img src="logo.png" class="logo" />
     <p class="rosebg" style="color: white">
@@ -387,12 +399,15 @@ DEVIS CLOE
             *ngFor="let invitee of getInvitees(c); let i = index"
             class="relative"
           >
-            <p class="invitee" [class.onlyonerow]="getInvitees(c).length == 1">
+            <p class="invitee" [class.onlyonerow]="getInvitees(c).length == 1" (click)="popupRename(invitee)" *ngIf="!invitee[11]||invitee[11]==''">
               {{
                 lg=='Français'?typeinvitee[invitee[0]].fr:typeinvitee[invitee[0]].en +
                   " " +
                   (invitee[0] == 0 ? getNbInvitee(c, i, invitee[0]) : "")
               }}
+            </p>
+            <p class="invitee" [class.onlyonerow]="getInvitees(c).length == 1" (click)="popupRename(invitee)" *ngIf="invitee[11]&&invitee[11]!=''">
+              {{invitee[11]}}
             </p>
             <td class="horaire noborder" [class.odd]="i % 2 != 0">&nbsp;</td>
             <ng-container *ngFor="let horaire of invitee; let j = index">
@@ -856,7 +871,7 @@ DEVIS CLOE
             />
           </div>
           <div class="flex topartiste">
-            <p>Presta</p>
+            <p>Invitée</p>
             <p>Artiste</p>
             <p>&nbsp;</p>
             <p>&nbsp;</p>

@@ -240,6 +240,56 @@ p {
   border-bottom: 2px solid var(--required);
   padding-bottom: 10px;
 }
+.popup-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-box {
+  border: 3px solid var(--required);
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  width: 300px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.3s ease-in;
+  h3{
+    text-align: center;
+    color: var(--required);
+    margin: 0vh 0vw 1vh 0vw;
+  }
+  input{
+    border: 1px solid var(--scroll);
+    background-color: var(--principale);
+    margin: 1px;
+    border-radius: 10px;
+    width: 97%;
+    color:white;
+  }
+}
+
+.popup-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
+  button{
+    border: 3px solid var(--required);
+    background-color: var(--principale);
+    margin: 1px;
+    border-radius: 10px;
+    width: 100%;
+    color:white;
+  }
+}
 .content {
   padding: 0px 15px;
   position: relative;

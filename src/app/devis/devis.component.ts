@@ -269,6 +269,10 @@ export class DevisComponent implements OnInit {
   intitules: any = [];
   renfort = false;
 
+  popupVisible = false;
+  inputValue = '';
+  inviteeEdit: any;
+
   mode = 'devis';
   public innerWidth: any = window.innerWidth;
   public innerHeight: any = window.innerHeight;
@@ -299,6 +303,22 @@ export class DevisComponent implements OnInit {
     this.prestas = JSON.parse(JSON.stringify(this.baseprestas));
     if (this.innerHeight > this.innerWidth) this.paysage = false;
     else this.paysage = true;
+  }
+
+  popupRename(invitee:any)
+  {
+    this.inviteeEdit = invitee;
+    this.inputValue = invitee[11]; // pré-remplir
+    this.popupVisible = true;
+  }
+
+  cancel() {
+    this.popupVisible = false;
+  }
+
+  validate() {
+    this.inviteeEdit[11] = this.inputValue;
+    this.popupVisible = false;
   }
 
   basePrestasCelma()
