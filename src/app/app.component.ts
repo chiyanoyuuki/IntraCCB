@@ -365,6 +365,13 @@ export class AppComponent implements OnInit {
     return dateDonnee < aujourdHui;
   }
 
+  istoday(mois: any, jour: any, year: any) {
+    const dateDonnee = new Date(year, mois, jour);
+    const aujourdHui = new Date();
+    aujourdHui.setHours(0, 0, 0, 0);
+    return dateDonnee.getDate() == aujourdHui.getDate() && dateDonnee.getMonth() == aujourdHui.getMonth() && dateDonnee.getFullYear() == aujourdHui.getFullYear()
+  }
+
   getData() {
     if(this.safedev&&isDevMode())
     {
@@ -490,7 +497,7 @@ export class AppComponent implements OnInit {
     this.occupiedDates = data;
 
         data
-          .filter((d: any) => d.essai && d.essai.date && d.essai.date != '')
+          .filter((d: any) => d.essai && d.essai.date && d.essai.date != '' && d.statut != "essai")
           .forEach((d: any) => {
             let obj = {
               nom: d.nom,
@@ -505,6 +512,7 @@ export class AppComponent implements OnInit {
               planning: {},
               essai: d.essai,
               etape: d.etape,
+              mariage: d.mariage
             };
             const [jour, mois, annee] = obj.date.split('/').map(Number);
             const dateDonnee = new Date(annee, mois - 1, jour);

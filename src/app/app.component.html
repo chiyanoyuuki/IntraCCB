@@ -37,6 +37,7 @@
         <!-- Jours du mois -->
         <div class="blockday" *ngFor="let day of getDaysInMonth(year, monthIndex)"
               [class.ant]="isAnt(monthIndex, day, year)"
+              [class.today]="istoday(monthIndex, day, year)"
             [ngClass]="isOccupied(year, monthIndex, day)"
             (mouseenter)="showTooltip($event, monthIndex, day)"
             (mouseleave)="hideTooltip()"
@@ -250,9 +251,9 @@
         <p>{{calcTot()}}</p>
       </div>
       <div class="entetes">
-        <p>Prestataires :</p>
+        <p>Autre :</p>
         <p>{{calcPrestataires()}}€</p>
-        <p>Pour moi :</p>
+        <p>Moi :</p>
         <p>{{calcTotMinusPrestas()}}€</p>
       </div>
     </div>

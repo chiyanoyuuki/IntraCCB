@@ -50,7 +50,8 @@ DEVIS CLOE
       <div class="table" *ngFor="let presta of prestas">
         <ng-container *ngIf="presta.qte > 0 || presta.qte == '?'">
           <p>
-            {{ presta.qte == "?" ? "À definir" : "" }}
+            {{ presta.qte == "?" && lg === "Français" ? "À definir" : "" }}
+            {{ presta.qte == "?" && lg !== "Français" ? "To define" : "" }}
             {{ presta.qte != "?" && presta.kilorly ? presta.qte * 2 : "" }}
             {{ presta.qte != "?" && !presta.kilorly ? presta.qte : "" }}
             {{ presta.kilorly && presta.qte != "?" ? "km" : ""
@@ -254,7 +255,8 @@ DEVIS CLOE
       <div class="table" *ngFor="let presta of prestas">
         <ng-container *ngIf="presta.qte > 0 || presta.qte == '?'">
           <p>
-            {{ presta.qte == "?" ? "À definir" : "" }}
+            {{ presta.qte == "?" && lg === "Français" ? "À definir" : "" }}
+            {{ presta.qte == "?" && lg !== "Français" ? "To define" : "" }}
             {{ presta.qte != "?" && presta.kilorly ? presta.qte * 2 : "" }}
             {{ presta.qte != "?" && !presta.kilorly ? presta.qte : "" }}
             {{ presta.kilorly && presta.qte != "?" ? "km" : ""
@@ -1007,7 +1009,9 @@ DEVIS CELMA
       <ng-container *ngFor="let presta of prestas">
         <div *ngIf="presta.qte > 0 || presta.qte == '?'" class="prestation">
           <p>{{presta.nom}}</p>
-          <p>{{ presta.qte == "?" ? "À definir" : "" }}
+          <p>
+            {{ presta.qte == "?" && lg === "Français" ? "À definir" : "" }}
+            {{ presta.qte == "?" && lg !== "Français" ? "To define" : "" }}
             {{ presta.qte != "?" && presta.kilorly ? presta.qte * 2 : "" }}
             {{ presta.qte != "?" && !presta.kilorly ? presta.qte : "" }}
             {{ presta.kilorly && presta.qte != "?" ? "km" : ""
@@ -1073,7 +1077,9 @@ DEVIS CELMA
       <ng-container *ngFor="let presta of prestas">
         <div *ngIf="presta.qte > 0 || presta.qte == '?'" class="prestation">
           <p>{{presta.nom}}</p>
-          <p>{{ presta.qte == "?" ? "À definir" : "" }}
+          <p>
+            {{ presta.qte == "?" && lg === "Français" ? "À definir" : "" }}
+            {{ presta.qte == "?" && lg !== "Français" ? "To define" : "" }}
             {{ presta.qte != "?" && presta.kilorly ? presta.qte * 2 : "" }}
             {{ presta.qte != "?" && !presta.kilorly ? presta.qte : "" }}
             {{ presta.kilorly && presta.qte != "?" ? "km" : ""

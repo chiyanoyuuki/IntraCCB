@@ -520,6 +520,13 @@ input{
     }
   }
 
+  .today{
+    filter: drop-shadow(0px 0px 1px red) drop-shadow(0px 0px 1px var(--required)) drop-shadow(0px 0px 1px var(--required)) drop-shadow(0px 0px 1px var(--required)) drop-shadow(0px 0px 1px var(--required)) drop-shadow(0px 0px 1px var(--required));
+    background-color: var(--principale)!important;
+    color: blueviolet;
+    font-weight: bold;
+  }
+
   .red{
     color:red!important;
     border-color:red!important;
