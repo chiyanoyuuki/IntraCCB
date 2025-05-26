@@ -653,7 +653,7 @@ export class AppComponent implements OnInit {
         }
         if(date.prestataires)
         {
-          total-=parseFloat(date.prestataires);
+          total-=parseFloat(""+date.prestataires);
         }
         else
         {
@@ -666,7 +666,7 @@ export class AppComponent implements OnInit {
             if(date.planning&&date.planning.planningprestas)
             {
               date.planning.planningprestas.forEach((presta:any)=>{
-                if(presta.presta!=0) tot = tot + presta.prix
+                if(presta.presta!=0) tot = tot + parseFloat(""+presta.prix);
               })
             }
           }
@@ -704,7 +704,7 @@ export class AppComponent implements OnInit {
               if(date.planning&&date.planning.planningprestas)
               {
                 date.planning.planningprestas.forEach((presta:any)=>{
-                  if(presta.presta!=0) tot = tot + presta.prix
+                  if(presta.presta!=0) tot = tot + parseFloat(""+presta.prix);
                 })
               }
             }
@@ -720,18 +720,18 @@ export class AppComponent implements OnInit {
   {
     let total = 0;
     this.jourClicked.factures.forEach((facture:any)=>{
-      if(facture.paiementprestas) total = total + facture.paiementprestas;
+      if(facture.paiementprestas) total = total + parseFloat(""+facture.paiementprestas);
     })
     if(total==0)
     {
       if(this.jourClicked.planning&&this.jourClicked.planning.planningprestas)
       {
         this.jourClicked.planning.planningprestas.forEach((presta:any)=>{
-          if(presta.presta!=0) total = total + presta.prix
+          if(presta.presta!=0) total = total + parseFloat(""+presta.prix);
         })
       }
     }
-    return total;
+    return parseInt(""+total);
   }
 
   renforts(i:any=-1)
@@ -751,7 +751,7 @@ export class AppComponent implements OnInit {
           if(date.planning&&date.planning.planningprestas)
           {
             date.planning.planningprestas.forEach((presta:any)=>{
-              if(presta.presta!=0) tot = tot + presta.prix
+              if(presta.presta!=0) tot = tot + parseFloat(""+presta.prix);
             })
           }
         }

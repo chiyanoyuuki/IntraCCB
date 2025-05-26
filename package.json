@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "deploy-ghpages": "git pull && ng build --output-path docs --base-href ./ && powershell -Command \"Move-Item -Path 'docs/browser/*' -Destination 'docs/'\" && git add . && git commit -m \"deploy\" && git push"
   },
   "private": true,
   "dependencies": {
