@@ -1548,3 +1548,123 @@ CELMA CSS
   }
   
   }
+
+.charlescss{
+    *{
+      font-family: 'Montserrat', sans-serif;
+    }
+    #htmlContent {
+    width: 595px !important;
+    height: 835px !important;
+    position: relative;
+    min-width: 595px !important;
+    background: white;
+    *{
+      color:#132437;
+    }
+  }
+  .devis{
+    *{
+      margin:0;
+    }
+    .logo{
+      position:absolute;
+      top: 30px;
+      left: 30px;
+      width: 180px;
+    }
+    .topright{
+      position:absolute;
+      top:60px;
+      right:30px;
+      .big{
+        font-weight: bold;
+        font-size: 26px;
+        letter-spacing: 3px;
+        text-align: right;
+      }
+      .lignes{
+        margin-top: 30px;
+        div{
+          display: flex;
+          justify-content: space-between;
+          width: 160px;
+        }
+      }
+    }
+    .topleft{
+      position: relative;
+      left: 30px;
+      top: 185px;
+    }
+    .toptab{
+      display: flex;
+      left: 30px;
+      position: relative;
+      top: 210px;
+      border-top: 1px solid #132437;
+      border-bottom: 1px solid #132437;
+      width: 525px;
+      padding: 10px 5px;
+      p{
+        font-weight:bold;
+      }
+      p:nth-child(1){width:255px;}
+      p:nth-child(2){width:80px;text-align: right;}
+      p:nth-child(3){width:100px;text-align: right;}
+      p:nth-child(4){width:100px;text-align: right;}
+    }
+    .prestas{
+      position: relative;
+      left: 30px;
+      top: 220px;
+      div{
+        display: flex;
+        font-size: 12px;
+        p:nth-child(1){width:255px;}
+        p:nth-child(2){width:80px;text-align: right;}
+        p:nth-child(3){width:100px;text-align: right;}
+        p:nth-child(4){width:100px;text-align: right;}
+      }
+      .bottab{
+        border-top: 1px solid #132437;
+        width: 535px;
+        margin-top: 10px;
+        padding-top: 10px;
+        font-size:16px;
+        p:nth-child(1){width:435px;text-align: right;font-weight:bold;}
+        p:nth-child(2){width:100px;text-align: right;}
+      }
+      .tva{
+        width: 535px;
+        text-align: right;
+        font-size: 10px;
+      }
+    }
+    .bottom{
+      position: absolute;
+      bottom: 30px;
+      .bottomright{
+        text-align: right;
+        width: 565px;
+      }
+      .end{
+        display: flex;
+        justify-content: space-between;
+        padding: 0px 30px;
+        width: 535px;
+        border-top: 1px solid #132437;
+        padding-top: 15px;
+        margin-top: 15px;
+        .thank{
+          font-weight: bold;
+          text-align: center;
+          font-size: 25px;
+          top: 20px;
+          position: relative;
+          right: 20px;
+        }
+      }
+    }
+  }
+}

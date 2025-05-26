@@ -1623,3 +1623,656 @@ DEVIS CELMA
 
   </div>
 </div>
+
+<!--==================
+DEVIS CHARLES
+==================-->
+
+<div class="charlescss" [class.flex]="paysage" [class.portrait]="!paysage" *ngIf="artiste=='charles'&&data && inited">
+  <div #htmlContent id="htmlContent" *ngIf="mode == 'devis'" class="devis">
+    <img class="logo" src="logocharles.png"/>
+
+    <div class="topright">
+      <p class="big">{{lg=="Français"?"DEVIS":"QUOTE"}}</p>
+      <div class="lignes">
+        <div>
+          <p>{{lg=="Français"?"Devis":"Quote"}} #</p>
+          <p>{{values[1]}}</p>
+        </div>
+        <div>
+          <p>Date</p>
+          <p>{{values[0]}}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="topleft">
+      <div class="lignes">
+        <p>{{values[4]}}</p>
+        <p>{{values[6]}}, {{values[8]}}</p>
+        <p>{{values[10]}}</p>
+        <p>{{values[12]}}</p>
+      </div>
+    </div>
+
+    <div class="toptab">
+      <p>DESCRIPTION</p>
+      <p>{{lg=="Français"?"HEURES":"HOURS"}}</p>
+      <p>{{lg=="Français"?"TARIF":"RATE"}}</p>
+      <p>{{lg=="Français"?"MONTANT":"AMOUNT"}}</p>
+    </div>
+
+    <div class="prestas">
+      <div *ngFor="let presta of prestas">
+        <ng-container *ngIf="presta.qte > 0 || presta.qte == '?'">
+          <p class="textoverflow">
+            {{ lg == "Anglais" && presta.en ? presta.en : presta.nom }}
+          </p>
+          <p>
+            {{ presta.qte == "?" && lg === "Français" ? "À definir" : "" }}
+            {{ presta.qte == "?" && lg !== "Français" ? "To define" : "" }}
+            {{ presta.qte != "?" && presta.kilorly ? presta.qte * 2 : "" }}
+            {{ presta.qte != "?" && !presta.kilorly ? presta.qte : "" }}
+            {{ presta.kilorly && presta.qte != "?" ? "km" : ""
+            }}{{ presta.hourly && presta.qte != "?" ? "h" : "" }}
+          </p>
+          <p>
+            {{ transform(presta.prix) }}{{ presta.kilorly ? "/km" : ""
+            }}{{ presta.hourly ? "/h" : "" }}€
+          </p>
+          <p *ngIf="calc(presta) > 0">{{ transform(calc(presta)) }}€</p>
+          <p *ngIf="calc(presta) == 0" class="green">Offert</p>
+        </ng-container>
+      </div>
+      <div class="bottab">
+        <p>TOTAL</p>
+        <p>{{ transform(calcTot()) }}€</p>
+      </div>
+      <p class="tva">TVA non applicable – article 293 B du CGI</p>
+    </div>
+
+    <div class="bottom">
+      <div class="bottomright">
+        <p><b>{{values[3]}}</b></p>
+        <p>{{values[5]}}, {{values[7]}}</p>
+        <p>{{values[9]}}</p>
+        <p>{{values[11]}}</p>
+      </div>
+
+      <div class="end">
+        <div class="iban" *ngIf="lg == 'Français'">
+          <p><b>Coordonnées Bancaires</b></p>
+          <p><b>Nom : </b>La Banque Postale</p>
+          <p><b>IBAN : </b>FR41 2004 1010 1412 0723 3N03 540</p>
+          <p><b>BIC : </b>PSSTFRPPROU</p>
+          <p><b>SIRET : </b>943032342 00017</p>
+        </div>
+        <div class="iban" *ngIf="lg == 'Anglais'">
+          <p><b>Bank Details</b></p>
+          <p><b>Name : </b>La Banque Postale</p>
+          <p><b>IBAN : </b>FR41 2004 1010 1412 0723 3N03 540</p>
+          <p><b>BIC : </b>PSSTFRPPROU</p>
+          <p><b>SIRET : </b>943032342 00017</p>
+        </div>
+        <div class="thank">
+          <p>THANK</p>
+          <p>YOU</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div #htmlContent id="htmlContent" *ngIf="mode == 'facture'" class="facture">
+    <div class="toptitle">
+      <p>Facture</p>
+    </div>
+
+    <div class="topleftinfos">
+      <p>SAHIDET Celma</p>
+      <p>{{'Date de délivrance : Le '+values[0] | uppercase}}</p>
+      <p>{{'Numéro de facture : '+values[55] | uppercase}}</p>
+    </div>
+
+    <div class="topprestas">
+      <p>{{'Description' | uppercase}}</p>
+      <p>{{'Quantité' | uppercase}}</p>
+      <p>{{'Réduction' | uppercase}}</p>
+      <p>{{'Total' | uppercase}}</p>
+    </div>
+
+    <div class="prestations">
+      <ng-container *ngFor="let presta of prestas">
+        <div *ngIf="presta.qte > 0 || presta.qte == '?'" class="prestation">
+          <p>{{presta.nom}}</p>
+          <p>
+            {{ presta.qte == "?" && lg === "Français" ? "À definir" : "" }}
+            {{ presta.qte == "?" && lg !== "Français" ? "To define" : "" }}
+            {{ presta.qte != "?" && presta.kilorly ? presta.qte * 2 : "" }}
+            {{ presta.qte != "?" && !presta.kilorly ? presta.qte : "" }}
+            {{ presta.kilorly && presta.qte != "?" ? "km" : ""
+            }}{{ presta.hourly && presta.qte != "?" ? "h" : "" }}</p>
+          <p>{{presta.reduc&&presta.reduc!=""?presta.reduc+'%':''}}</p>
+          <p *ngIf="calc(presta) > 0">{{ transform(calc(presta)) }} €</p>
+          <p *ngIf="calc(presta) == 0" class="green">Offert</p>
+        </div>
+      </ng-container>
+      <div class="totalprestation">
+        <p>TOTAL : {{transform(calcTot())}} €</p>
+      </div>
+    </div>
+
+    <div class="bottominfos">
+      <p>Sahidet Celma</p>
+      <p>SIRET : 92398283900014</p>
+      <p>sahidetcelma&#64;gmail.com</p>
+      <p>+33 6 80 84 42 52</p>
+    </div>
+
+    <div class="bottomrightlogo">
+      <p>CS</p>
+    </div>
+  </div>
+
+  <div #htmlContent id="htmlContent" *ngIf="mode == 'planning'">
+    <img src="logo.png" class="logo" />
+    <p class="rosebg" style="color: white" *ngIf="lg == 'Français'">
+      {{ values[50] }}
+    </p>
+    <p class="date">Date : {{ formatDate(values[51]) }}</p>
+    <div class="ligne"></div>
+
+    <div class="content">
+      <div class="tableplann">
+        <div *ngFor="let top of planningtop" class="relative containerline">
+          <div class="orientedline"></div>
+          <p>&nbsp;</p>
+        </div>
+        <div class="absolute">
+          <div *ngFor="let top of planningtop; let i = index" class="relative">
+            <p>{{ top.fr }}</p>
+          </div>
+        </div>
+      </div>
+
+      <ng-container *ngFor="let collegue of getCollegues(); let c = index">
+        <table *ngIf="getInvitees(c).length > 0">
+          <tr class="firstrow">
+            <p class="invitee">&nbsp;</p>
+            <td class="horaire">&nbsp;</td>
+            <td class="horaire">&nbsp;</td>
+            <td class="horaire">&nbsp;</td>
+            <td class="horaire">&nbsp;</td>
+            <td class="horaire">&nbsp;</td>
+            <td class="horaire">&nbsp;</td>
+            <td class="horaire">&nbsp;</td>
+            <td class="horaire">&nbsp;</td>
+            <td class="horaire">&nbsp;</td>
+          </tr>
+          <tr
+            *ngFor="let invitee of getInvitees(c); let i = index"
+            class="relative"
+          >
+            <p class="invitee" [class.onlyonerow]="getInvitees(c).length == 1">
+              {{
+                typeinvitee[invitee[0]] +
+                  " " +
+                  (invitee[0] == 0 ? getNbInvitee(c, i, invitee[0]) : "")
+              }}
+            </p>
+            <td class="horaire noborder" [class.odd]="i % 2 != 0">&nbsp;</td>
+            <ng-container *ngFor="let horaire of invitee; let j = index">
+              <td
+                *ngIf="j > 0 && j < 9"
+                class="horaire"
+                [attr.rowspan]="checkRow(i, j, c)"
+                [attr.colspan]="checkCol(i, j, c)"
+                [class.none]="checkDisplay(i, j, c)"
+                [class.odd]="i % 2 != 0"
+              >
+                {{ j == 6 && horaire != "" ? "Jusqu'à " : "" }}{{ horaire }}
+              </td>
+            </ng-container>
+          </tr>
+        </table>
+        <p class="artist" *ngIf="getInvitees(0).length != invitees.length">
+          Artiste : {{ collegue[0] + " " + collegue[1] }}
+        </p>
+      </ng-container>
+    </div>
+
+    <div class="bottom" *ngIf="mode != 'planning'">
+      <p class="rosebg" style="color: white">&nbsp;</p>
+      <div class="flex">
+        <div class="iban" *ngIf="lg == 'Français'">
+          <p>Coordonnées Bancaires</p>
+          <p>Nom : Société Générale</p>
+          <p>IBAN : FR76 3000 3031 8400 1500 2190 924</p>
+          <p>BIC : SOGEFRPP</p>
+          <p>SIRET : 883 822 801 00014</p>
+        </div>
+        <div class="iban" *ngIf="lg == 'Anglais'">
+          <p>Bank Details</p>
+          <p>Name : Société Générale</p>
+          <p>IBAN : FR76 3000 3031 8400 1500 2190 924</p>
+          <p>BIC : SOGEFRPP</p>
+          <p>SIRET : 883 822 801 00014</p>
+        </div>
+        <div class="thank">
+          <p>THANK</p>
+          <p>YOU</p>
+        </div>
+      </div>
+    </div>
+    <div class="bottomplann">
+      <p class="rosebg" style="color: white">&nbsp;</p>
+      <div class="botbot">
+        <div class="adres">
+          <p>{{ values[52] == "" ? "Domaine" : values[52] }}</p>
+          <p>{{ values[53] == "" ? "Adresse" : values[53] }}</p>
+          <p>{{ values[54] == "" ? "Code postal + Ville" : values[54] }}</p>
+        </div>
+        <p class="cont">CONTACT</p>
+        <div class="flex between">
+          <div *ngFor="let collegue of getCollegues()">
+            <p>{{ collegue[0] + " " + collegue[1] }}</p>
+            <p>{{ collegue[2] }}</p>
+            <p>{{ collegue[3] }}</p>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <div class="inputs" *ngIf="mode!='renseignement'">
+    <button (click)="return()">Retour</button>
+    <div class="flex center">
+      <p>Langue : </p>
+      <button
+      (click)="lg == 'Français' ? (lg = 'Anglais') : (lg = 'Français')"
+    >
+      {{ lg }}
+    </button>
+    </div>
+    
+    <div class="flex" *ngIf="false">
+      <p>Importer :</p>
+      <input
+        type="file"
+        (change)="onFileSelected($event)"
+        accept="application/pdf"
+      />
+    </div>
+    <div class="flex center">
+      <p>Date :</p>
+      <input
+        type="text"
+        *ngIf="mode == 'devis'"
+        [(ngModel)]="values[0]"
+        placeholder="Date.."
+        (input)="values[0] = onInput(values[0], true)"
+      />
+      <input
+        type="text"
+        *ngIf="mode == 'facture'"
+        [(ngModel)]="values[57]"
+        placeholder="Date.."
+        (input)="values[57] = onInput(values[57], true)"
+      />
+      <input
+        type="text"
+        *ngIf="mode == 'planning'"
+        [(ngModel)]="values[51]"
+        placeholder="Date.."
+        (input)="values[51] = onInput(values[51], true)"
+      />
+    </div>
+    <div class="ligne"></div>
+    <div class="flex right" *ngIf="mode != 'planning'">
+      <p>{{ mode == "devis" ? "Devis N°" : "Facture N°" }}</p>
+      <input
+        type="text"
+        [(ngModel)]="values[1]"
+        placeholder="N° du devis.."
+        *ngIf="mode == 'devis'"
+      />
+      <input
+        type="text"
+        [(ngModel)]="values[55]"
+        placeholder="N° de facture.."
+        *ngIf="mode == 'facture'"
+      />
+      <p>-</p>
+      <input
+        type="text"
+        [(ngModel)]="values[2]"
+        placeholder="Année.."
+        *ngIf="mode == 'devis'"
+      />
+      <input
+        type="text"
+        [(ngModel)]="values[56]"
+        placeholder="Année.."
+        *ngIf="mode == 'facture'"
+      />
+    </div>
+    <div class="flex between" *ngIf="mode != 'planning'">
+      <div class="flex big">
+        <input type="text" [(ngModel)]="values[3]" placeholder="Nom Cloé.." />
+      </div>
+      <div class="flex right big">
+        <input type="text" [(ngModel)]="values[4]" placeholder="Nom client.." />
+      </div>
+    </div>
+    <div class="flex between" *ngIf="mode != 'planning'">
+      <div class="flex big">
+        <input
+          type="text"
+          [(ngModel)]="values[5]"
+          placeholder="Adresse Cloé.."
+        />
+      </div>
+      <div class="flex right big">
+        <input
+          type="text"
+          [(ngModel)]="values[6]"
+          placeholder="Adresse client.."
+        />
+      </div>
+    </div>
+    <div class="flex between" *ngIf="mode != 'planning'">
+      <div class="flex big">
+        <input
+          type="text"
+          [(ngModel)]="values[7]"
+          placeholder="Code postal + ville Cloé.."
+        />
+      </div>
+      <div class="flex right big">
+        <input
+          type="text"
+          [(ngModel)]="values[8]"
+          placeholder="Code postal + ville client.."
+        />
+      </div>
+    </div>
+    <div class="flex between" *ngIf="mode != 'planning'">
+      <div class="flex big">
+        <input
+          type="text"
+          [(ngModel)]="values[9]"
+          placeholder="Téléphone Cloé.."
+        />
+      </div>
+      <div class="flex right big">
+        <input
+          type="text"
+          [(ngModel)]="values[10]"
+          placeholder="Téléphone client.."
+        />
+      </div>
+    </div>
+    <div class="flex between" *ngIf="mode != 'planning'">
+      <div class="flex big">
+        <input type="text" [(ngModel)]="values[11]" placeholder="Mail Cloé.." />
+      </div>
+      <div class="flex right big">
+        <input
+          type="text"
+          [(ngModel)]="values[12]"
+          placeholder="Mail client.."
+        />
+      </div>
+    </div>
+
+    <div
+      class="prestas"
+      [class.noOverflow]="!paysage"
+      *ngIf="mode != 'planning'"
+    >
+      <div class="flex">
+        <button (click)="deleteAll()">Delete all</button>
+        <button (click)="addPrestas()" *ngIf="mode == 'facture'">
+          Add prestas
+        </button>
+      </div>
+      <div
+        *ngFor="let presta of prestas"
+        class="flex between"
+        [class.title]="presta.titre"
+      >
+        <ng-container *ngIf="!presta.titre; else elseBlock">
+          <div class="flex qte">
+            <p
+              [class.disabled]="presta.qte < 1"
+              class="clickable"
+              (click)="
+                presta.qte > 0 ? (presta.qte = presta.qte - 1) : undefined
+              "
+            >
+              -
+            </p>
+            <input
+              type="text"
+              [(ngModel)]="presta.qte"
+              placeholder="Quantité.."
+            />
+            <p
+              class="clickable"
+              (click)="addQte(presta)"
+              [class.disabled]="presta.qte > 0 && presta.onlyOne"
+            >
+              +
+            </p>
+          </div>
+          <input
+            type="text"
+            class="nom"
+            [(ngModel)]="presta.nom"
+            placeholder="Nom.."
+          />
+          <input type="text" [(ngModel)]="presta.prix" placeholder="Prix.." />
+          <input
+            type="text"
+            [(ngModel)]="presta.reduc"
+            placeholder="Réduction.."
+          />
+        </ng-container>
+        <ng-template #elseBlock>
+          <p>{{ presta.nom }}</p>
+        </ng-template>
+      </div>
+      <div class="flex center">
+        <button (click)="addPresta()">Ajouter prestation</button>
+      </div>
+    </div>
+
+    <div class="flex between" *ngIf="mode != 'planning'">
+      <div class="flex" *ngIf="mode == 'devis'">
+        <p>Échéance :</p>
+        <input
+          type="text"
+          [(ngModel)]="values[13]"
+          placeholder="Échéance.."
+          *ngIf="mode == 'devis'"
+        />
+      </div>
+      <div class="flex right big">
+        <p>Total : {{ transform(calcTot()) }}€</p>
+      </div>
+    </div>
+
+    <div class="flex" *ngIf="mode != 'planning'">
+      <p>Prestation le : {{ values[14] }}</p>
+    </div>
+    <div class="flex" *ngIf="mode == 'facture'">
+      <p>Déjà versé :</p>
+      <input type="text" [(ngModel)]="values[15]" placeholder="Déjà versé.." />
+    </div>
+    <div class="flex" *ngIf="mode == 'facture'">
+      <p>Solde :</p>
+      <input type="text" [(ngModel)]="values[60]" placeholder="Solde.." />
+    </div>
+    <div class="flex" *ngIf="mode == 'facture'">
+      <p>Mode de paiement :</p>
+      <input
+        type="text"
+        [(ngModel)]="values[16]"
+        placeholder="Mode de paiement.."
+      />
+    </div>
+    <div class="flex" *ngIf="mode == 'facture'">
+      <p>Paiement prestataire :</p>
+      <input
+        type="text"
+        [(ngModel)]="values[61]"
+        placeholder="Paiement prestataire.."
+      />
+    </div>
+
+    <div *ngIf="mode == 'planning'" class="lignesprestas">
+      <div class="flex topceremonie">
+        <p>Fin prestations : </p>
+        <input
+          type="text"
+          [(ngModel)]="finprestas"
+          placeholder="Fin prestations.."
+          (input)="onFinPrestasInput()"
+        />
+        <p>Début cérémonie : </p>
+        <input
+          type="text"
+          [(ngModel)]="ceremonie"
+          placeholder="Cérémonie.."
+          (input)="onCeremonieInput()"
+        />
+      </div>
+
+      <div *ngFor="let collegue of collegues; let i = index">
+        <ng-container *ngIf="getplanningprestas(i).length > 0">
+          <div class="flex topcollegue">
+            <p>{{ collegue[0] + " " + collegue[1] }}</p>
+            <input
+              type="text"
+              [(ngModel)]="collegue[4]"
+              placeholder="Arrivée.."
+              (input)="onArriveeInput(i)"
+            />
+            <input
+              type="text"
+              [(ngModel)]="collegue[5]"
+              placeholder="Retouches.."
+              (input)="onRetoucheInput(i)"
+            />
+            <input
+              type="text"
+              [(ngModel)]="collegue[6]"
+              placeholder="Disponibilite.."
+              (input)="onDispoInput(i)"
+            />
+          </div>
+          <div class="flex topartiste">
+            <p>Presta</p>
+            <p>Artiste</p>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <p>Temps</p>
+            <p>Maqu</p>
+            <p>Coif</p>
+          </div>
+          <div
+            *ngFor="let presta of getplanningprestas(i); let x = index;trackBy: trackByIndex"
+            class="lignepres flex"
+          >
+            <textarea [(ngModel)]="presta.nom"></textarea>
+            <select
+              [(ngModel)]="presta.presta"
+              class="selectpresta"
+              (change)="changePrestataire($event, presta)"
+            >
+              <option
+                *ngFor="let collegue of collegues; let i = index"
+                [value]="i"
+              >
+                {{ collegue[0] }}
+              </option>
+            </select>
+            <button [class.disabled]="x == 0" (click)="monter(x, presta)">Monter</button>
+            <button
+            [class.disabled]="x == getplanningprestas(i).length - 1"
+              (click)="descendre(x, presta)"
+            >
+              Descendre
+            </button>
+            <input type="text" [(ngModel)]="presta.time" (input)="onTimeInput(presta)"/>
+            <input type="checkbox" [(ngModel)]="presta.maquillage" (change)="onCheckBoxClick('m',presta)" class="checkmaqu">
+            <input type="checkbox" [(ngModel)]="presta.coiffure" (change)="onCheckBoxClick('c',presta)">
+            <button (click)="deletePresta(presta)">Supprimer</button>
+          </div>
+
+          <div *ngIf="mode=='planning'" class="flex center">
+            <button (click)="addPlanningPresta(i)" >Ajouter prestation</button>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+   
+
+    <div class="domaine" *ngIf="mode == 'planning'">
+      <div class="flex">
+        <p>Domaine :</p>
+        <input type="text" [(ngModel)]="values[52]" placeholder="Domaine.." />
+      </div>
+      <div class="flex">
+        <p>Adresse :</p>
+        <input type="text" [(ngModel)]="values[53]" placeholder="Adresse.." />
+      </div>
+      <div class="flex">
+        <p>Code postal + Ville :</p>
+        <input
+          type="text"
+          [(ngModel)]="values[54]"
+          placeholder="Code postal + Ville.."
+        />
+      </div>
+    </div>
+
+    <div class="flex" *ngIf="mode == 'planning'">
+      <div class="dataplanning flex">
+        <div
+          *ngFor="
+            let collegue of collegues;
+            let i = index;
+            trackBy: trackByIndex
+          "
+          class="inviteesinput"
+        >
+          <ng-container
+            *ngFor="let data of collegue; let j = index; trackBy: trackByIndex"
+          >
+            <input *ngIf="j < 4" type="text" [(ngModel)]="collegues[i][j]" />
+          </ng-container>
+          <button (click)="deleteCollegue(i)">Supprimer</button>
+        </div>
+      </div>
+    </div>
+    <div class="marg flex center" 
+    *ngIf="mode == 'planning'">
+      <button
+        (click)="addCollegue()"
+      >
+        Ajouter collègue
+      </button>
+    </div>
+
+    <div class="flex center bottombuttons">
+      <button (click)="generatePDFfromHTML()">
+        Générer PDF
+      </button>
+      <button (click)="save()">Sauvegarder</button>
+    </div>
+
+  </div>
+</div>

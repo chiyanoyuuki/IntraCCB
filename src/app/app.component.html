@@ -2,7 +2,7 @@
   <input type="password" [(ngModel)]="mdp" />
   <button (click)="checkMdp()">Valider</button>
 </div>
-<div [class.portrait]="portrait" *ngIf="okmdp">
+<div [class.portrait]="portrait" *ngIf="okmdp" [ngClass]="artiste">
 
 <div class="annee" *ngIf="!jourClicked&&((portrait&&!month)||!portrait)">
   <button (click)="year=year-1"><</button>
@@ -19,7 +19,7 @@
   <input type="text" [(ngModel)]="search" placeholder="Recherche.." />
 </div>
 
-<div class="calendar" *ngIf="!jourClicked">
+<div class="calendar" *ngIf="!jourClicked" >
   <ng-container *ngIf="(portrait&&!month)||!portrait">
     <div *ngFor="let month of months; let monthIndex = index" class="month" (click)="clickMonth(month, monthIndex)">
       <h3>{{ month +' ('+(monthIndex+1)+')'}}</h3>

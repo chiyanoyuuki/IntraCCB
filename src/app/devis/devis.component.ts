@@ -297,6 +297,7 @@ export class DevisComponent implements OnInit {
 
   ngOnInit() {
     if(this.artiste=="celma")this.basePrestasCelma();
+    else if(this.artiste=="charles")this.basePrestasCharles();
     this.baseprestas.forEach((presta: any) => {
       presta.qte = 0;
     });
@@ -502,6 +503,48 @@ export class DevisComponent implements OnInit {
         time: 120,
         maquillage: false,
         coiffure: true,
+      },
+    ];
+  }
+
+  basePrestasCharles()
+  {
+    this.baseprestas = [
+      {
+        nom: 'Frais de déplacement',
+        en: 'Travel Expenses',
+        titre: true,
+      },
+      {
+        nom: 'Frais de déplacement',
+        en: 'Travel Expenses',
+        prix: 0.4,
+        kilorly: true,
+      },
+      {
+        nom: 'Principaux',
+        en: 'Principaux',
+        titre: true,
+      },
+      {
+        nom: 'Consultations',
+        en: 'Consulting',
+        prix: 100,
+      },
+      {
+        nom: 'Developpement',
+        en: 'Development',
+        prix: 100,
+      },
+      {
+        nom: 'Design',
+        en: 'Design',
+        prix: 100,
+      },
+      {
+        nom: 'Testing',
+        en: 'Testing',
+        prix: 100,
       },
     ];
   }
@@ -793,7 +836,6 @@ export class DevisComponent implements OnInit {
   }
 
   init(maxs: any = undefined) {
-    console.log(this.data);
     let data = JSON.parse(JSON.stringify(this.data));
     this.inited = false;
     this.prestas = JSON.parse(JSON.stringify(this.baseprestas));
@@ -813,10 +855,16 @@ export class DevisComponent implements OnInit {
       this.values[1] = this.datePipe.transform(now, 'ddMMyy') + (maxs ? maxs.maxDevis + 1 : '1');
     this.values[2] = this.datePipe.transform(now, 'yyyy') || '';
     this.values[3] = 'Cloé Chaudron';
+    if(this.artiste=="charles")
+      this.values[3] = 'SwissKey Solutions';
     this.values[5] = '126 Rue de la Cerisaie';
     this.values[7] = '84400 Gargas';
     this.values[9] = '+33 6 68 64 44 02';
+    if(this.artiste=="charles")
+      this.values[9] = '+33 6 82 01 57 34';
     this.values[11] = 'cloe.chaudron@outlook.com';
+    if(this.artiste=="charles")
+      this.values[11] = 'swisskeysolutions.contact@gmail.com';
     this.values[13] = this.datePipe.transform(twoweeks, 'dd/MM/yyyy') || '';
     this.values[14] = this.datePipe.transform(sixmonth, 'dd/MM/yyyy') || '';
     this.values[15] = '';
