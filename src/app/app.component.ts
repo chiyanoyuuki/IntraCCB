@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
   @ViewChild('devis') devis!: DevisComponent;
 
   safedev = true;
-  artiste="charles";
+  artiste="cloe";
 
   months: string[] = [
     'Janvier',
@@ -822,10 +822,17 @@ export class AppComponent implements OnInit {
       if(this.jourClicked.planning&&this.jourClicked.planning.planningprestas)
       {
         this.jourClicked.planning.planningprestas.forEach((presta:any)=>{
-          if(presta.presta!=0) total = total + parseFloat(""+presta.prix);
+          if(presta.presta!=0) total = total + parseInt(this.calcToString2(presta));
         })
       }
     }
+    this.jourClicked.devis.prestas.forEach((presta:any)=>{
+      if(presta.nom.includes("renfort"))
+      {
+        let tot = this.calcToString(presta);
+        total += parseInt(""+tot);
+      }
+    });
     return parseInt(""+total);
   }
 
@@ -858,7 +865,27 @@ export class AppComponent implements OnInit {
 
   calcTotMinusPrestas()
   {
-    return parseFloat(this.calcTot().replace(/[^0-9]*/,"")) - this.calcPrestataires();
+    let total = 0;
+    this.jourClicked.factures.forEach((facture:any)=>{
+      if(facture.paiementprestas) total = total + parseFloat(""+facture.paiementprestas);
+    })
+    if(total==0)
+    {
+      if(this.jourClicked.planning&&this.jourClicked.planning.planningprestas)
+      {
+        this.jourClicked.planning.planningprestas.forEach((presta:any)=>{
+          if(presta.presta==0) total = total + parseInt(this.calcToString2(presta));
+        })
+      }
+    }
+    this.jourClicked.devis.prestas.forEach((presta:any)=>{
+      if(!presta.nom.includes("renfort") && presta.nom.includes("Frais de déplacement") && presta.qte!="?")
+      {
+        let tot = this.calcToString(presta);
+        total += parseInt(""+tot);
+      }
+    });
+    return parseInt(""+total);
   }
 
   getFullDate(dateStr:any)
@@ -1117,6 +1144,22 @@ export class AppComponent implements OnInit {
         prix = (presta.qte - 10) * 2 * presta.prix;
       }
     }
+    if (presta.reduc) prix = prix - (prix * presta.reduc) / 100;
+    if (Number.isInteger(presta.prix) || presta.kilorly)
+      prix = Math.floor(prix);
+    return prix;
+  }
+
+  calcToString2(presta: any) {
+    if (presta.qte == '?') return '';
+    let prix = this.calc2(presta);
+    if (prix == 0) return 'Offert';
+    return prix + (prix < 100 ? ',00' : '') + '€';
+  }
+
+  calc2(presta: any):any {
+    if(presta.qte=="?")return 0;
+    let prix = presta.prix;
     if (presta.reduc) prix = prix - (prix * presta.reduc) / 100;
     if (Number.isInteger(presta.prix) || presta.kilorly)
       prix = Math.floor(prix);

@@ -1831,7 +1831,48 @@ export class DevisComponent implements OnInit {
   {
     let tmp = this.getplanningprestas(i);
     let somme = 0;
-    tmp.forEach((t:any)=>somme+=t.prix);
+    tmp.forEach((t:any)=>{
+      let prix = parseInt(""+t.prix);
+      if(t.reduc) prix = prix - (prix * t.reduc) / 100;
+      prix = parseInt(""+prix);
+      somme+=prix
+    });
+
+    this.data.devis.prestas.forEach((presta:any)=>{
+      if(i!=0 && presta.nom.includes("renfort") && presta.qte!="?")
+      {
+        let tot = this.calcToString(presta);
+        somme += parseInt(""+tot);
+      }
+      else if(i==0 && presta.nom.includes("Frais de déplacement") && !presta.nom.includes("renfort") && presta.qte!="?")
+      {
+        let tot = this.calcToString(presta);
+        somme += parseInt(""+tot);
+      }
+    });
+
     return this.transform(somme)+'€';
+  }
+
+  calcToString(presta: any) {
+    if (presta.qte == '?') return '';
+    let prix = this.calcx(presta);
+    if (prix == 0) return 'Offert';
+    return prix + (prix < 100 ? ',00' : '') + '€';
+  }
+
+  calcx(presta: any):any {
+    if(presta.qte=="?")return 0;
+    let prix = presta.prix * presta.qte;
+    if (presta.kilorly) {
+      if (presta.qte <= 10) prix = 0;
+      else {
+        prix = (presta.qte - 10) * 2 * presta.prix;
+      }
+    }
+    if (presta.reduc) prix = prix - (prix * presta.reduc) / 100;
+    if (Number.isInteger(presta.prix) || presta.kilorly)
+      prix = Math.floor(prix);
+    return prix;
   }
 }

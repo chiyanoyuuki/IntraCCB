@@ -883,7 +883,7 @@ DEVIS CLOE
             *ngFor="let presta of getplanningprestas(i); let x = index;trackBy: trackByIndex"
             class="lignepres flex" [class.bride]="presta.bride"
           >
-            <textarea [(ngModel)]="presta.nom"></textarea>
+            <input type="text" [(ngModel)]="presta.prix" />
             <select
               [(ngModel)]="presta.presta"
               class="selectpresta"
