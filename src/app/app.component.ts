@@ -830,6 +830,7 @@ export class AppComponent implements OnInit {
       if(presta.nom.includes("renfort"))
       {
         let tot = this.calcToString(presta);
+        if(tot=="Offert")tot = "0";
         total += parseInt(""+tot);
       }
     });
@@ -865,6 +866,7 @@ export class AppComponent implements OnInit {
 
   calcTotMinusPrestas()
   {
+    if(this.calcPrestataires()==0)return parseInt(this.calcTot());
     let total = 0;
     this.jourClicked.factures.forEach((facture:any)=>{
       if(facture.paiementprestas) total = total + parseFloat(""+facture.paiementprestas);
@@ -882,6 +884,7 @@ export class AppComponent implements OnInit {
       if(!presta.nom.includes("renfort") && presta.nom.includes("Frais de déplacement") && presta.qte!="?")
       {
         let tot = this.calcToString(presta);
+        if(tot=="Offert")tot = "0";
         total += parseInt(""+tot);
       }
     });

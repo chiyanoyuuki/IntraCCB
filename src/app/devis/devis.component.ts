@@ -1847,6 +1847,7 @@ export class DevisComponent implements OnInit {
       else if(i==0 && presta.nom.includes("Frais de déplacement") && !presta.nom.includes("renfort") && presta.qte!="?")
       {
         let tot = this.calcToString(presta);
+        if(tot=="Offert")tot = "0";
         somme += parseInt(""+tot);
       }
     });
