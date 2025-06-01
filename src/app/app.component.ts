@@ -137,6 +137,13 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
 
+    this.innerHeight = window.innerHeight;
+    this.innerWidth = window.innerWidth;
+
+    if (window.innerHeight > window.innerWidth)
+      this.portrait = true;
+    else this.portrait = false;
+
     if(isDevMode())
     {
       this.okmdp = true;
@@ -169,6 +176,7 @@ export class AppComponent implements OnInit {
 
   onDevisRetour()
   {
+    if(this.jourClicked.delete)this.jourClicked.factures.splice(this.jourClicked.delete,1);
     if(this.portrait&&!this.month) this.jourClicked = undefined;
     else this.jourClicked.mode=undefined;
     this.cancelViewport();
@@ -587,7 +595,7 @@ export class AppComponent implements OnInit {
 
   initData(data:any)
   {
-    console.log(data);
+    data = data.filter((data:any)=>data.statut!="essai");
     this.occupiedDates = data;
 
         data
@@ -679,6 +687,55 @@ export class AppComponent implements OnInit {
     return cpt;
   }
 
+  alreadyPaid2()
+  {
+    // Toutes les factures qui correspondent au mois ou à l'année
+    let factures = this.occupiedDates.flatMap(entry => entry.factures)
+      .filter(facture => {
+        const factureYear = parseInt(facture.creation.split("/")[2], 10);
+        const factureMonth = parseInt(facture.creation.split("/")[1], 10);
+        if(this.month)
+          return factureYear == this.year && factureMonth == this.monthIndex+1;
+        else
+          return factureYear == this.year;
+      });
+
+    let total = 0;
+    factures.forEach((f:any)=>{
+      // On ajoute le solde s'il y en a un
+      if(f.solde)
+      {
+        total += parseFloat(f.solde);
+      }
+      // Sinon on calcul le solde
+      else
+      {
+        f.prestas.forEach((presta:any)=>{
+          total += parseFloat(this.calc(presta));
+        })
+      }
+    })
+
+    let dates = this.occupiedDates.filter((date:any)=>{
+      const dateYear = parseInt(date.date.split("/")[2], 10);
+      const dateMonth = parseInt(date.date.split("/")[1], 10);
+      if(this.month)
+        return dateYear==this.year&&dateMonth == this.monthIndex+1&&date.statut!="demande";
+      else
+        return dateYear==this.year&&date.statut!="demande";
+    });
+
+    // Si la date a un paiement prestataire on l'enlève
+    dates.forEach((d:any)=>{
+      let tot = 0;
+      if(d.prestataires) tot += parseFloat(d.prestataires);
+      else{d.factures.filter((facture:any)=>facture.paiementprestas).forEach((facture:any)=>tot+= parseFloat(facture.paiementprestas));}
+      total-= parseFloat(""+tot);
+    })
+
+    return parseInt(""+total);
+  }
+
   alreadyPaid(i:any=-1)
   {
     let total:any = 0;
@@ -734,6 +791,84 @@ export class AppComponent implements OnInit {
     return parseInt(total)+"€";
   }
 
+  notPaid2()
+  {
+    let dates = this.occupiedDates.filter((date:any)=>{
+      const dateYear = parseInt(date.date.split("/")[2], 10);
+      const dateMonth = parseInt(date.date.split("/")[1], 10);
+      if(this.month)
+        return dateYear==this.year&&dateMonth == this.monthIndex+1&&date.etape!=999&&date.statut!="demande"&&date.devis&&date.devis.creation
+      else
+        return dateYear==this.year&&date.etape!=999&&date.statut!="demande"&&date.devis&&date.devis.creation
+    });
+
+    let total = 0;
+    dates.forEach((date:any)=>{date.devis.prestas.filter((presta:any)=>!presta.nom.includes("renfort")).forEach((presta:any)=>total+=parseFloat(this.calc(presta)));});
+    dates.forEach((date:any)=>{
+      date.factures.forEach((facture:any)=>{
+        total-=parseFloat(facture.solde);
+        if(!facture.paiementprestas||parseInt(""+facture.paiementprestas)==0)
+        {
+          let tot = 0;
+          if(date.planning&&date.planning.planningprestas)
+          {
+            date.planning.planningprestas.forEach((presta:any)=>{
+              if(presta.presta!=0) tot = tot + parseFloat(""+presta.prix);
+            })
+          }
+          total -= parseFloat(""+tot);
+        }
+      })
+    });
+
+    return parseInt(""+total);
+  }
+
+  notPaid3()
+  {
+    let dates = this.occupiedDates.filter((date:any)=>{
+      const dateYear = parseInt(date.date.split("/")[2], 10);
+      const dateMonth = parseInt(date.date.split("/")[1], 10);
+      if(this.month)
+        return dateYear==this.year&&dateMonth == this.monthIndex+1&&date.etape!=999&&date.devis&&date.devis.creation
+      else
+        return dateYear==this.year&&date.etape!=999&&date.devis&&date.devis.creation
+    });
+
+    let total = 0;
+    dates.forEach((date:any)=>{date.devis.prestas.filter((presta:any)=>!presta.nom.includes("renfort")).forEach((presta:any)=>total+=parseFloat(this.calc(presta)));});
+    dates.forEach((date:any)=>{
+      date.factures.forEach((facture:any)=>{
+        total-=parseFloat(facture.solde);
+        if(!facture.paiementprestas||parseInt(""+facture.paiementprestas)==0)
+        {
+          let tot = 0;
+          if(date.planning&&date.planning.planningprestas)
+          {
+            date.planning.planningprestas.forEach((presta:any)=>{
+              if(presta.presta!=0) tot = tot + parseFloat(""+presta.prix);
+            })
+          }
+          total -= parseFloat(""+tot);
+        }
+      })
+    });
+
+    return parseInt(""+total);
+  }
+
+  xtotalThunes()
+  {
+    let total = this.alreadyPaid2() + this.notPaid3();
+    return total+"€ ("+parseInt(""+(total-(total*0.24)))+"€ net)";
+  }
+
+  xtotalThunes2()
+  {
+    let total = this.alreadyPaid2() + this.notPaid2();
+    return total+"€ ("+parseInt(""+(total-(total*0.24)))+"€ net)";
+  }
+
   totalThunes(i:any=-1)
   {
     let total:any = 0;
@@ -780,11 +915,13 @@ export class AppComponent implements OnInit {
     data.forEach((d:any)=>{
       let dates = d.dates.filter((dat:any)=>dat.statut!="demande");
       dates.forEach((date:any)=>{
-        if(date.devis&&date.devis.prestas)
+        if(date.etape!=999)
         {
-          date.devis.prestas.forEach((p:any)=>total+=parseFloat(this.calc(p)));
-        }
-        if(date.prestataires)
+          if(date.devis&&date.devis.prestas)
+          {
+            date.devis.prestas.forEach((p:any)=>total+=parseFloat(this.calc(p)));
+          }
+          if(date.prestataires)
           {
             total-=parseFloat(date.prestataires);
           }
@@ -805,6 +942,13 @@ export class AppComponent implements OnInit {
             }
             total -= tot;
           }
+        }
+        else
+        {
+          date.factures.forEach((f:any)=>{
+            total+=parseFloat(f.solde);
+          })
+        }
       })
     })
     return parseInt(total)+"€ ("+parseInt(""+(total-(total*0.24)))+"€ net)";
@@ -840,26 +984,34 @@ export class AppComponent implements OnInit {
   renforts(i:any=-1)
   {
     let total:any = 0;
-    let data = this.monthsvalues.filter((m:any)=>m.annee==this.year);
-    if(this.month) data = this.monthsvalues.filter((m:any)=>m.annee==this.year&&parseInt(m.mois)==(this.monthIndex+1));
-    data.forEach((d:any)=>{
-      let dates = d.dates;
-      dates.forEach((date:any)=>{
-        let tot = 0;
-        date.factures.forEach((f:any)=>{
-          tot+=parseFloat(f.paiementprestas?f.paiementprestas:0);
-        })
-        if(tot==0)
+
+    let dates = this.occupiedDates.filter((date:any)=>{
+      const dateYear = parseInt(date.date.split("/")[2], 10);
+      const dateMonth = parseInt(date.date.split("/")[1], 10);
+      if(this.month)
+        return dateYear==this.year&&dateMonth == this.monthIndex+1&&date.statut!="demande";
+      else
+        return dateYear==this.year&&date.statut!="demande";
+    });
+
+    dates.forEach((d:any)=>{
+      let tot = 0;
+      if(d.prestataires) tot+= parseFloat(d.prestataires);
+      else{d.factures.filter((facture:any)=>facture.paiementprestas).forEach((facture:any)=>tot+= parseFloat(facture.paiementprestas));}
+      if(tot==0)
+      {
+        if(d.planning&&d.planning.planningprestas)
         {
-          if(date.planning&&date.planning.planningprestas)
-          {
-            date.planning.planningprestas.forEach((presta:any)=>{
-              if(presta.presta!=0) tot = tot + parseFloat(""+presta.prix);
-            })
-          }
+          d.planning.planningprestas.forEach((presta:any)=>{
+            if(presta.presta!=0) tot = tot + parseInt(this.calcToString2(presta));
+          })
         }
-        total += tot;
-      })
+      }
+      if(d.devis&&d.devis.prestas)
+      {
+        d.devis.prestas.forEach((presta:any)=>{if(presta.nom.includes("renfort"))tot+= parseFloat(this.calc(presta))});
+      }
+      total += parseFloat(""+tot);
     })
     return parseInt(total)+"€";
   }
@@ -1131,6 +1283,17 @@ export class AppComponent implements OnInit {
     return this.getClass(date);
   }
 
+  noPlanning(year: number, month: number, day: number): any {
+    const dateStr = `${day.toString().padStart(2, '0')}/${(month + 1)
+      .toString()
+      .padStart(2, '0')}/${year}`;
+    let date = this.occupiedDates.find(
+      (d: any) =>
+        d.date == dateStr
+    );
+    return date && date.statut == "reserve" && date.etape != 999 && !date.planning.date;
+  }
+
   calcToString(presta: any) {
     if (presta.qte == '?') return '';
     let prix = this.calc(presta);
@@ -1281,6 +1444,7 @@ export class AppComponent implements OnInit {
     this.initDevis();
   }
   clickFacture(i: any = undefined) {
+    this.jourClicked.delete = undefined;
     console.log(i);
     if (i!=undefined) {
       if(i.target)

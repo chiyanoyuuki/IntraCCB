@@ -837,6 +837,7 @@ export class DevisComponent implements OnInit {
 
   init(maxs: any = undefined) {
     let data = JSON.parse(JSON.stringify(this.data));
+    console.log(data);
     this.inited = false;
     this.prestas = JSON.parse(JSON.stringify(this.baseprestas));
 
@@ -1363,6 +1364,11 @@ export class DevisComponent implements OnInit {
     this.retour.emit();
   }
 
+  delete(){
+    this.data.delete = this.data.factureClicked;
+    this.retour.emit();
+  }
+
   save() {
     if (this.mode == 'devis') {
       let devis: any = {};
@@ -1825,6 +1831,12 @@ export class DevisComponent implements OnInit {
   formatDate(dateStr: any) {
     const [day, month, year] = dateStr.split('/'); // Sépare le format dd/mm/yyyy
     return this.lg === 'Anglais' ? `${month}/${day}/${year}` : dateStr;
+  }
+  
+  reinitPlanning()
+  {
+    this.data.planning.date = undefined;
+    this.init();
   }
 
   calcGains(i:any)

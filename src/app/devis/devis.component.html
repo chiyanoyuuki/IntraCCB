@@ -967,10 +967,12 @@ DEVIS CLOE
     </div>
 
     <div class="flex center bottombuttons">
+      <button *ngIf="false&&mode=='planning'" (click)="reinitPlanning()">Reinit planning</button>
       <button (click)="generatePDFfromHTML()">
         Générer PDF
       </button>
       <button (click)="save()">Sauvegarder</button>
+      <button *ngIf="mode=='facture'&&data.factures[data.factureClicked]" class="delete" (click)="delete()">Supprimer</button>
     </div>
 
   </div>

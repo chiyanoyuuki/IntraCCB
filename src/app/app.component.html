@@ -38,6 +38,7 @@
         <div class="blockday" *ngFor="let day of getDaysInMonth(year, monthIndex)"
               [class.ant]="isAnt(monthIndex, day, year)"
               [class.today]="istoday(monthIndex, day, year)"
+              [class.noplanning]="noPlanning(year, monthIndex, day)"
             [ngClass]="isOccupied(year, monthIndex, day)"
             (mouseenter)="showTooltip($event, monthIndex, day)"
             (mouseleave)="hideTooltip()"
@@ -72,6 +73,8 @@
         <!-- Jours du mois -->
         <div class="blockday" *ngFor="let day of getDaysInMonth(year, monthIndex)"
               [class.ant]="isAnt(monthIndex, day, year)"
+              [class.noplanning]="noPlanning(year, monthIndex, day)"
+              [class.today]="istoday(monthIndex, day, year)"
             [ngClass]="isOccupied(year, monthIndex, day)"
             (mouseenter)="showTooltip($event, monthIndex, day)"
             (mouseleave)="hideTooltip()"
@@ -291,12 +294,12 @@
   <div><p>Autre : </p><p>{{getStatut('autre')}}</p></div>
   <div><p>Terminés : </p><p>{{getStatut('999')}}</p></div>
   <div><p>&nbsp;</p></div>
-  <div><p>Déjà payé : </p><p>{{alreadyPaid()}}</p></div>
-  <div><p>Reste à payer : </p><p>{{notPaid()}}</p></div>
+  <div><p>Déjà payé : </p><p>{{alreadyPaid2()}}€</p></div>
+  <div><p>Reste à payer : </p><p>{{notPaid2()}}€</p></div>
   <div><p>Paiements renforts : </p><p>{{renforts()}}</p></div>
   <div><p>&nbsp;</p></div>
-  <div><p>{{month?'Estimation mensuelle : ':' Estimation annuelle : '}}</p><p>{{totalThunes()}}</p></div>
-  <div><p>{{month?'Total mensuel : ':' Total annuel : '}}</p><p>{{totalThunes2()}}</p></div>
+  <div><p>{{month?'Estimation mensuelle : ':' Estimation annuelle : '}}</p><p>{{xtotalThunes()}}</p></div>
+  <div><p>{{month?'Total mensuel : ':' Total annuel : '}}</p><p>{{xtotalThunes2()}}</p></div>
 </div>
 
 <div *ngIf="!jourClicked&&!month" style="padding-bottom:50px;">
