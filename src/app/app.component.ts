@@ -687,6 +687,50 @@ export class AppComponent implements OnInit {
     return cpt;
   }
 
+  getMonthFactures()
+  {
+    let factures = this.occupiedDates.flatMap(entry => entry.factures)
+      .filter(facture => {
+        const factureYear = parseInt(facture.creation.split("/")[2], 10);
+        const factureMonth = parseInt(facture.creation.split("/")[1], 10);
+        if(this.month)
+          return factureYear == this.year && factureMonth == this.monthIndex+1;
+        else
+          return factureYear == this.year;
+    });
+    return factures.sort((a, b) => {
+      const [dayA, monthA, yearA] = a.creation.split('/').map(Number);
+      const [dayB, monthB, yearB] = b.creation.split('/').map(Number);
+
+      const dateA = new Date(yearA, monthA - 1, dayA);
+      const dateB = new Date(yearB, monthB - 1, dayB);
+
+      return dateA.getTime() - dateB.getTime(); // plus ancienne -> plus récente
+    });
+  }
+
+  getFactureText(facture:any)
+  {
+    let txt = "";
+    let jour = this.occupiedDates.find((date:any)=>date.factures.find((fac:any)=>fac.creation==facture.creation&&fac.numero==facture.numero&&fac.solde==facture.solde));
+    if(jour)
+    {
+      txt = "<b>"+jour.nom + "</b> - ";
+    }
+    txt += facture.creation + " : " + parseInt(""+(facture.solde-(facture.paiementprestas?facture.paiementprestas:0))) + "€";
+    return txt;
+  }
+
+  goToWedding(facture:any)
+  {
+    let jour = this.occupiedDates.find((date:any)=>date.factures.find((fac:any)=>fac.creation==facture.creation&&fac.numero==facture.numero&&fac.solde==facture.solde));
+    if(jour)
+    {
+      this.jourClicked = jour;
+      this.jourClickedSave = jour;
+    }
+  }
+
   alreadyPaid2()
   {
     // Toutes les factures qui correspondent au mois ou à l'année

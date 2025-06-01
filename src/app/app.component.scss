@@ -610,3 +610,18 @@ button, select{
 .noplanning{
   border: 2px solid red!important;
 }
+
+.stats2{
+  display:flex;
+  flex-flow: wrap;
+  p{
+    text-align: center;
+    width:50%;
+    border:unset!important;
+  }
+  p:hover{
+    cursor:pointer;
+    font-weight: bold;
+    text-decoration: underline;
+  }
+}

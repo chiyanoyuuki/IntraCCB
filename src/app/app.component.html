@@ -302,6 +302,10 @@
   <div><p>{{month?'Total mensuel : ':' Total annuel : '}}</p><p>{{xtotalThunes2()}}</p></div>
 </div>
 
+<div *ngIf="!jourClicked && month" class="stats stats2">
+  <p *ngFor="let facture of getMonthFactures()" [innerHTML]="getFactureText(facture)" class="clickable" (click)="goToWedding(facture)"></p>
+</div>
+
 <div *ngIf="!jourClicked&&!month" style="padding-bottom:50px;">
   <div class="flex between alldata">
     <div>
