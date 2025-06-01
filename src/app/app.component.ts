@@ -634,6 +634,11 @@ export class AppComponent implements OnInit {
                 facture: facture
             }))
           );
+
+          this.allfactures.forEach((fac:any)=>{
+            if(!fac.facture.solde||fac.facture.solde==0)console.log(fac);
+            //if(this.calcPaye3(fac.facture) <= 0) console.log("NOPE",fac);
+          })
          
 
         this.allWedding = this.occupiedDates.filter((date:any)=>date.statut!="essai");
@@ -1333,7 +1338,10 @@ export class AppComponent implements OnInit {
       .padStart(2, '0')}/${year}`;
     let date = this.occupiedDates.find(
       (d: any) =>
-        d.date == dateStr
+        d.date == dateStr &&
+        (this.search != ''
+          ? JSON.stringify(d).toLowerCase().includes(this.search.toLowerCase())
+          : true)
     );
     return date && date.statut == "reserve" && date.etape != 999 && !date.planning.date;
   }
@@ -1417,6 +1425,35 @@ export class AppComponent implements OnInit {
         ? ' (' + this.jourClicked.factures[0].creation + ')'
         : '')
     );
+  }
+
+  calcPaye2(fac:any) {
+    let prix = 0;
+    let f = this.jourClicked.factures[fac];
+    if (f.solde) prix += parseFloat(f.solde);
+    else {
+      f.prestas.forEach((presta: any) => {
+        prix += this.calc(presta);
+      });
+    }
+    return (
+      parseInt(""+prix) +
+      '€' +
+      (this.jourClicked.factures.length == 1
+        ? ' (' + this.jourClicked.factures[0].creation + ')'
+        : '')
+    );
+  }
+
+   calcPaye3(fac:any) {
+    let prix = 0;
+    if (fac.solde) prix += parseFloat(fac.solde);
+    else {
+      fac.prestas.forEach((presta: any) => {
+        prix += this.calc(presta);
+      });
+    }
+    return parseInt(""+prix);
   }
 
   transform(value: number): string {

@@ -216,7 +216,7 @@
     <p>Factures : </p>
     <select [(ngModel)]="selectedValue" (change)="clickFacture($event)" [class.red]="diffs&&diffs.factures">
       <option [value]="-1">Nouvelle facture</option>
-      <option *ngFor="let facture of jourClicked.factures;let i=index"  [value]="i">{{formatNumber(facture.numero)+"_"+facture.annee + " : "+(facture.solde?facture.solde:calcPaye())+ "€ ("+facture.creation+")"}}</option>
+      <option *ngFor="let facture of jourClicked.factures;let i=index"  [value]="i">{{formatNumber(facture.numero)+"_"+facture.annee + " : "+(facture.solde?facture.solde:calcPaye2(i))+ " ("+facture.creation+")"}}</option>
     </select>
   </div>
 
