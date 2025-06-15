@@ -722,7 +722,7 @@ export class AppComponent implements OnInit {
     {
       txt = "<b>"+jour.nom + "</b> - ";
     }
-    txt += facture.creation + " : " + parseInt(""+(facture.solde-(facture.paiementprestas?facture.paiementprestas:0))) + "€";
+    txt += facture.creation + " : " + parseInt(""+facture.solde) + "€";
     return txt;
   }
 
