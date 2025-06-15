@@ -1066,10 +1066,15 @@ export class DevisComponent implements OnInit {
           {
             let tot = 0;
             data.planning.planningprestas.forEach((presta:any)=>{
-              if(presta.presta!=0) tot = tot + presta.prix
+              if(presta.presta!=0) tot = tot + parseFloat(""+presta.prix);
             })
-            this.values[61] = tot;
+            this.values[61] = parseInt(""+tot);
           }
+          if(data.devis && data.devis.prestas)
+          {
+            data.devis.prestas.forEach((presta:any)=>{if(presta.nom.includes("renfort")) this.values[61] += this.calc(presta);})
+          }
+          this.values[60] = parseInt(this.transform(this.calcTot(true))) - this.values[61]; 
         }
       }
     } else if (data.mode == 'renseignement'){
