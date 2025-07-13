@@ -625,3 +625,60 @@ button, select{
     text-decoration: underline;
   }
 }
+
+//NEW CSS
+
+.bottom{
+  display: flex;
+  justify-content: space-around;
+  flex-flow: wrap;
+  margin: 20px 0px;
+  div{
+    border: 3px ridge var(--color4);
+    border-radius: 20px;
+    margin:10px 0px;
+    background-color: var(--color3);
+    padding: 30px;
+    height:fit-content;
+    min-width: 30vw;
+    .title{
+      font-weight: bold;
+      font-size: 20px;
+      text-decoration: underline;
+      padding-bottom: 10px;
+    }
+  }
+  .factures{
+    div{
+      padding: 0px;
+      border: unset;
+    }
+    .container{
+      border-radius:0px;
+      max-height: 20vh;
+      overflow-y: scroll;
+      overflow-x: hidden;
+    }
+    .line{
+      margin:0px;
+      padding: 0px;
+      display: flex;
+      justify-content: space-evenly;
+      color: black;
+      min-width: unset;
+      p{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      p:nth-child(1){width:50%;}
+      p:nth-child(2){width:30%;}
+      p:nth-child(3){width:20%;}
+    }
+    .toPay{
+      div{
+        color:var(--color5)!important;
+      }
+    }
+  }
+}

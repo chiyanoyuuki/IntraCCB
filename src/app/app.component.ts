@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import {
   Component,
   HostListener,
+  inject,
   Input,
   isDevMode,
   OnChanges,
@@ -19,6 +20,10 @@ import { DevisComponent } from './devis/devis.component';
 import { from } from 'rxjs';
 import Swal from 'sweetalert2';
 import { environment } from '../environments/environment';
+import { DataService } from './services/data-service.service';
+import { PrestaService } from './services/presta-service.service';
+import { DateService } from './services/date-service.service';
+import { CalcService } from './services/calc-service.service';
 
 @Component({
   selector: 'app-root',
@@ -28,6 +33,11 @@ import { environment } from '../environments/environment';
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
+  private calcService = inject(CalcService);
+  private dataService = inject(DataService);
+  private prestaService = inject(PrestaService);
+  private dateService = inject(DateService);
+
   @ViewChild('devis') devis!: DevisComponent;
 
   safedev = true;
@@ -1886,5 +1896,57 @@ export class AppComponent implements OnInit {
         document.documentElement.style.setProperty('--required', '#303030');
     }
     this.init();
+  }
+
+  //NEW METHODS =======================================
+
+  getStatut2(statut:string){return this.dateService.getNbStatut(this.occupiedDates, statut, this.year, this.monthIndex);}
+  getEtape2(etape:number){return this.dateService.getNbEtape(this.occupiedDates, etape, this.year, this.monthIndex);}
+  getHoursWorked(fromNow:boolean,untilNow:boolean)
+  {
+    const perHour = this.calcService.getPerHour(this.occupiedDates, this.year,fromNow, untilNow, this.monthIndex);
+    const time = this.calcService.getHoursWorked(this.occupiedDates, this.year,fromNow, untilNow, this.monthIndex);
+    if(untilNow)return "Tu as travaillé <span class='glow'>" + parseInt(""+time/60) + "</span> heures et <span class='glow'>" + time%60 + "</span> minutes ("+perHour+"€/h)";
+    if(fromNow)return "Il te reste environ <span class='glow'>" + parseInt(""+time/60) + "</span> heures et <span class='glow'>" + time%60 + "</span> minutes ("+perHour+"€/h)";
+    else return "Ton " + (this.monthIndex?'mois':'année')  + " est de <span class='glow'>" + parseInt(""+time/60) + "</span> heures et <span class='glow'>" + time%60 + "</span> minutes ("+perHour+"€/h)";
+  }
+  getAlreadyPaid(){return this.calcService.getAlreadyPaid(this.occupiedDates, this.year, this.monthIndex);}
+  getNotPaid(){return this.calcService.getNotPaid(this.occupiedDates, this.year, this.monthIndex);}
+  getHelpers(){return this.calcService.getHelpers(this.occupiedDates, this.year, this.monthIndex);}
+  getEstimate(){
+    let total = this.calcService.getEstimate(this.occupiedDates, this.year,this.monthIndex);
+    return "Estimation "+(this.monthIndex?'mensuelle':'annuelle')+" : <span class='glow'>" + total + "€ ("+parseInt(""+(total-(total*0.24)))+"€ net)</span>";
+  }
+  getTotal(){
+    let total = this.calcService.getTotal(this.occupiedDates, this.year,this.monthIndex);
+    return "Total "+(this.monthIndex?'mensuel':'annuel')+" : <span class='glow'>" + total + "€ ("+parseInt(""+(total-(total*0.24)))+"€ net)</span>";
+  }
+  getMonthFactures2(){return this.dateService.getMonthFactures(this.occupiedDates, this.monthIndex, this.year);}
+  getMonthFacturesMissing(){return this.calcService.getMonthFacturesMissing(this.occupiedDates, this.monthIndex, this.year);}
+
+
+  onDayClicked(dateStr: string, id:string="") {
+    this.event = 0;
+    this.diffs = undefined;
+    this.hideTooltip();
+
+    let events = this.dateService.getDaysThisDay(this.occupiedDates, dateStr, id);
+    if(events.length==0)
+    {
+      this.jourClicked = {
+        date: dateStr,
+        statut: 'demande',
+        etape: 0,
+        factures: [],
+        devis: {},
+        planning: {},
+        essai: {},
+        mariage: {},
+      };
+    }
+    else{
+      this.jourClicked = events[0];
+    }
+    this.jourClickedSave = JSON.parse(JSON.stringify(this.jourClicked));
   }
 }
