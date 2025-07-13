@@ -2,6 +2,7 @@ import {
   Component,
   EventEmitter,
   HostListener,
+  inject,
   Input,
   isDevMode,
   OnInit,
@@ -16,6 +17,7 @@ import { FormsModule } from '@angular/forms';
 import { from, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ReadpdfService } from '../../services/readpdf.service';
+import { DataService } from '../services/data-service.service';
 
 @Component({
   selector: 'app-devis',
@@ -26,6 +28,7 @@ import { ReadpdfService } from '../../services/readpdf.service';
   providers: [DatePipe],
 })
 export class DevisComponent implements OnInit {
+  private dataService = inject(DataService);
   @Output() retour = new EventEmitter<string>();
 
   @Input() data: any;
@@ -296,6 +299,7 @@ export class DevisComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.baseprestas = this.dataService.getBasePrestas();
     if(this.artiste=="celma")this.basePrestasCelma();
     else if(this.artiste=="charles")this.basePrestasCharles();
     this.baseprestas.forEach((presta: any) => {

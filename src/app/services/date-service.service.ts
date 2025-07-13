@@ -39,7 +39,6 @@ export class DateService {
 
   public getNbStatut(journees:Journee[], statut:string, year:number, mois:number)
   {
-    console.log(journees, statut, year, mois);
     let data = this.thisYear(journees,year);
     if(mois) data = this.thisMonth(journees, mois, year);
     const still = data.filter((day=>day.statut==statut && day.etape!=999)).length;

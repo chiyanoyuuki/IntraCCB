@@ -201,6 +201,9 @@ export class CalcService {
     let factures: any = [];
     let data = this.dateService.thisYear(journees, year);
     if(month) data = this.dateService.thisMonth(journees, month, year);
+
+    data = data.filter(journee=>journee.etape!=999);
+
     data.forEach(journee=>
     {
       if(journee.devis && journee.devis.prestas)
