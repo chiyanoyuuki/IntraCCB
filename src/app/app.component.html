@@ -19,9 +19,9 @@
   <input type="text" [(ngModel)]="search" placeholder="Recherche.." />
 </div>
 
-<div class="calendar" *ngIf="!jourClicked" >
+<div class="calendar" *ngIf="!jourClicked" #calendarContainer>
   <ng-container *ngIf="(portrait&&!month)||!portrait">
-    <div *ngFor="let month of months; let monthIndex = index" class="month" (click)="clickMonth(month, monthIndex)">
+    <div *ngFor="let month of months; let monthIndex = index" class="month" (click)="clickMonth(month, monthIndex)" [attr.data-index]="monthIndex" #monthRef>
       <h3>{{ month +' ('+(monthIndex+1)+')'}}</h3>
       
       <!-- En-tête des jours de la semaine -->

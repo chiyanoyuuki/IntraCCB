@@ -2,14 +2,17 @@ import { CommonModule, Location, LocationStrategy } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
   Component,
+  ElementRef,
   HostListener,
   inject,
   Input,
   isDevMode,
   OnChanges,
   OnInit,
+  QueryList,
   SimpleChanges,
   ViewChild,
+  ViewChildren,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
@@ -39,6 +42,8 @@ export class AppComponent implements OnInit {
   private dateService = inject(DateService);
 
   @ViewChild('devis') devis!: DevisComponent;
+  @ViewChild('calendarContainer') calendarRef!: ElementRef;
+  @ViewChildren('monthRef') monthRefs!: QueryList<ElementRef>;
 
   safedev = true;
   artiste="cloe";
@@ -182,6 +187,24 @@ export class AppComponent implements OnInit {
     (pdfjsLib as any).GlobalWorkerOptions.workerSrc = 'pdf.worker.js';
 
     if (this.innerHeight > this.innerWidth) this.portrait = true;
+  }
+
+  ngAfterViewInit(): void {
+    const now = new Date();
+    const currentMonthIndex = now.getMonth(); // 0 = Janvier
+
+    const firstMonthEl = this.monthRefs.get(0)?.nativeElement;
+    if (!firstMonthEl) return;
+
+    const monthHeight = firstMonthEl.offsetHeight + 20;
+    const rowIndex = Math.floor(currentMonthIndex / 2); // 2 colonnes → lignes
+
+    const offset = rowIndex * monthHeight;
+
+    this.calendarRef.nativeElement.scrollTo({
+      top: offset,
+      behavior: 'smooth'
+    });
   }
 
   onDevisRetour()
