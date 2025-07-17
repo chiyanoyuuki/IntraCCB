@@ -190,21 +190,23 @@ export class AppComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    const now = new Date();
-    const currentMonthIndex = now.getMonth(); // 0 = Janvier
+    setTimeout(() => {
+      const now = new Date();
+      const currentMonthIndex = now.getMonth(); // 0 = Janvier
 
-    const firstMonthEl = this.monthRefs.get(0)?.nativeElement;
-    if (!firstMonthEl) return;
+      const firstMonthEl = this.monthRefs.get(0)?.nativeElement;
+      if (!firstMonthEl) return;
 
-    const monthHeight = firstMonthEl.offsetHeight + 20;
-    const rowIndex = Math.floor(currentMonthIndex / 2); // 2 colonnes → lignes
+      const monthHeight = firstMonthEl.offsetHeight + 20;
+      const rowIndex = Math.floor(currentMonthIndex / 2); // 2 colonnes → lignes
 
-    const offset = rowIndex * monthHeight;
+      const offset = rowIndex * monthHeight;
 
-    this.calendarRef.nativeElement.scrollTo({
-      top: offset,
-      behavior: 'smooth'
-    });
+      this.calendarRef.nativeElement.scrollTo({
+        top: offset,
+        behavior: 'smooth'
+      });
+    }, 100);
   }
 
   onDevisRetour()
