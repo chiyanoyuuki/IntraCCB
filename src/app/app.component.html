@@ -154,6 +154,12 @@
     <div *ngIf="jourClicked.statut!='perso'">
       <p>Mariage : </p>
       <div class="column">
+        <select [(ngModel)]="jourClicked.mariage" (ngModelChange)="onDomainChange($event)">
+          <option [ngValue]="{}">Choisir un domaine</option>
+          <option *ngFor="let domaine of domaines" [ngValue]="domaine">
+            {{ domaine.domaine }} {{ domaine.codepostal }}
+          </option>
+        </select>
         <input type="text" placeholder="Domaine.." [(ngModel)]="jourClicked.mariage.domaine" [class.red]="diffs&&diffs.mariage&&diffs.mariage.domaine"/>
         <input type="text" placeholder="Adresse.." [(ngModel)]="jourClicked.mariage.adresse" [class.red]="diffs&&diffs.mariage&&diffs.mariage.adresse"/>
         <input type="text" placeholder="Code Postal.." [(ngModel)]="jourClicked.mariage.codepostal" [class.red]="diffs&&diffs.mariage&&diffs.mariage.codepostal"/>

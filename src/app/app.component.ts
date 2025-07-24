@@ -1,4 +1,4 @@
-import { CommonModule, Location, LocationStrategy } from '@angular/common';
+import { CommonModule, DatePipe, Location, LocationStrategy } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
   Component,
@@ -34,6 +34,7 @@ import { CalcService } from './services/calc-service.service';
   imports: [RouterOutlet, FormsModule, CommonModule, DevisComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
+  providers: [DatePipe],
 })
 export class AppComponent implements OnInit {
   private calcService = inject(CalcService);
@@ -64,6 +65,7 @@ export class AppComponent implements OnInit {
   ];
 
   year = 2025;
+  domaines: any;
 
   jourClicked: any = undefined;
   jourClickedSave: any = undefined;
@@ -110,7 +112,7 @@ export class AppComponent implements OnInit {
   public innerWidth: any = window.outerWidth;
   public innerHeight: any = window.outerHeight;
 
-  constructor(private http: HttpClient, private location: Location) {}
+  constructor(private http: HttpClient, private location: Location, private datePipe: DatePipe) {}
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
@@ -416,6 +418,12 @@ export class AppComponent implements OnInit {
   }
 
   getData() {
+    this.http.get<any[]>('domaines.json').subscribe(
+      (data:any) => {
+        this.domaines = data;
+      }
+    );
+
     if(this.safedev&&isDevMode())
     {
       if(this.artiste=="celma")
@@ -684,17 +692,17 @@ export class AppComponent implements OnInit {
         });
         console.log(this.allWedding);
 
-        let grouped: any = {};
+        let grouped2: any = {};
         this.occupiedDates.forEach(item => {
           const [day, month, year] = item.date.split("/"); // Extraire les parties de la date
           const key = `${month}-${year}`; // Clé sous forme "MM-YYYY"
   
-          if (!grouped[key]) {
-            grouped[key] = { mois: parseInt(month), annee: year, dates: [] };
+          if (!grouped2[key]) {
+            grouped2[key] = { mois: parseInt(month), annee: year, dates: [] };
           }
-          grouped[key].dates.push(item);
+          grouped2[key].dates.push(item);
         });
-        this.monthsvalues = Object.values(grouped);
+        this.monthsvalues = Object.values(grouped2);
 
         const today = new Date();
         this.prochain = this.occupiedDates
@@ -705,6 +713,66 @@ export class AppComponent implements OnInit {
         .filter(obj => obj.dateObj > today) // Filtre les dates futures
         .sort((a, b) => a.dateObj - b.dateObj) // Trie par date la plus proche
         [0];
+
+
+
+
+        let tmp = this.occupiedDates;
+        tmp = tmp
+          .filter((item:any) =>
+            item.statut=="reserve" &&
+            item?.mariage?.domaine !== undefined &&
+            item.mariage.domaine !== null &&
+            item.mariage.domaine !== ''
+          )
+          .map(item => ({mariage:item.mariage,qte:item.devis?.prestas?.find((presta:any)=>presta.nom.includes("déplacement Jour-J"))?.qte}));
+        
+        tmp = tmp.filter((a:any)=>a.qte!=undefined);
+
+      interface Entry {
+        mariage: {
+            domaine: string;
+            adresse: string;
+            codepostal: string;
+          };
+          qte: string | number;
+        }
+
+        const rawData: Entry[] = tmp;
+
+        const cleanKey = (str: string): string =>
+          str?.toLowerCase().trim().replace(/\s+/g, ' ') || '';
+
+        const grouped = new Map<string, { nom: string; lieu: string; codepostal: string; qtes: number[] }>();
+
+        for (const item of rawData) {
+          const domaine = item.mariage?.domaine || '';
+          const lieu = item.mariage?.adresse || '';
+          const codepostal = item.mariage?.codepostal || '';
+
+          const key = cleanKey(domaine);
+
+          const qteNum = typeof item.qte === 'number'
+            ? item.qte
+            : parseInt(item.qte);
+
+          if (isNaN(qteNum)) continue;
+
+          if (!grouped.has(key)) {
+            grouped.set(key, {
+              nom: domaine.trim(),
+              lieu: lieu.trim(),
+              codepostal: codepostal.trim(),
+              qtes: []
+            });
+          }
+
+          grouped.get(key)!.qtes.push(qteNum);
+        }
+
+        const result = Array.from(grouped.values());
+
+      console.log("result",result);
 
         console.log(data.filter((d:any)=>d.factures.length>0&&d.factures[0].annee==2025&&d.prestataires));
 
@@ -818,6 +886,44 @@ export class AppComponent implements OnInit {
     })
 
     return parseInt(""+total);
+  }
+
+  onDomainChange(event:any){
+    if(this.jourClicked.devis.prestas)
+    {
+      let deplac = this.jourClicked.devis.prestas.find((presta:any)=>presta.nom.includes("déplacement Jour-J"));
+      if(deplac){
+        deplac.qte = event.qte;
+      }
+      else{
+        this.jourClicked.devis.prestas.push({
+          en: "D-Day Travel Expenses (Round Trip)",
+          kilorly: true,
+          nom: "Frais de déplacement Jour-J (Aller/Retour)",
+          prix: 0.4,
+          qte: event.qte
+        })
+      }
+    }
+    else
+    {
+      console.log(event);
+      const now = new Date();
+      let twoweeks = new Date();
+      twoweeks = new Date(twoweeks.getTime() + 14 * 24 * 60 * 60 * 1000);
+      let max : any = this.getMaxs();
+      this.jourClicked.devis.annee = this.year;
+      this.jourClicked.devis.creation = this.datePipe.transform(now, 'dd/MM/yyyy') || '';
+      this.jourClicked.devis.echeance = this.datePipe.transform(twoweeks, 'dd/MM/yyyy') || '';
+      this.jourClicked.devis.numero = max ? max.maxDevis + 1 : 1;
+      this.jourClicked.devis.prestas = [{
+        en: "D-Day Travel Expenses (Round Trip)",
+        kilorly: true,
+        nom: "Frais de déplacement Jour-J (Aller/Retour)",
+        prix: 0.4,
+        qte: event.qte
+      }];
+    }
   }
 
   alreadyPaid(i:any=-1)
