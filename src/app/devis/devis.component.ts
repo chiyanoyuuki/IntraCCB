@@ -767,8 +767,8 @@ export class DevisComponent implements OnInit {
 
     if (i1[1] != '') {
       let arrivee = i1[1];
-      let installation = this.addMinutesToTime(arrivee, 15);
-      let debut = this.addMinutesToTime(arrivee, 30);
+      let installation = this.addMinutesToTime(arrivee, 10);
+      let debut = this.addMinutesToTime(arrivee, 20);
 
       i1[1] = '';
       i1[2] = '';
@@ -804,8 +804,8 @@ export class DevisComponent implements OnInit {
 
     if (i1[1] != '') {
       let arrivee = i1[1];
-      let installation = this.addMinutesToTime(arrivee, 15);
-      let debut = this.addMinutesToTime(arrivee, 30);
+      let installation = this.addMinutesToTime(arrivee, 10);
+      let debut = this.addMinutesToTime(arrivee, 20);
 
       i1[1] = '';
       i1[2] = '';
@@ -1468,8 +1468,8 @@ export class DevisComponent implements OnInit {
           if (presta.maquillage) debut = invitee[3];
           else if (presta.coiffure) debut = invitee[4];
 
-          let arrivee = this.addMinutesToTime(debut, -30);
-          let installation = this.addMinutesToTime(debut, -15);
+          let arrivee = this.addMinutesToTime(debut, -20);
+          let installation = this.addMinutesToTime(debut, -10);
 
           invitee[1] = arrivee;
           invitee[2] = installation;
@@ -1502,8 +1502,8 @@ export class DevisComponent implements OnInit {
     if (invitees.length == 0) {
       let arrivee =
         this.collegues[artiste][4] != '' ? this.collegues[artiste][4] : '8h30';
-      let installation = this.addMinutesToTime(arrivee, 15);
-      let debut = this.addMinutesToTime(arrivee, 30);
+      let installation = this.addMinutesToTime(arrivee, 10);
+      let debut = this.addMinutesToTime(arrivee, 20);
 
       this.invitees.push([
         presta.bride ? 1 : 0,
