@@ -47,7 +47,7 @@ export class AppComponent implements OnInit {
   @ViewChildren('monthRef') monthRefs!: QueryList<ElementRef>;
 
   safedev = true;
-  artiste="celma";
+  artiste="cloe";
 
   months: string[] = [
     'Janvier',

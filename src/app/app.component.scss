@@ -505,6 +505,9 @@ input{
   .center{
     justify-content: center;
   }
+  .zindex{
+    z-index: 9!important;
+  }
 
   .blockday{
     position:relative;
@@ -514,7 +517,7 @@ input{
   background-color: var(--principale);
   border-radius: 100%;
   padding: 0px 5px;
-  bottom: -22px;
+  bottom: -8px;
   right: -6px;
   z-index: 1;
     }

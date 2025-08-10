@@ -39,6 +39,7 @@
               [class.ant]="isAnt(monthIndex, day, year)"
               [class.today]="istoday(monthIndex, day, year)"
               [class.noplanning]="noPlanning(year, monthIndex, day)"
+              [class.zindex]="numberOfEvents(monthIndex, day)>1"
             [ngClass]="isOccupied(year, monthIndex, day)"
             (mouseenter)="showTooltip($event, monthIndex, day)"
             (mouseleave)="hideTooltip()"
