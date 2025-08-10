@@ -1775,9 +1775,16 @@ export class DevisComponent implements OnInit {
   calc(presta: any) {
     let prix = presta.prix * presta.qte;
     if (presta.kilorly) {
-      if (presta.qte <= 10) prix = 0;
-      else {
-        prix = (presta.qte - 10) * 2 * presta.prix;
+      if(this.artiste=="cloe")
+      {
+        if (presta.qte <= 10) prix = 0;
+        else {
+          prix = (presta.qte - 10) * 2 * presta.prix;
+        }
+      }
+      else
+      {
+        prix = presta.qte * 2 * presta.prix;
       }
     }
     if (presta.reduc) prix = prix - (prix * presta.reduc) / 100;

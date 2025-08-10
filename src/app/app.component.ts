@@ -47,7 +47,7 @@ export class AppComponent implements OnInit {
   @ViewChildren('monthRef') monthRefs!: QueryList<ElementRef>;
 
   safedev = true;
-  artiste="cloe";
+  artiste="celma";
 
   months: string[] = [
     'Janvier',
@@ -514,8 +514,8 @@ export class AppComponent implements OnInit {
           "prestataires": 0,
           "etape": 1
         }]);
-        this.clickJour(3,19,2025);
-        let int = setInterval(()=>{this.clickFacture();clearInterval(int);},50);
+        //this.clickJour(3,19,2025);
+        //let int = setInterval(()=>{this.clickFacture();clearInterval(int);},50);
         return;
       }
       else if(this.artiste=="charles")
