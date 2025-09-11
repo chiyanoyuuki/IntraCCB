@@ -759,10 +759,16 @@ DEVIS CLOE
               +
             </p>
           </div>
-          <input
+          <input *ngIf="lg==='Français'"
             type="text"
             class="nom"
             [(ngModel)]="presta.nom"
+            placeholder="Nom.."
+          />
+          <input *ngIf="lg!=='Français'"
+            type="text"
+            class="nom"
+            [(ngModel)]="presta.en"
             placeholder="Nom.."
           />
           <input type="text" [(ngModel)]="presta.prix" placeholder="Prix.." />

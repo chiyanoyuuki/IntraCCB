@@ -915,6 +915,7 @@ export class DevisComponent implements OnInit {
               nom: p.nom,
               prix: p.prix,
               reduc: p.reduc ? p.reduc : 0,
+              kilorly: p.kilorly
             });
           }
         });
