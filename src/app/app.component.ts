@@ -28,6 +28,8 @@ import { PrestaService } from './services/presta-service.service';
 import { DateService } from './services/date-service.service';
 import { CalcService } from './services/calc-service.service';
 
+import { Chart, ChartConfiguration } from 'chart.js';
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -45,10 +47,32 @@ export class AppComponent implements OnInit {
   @ViewChild('devis') devis!: DevisComponent;
   @ViewChild('calendarContainer') calendarRef!: ElementRef;
   @ViewChildren('monthRef') monthRefs!: QueryList<ElementRef>;
+   @ViewChild('chartCanvas', { static: true }) chartCanvas!: ElementRef<HTMLCanvasElement>;
+  chart!: Chart;
+  mode: 'day' | 'month' = 'day';
+
+  dataByYear: any = {}; // ton objet regroupé par année après graphs()
 
   safedev = true;
   artiste="cloe";
 
+  currentMonth = new Date().getMonth() + 1;
+  currentYear = new Date().getFullYear();
+  years:any
+  monthLabels = Array.from({ length: 12 }, (_, i) => i + 1);
+  colors = ['#ccc', 'rgb(135, 82, 142)', 'green', 'orange', 'purple'];
+
+  width = 500;
+  width2 = 600;
+  height = 300;
+  maxValue = 0;
+  xStep = 0;
+  xStep2 = 0;
+cumulativeByYear:any = {};
+  cumulativeValues: number[] = [];
+cumulativeMax = 0;
+
+  startchart = false;
   months: string[] = [
     'Janvier',
     'Février',
@@ -774,12 +798,106 @@ export class AppComponent implements OnInit {
 
       console.log("result",result);
 
-        console.log(data.filter((d:any)=>d.factures.length>0&&d.factures[0].annee==2025&&d.prestataires));
+      console.log(data.filter((d:any)=>d.factures.length>0&&d.factures[0].annee==2025&&d.prestataires));
 
-        //this.showNumeros();
-        //this.checkNumerosDevis();
-        //this.checkNumerosFactures(2024);
-        //showFactures();
+      this.graphs(); // prépare dataByYear
+
+      //this.showNumeros();
+      //this.checkNumerosDevis();
+      //this.checkNumerosFactures(2024);
+      //showFactures();
+  }
+
+  setMode(mode: 'day' | 'month') {
+    this.mode = mode;
+  }
+
+  graphs() {
+    const result: any = {};
+
+    this.occupiedDates.forEach(client => {
+      client.factures.forEach((facture: any) => {
+        const [day, month, year] = facture.creation.split("/").map(Number);
+
+        if (!result[year]) result[year] = {};
+        if (!result[year][month]) result[year][month] = 0;
+
+        result[year][month] += parseFloat(""+facture.solde); // cumul par mois
+      });
+    });
+
+    this.dataByYear = result;
+
+    delete this.dataByYear["2023"];
+
+    this.years = Object.keys(this.dataByYear);
+    this.maxValue = Math.max(
+      ...this.years.flatMap((y:any) => Object.values(this.dataByYear[y]))
+    );
+    this.xStep = this.width / (this.monthLabels.length - 1);
+    this.xStep2 = this.width2 / (this.monthLabels.length - 1);
+
+    this.computeCumulativeByYear();
+  }
+
+  getMonthValue(year: string, month: number) {
+    return this.dataByYear[year][month] || 0;
+  }
+
+  getLinePoints(year: string) {
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth() + 1; // JS: 0 = janvier
+
+  return this.monthLabels
+    .filter((m) => !(+year === currentYear && m > currentMonth - 1)) // ignore les mois futurs pour l'année actuelle
+    .map((m, i) => {
+      const x = i * this.xStep;
+      const y = this.height - (this.getMonthValue(year, m) / this.maxValue * this.height);
+      return `${x},${y}`;
+    })
+    .join(' ');
+}
+
+  computeCumulativeByYear() {
+  this.cumulativeByYear = {};
+  this.cumulativeMax = 0;
+
+  this.years.forEach((year:any) => {
+    const cum: number[] = [];
+    let sum = 0;
+    for (let i = 0; i < 12; i++) {
+      sum += this.getMonthValue(year, i + 1);
+      cum.push(sum);
+    }
+    this.cumulativeByYear[year] = cum;
+    this.cumulativeMax = Math.max(this.cumulativeMax, ...cum);
+  });
+}
+
+getCumulativeValue(year: string, month: number) {
+  return this.cumulativeByYear[year][month - 1] || 0;
+}
+
+getCumulativeLinePoints(year: string) {
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth() + 1; // JS: 0 = janvier
+  return this.monthLabels
+    .filter((m) => !(+year === currentYear && m > currentMonth - 1)) 
+    .map((_, i) => {
+      const x = i * this.xStep;
+      const y = this.height - (this.getCumulativeValue(year, i + 1) / this.cumulativeMax * this.height);
+      return `${x},${y}`;
+    })
+    .join(' ');
+}
+
+  getMonthHeight(year: string, month: number) {
+    const value = this.getMonthValue(year, month);
+    return (value / this.maxValue) * 100; // hauteur en %
+  }
+
+  randomColor() {
+    return `hsl(${Math.random() * 360}, 70%, 50%)`;
   }
 
   getStatut(statut:any, i:any=-1)

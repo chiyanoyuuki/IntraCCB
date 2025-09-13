@@ -380,12 +380,75 @@
 </div>
 
 <div *ngIf="!jourClicked&&!month" style="padding-bottom:50px;">
-  <div class="flex between alldata">
-    <div>
-      <button (click)="sendEmails()">Relance</button>
-    </div>
+  <button (click)="sendEmails()" style="margin:auto;display: flex;">Relance</button>
+</div>
+
+<div class="graphique">
+  <div class="graph-container">
+  <p>Gains par mois</p>
+  <svg [attr.width]="width" [attr.height]="height">
+    <!-- lignes -->
+    <ng-container *ngFor="let year of years; let yIdx = index">
+      <polyline
+        [attr.points]="getLinePoints(year)"
+        [attr.stroke]="colors[yIdx]"
+        stroke-width="2"
+        fill="none"
+      ></polyline>
+    </ng-container>
+
+    <!-- points -->
+    <ng-container *ngFor="let year of years; let yIdx = index">
+  <ng-container *ngFor="let month of monthLabels; let i = index">
+    <ng-container *ngIf="!(+year === currentYear && month > currentMonth - 1)">
+      <circle
+        [attr.cx]="i * xStep"
+        [attr.cy]="height - (getMonthValue(year, month) / maxValue * height)"
+        r="3"
+        [attr.fill]="colors[yIdx]"
+      ></circle>
+    </ng-container>
+  </ng-container>
+</ng-container>
+  </svg>
+
+  <!-- légende -->
+  <div class="legend">
+    <span *ngFor="let year of years; let i = index" [style.color]="colors[i]">{{ year }}</span>
   </div>
 </div>
+
+<div class="graph-container">
+  <p>Gains de l'année</p>
+  <svg [attr.width]="width" [attr.height]="height">
+    <ng-container *ngFor="let year of years; let yIdx = index">
+      <!-- ligne cumulée -->
+      <polyline
+        [attr.points]="getCumulativeLinePoints(year)"
+        [attr.stroke]="colors[yIdx]"
+        stroke-width="2"
+        fill="none"
+      ></polyline>
+
+      <!-- points -->
+      <ng-container *ngFor="let month of monthLabels; let i = index">
+        <ng-container *ngIf="!(+year === currentYear && month > currentMonth - 1)">
+          <circle
+            [attr.cx]="i * xStep"
+            [attr.cy]="height - (getCumulativeValue(year, month) / cumulativeMax * height)"
+            r="3"
+            [attr.fill]="colors[yIdx]"
+          ></circle>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </svg>
+  <div class="legend">
+    <span *ngFor="let year of years; let i = index" [style.color]="colors[i]">{{ year }}</span>
+  </div>
+</div>
+</div>
+
 
 <div *ngIf="tooltip.visible" class="tooltip" [ngStyle]="{'top.px': tooltip.y, 'left.px': tooltip.x}">
   <p *ngFor="let date of tooltip.data">{{ date.statut + " : " + date.nom }}</p>
