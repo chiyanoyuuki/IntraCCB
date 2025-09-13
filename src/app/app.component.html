@@ -383,7 +383,7 @@
   <button (click)="sendEmails()" style="margin:auto;display: flex;">Relance</button>
 </div>
 
-<div class="graphique">
+<div class="graphique" *ngIf="!jourClicked&&!month">
   <div class="graph-container">
   <p>Gains par mois</p>
   <svg [attr.width]="width" [attr.height]="height">
