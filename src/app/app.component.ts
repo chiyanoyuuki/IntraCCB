@@ -2044,6 +2044,7 @@ getCumulativeLinePoints(year: string) {
     if (this.jourClicked.devis) data.devis = this.jourClicked.devis;
     if (this.jourClicked.factures) data.factures = this.jourClicked.factures;
     if (this.jourClicked.planning) data.planning = this.jourClicked.planning;
+    if (this.jourClicked.avis) data.avis = this.jourClicked.avis;
 
     from(
       fetch(

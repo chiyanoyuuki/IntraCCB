@@ -167,7 +167,7 @@
         <input type="text" placeholder="Heure Cérémonie.." [(ngModel)]="jourClicked.mariage.ceremonie" [class.red]="diffs&&diffs.mariage&&diffs.mariage.ceremonie"/>
       </div>
     </div>
-    <div *ngIf="jourClicked.statut=='reserve'&&jourClicked.etape==999" style="height: 25px;margin:10px 0px">
+    <div *ngIf="jourClicked.statut=='reserve'&&jourClicked.etape!=999" style="height: 25px;margin:10px 0px">
       <p>Avis : </p>
       <input type="checkbox" [(ngModel)]="jourClicked.avis" />
     </div>
