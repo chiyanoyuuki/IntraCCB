@@ -101,99 +101,73 @@ DEVIS CLOE
       </p>
 
       <div class="infos" *ngIf="mode == 'devis' && lg == 'Français'">
-  <p>Conditions applicables :</p>
+  <p>Conditions contractuelles :</p>
   <ul>
     <li>
-      <strong>Réservation et acompte :</strong> validée après signature du devis
-      et acompte de 30 % du total de la prestation mariée. Cet acompte engage définitivement les deux
-      parties et bloque la date du mariage.
+      <strong>Réservation et acompte :</strong> confirmée exclusivement après signature du devis et versement d’un acompte de 30 % du montant de la prestation mariée. Cet acompte a valeur d’engagement définitif et garantit la réservation de la date.
     </li>
     <li>
-      <strong>Annulation cliente :</strong> en cas d’annulation, le montant
-      total reste dû. L’acompte est conservé et le solde facturé même si la
-      prestation n’a pas lieu.
+      <strong>Annulation par la cliente :</strong>  
+      – Plus de 6 mois avant la date : l’acompte de 30 % reste acquis.  
+      – Entre 6 et 3 mois avant la date : 50 % du montant total de la prestation est dû.  
+      – Moins de 3 mois avant la date : la totalité du montant reste exigible.  
+      Ces conditions sont établies afin de garantir la disponibilité et l’exclusivité réservées à l’événement.
     </li>
     <li>
-      <strong>Annulation prestataire :</strong> en cas de force majeure
-      (accident, hospitalisation…), l’acompte est restitué. Pas d’autre
-      indemnité possible. Le prestataire fera ses meilleurs efforts pour proposer un relais.
+      <strong>Annulation par la prestataire :</strong> en cas de force majeure, l’acompte est restitué intégralement. Aucune indemnité complémentaire ne pourra être réclamée. La prestataire s’efforcera néanmoins de proposer un relais qualifié.
     </li>
     <li>
-      <strong>Paiement du solde :</strong> à régler au plus tard le jour du
-      mariage avant la prestation. Tout retard peut entraîner suspension du
-      service.
+      <strong>Solde :</strong> à régler au plus tard le jour du mariage. Tout défaut ou retard de règlement suspend automatiquement l’exécution.
     </li>
     <li>
-      <strong>Engagements :</strong> la prestataire garantit qualité et
-      professionnalisme. La cliente respecte les horaires, signale tout
-      changement et assure les conditions nécessaires au bon déroulement.
+      <strong>Engagements :</strong> la prestataire garantit un service d’excellence, une disponibilité totale et une qualité irréprochable. La cliente s’engage à respecter les horaires, à notifier toute modification et à fournir des conditions optimales pour la bonne réalisation.
     </li>
     <li>
-      <strong>Frais de déplacement :</strong> 0,40 €/km + péages, à régler au
-      plus tard le jour du déplacement.
+      <strong>Frais de déplacement :</strong> facturés 0,40 €/km, péages et parkings inclus, à régler le jour du déplacement au plus tard.
     </li>
     <li>
-      <strong>Validité du devis :</strong> valable jusqu’à la fin des
-      prestations mentionnées. Des ajouts ou modifications sont possibles avec
-      accord, mais aucune suppression. Les ajouts seront notés et intégrés à la
-      facturation finale.
+      <strong>Validité du devis :</strong> valable jusqu’à l’achèvement des prestations prévues. Toute prestation supplémentaire devra faire l’objet d’un accord écrit et sera intégrée à la facturation finale. Aucune suppression n’est acceptée.
     </li>
     <li>
-      <strong>Droits à l'image :</strong> la cliente autorise la prestataire à
-      utiliser, à titre promotionnel et non commercial, les photos ou vidéos prises
-      lors de la prestation (site internet, réseaux sociaux, portfolio). Toute
-      opposition doit être notifiée par écrit avant l’événement.
+      <strong>Droits à l’image :</strong> la cliente autorise la prestataire à utiliser, à titre promotionnel et strictement non commercial, les photographies ou vidéos réalisées lors de la prestation (site internet, réseaux sociaux, portfolio). Toute opposition devra être notifiée par écrit avant l’événement.
     </li>
   </ul>
 </div>
 
 
 
-      <div class="infos" *ngIf="mode == 'devis' && lg != 'Français'">
-  <p>Applicable conditions:</p>
+
+
+      <div class="infos" *ngIf="mode == 'devis' && lg!== 'Français'">
+  <p>Contractual Conditions:</p>
   <ul>
     <li>
-      <strong>Booking and deposit:</strong> confirmed only after signature of
-      the quote and payment of a 30% deposit of the bridal service total. This
-      deposit binds both parties and secures the wedding date.
+      <strong>Reservation and Deposit:</strong> confirmed exclusively upon signature of the quotation and payment of a 30% deposit on the bridal service. This deposit constitutes a binding commitment and secures the reservation of the date.
     </li>
     <li>
-      <strong>Cancellation by the client:</strong> in case of cancellation, the
-      full amount remains due. The deposit is retained and the balance invoiced
-      even if the service is not performed.
+      <strong>Client Cancellation:</strong> – More than 6 months before the date: the 30% deposit remains non-refundable. – Between 6 and 3 months before the date: 50% of the total amount is due. – Less than 3 months before the date: the full amount is payable. These conditions ensure the availability and exclusivity reserved for the event.
     </li>
     <li>
-      <strong>Cancellation by the provider:</strong> in case of force majeure
-      (accident, hospitalization…), the deposit is refunded. No further
-      compensation is due. If possible, a replacement will be arranged.
+      <strong>Provider Cancellation:</strong> in the event of force majeure, the deposit will be fully refunded. No additional compensation may be claimed. The provider will nonetheless make every effort to suggest a qualified replacement.
     </li>
     <li>
-      <strong>Balance payment:</strong> must be settled no later than the
-      wedding day before the service begins. Any delay may result in suspension
-      of the service.
+      <strong>Balance:</strong> to be settled no later than the wedding day. Any default or delay in payment will automatically suspend performance of the service.
     </li>
     <li>
-      <strong>Commitments:</strong> the provider guarantees quality and
-      professionalism. The client must respect the schedule, inform of any
-      change, and ensure proper working conditions.
+      <strong>Commitments:</strong> the provider guarantees excellence, full availability, and flawless quality. The client undertakes to respect the agreed schedule, notify any changes, and provide the necessary conditions for proper execution.
     </li>
     <li>
-      <strong>Travel expenses:</strong> €0.40/km + tolls, payable no later than
-      the day of travel.
+      <strong>Travel Expenses:</strong> invoiced at €0.40/km, including tolls and parking, payable no later than the day of travel.
     </li>
     <li>
-      <strong>Validity of the quote:</strong> valid until the end of the listed
-      services. Additions or changes are possible with mutual agreement, but no
-      removals. Additions will be recorded and included in the final invoice.
+      <strong>Validity of Quotation:</strong> valid until completion of the listed services. Any additional service requires written agreement and will be included in the final invoice. No cancellation of items is accepted.
     </li>
     <li>
-      <strong>Image rights:</strong> the client authorizes the provider to use, for
-      promotional and non-commercial purposes, photos or videos taken during the
-      service (website, social media, portfolio). Any objection must be notified in
-      writing before the event.
+      <strong>Image Rights:</strong> the client authorizes the provider to use, for promotional and strictly non-commercial purposes, photographs or videos taken during the service (website, social media, portfolio). Any objection must be notified in writing prior to the event.
     </li>
   </ul>
 </div>
+
 
 
       <p class="signature" *ngIf="mode == 'devis'">
