@@ -96,78 +96,105 @@ DEVIS CLOE
       </div>
 
       <p *ngIf="mode == 'devis' && calcares() > 0" class="tinytext bold">
-        {{ lg == "Français" ? "Montant arrhes" : "Deposit amount" }} :
+        {{ lg == "Français" ? "Montant acompte" : "Deposit amount" }} :
         {{ transform(calcares()) }}€
       </p>
 
       <div class="infos" *ngIf="mode == 'devis' && lg == 'Français'">
-        <p>
-          Ce devis concerne les prestations nommées. Il est soumis aux
-          conditions mentionnées ci-dessous :
-        </p>
-        <ul>
-          <li>
-            <p>
-              30% d'arrhes de la prestation mariée sont à verser afin de bloquer
-              la date.
-            </p>
-          </li>
-          <li><p>Le solde est à verser au plus tard le jour du mariage.</p></li>
-          <li>
-            <p>
-              Les indemnités kilométriques sont facturées au tarif de
-              0,40€/kilomètre. Péages en plus.
-            </p>
-          </li>
-          <li>
-            <p>
-              Les frais de déplacements sont à verser au plus tard le jour du
-              dit déplacement.
-            </p>
-          </li>
-          <li>
-            <p>
-              Le présent devis est valable jusqu'à la fin des prestations mentionnées. Des prestations peuvent être ajoutées ou modifiées en accord avec la prestataire, mais ne pourront pas être supprimées. Les prestations ajoutées après signature seront indiquées sur le planning et intégrées à la facturation finale.
-            </p>
-          </li>
-        </ul>
-      </div>
+  <p>Conditions applicables :</p>
+  <ul>
+    <li>
+      <strong>Réservation et acompte :</strong> validée après signature du devis
+      et acompte de 30 % du total de la prestation mariée. Cet acompte engage définitivement les deux
+      parties et bloque la date du mariage.
+    </li>
+    <li>
+      <strong>Annulation cliente :</strong> en cas d’annulation, le montant
+      total reste dû. L’acompte est conservé et le solde facturé même si la
+      prestation n’a pas lieu.
+    </li>
+    <li>
+      <strong>Annulation prestataire :</strong> en cas de force majeure
+      (accident, hospitalisation…), l’acompte est restitué. Pas d’autre
+      indemnité possible. Le prestataire fera ses meilleurs efforts pour proposer un relais.
+    </li>
+    <li>
+      <strong>Paiement du solde :</strong> à régler au plus tard le jour du
+      mariage avant la prestation. Tout retard peut entraîner suspension du
+      service.
+    </li>
+    <li>
+      <strong>Engagements :</strong> la prestataire garantit qualité et
+      professionnalisme. La cliente respecte les horaires, signale tout
+      changement et assure les conditions nécessaires au bon déroulement.
+    </li>
+    <li>
+      <strong>Frais de déplacement :</strong> 0,40 €/km + péages, à régler au
+      plus tard le jour du déplacement.
+    </li>
+    <li>
+      <strong>Validité du devis :</strong> valable jusqu’à la fin des
+      prestations mentionnées. Des ajouts ou modifications sont possibles avec
+      accord, mais aucune suppression. Les ajouts seront notés et intégrés à la
+      facturation finale.
+    </li>
+    <li>
+      <strong>Droits à l'image :</strong> la cliente autorise la prestataire à
+      utiliser, à titre promotionnel et non commercial, les photos ou vidéos prises
+      lors de la prestation (site internet, réseaux sociaux, portfolio). Toute
+      opposition doit être notifiée par écrit avant l’événement.
+    </li>
+  </ul>
+</div>
 
-      <div class="infos" *ngIf="mode == 'devis' && lg == 'Anglais'">
-        <p>
-          This quote concerns the named services. It is subject to the
-          conditions listed below:
-        </p>
-        <ul>
-          <li>
-            <p>
-              A deposit of 30% of the bridal services is required to secure the
-              date.
-            </p>
-          </li>
-          <li>
-            <p>The remaining balance is due no later than the wedding day.</p>
-          </li>
-          <li>
-            <p>
-              Travel expenses are charged at the rate of 0.40€/kilometer. Tolls
-              are additional.
-            </p>
-          </li>
-          <li>
-            <p>
-              Travel fees must be paid no later than the day of the said trip.
-            </p>
-          </li>
-          <li>
-            <p>
-              This quote is valid until the completion of the mentioned
-              services. Services may be modified or added, but under no
-              circumstances can they be removed.
-            </p>
-          </li>
-        </ul>
-      </div>
+
+
+      <div class="infos" *ngIf="mode == 'devis' && lg != 'Français'">
+  <p>Applicable conditions:</p>
+  <ul>
+    <li>
+      <strong>Booking and deposit:</strong> confirmed only after signature of
+      the quote and payment of a 30% deposit of the bridal service total. This
+      deposit binds both parties and secures the wedding date.
+    </li>
+    <li>
+      <strong>Cancellation by the client:</strong> in case of cancellation, the
+      full amount remains due. The deposit is retained and the balance invoiced
+      even if the service is not performed.
+    </li>
+    <li>
+      <strong>Cancellation by the provider:</strong> in case of force majeure
+      (accident, hospitalization…), the deposit is refunded. No further
+      compensation is due. If possible, a replacement will be arranged.
+    </li>
+    <li>
+      <strong>Balance payment:</strong> must be settled no later than the
+      wedding day before the service begins. Any delay may result in suspension
+      of the service.
+    </li>
+    <li>
+      <strong>Commitments:</strong> the provider guarantees quality and
+      professionalism. The client must respect the schedule, inform of any
+      change, and ensure proper working conditions.
+    </li>
+    <li>
+      <strong>Travel expenses:</strong> €0.40/km + tolls, payable no later than
+      the day of travel.
+    </li>
+    <li>
+      <strong>Validity of the quote:</strong> valid until the end of the listed
+      services. Additions or changes are possible with mutual agreement, but no
+      removals. Additions will be recorded and included in the final invoice.
+    </li>
+    <li>
+      <strong>Image rights:</strong> the client authorizes the provider to use, for
+      promotional and non-commercial purposes, photos or videos taken during the
+      service (website, social media, portfolio). Any objection must be notified in
+      writing before the event.
+    </li>
+  </ul>
+</div>
+
 
       <p class="signature" *ngIf="mode == 'devis'">
         {{
