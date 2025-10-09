@@ -103,11 +103,21 @@ DEVIS CLOE
       <div class="infos" *ngIf="mode == 'devis' && lg == 'Français'">
   <p>Conditions contractuelles :</p>
   <ul>
-    <li>
-      <strong>Réservation et acompte :</strong> confirmée exclusivement après signature du devis et versement d’un acompte de 30 % du montant de la prestation mariée. Cet acompte a valeur d’engagement définitif et garantit la réservation de la date.
+    <li *ngIf="modedevis=='Mariage'">
+      <strong >Réservation et acompte :</strong> confirmée exclusivement après signature du devis et versement d’un acompte de 30 % du montant de la prestation mariée. Cet acompte a valeur d’engagement définitif et garantit la réservation de la date.
     </li>
-    <li>
+    <li *ngIf="modedevis!='Mariage'">
+      <strong>Réservation et acompte :</strong> confirmée exclusivement après signature du devis et versement d’un acompte de 30 % du montant de la prestation. Cet acompte a valeur d’engagement définitif et garantit la réservation de la date.
+    </li>
+    <li *ngIf="modedevis=='Mariage'">
       <strong>Annulation par la cliente :</strong>  
+      – Plus de 6 mois avant la date : l’acompte de 30 % reste acquis.  
+      – Entre 6 et 3 mois avant la date : 50 % du montant total de la prestation est dû.  
+      – Moins de 3 mois avant la date : la totalité du montant reste exigible.  
+      Ces conditions sont établies afin de garantir la disponibilité et l’exclusivité réservées à l’événement.
+    </li>
+    <li *ngIf="modedevis!='Mariage'">
+      <strong>Annulation par le client :</strong>  
       – Plus de 6 mois avant la date : l’acompte de 30 % reste acquis.  
       – Entre 6 et 3 mois avant la date : 50 % du montant total de la prestation est dû.  
       – Moins de 3 mois avant la date : la totalité du montant reste exigible.  
@@ -116,11 +126,17 @@ DEVIS CLOE
     <li>
       <strong>Annulation par la prestataire :</strong> en cas de force majeure, l’acompte est restitué intégralement. Aucune indemnité complémentaire ne pourra être réclamée. La prestataire s’efforcera néanmoins de proposer un relais qualifié.
     </li>
-    <li>
+    <li *ngIf="modedevis=='Mariage'">
       <strong>Solde :</strong> à régler au plus tard le jour du mariage. Tout défaut ou retard de règlement suspend automatiquement l’exécution.
     </li>
-    <li>
+    <li *ngIf="modedevis!='Mariage'">
+      <strong>Solde :</strong> à régler au plus tard le jour de l’événement. Tout défaut ou retard de règlement suspend automatiquement l’exécution.
+    </li>
+    <li *ngIf="modedevis=='Mariage'">
       <strong>Engagements :</strong> la prestataire garantit un service d’excellence, une disponibilité totale et une qualité irréprochable. La cliente s’engage à respecter les horaires, à notifier toute modification et à fournir des conditions optimales pour la bonne réalisation.
+    </li>
+    <li *ngIf="modedevis!='Mariage'">
+      <strong>Engagements :</strong> toute modification du nombre de participants doit être communiquée au minimum 72h avant l'évènement. Le client s'engage à respecter les horaires.
     </li>
     <li>
       <strong>Frais de déplacement :</strong> facturés 0,40 €/km, péages et parkings inclus, à régler le jour du déplacement au plus tard.
@@ -128,8 +144,11 @@ DEVIS CLOE
     <li>
       <strong>Validité du devis :</strong> valable jusqu’à l’achèvement des prestations prévues. Toute prestation supplémentaire devra faire l’objet d’un accord écrit et sera intégrée à la facturation finale. Aucune suppression n’est acceptée.
     </li>
-    <li>
+    <li *ngIf="modedevis=='Mariage'">
       <strong>Droits à l’image :</strong> la cliente autorise la prestataire à utiliser, à titre promotionnel et strictement non commercial, les photographies ou vidéos réalisées lors de la prestation (site internet, réseaux sociaux, portfolio). Toute opposition devra être notifiée par écrit avant l’événement.
+    </li>
+    <li *ngIf="modedevis!='Mariage'">
+      <strong>Droits à l’image :</strong> le client autorise la prestataire à utiliser, à titre promotionnel et strictement non commercial, les photographies ou vidéos réalisées lors de la prestation (site internet, réseaux sociaux, portfolio). Toute opposition devra être notifiée par écrit avant l’événement.
     </li>
   </ul>
 </div>
@@ -138,35 +157,59 @@ DEVIS CLOE
 
 
 
-      <div class="infos" *ngIf="mode == 'devis' && lg!== 'Français'">
+      <div class="infos" *ngIf="mode == 'devis' && lg != 'Français'">
   <p>Contractual Conditions:</p>
   <ul>
-    <li>
-      <strong>Reservation and Deposit:</strong> confirmed exclusively upon signature of the quotation and payment of a 30% deposit on the bridal service. This deposit constitutes a binding commitment and secures the reservation of the date.
+    <li *ngIf="modedevis=='Mariage'">
+      <strong>Reservation and Deposit:</strong> confirmed exclusively upon signature of the quotation and payment of a 30% deposit on the bridal service. This deposit constitutes a binding commitment and secures the reserved date.
+    </li>
+    <li *ngIf="modedevis!='Mariage'">
+      <strong>Reservation and Deposit:</strong> confirmed exclusively upon signature of the quotation and payment of a 30% deposit on the service. This deposit constitutes a binding commitment and secures the reserved date.
+    </li>
+    <li *ngIf="modedevis=='Mariage'">
+      <strong>Client Cancellation:</strong><br>
+      – More than 6 months before the date: the 30% deposit remains non-refundable.<br>
+      – Between 6 and 3 months before the date: 50% of the total amount is due.<br>
+      – Less than 3 months before the date: the full amount is payable.<br>
+      These conditions ensure the availability and exclusivity reserved for the event.
+    </li>
+    <li *ngIf="modedevis!='Mariage'">
+      <strong>Client Cancellation:</strong><br>
+      – More than 6 months before the date: the 30% deposit remains non-refundable.<br>
+      – Between 6 and 3 months before the date: 50% of the total amount is due.<br>
+      – Less than 3 months before the date: the full amount is payable.<br>
+      These conditions ensure the availability and exclusivity reserved for the event.
     </li>
     <li>
-      <strong>Client Cancellation:</strong> – More than 6 months before the date: the 30% deposit remains non-refundable. – Between 6 and 3 months before the date: 50% of the total amount is due. – Less than 3 months before the date: the full amount is payable. These conditions ensure the availability and exclusivity reserved for the event.
+      <strong>Provider Cancellation:</strong> in the event of force majeure, the deposit will be fully refunded. No additional compensation may be claimed. The provider will, however, make every effort to propose a qualified replacement.
     </li>
-    <li>
-      <strong>Provider Cancellation:</strong> in the event of force majeure, the deposit will be fully refunded. No additional compensation may be claimed. The provider will nonetheless make every effort to suggest a qualified replacement.
-    </li>
-    <li>
+    <li *ngIf="modedevis=='Mariage'">
       <strong>Balance:</strong> to be settled no later than the wedding day. Any default or delay in payment will automatically suspend performance of the service.
     </li>
-    <li>
-      <strong>Commitments:</strong> the provider guarantees excellence, full availability, and flawless quality. The client undertakes to respect the agreed schedule, notify any changes, and provide the necessary conditions for proper execution.
+    <li *ngIf="modedevis!='Mariage'">
+      <strong>Balance:</strong> to be settled no later than the day of the event. Any default or delay in payment will automatically suspend performance of the service.
+    </li>
+    <li *ngIf="modedevis=='Mariage'">
+      <strong>Commitments:</strong> the provider guarantees excellence, full availability, and impeccable quality. The client undertakes to respect the schedule, notify any modification, and provide optimal conditions for smooth execution.
+    </li>
+    <li *ngIf="modedevis!='Mariage'">
+      <strong>Commitments:</strong> any change in the number of participants must be communicated at least 72 hours before the event. The client undertakes to respect the agreed schedule.
     </li>
     <li>
-      <strong>Travel Expenses:</strong> invoiced at €0.40/km, including tolls and parking, payable no later than the day of travel.
+      <strong>Travel Expenses:</strong> charged at €0.40/km, including tolls and parking, payable no later than the day of travel.
     </li>
     <li>
-      <strong>Validity of Quotation:</strong> valid until completion of the listed services. Any additional service requires written agreement and will be included in the final invoice. No cancellation of items is accepted.
+      <strong>Validity of Quotation:</strong> valid until completion of the listed services. Any additional service requires written approval and will be added to the final invoice. No cancellation of items is accepted.
     </li>
-    <li>
+    <li *ngIf="modedevis=='Mariage'">
+      <strong>Image Rights:</strong> the client authorizes the provider to use, for promotional and strictly non-commercial purposes, photographs or videos taken during the service (website, social media, portfolio). Any objection must be notified in writing prior to the event.
+    </li>
+    <li *ngIf="modedevis!='Mariage'">
       <strong>Image Rights:</strong> the client authorizes the provider to use, for promotional and strictly non-commercial purposes, photographs or videos taken during the service (website, social media, portfolio). Any objection must be notified in writing prior to the event.
     </li>
   </ul>
 </div>
+
 
 
 
@@ -978,6 +1021,10 @@ DEVIS CLOE
       </button>
       <button (click)="save()">Sauvegarder</button>
       <button *ngIf="mode=='facture'&&data.factures[data.factureClicked]" class="delete" (click)="delete()">Supprimer</button>
+    </div>
+
+    <div class="flex center bottombuttons">
+      <button (click)="modedevis=='Mariage'?modedevis='Autre':modedevis='Mariage'">{{modedevis}}</button>
     </div>
 
   </div>

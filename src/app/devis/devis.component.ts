@@ -214,6 +214,8 @@ export class DevisComponent implements OnInit {
     },
   ];
 
+  modedevis = "Mariage";
+
   typeinvitee = [{fr:'Invitée',en:'Guest'}, {fr:'Mariée',en:'Bride'}];
   ceremonie: any = '';
   finprestas: any = '';
@@ -1904,5 +1906,10 @@ export class DevisComponent implements OnInit {
     if (Number.isInteger(presta.prix) || presta.kilorly)
       prix = Math.floor(prix);
     return prix;
+  }
+
+  changeMode()
+  {
+
   }
 }
