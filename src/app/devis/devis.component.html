@@ -351,6 +351,7 @@ DEVIS CLOE
           {{ lg == "Français" ? "Reste à payer" : "Remaining balance" }} :
           {{ values[60] != "" ? values[60] : transform(calcTot(true)) }}€
         </p>
+        <p class="tinytext bold rightalign2" *ngIf="isacquitee">{{lg == "Français" ? "Facture acquittée le : " : "Invoice paid on : "}}{{formatDate(values[0])}}</p>
         </div>
         <p class="tinytext" *ngIf="values[61]!=0">
           {{ lg == "Français" ? "Paiement prestataires" : "Payment to providers" }} :
@@ -873,6 +874,10 @@ DEVIS CLOE
         placeholder="Paiement prestataire.."
       />
     </div>
+    <div class="flex" *ngIf="mode == 'facture'">
+      <p>Facture acquitée : </p>
+      <input type="checkbox" [(ngModel)]="isacquitee" />
+    </div>
 
     <div *ngIf="mode == 'planning'" class="lignesprestas">
       <div class="flex center">
@@ -1023,7 +1028,7 @@ DEVIS CLOE
       <button *ngIf="mode=='facture'&&data.factures[data.factureClicked]" class="delete" (click)="delete()">Supprimer</button>
     </div>
 
-    <div class="flex center bottombuttons">
+    <div class="flex center bottombuttons" *ngIf="mode == 'devis'">
       <button (click)="modedevis=='Mariage'?modedevis='Autre':modedevis='Mariage'">{{modedevis}}</button>
     </div>
 

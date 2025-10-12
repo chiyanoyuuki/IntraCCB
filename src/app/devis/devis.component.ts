@@ -219,6 +219,7 @@ export class DevisComponent implements OnInit {
   typeinvitee = [{fr:'Invitée',en:'Guest'}, {fr:'Mariée',en:'Bride'}];
   ceremonie: any = '';
   finprestas: any = '';
+  isacquitee = false;
 
   collegues = [
     [

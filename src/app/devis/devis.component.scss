@@ -157,7 +157,7 @@ p{
   margin-left:10px;
 }
 .bottombuttons{
-  margin-top:10px;
+  margin-top: 20px !important;
   padding-bottom:20px;
 }
 .portrait .inputs {
@@ -361,6 +361,11 @@ p {
   padding: 10px 20px;
   position: absolute;
   right: 0px;
+}
+.rightalign2{
+  position: absolute;
+  right: 0px;
+  top:40px;
 }
 .firstrow {
   opacity: 0;
@@ -1055,7 +1060,7 @@ CELMA CSS
     margin-left:10px;
   }
   .bottombuttons{
-    margin-top:10px;
+    margin-top: 20px !important;
     padding-bottom:20px;
   }
   .portrait .inputs {
