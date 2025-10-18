@@ -534,25 +534,73 @@ export class DevisComponent implements OnInit {
         titre: true,
       },
       {
-        nom: 'Consultations',
+        nom: 'Analyse & cadrage projet',
         en: 'Consulting',
-        prix: 100,
+        prix: 400,
       },
       {
-        nom: 'Developpement',
-        en: 'Development',
-        prix: 100,
+        nom: 'Design UI/UX',
+        en: 'Design UI/UX',
+        prix: 1000,
       },
       {
-        nom: 'Design',
-        en: 'Design',
-        prix: 100,
+        nom: 'Développement front-end',
+        en: 'Design UI/UX',
+        prix: 1250,
       },
       {
-        nom: 'Testing',
-        en: 'Testing',
-        prix: 100,
+        nom: 'Développement back-end/CMS',
+        en: 'Design UI/UX',
+        prix: 750,
       },
+      {
+        nom: 'Création et intégration contenus',
+        en: 'Design UI/UX',
+        prix: 500,
+      },
+      {
+        nom: 'Fonctionnalités spécifiques',
+        en: 'Design UI/UX',
+        prix: 500,
+      },
+      {
+        nom: 'SEO technique & optimisation performance',
+        en: 'Design UI/UX',
+        prix: 400,
+      },
+      {
+        nom: 'Tests & assurance qualité',
+        en: 'Design UI/UX',
+        prix: 250,
+      },
+      {
+        nom: 'Déploiement & mise en production',
+        en: 'Design UI/UX',
+        prix: 150,
+      },
+      {
+        nom: 'Formation client & documentation',
+        en: 'Design UI/UX',
+        prix: 150,
+      },
+      {
+        nom: 'Hébergement, nom de domaine, SSL',
+        en: 'Design UI/UX',
+        prix: 50,
+        yearly: true
+      },
+      {
+        nom: 'Maintenance CMS, mises à jour, sécurité',
+        en: 'Design UI/UX',
+        prix: 250,
+        yearly: true
+      },
+      {
+        nom: 'Contenu & médias nouveaux + optimisation SEO',
+        en: 'Design UI/UX',
+        prix: 250,
+        yearly: true
+      }
     ];
   }
 

@@ -1727,7 +1727,7 @@ DEVIS CHARLES
           <p class="textoverflow">
             {{ lg == "Anglais" && presta.en ? presta.en : presta.nom }}
           </p>
-          <p>
+          <p *ngIf="!presta.yearly">
             {{ presta.qte == "?" && lg === "Français" ? "À definir" : "" }}
             {{ presta.qte == "?" && lg !== "Français" ? "To define" : "" }}
             {{ presta.qte != "?" && presta.kilorly ? presta.qte * 2 : "" }}
@@ -1735,12 +1735,16 @@ DEVIS CHARLES
             {{ presta.kilorly && presta.qte != "?" ? "km" : ""
             }}{{ presta.hourly && presta.qte != "?" ? "h" : "" }}
           </p>
+          <p *ngIf="presta.yearly">
+            &nbsp;
+          </p>
           <p>
             {{ transform(presta.prix) }}{{ presta.kilorly ? "/km" : ""
-            }}{{ presta.hourly ? "/h" : "" }}€
+            }}{{ presta.hourly ? "/h" : "" }}€{{presta.yearly?'/an':''}}
           </p>
-          <p *ngIf="calc(presta) > 0">{{ transform(calc(presta)) }}€</p>
+          <p *ngIf="calc(presta) > 0">{{ transform(calc(presta)) }}€{{presta.yearly?'/an':''}}{{presta.reduc && presta.reduc != 0 ? '(-'+presta.reduc+'%)':''}}</p>
           <p *ngIf="calc(presta) == 0" class="green">Offert</p>
+          <p *ngIf="presta.qte == '?'" class="green">Offert</p>
         </ng-container>
       </div>
       <div class="bottab">
@@ -1749,6 +1753,48 @@ DEVIS CHARLES
       </div>
       <p class="tva">TVA non applicable – article 293 B du CGI</p>
     </div>
+
+    <div class="infos" *ngIf="mode == 'devis' && lg == 'Français'">
+  <p class="cond">Conditions contractuelles :</p>
+  <ul>
+    <li>
+      <strong>Validation :</strong> le devis est accepté après signature et versement d’un acompte de 30 %. Cet acompte confirme la commande et engage le client.
+    </li>
+    <li>
+      <strong>Déroulement du projet :</strong> la réalisation débute après réception des éléments nécessaires (textes, images, accès). Tout retard de transmission peut décaler la livraison.
+    </li>
+    <li>
+      <strong>Modifications :</strong> deux séries d’ajustements mineurs sont incluses. Les demandes supplémentaires feront l’objet d’un devis complémentaire.
+    </li>
+    <li>
+      <strong>Annulation :</strong>  
+      – Avant le démarrage : remboursement possible moins 10 % de frais.  
+      – Après démarrage : l’acompte reste acquis.  
+      En cas de force majeure du prestataire, remboursement intégral.
+    </li>
+    <li>
+      <strong>Solde :</strong> le règlement complet est exigé avant la mise en ligne définitive. Tout retard suspend la livraison.
+    </li>
+    <li>
+      <strong>Propriété intellectuelle :</strong> le site, les maquettes et le code source restent la propriété du prestataire jusqu’au paiement total.
+    </li>
+    <li>
+      <strong>Maintenance et hébergement :</strong> non inclus sauf mention contraire. Un contrat séparé peut être proposé pour les mises à jour, sauvegardes et support.
+    </li>
+    <li>
+      <strong>Droits et contenus :</strong> le client garantit la légalité et la propriété des éléments fournis. Le prestataire décline toute responsabilité en cas de violation de droits.
+    </li>
+    <li>
+      <strong>Responsabilité :</strong> le prestataire s’engage à une exécution soignée mais ne garantit pas les résultats commerciaux, référencement ou trafic.
+    </li>
+    <li>
+      <strong>Validité :</strong> le devis est valable 30 jours. Toute modification du périmètre fera l’objet d’un avenant écrit.
+    </li>
+  </ul>
+</div>
+
+
+
 
     <div class="bottom">
       <div class="bottomright">
@@ -1761,16 +1807,16 @@ DEVIS CHARLES
       <div class="end">
         <div class="iban" *ngIf="lg == 'Français'">
           <p><b>Coordonnées Bancaires</b></p>
-          <p><b>Nom : </b>La Banque Postale</p>
-          <p><b>IBAN : </b>FR41 2004 1010 1412 0723 3N03 540</p>
-          <p><b>BIC : </b>PSSTFRPPROU</p>
+          <p><b>Nom : </b>Société Générale</p>
+          <p><b>IBAN : </b>FR76 3000 3000 2100 0501 3300 977</p>
+          <p><b>BIC : </b>SOGEFRPP</p>
           <p><b>SIRET : </b>943032342 00017</p>
         </div>
         <div class="iban" *ngIf="lg == 'Anglais'">
           <p><b>Bank Details</b></p>
-          <p><b>Name : </b>La Banque Postale</p>
-          <p><b>IBAN : </b>FR41 2004 1010 1412 0723 3N03 540</p>
-          <p><b>BIC : </b>PSSTFRPPROU</p>
+          <p><b>Name : </b>Société Générale</p>
+          <p><b>IBAN : </b>FR76 3000 3000 2100 0501 3300 977</p>
+          <p><b>BIC : </b>SOGEFRPP</p>
           <p><b>SIRET : </b>943032342 00017</p>
         </div>
         <div class="thank">

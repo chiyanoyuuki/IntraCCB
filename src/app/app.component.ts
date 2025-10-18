@@ -53,8 +53,10 @@ export class AppComponent implements OnInit {
 
   dataByYear: any = {}; // ton objet regroupé par année après graphs()
 
+  baseapi = "https://www.cloechaudronbeauty.com/backend/api/";
+
   safedev = true;
-  artiste="cloe";
+  artiste="charles";
 
   currentMonth = new Date().getMonth() + 1;
   currentYear = new Date().getFullYear();
@@ -630,7 +632,7 @@ cumulativeMax = 0;
           "prestataires": 0,
           "etape": 1
         }]);
-        this.clickJour(3,19,2025);
+        this.clickJour(9,18,2025);
         let int = setInterval(()=>{this.clickDevis();clearInterval(int);},50);
         return;
       }
@@ -648,9 +650,7 @@ cumulativeMax = 0;
     {
       this.http
       .get<any>(
-        'http' +
-          (isDevMode() ? '' : 's') +
-          '://chiyanh.cluster031.hosting.ovh.net/cloeplanning.php?artiste='+this.artiste
+        this.baseapi + 'cloeplanning.php?artiste='+this.artiste
       )
       .subscribe((data) => {
         data = data.filter((d:any)=>d.statut!="essai");
@@ -2048,9 +2048,7 @@ getCumulativeLinePoints(year: string) {
 
     from(
       fetch(
-        'http' +
-          (isDevMode() ? '' : 's') +
-          '://chiyanh.cluster031.hosting.ovh.net/cloeplanning' +
+        this.baseapi + 'cloeplanning' +
           (exist ? 'update' : 'create')+'.php?artiste='+this.artiste,
         {
           body: JSON.stringify(data),
@@ -2083,9 +2081,7 @@ getCumulativeLinePoints(year: string) {
         let data = { id: this.jourClicked.id };
         from(
           fetch(
-            'http' +
-              (isDevMode() ? '' : 's') +
-              '://chiyanh.cluster031.hosting.ovh.net/cloeplanningdelete.php?artiste='+this.artiste,
+            this.baseapi+'cloeplanningdelete.php?artiste='+this.artiste,
             {
               body: JSON.stringify(data),
               headers: {

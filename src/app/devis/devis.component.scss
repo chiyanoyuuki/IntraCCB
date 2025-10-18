@@ -1576,11 +1576,11 @@ CELMA CSS
       position:absolute;
       top: 30px;
       left: 30px;
-      width: 180px;
+      width: 100px;
     }
     .topright{
       position:absolute;
-      top:60px;
+      top:30px;
       right:30px;
       .big{
         font-weight: bold;
@@ -1589,7 +1589,7 @@ CELMA CSS
         text-align: right;
       }
       .lignes{
-        margin-top: 30px;
+        margin-top: 15px;
         div{
           display: flex;
           justify-content: space-between;
@@ -1597,16 +1597,21 @@ CELMA CSS
         }
       }
     }
+    .lignes{
+      p{
+        font-size:12px;
+      }
+    }
     .topleft{
       position: relative;
       left: 30px;
-      top: 185px;
+      top: 120px;
     }
     .toptab{
       display: flex;
       left: 30px;
       position: relative;
-      top: 210px;
+      top: 135px;
       border-top: 1px solid #132437;
       border-bottom: 1px solid #132437;
       width: 525px;
@@ -1619,10 +1624,26 @@ CELMA CSS
       p:nth-child(3){width:100px;text-align: right;}
       p:nth-child(4){width:100px;text-align: right;}
     }
+    .infos{
+      position: absolute;
+      bottom: 200px;
+      width: 95%;
+      .cond{
+        position: relative;
+        font-weight:bold;
+        left: 20px;
+      }
+      p, li, ul{
+        font-size:8px;
+      }
+    }
     .prestas{
       position: relative;
       left: 30px;
-      top: 220px;
+      top: 140px;
+      p{
+        font-size:10px;
+      }
       div{
         display: flex;
         font-size: 12px;
@@ -1643,7 +1664,7 @@ CELMA CSS
       .tva{
         width: 535px;
         text-align: right;
-        font-size: 10px;
+        font-size: 8px;
       }
     }
     .bottom{
@@ -1652,6 +1673,9 @@ CELMA CSS
       .bottomright{
         text-align: right;
         width: 565px;
+        p{
+          font-size:10px;
+        }
       }
       .end{
         display: flex;
@@ -1661,11 +1685,12 @@ CELMA CSS
         border-top: 1px solid #132437;
         padding-top: 15px;
         margin-top: 15px;
+        font-size:12px;
         .thank{
           font-weight: bold;
           text-align: center;
           font-size: 25px;
-          top: 20px;
+          top: 15px;
           position: relative;
           right: 20px;
         }

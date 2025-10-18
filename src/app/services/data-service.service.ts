@@ -10,7 +10,8 @@ export class DataService {
   private http = inject(HttpClient);
   private dateService = inject(DateService);
 
-  private apiUrl = 'http' + (isDevMode() ? '' : 's') + '://chiyanh.cluster031.hosting.ovh.net/sksPlanning.php';
+  baseapi = "https://www.cloechaudronbeauty.com/backend/api/";
+  private apiUrl = this.baseapi  + 'sksPlanning.php';
 
   private dataSubject = new BehaviorSubject<any | null>(null);
   private basePrestas: any = [

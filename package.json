@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy-ghpages": "git pull && ng build --output-path docs --base-href ./ && powershell -Command \"Move-Item -Path 'docs/browser/*' -Destination 'docs/'\" && git add . && git commit -m \"deploy\" && git push"
+    "deploy": "node deploy.js"
   },
   "private": true,
   "dependencies": {
@@ -19,6 +19,7 @@
     "@angular/platform-browser": "^18.0.0",
     "@angular/platform-browser-dynamic": "^18.0.0",
     "@angular/router": "^18.0.0",
+    "basic-ftp": "^5.0.5",
     "chart.js": "^4.5.0",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.2",
