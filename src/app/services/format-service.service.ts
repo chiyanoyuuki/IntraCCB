@@ -29,6 +29,7 @@ export class FormatService {
 
   public sortByCreation(tab:any){
     return tab.sort((a:any, b:any) => {
+      console.log("2");
       const [dayA, monthA, yearA] = a.creation.split('/').map(Number);
       const [dayB, monthB, yearB] = b.creation.split('/').map(Number);
 

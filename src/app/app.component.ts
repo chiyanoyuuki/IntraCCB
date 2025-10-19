@@ -56,7 +56,7 @@ export class AppComponent implements OnInit {
   baseapi = "https://www.cloechaudronbeauty.com/backend/api/";
 
   safedev = true;
-  artiste="charles";
+  artiste="cloe";
 
   currentMonth = new Date().getMonth() + 1;
   currentYear = new Date().getFullYear();
@@ -925,6 +925,7 @@ getCumulativeLinePoints(year: string) {
           return factureYear == this.year;
     });
     return factures.sort((a, b) => {
+      console.log("0");
       const [dayA, monthA, yearA] = a.creation.split('/').map(Number);
       const [dayB, monthB, yearB] = b.creation.split('/').map(Number);
 
@@ -1499,6 +1500,7 @@ getCumulativeLinePoints(year: string) {
 
     // 2️⃣ Trier les factures par date (de la plus ancienne à la plus récente)
     allFactures.sort((a: any, b: any) => {
+      console.log("1");
       const [dayA, monthA, yearA] = a.creation.split('/').map(Number);
       const [dayB, monthB, yearB] = b.creation.split('/').map(Number);
       return (
