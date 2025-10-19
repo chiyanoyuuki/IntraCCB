@@ -131,7 +131,7 @@
       <p>Mail : </p>
       <input type="text" [(ngModel)]="jourClicked.mail" placeholder="Mail.." [class.red]="diffs&&diffs.mail"/>
     </div>
-    <div *ngIf="jourClicked.statut!='perso'">
+    <div *ngIf="jourClicked.statut!='perso'&&jourClicked.statut!='persofull'">
       <p>Mariage.Net :</p>
       <input type="text" [(ngModel)]="jourClicked.mariagenet" placeholder="Mariage.Net.." [class.red]="diffs&&diffs.mariagenet"/>
     </div>
@@ -142,9 +142,10 @@
         <option value="reserve">Mariage réservé</option>
         <option value="autre">Autre (Shooting, Tournage, Animation..)</option>
         <option value="perso">Perso</option>
+        <option value="persofull">Perso (toute la journée)</option>
       </select>
     </div>
-    <div *ngIf="jourClicked.statut!='perso'">
+    <div *ngIf="jourClicked.statut!='perso'&&jourClicked.statut!='persofull'">
       <p>Essai : </p>
       <div class="column">
         <input type="text" maxlength="10" placeholder="Date.." (input)="jourClicked.essai.date=onInput(jourClicked.essai.date)" [(ngModel)]="jourClicked.essai.date" [class.red]="diffs&&diffs.essai&&diffs.essai.date"/>
@@ -152,7 +153,7 @@
         <input type="text" placeholder="Heure.." [(ngModel)]="jourClicked.essai.heure" [class.red]="diffs&&diffs.essai&&diffs.essai.heure"/>
       </div>
     </div>
-    <div *ngIf="jourClicked.statut!='perso'">
+    <div *ngIf="jourClicked.statut!='perso'&&jourClicked.statut!='persofull'">
       <p>Mariage : </p>
       <div class="column">
         <select [(ngModel)]="jourClicked.mariage" (ngModelChange)="onDomainChange($event)">
@@ -217,13 +218,13 @@
     </div>
   </div>
 
-  <div *ngIf="jourClicked.statut!='essai'&&jourClicked.statut!='perso'" class="blocbas">
+  <div *ngIf="jourClicked.statut!='essai'&&jourClicked.statut!='perso'&&jourClicked.statut!='persofull'" class="blocbas">
     <p>Devis : </p>
     <button class="nom" *ngIf="jourClicked.devis&&jourClicked.devis.creation" [class.red]="diffs&&diffs.devis" (click)="clickDevis()">{{formatNumber(jourClicked.devis.numero)+"_"+jourClicked.devis.annee}}</button>
     <button *ngIf="!jourClicked.devis||!jourClicked.devis.creation" (click)="clickDevis()">Editer</button>
   </div>
 
-  <div *ngIf="jourClicked.statut!='essai'&&jourClicked.statut!='perso'&&jourClicked.devis&&jourClicked.devis.creation" class="blocbas">
+  <div *ngIf="jourClicked.statut!='essai'&&jourClicked.statut!='perso'&&jourClicked.statut!='persofull'&&jourClicked.devis&&jourClicked.devis.creation" class="blocbas">
     <p>Factures : </p>
     <select [(ngModel)]="selectedValue" (change)="clickFacture($event)" [class.red]="diffs&&diffs.factures">
       <option [value]="-1">Nouvelle facture</option>
@@ -231,13 +232,13 @@
     </select>
   </div>
 
-  <div *ngIf="jourClicked.statut!='essai'&&jourClicked.statut!='perso'&&jourClicked.devis&&jourClicked.devis.creation" class="blocbas">
+  <div *ngIf="jourClicked.statut!='essai'&&jourClicked.statut!='perso'&&jourClicked.statut!='persofull'&&jourClicked.devis&&jourClicked.devis.creation" class="blocbas">
     <p>Planning : </p>
     <button class="nom" *ngIf="jourClicked.planning&&jourClicked.planning.date" [class.red]="diffs&&diffs.planning" (click)="clickPlanning()">{{jourClicked.planning.date}}</button>
     <button *ngIf="!jourClicked.planning||!jourClicked.planning.date" (click)="clickPlanning()">Editer</button>
   </div>
 
-  <div *ngIf="jourClicked.statut!='essai'&&jourClicked.statut!='perso'" class="blocbas">
+  <div *ngIf="jourClicked.statut!='essai'&&jourClicked.statut!='perso'&&jourClicked.statut!='persofull'" class="blocbas">
     <p>Etape : </p>
     <button (click)="clickEtape()">{{getEtape()}}</button>
   </div>

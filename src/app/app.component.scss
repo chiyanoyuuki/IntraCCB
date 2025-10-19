@@ -88,7 +88,7 @@ input{
           background:unset;
           border:unset;
         }
-        .reserve, .demande, .autre, .essai, .over, .perso{
+        .reserve, .demande, .autre, .essai, .over, .perso, .persofull{
           filter: drop-shadow(2px 2px 3px black);
         }
       }
@@ -257,7 +257,7 @@ input{
         background:unset;
         border:1px solid var(--principale);
       }
-      .reserve, .demande, .autre, .essai, .over, .perso{
+      .reserve, .demande, .autre, .essai, .over, .perso, .persofull{
         filter: drop-shadow(2px 2px 3px black);
       }
     }
@@ -345,7 +345,7 @@ input{
     color: white;
     font-weight: bold;
   }
-  .perso{
+  .perso, .persofull{
     color:red;
     font-weight: bold;
   }

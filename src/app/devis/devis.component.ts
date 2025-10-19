@@ -14,10 +14,11 @@ import { jsPDF } from 'jspdf';
 import { CommonModule, DatePipe } from '@angular/common';
 import html2canvas from 'html2canvas';
 import { FormsModule } from '@angular/forms';
-import { from, of } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ReadpdfService } from '../../services/readpdf.service';
 import { DataService } from '../services/data-service.service';
+import baseprestadata from '../../../public/data.json';
 
 @Component({
   selector: 'app-devis',
@@ -63,156 +64,7 @@ export class DevisComponent implements OnInit {
   values: any = [];
   dataprestas: any = [];
   prestas: any = [];
-  baseprestas: any = [
-    {
-      nom: 'Frais de déplacement',
-      en: 'Travel Expenses',
-      titre: true,
-    },
-    {
-      nom: 'Frais de déplacement Jour-J (Aller/Retour)',
-      en: 'D-Day Travel Expenses (Round Trip)',
-      prix: 0.4,
-      kilorly: true,
-    },
-    {
-      nom: 'Frais de déplacement Essai (Aller/Retour)',
-      en: 'Trial Travel Expenses (Round Trip)',
-      prix: 0.4,
-      kilorly: true,
-    },
-    {
-      nom: 'Frais de déplacement renfort (Aller/Retour)',
-      en: 'Backup Travel Expenses (Round Trip)',
-      prix: 0.4,
-      kilorly: true,
-    },
-    {
-      nom: 'Mariée (essai et jour-J)',
-      en: 'Bride (Trial and D-Day)',
-      titre: true,
-    },
-    {
-      nom: 'Forfait Mariée Complet',
-      en: 'Complete Bride Package',
-      prix: 420,
-      onlyOne: true,
-      bride: true,
-      time: 120,
-      maquillage: true,
-      coiffure: true,
-    },
-    {
-      nom: 'Maquillage Mariée',
-      en: 'Bride Makeup',
-      prix: 220,
-      onlyOne: true,
-      bride: true,
-      time: 60,
-      maquillage: true,
-    },
-    {
-      nom: 'Coiffure Mariée',
-      en: 'Bride Hairstyling',
-      prix: 220,
-      onlyOne: true,
-      bride: true,
-      time: 60,
-      coiffure: true,
-    },
-    {
-      nom: 'Maquillage et coiffure supplémentaire (Mariage civil, seconde mise en beauté)',
-      en: 'Additional Makeup and Hairstyling (Civil Wedding, Second Beauty Touch-Up)',
-      prix: 300,
-      bride: true,
-      time: 120,
-      maquillage: true,
-      coiffure: true,
-    },
-    {
-      nom: 'Invitée (jour-J)',
-      en: 'Guest (D-Day)',
-      titre: true,
-    },
-    {
-      nom: 'Forfait Invitée Complet',
-      en: 'Complete Guest Package',
-      prix: 130,
-      time: 75,
-      maquillage: true,
-      coiffure: true,
-    },
-    {
-      nom: 'Coiffure Invitée (Attache complète)',
-      en: 'Guest Hairstyling (Full Updo)',
-      prix: 80,
-      time: 45,
-      coiffure: true,
-    },
-    {
-      nom: 'Coiffure Invitée (Attache partielle)',
-      en: 'Guest Hairstyling (Partial Updo)',
-      prix: 70,
-      time: 45,
-      coiffure: true,
-    },
-    {
-      nom: 'Brushing Hollywoodien Invitée',
-      en: 'Hollywood Blowout (Guest)',
-      prix: 70,
-      time: 45,
-      coiffure: true,
-    },
-    {
-      nom: 'Maquillage Invitée',
-      en: 'Guest Makeup',
-      prix: 65,
-      time: 45,
-      maquillage: true,
-    },
-    {
-      nom: 'Coiffure enfant (-13ans)',
-      en: 'Child Hairstyling (-13 years)',
-      prix: 30,
-      time: 20,
-      coiffure: true,
-    },
-    {
-      nom: 'Options',
-      en: 'Options',
-      titre: true,
-    },
-    {
-      nom: 'Pose Faux-cils',
-      en: 'False Lashes Application',
-      prix: 10,
-    },
-    {
-      nom: 'Pose Faux-cils (bouquets)',
-      en: 'False Lashes Application (Clusters)',
-      prix: 0,
-    },
-    {
-      nom: 'Maquillage Marié',
-      en: 'Groom Makeup',
-      prix: 30,
-      onlyOne: true,
-      time: 30,
-      maquillage: true,
-    },
-    {
-      nom: 'Présence avant 7h',
-      en: 'Early Presence (Before 7 AM)',
-      prix: 30,
-      onlyOne: true,
-    },
-    {
-      nom: 'Suivi Mariée',
-      en: 'Bride Follow-Up',
-      prix: 50,
-      hourly: true,
-    },
-  ];
+  baseprestas:any;
 
   modedevis = "Mariage";
 
@@ -301,16 +153,23 @@ export class DevisComponent implements OnInit {
     private readPDF: ReadpdfService
   ) {}
 
+  getBasePrestas(): Observable<any[]> {
+    return this.http.get<any[]>('https://www.cloechaudronbeauty.com/backend/api/getintraccbdata.php');
+  }
+
   ngOnInit() {
-    this.baseprestas = this.dataService.getBasePrestas();
-    if(this.artiste=="celma")this.basePrestasCelma();
-    else if(this.artiste=="charles")this.basePrestasCharles();
-    this.baseprestas.forEach((presta: any) => {
-      presta.qte = 0;
-    });
-    this.prestas = JSON.parse(JSON.stringify(this.baseprestas));
-    if (this.innerHeight > this.innerWidth) this.paysage = false;
-    else this.paysage = true;
+    this.getBasePrestas().subscribe(data => {
+      this.baseprestas = data;
+      console.log(this.baseprestas);
+      if(this.artiste=="celma")this.basePrestasCelma();
+      else if(this.artiste=="charles")this.basePrestasCharles();
+      this.baseprestas.forEach((presta: any) => {
+        presta.qte = 0;
+      });
+      this.prestas = JSON.parse(JSON.stringify(this.baseprestas));
+      if (this.innerHeight > this.innerWidth) this.paysage = false;
+      else this.paysage = true;
+    });    
   }
 
   popupRename(invitee:any)
