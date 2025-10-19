@@ -55,7 +55,7 @@ export class AppComponent implements OnInit {
 
   baseapi = "https://www.cloechaudronbeauty.com/backend/api/";
 
-  safedev = true;
+  safedev = false;
   artiste="cloe";
 
   currentMonth = new Date().getMonth() + 1;
@@ -648,14 +648,12 @@ cumulativeMax = 0;
     }
     else
     {
-      this.http
-      .get<any>(
-        this.baseapi + 'cloeplanning.php?artiste='+this.artiste
-      )
-      .subscribe((data) => {
-        data = data.filter((d:any)=>d.statut!="essai");
-        console.log('HTTP : CloePlanning', data);
-        this.initData(data);
+      console.log("GET DATA");
+      this.http.get<any>(this.baseapi + 'cloeplanning.php?artiste=' + this.artiste)
+      .subscribe(data => {
+        const filtered = data.filter((d:any) => d.statut !== 'essai');
+        console.log('HTTP : CloePlanning', filtered);
+        this.initData(filtered);
       });
     }
   }
@@ -925,7 +923,6 @@ getCumulativeLinePoints(year: string) {
           return factureYear == this.year;
     });
     return factures.sort((a, b) => {
-      console.log("0");
       const [dayA, monthA, yearA] = a.creation.split('/').map(Number);
       const [dayB, monthB, yearB] = b.creation.split('/').map(Number);
 
@@ -1500,7 +1497,6 @@ getCumulativeLinePoints(year: string) {
 
     // 2️⃣ Trier les factures par date (de la plus ancienne à la plus récente)
     allFactures.sort((a: any, b: any) => {
-      console.log("1");
       const [dayA, monthA, yearA] = a.creation.split('/').map(Number);
       const [dayB, monthB, yearB] = b.creation.split('/').map(Number);
       return (
