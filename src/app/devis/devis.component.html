@@ -2,18 +2,23 @@
 DEVIS CLOE
 ==================-->
 
-<div class="cloecss" [class.flex]="paysage" [class.portrait]="!paysage" *ngIf="artiste=='cloe'&&data && inited">
+<div
+  class="cloecss"
+  [class.flex]="paysage"
+  [class.portrait]="!paysage"
+  *ngIf="artiste == 'cloe' && data && inited"
+>
   <div #htmlContent id="htmlContent" *ngIf="mode == 'devis'" class="noplanning">
     <img src="logo.png" class="logo" />
     <p class="rosebg" style="color: white" *ngIf="lg == 'Français'">
-      {{"DEVIS"}}
+      {{ "DEVIS" }}
     </p>
     <p class="rosebg" style="color: white" *ngIf="lg == 'Anglais'">
-      {{"QUOTE"}}
+      {{ "QUOTE" }}
     </p>
     <p class="date">
       Date :
-      {{ formatDate(values[0])}}
+      {{ formatDate(values[0]) }}
     </p>
     <div class="ligne"></div>
 
@@ -101,117 +106,103 @@ DEVIS CLOE
       </p>
 
       <div class="infos" *ngIf="mode == 'devis' && lg == 'Français'">
-  <p>Conditions contractuelles :</p>
-  <ul>
-    <li *ngIf="modedevis=='Mariage'">
-      <strong >Réservation et acompte :</strong> confirmée exclusivement après signature du devis et versement d’un acompte de 30 % du montant de la prestation mariée. Cet acompte a valeur d’engagement définitif et garantit la réservation de la date.
-    </li>
-    <li *ngIf="modedevis!='Mariage'">
-      <strong>Réservation et acompte :</strong> confirmée exclusivement après signature du devis et versement d’un acompte de 30 % du montant de la prestation. Cet acompte a valeur d’engagement définitif et garantit la réservation de la date.
-    </li>
-    <li *ngIf="modedevis=='Mariage'">
-      <strong>Annulation par la cliente :</strong>  
-      – Plus de 6 mois avant la date : l’acompte de 30 % reste acquis.  
-      – Entre 6 et 3 mois avant la date : 50 % du montant total de la prestation est dû.  
-      – Moins de 3 mois avant la date : la totalité du montant reste exigible.  
-      Ces conditions sont établies afin de garantir la disponibilité et l’exclusivité réservées à l’événement.
-    </li>
-    <li *ngIf="modedevis!='Mariage'">
-      <strong>Annulation par le client :</strong>  
-      – Plus de 6 mois avant la date : l’acompte de 30 % reste acquis.  
-      – Entre 6 et 3 mois avant la date : 50 % du montant total de la prestation est dû.  
-      – Moins de 3 mois avant la date : la totalité du montant reste exigible.  
-      Ces conditions sont établies afin de garantir la disponibilité et l’exclusivité réservées à l’événement.
-    </li>
-    <li>
-      <strong>Annulation par la prestataire :</strong> en cas de force majeure, l’acompte est restitué intégralement. Aucune indemnité complémentaire ne pourra être réclamée. La prestataire s’efforcera néanmoins de proposer un relais qualifié.
-    </li>
-    <li *ngIf="modedevis=='Mariage'">
-      <strong>Solde :</strong> à régler au plus tard le jour du mariage. Tout défaut ou retard de règlement suspend automatiquement l’exécution.
-    </li>
-    <li *ngIf="modedevis!='Mariage'">
-      <strong>Solde :</strong> à régler au plus tard le jour de l’événement. Tout défaut ou retard de règlement suspend automatiquement l’exécution.
-    </li>
-    <li *ngIf="modedevis=='Mariage'">
-      <strong>Engagements :</strong> la prestataire garantit un service d’excellence, une disponibilité totale et une qualité irréprochable. La cliente s’engage à respecter les horaires, à notifier toute modification et à fournir des conditions optimales pour la bonne réalisation.
-    </li>
-    <li *ngIf="modedevis!='Mariage'">
-      <strong>Engagements :</strong> toute modification du nombre de participants doit être communiquée au minimum 72h avant l'évènement. Le client s'engage à respecter les horaires.
-    </li>
-    <li>
-      <strong>Frais de déplacement :</strong> facturés 0,40 €/km, péages et parkings inclus, à régler le jour du déplacement au plus tard.
-    </li>
-    <li>
-      <strong>Validité du devis :</strong> valable jusqu’à l’achèvement des prestations prévues. Toute prestation supplémentaire devra faire l’objet d’un accord écrit et sera intégrée à la facturation finale. Aucune suppression n’est acceptée.
-    </li>
-    <li *ngIf="modedevis=='Mariage'">
-      <strong>Droits à l’image :</strong> la cliente autorise la prestataire à utiliser, à titre promotionnel et strictement non commercial, les photographies ou vidéos réalisées lors de la prestation (site internet, réseaux sociaux, portfolio). Toute opposition devra être notifiée par écrit avant l’événement.
-    </li>
-    <li *ngIf="modedevis!='Mariage'">
-      <strong>Droits à l’image :</strong> le client autorise la prestataire à utiliser, à titre promotionnel et strictement non commercial, les photographies ou vidéos réalisées lors de la prestation (site internet, réseaux sociaux, portfolio). Toute opposition devra être notifiée par écrit avant l’événement.
-    </li>
-  </ul>
-</div>
-
-
-
-
+        <p>Conditions contractuelles :</p>
+        <ul>
+          <li *ngIf="modedevis == 'Mariage'">
+            <strong>Réservation et acompte :</strong> confirmée exclusivement
+            après signature du devis, du contrat, et versement d’un acompte de
+            30 % du montant de la prestation mariée. Cet acompte a valeur
+            d’engagement définitif et garantit la réservation de la date.
+          </li>
+          <li *ngIf="modedevis != 'Mariage'">
+            <strong>Réservation et acompte :</strong> confirmée exclusivement
+            après signature du devis, du contrat, et versement d’un acompte de
+            30 % du montant de la prestation. Cet acompte a valeur d’engagement
+            définitif et garantit la réservation de la date.
+          </li>
+          <li *ngIf="modedevis == 'Mariage'">
+            <strong>Solde :</strong> à régler au plus tard le jour du mariage.
+            Tout défaut ou retard de règlement suspend automatiquement
+            l’exécution.
+          </li>
+          <li *ngIf="modedevis != 'Mariage'">
+            <strong>Solde :</strong> à régler au plus tard le jour de
+            l’événement. Tout défaut ou retard de règlement suspend
+            automatiquement l’exécution.
+          </li>
+          <li *ngIf="modedevis == 'Mariage'">
+            <strong>Engagements :</strong> la prestataire garantit un service
+            d’excellence, une disponibilité totale et une qualité irréprochable.
+            La cliente s’engage à respecter les horaires, à notifier toute
+            modification et à fournir des conditions optimales pour la bonne
+            réalisation.
+          </li>
+          <li *ngIf="modedevis != 'Mariage'">
+            <strong>Engagements :</strong> toute modification du nombre de
+            participants doit être communiquée au minimum 72h avant l'évènement.
+            Le client s'engage à respecter les horaires.
+          </li>
+          <li>
+            <strong>Frais de déplacement :</strong> facturés 0,40 €/km, péages
+            et parkings inclus, à régler le jour du déplacement au plus tard.
+          </li>
+          <li>
+            <strong>Validité du devis :</strong> valable jusqu’à l’achèvement
+            des prestations prévues. Toute prestation supplémentaire devra faire
+            l’objet d’un accord écrit et sera intégrée à la facturation finale.
+            Aucune suppression n’est acceptée.
+          </li>
+        </ul>
+      </div>
 
       <div class="infos" *ngIf="mode == 'devis' && lg != 'Français'">
-  <p>Contractual Conditions:</p>
-  <ul>
-    <li *ngIf="modedevis=='Mariage'">
-      <strong>Reservation and Deposit:</strong> confirmed exclusively upon signature of the quotation and payment of a 30% deposit on the bridal service. This deposit constitutes a binding commitment and secures the reserved date.
-    </li>
-    <li *ngIf="modedevis!='Mariage'">
-      <strong>Reservation and Deposit:</strong> confirmed exclusively upon signature of the quotation and payment of a 30% deposit on the service. This deposit constitutes a binding commitment and secures the reserved date.
-    </li>
-    <li *ngIf="modedevis=='Mariage'">
-      <strong>Client Cancellation:</strong><br>
-      – More than 6 months before the date: the 30% deposit remains non-refundable.<br>
-      – Between 6 and 3 months before the date: 50% of the total amount is due.<br>
-      – Less than 3 months before the date: the full amount is payable.<br>
-      These conditions ensure the availability and exclusivity reserved for the event.
-    </li>
-    <li *ngIf="modedevis!='Mariage'">
-      <strong>Client Cancellation:</strong><br>
-      – More than 6 months before the date: the 30% deposit remains non-refundable.<br>
-      – Between 6 and 3 months before the date: 50% of the total amount is due.<br>
-      – Less than 3 months before the date: the full amount is payable.<br>
-      These conditions ensure the availability and exclusivity reserved for the event.
-    </li>
-    <li>
-      <strong>Provider Cancellation:</strong> in the event of force majeure, the deposit will be fully refunded. No additional compensation may be claimed. The provider will, however, make every effort to propose a qualified replacement.
-    </li>
-    <li *ngIf="modedevis=='Mariage'">
-      <strong>Balance:</strong> to be settled no later than the wedding day. Any default or delay in payment will automatically suspend performance of the service.
-    </li>
-    <li *ngIf="modedevis!='Mariage'">
-      <strong>Balance:</strong> to be settled no later than the day of the event. Any default or delay in payment will automatically suspend performance of the service.
-    </li>
-    <li *ngIf="modedevis=='Mariage'">
-      <strong>Commitments:</strong> the provider guarantees excellence, full availability, and impeccable quality. The client undertakes to respect the schedule, notify any modification, and provide optimal conditions for smooth execution.
-    </li>
-    <li *ngIf="modedevis!='Mariage'">
-      <strong>Commitments:</strong> any change in the number of participants must be communicated at least 72 hours before the event. The client undertakes to respect the agreed schedule.
-    </li>
-    <li>
-      <strong>Travel Expenses:</strong> charged at €0.40/km, including tolls and parking, payable no later than the day of travel.
-    </li>
-    <li>
-      <strong>Validity of Quotation:</strong> valid until completion of the listed services. Any additional service requires written approval and will be added to the final invoice. No cancellation of items is accepted.
-    </li>
-    <li *ngIf="modedevis=='Mariage'">
-      <strong>Image Rights:</strong> the client authorizes the provider to use, for promotional and strictly non-commercial purposes, photographs or videos taken during the service (website, social media, portfolio). Any objection must be notified in writing prior to the event.
-    </li>
-    <li *ngIf="modedevis!='Mariage'">
-      <strong>Image Rights:</strong> the client authorizes the provider to use, for promotional and strictly non-commercial purposes, photographs or videos taken during the service (website, social media, portfolio). Any objection must be notified in writing prior to the event.
-    </li>
-  </ul>
-</div>
-
-
-
+        <p>Contractual Conditions:</p>
+        <ul>
+          <li *ngIf="modedevis == 'Mariage'">
+            <strong>Reservation and Deposit:</strong> confirmed exclusively upon
+            signature of the quotation, the contract, and payment of a 30%
+            deposit on the bridal service. This deposit constitutes a binding
+            commitment and secures the reserved date.
+          </li>
+          <li *ngIf="modedevis != 'Mariage'">
+            <strong>Reservation and Deposit:</strong> confirmed exclusively upon
+            signature of the quotation, the contract and payment of a 30%
+            deposit on the service. This deposit constitutes a binding
+            commitment and secures the reserved date.
+          </li>
+          <li *ngIf="modedevis == 'Mariage'">
+            <strong>Balance:</strong> to be settled no later than the wedding
+            day. Any default or delay in payment will automatically suspend
+            performance of the service.
+          </li>
+          <li *ngIf="modedevis != 'Mariage'">
+            <strong>Balance:</strong> to be settled no later than the day of the
+            event. Any default or delay in payment will automatically suspend
+            performance of the service.
+          </li>
+          <li *ngIf="modedevis == 'Mariage'">
+            <strong>Commitments:</strong> the provider guarantees excellence,
+            full availability, and impeccable quality. The client undertakes to
+            respect the schedule, notify any modification, and provide optimal
+            conditions for smooth execution.
+          </li>
+          <li *ngIf="modedevis != 'Mariage'">
+            <strong>Commitments:</strong> any change in the number of
+            participants must be communicated at least 72 hours before the
+            event. The client undertakes to respect the agreed schedule.
+          </li>
+          <li>
+            <strong>Travel Expenses:</strong> charged at €0.40/km, including
+            tolls and parking, payable no later than the day of travel.
+          </li>
+          <li>
+            <strong>Validity of Quotation:</strong> valid until completion of
+            the listed services. Any additional service requires written
+            approval and will be added to the final invoice. No cancellation of
+            items is accepted.
+          </li>
+        </ul>
+      </div>
 
       <p class="signature" *ngIf="mode == 'devis'">
         {{
@@ -250,7 +241,12 @@ DEVIS CLOE
     </div>
   </div>
 
-  <div #htmlContent id="htmlContent" *ngIf="mode == 'facture'" class="noplanning">
+  <div
+    #htmlContent
+    id="htmlContent"
+    *ngIf="mode == 'facture'"
+    class="noplanning"
+  >
     <img src="logo.png" class="logo" />
     <p class="rosebg" style="color: white" *ngIf="lg == 'Français'">
       {{ "FACTURE" }}
@@ -345,17 +341,27 @@ DEVIS CLOE
             {{ transform(values[15]) }}€ {{ getDateArrhes() }}
           </p>
           <p
-          class="tinytext bold rightalign"
-          *ngIf="values[15] != '' || values[60] != '' || data.factures.length==0"
-        >
-          {{ lg == "Français" ? "Reste à payer" : "Remaining balance" }} :
-          {{ values[60] != "" ? values[60] : transform(calcTot(true)) }}€
-        </p>
-        <p class="tinytext bold rightalign2" *ngIf="isacquitee">{{lg == "Français" ? "Facture acquittée le : " : "Invoice paid on : "}}{{formatDate(values[0])}}</p>
+            class="tinytext bold rightalign"
+            *ngIf="
+              values[15] != '' || values[60] != '' || data.factures.length == 0
+            "
+          >
+            {{ lg == "Français" ? "Reste à payer" : "Remaining balance" }} :
+            {{ values[60] != "" ? values[60] : transform(calcTot(true)) }}€
+          </p>
+          <p class="tinytext bold rightalign2" *ngIf="isacquitee">
+            {{
+              lg == "Français"
+                ? "Facture acquittée le : "
+                : "Invoice paid on : "
+            }}{{ formatDate(values[0]) }}
+          </p>
         </div>
-        <p class="tinytext" *ngIf="values[61]!=0">
-          {{ lg == "Français" ? "Paiement prestataires" : "Payment to providers" }} :
-          {{ transform(values[61]) }}€
+        <p class="tinytext" *ngIf="values[61] != 0">
+          {{
+            lg == "Français" ? "Paiement prestataires" : "Payment to providers"
+          }}
+          : {{ transform(values[61]) }}€
         </p>
         <p class="tinytext">
           {{ lg == "Français" ? "Mode de paiement" : "Payment Method" }} :
@@ -394,7 +400,11 @@ DEVIS CLOE
   <div class="popup-backdrop" *ngIf="popupVisible">
     <div class="popup-box">
       <h3>Modifier le nom</h3>
-      <input type="text" [(ngModel)]="inputValue" placeholder="Entrez un nouveau nom" />
+      <input
+        type="text"
+        [(ngModel)]="inputValue"
+        placeholder="Entrez un nouveau nom"
+      />
 
       <div class="popup-actions">
         <button (click)="cancel()">Annuler</button>
@@ -406,7 +416,7 @@ DEVIS CLOE
   <div #htmlContent id="htmlContent" *ngIf="mode == 'planning'">
     <img src="logo.png" class="logo" />
     <p class="rosebg" style="color: white">
-      {{ lg=='Français'?'PLANNING':'SCHEDULE' }}
+      {{ lg == "Français" ? "PLANNING" : "SCHEDULE" }}
     </p>
     <p class="date">Date : {{ formatDate(values[51]) }}</p>
     <div class="ligne"></div>
@@ -419,7 +429,7 @@ DEVIS CLOE
         </div>
         <div class="absolute">
           <div *ngFor="let top of planningtop; let i = index" class="relative">
-            <p>{{ lg=='Français'?top.fr:top.en }}</p>
+            <p>{{ lg == "Français" ? top.fr : top.en }}</p>
           </div>
         </div>
       </div>
@@ -442,15 +452,27 @@ DEVIS CLOE
             *ngFor="let invitee of getInvitees(c); let i = index"
             class="relative"
           >
-            <p class="invitee" [class.onlyonerow]="getInvitees(c).length == 1" (click)="popupRename(invitee)" *ngIf="!invitee[11]||invitee[11]==''">
+            <p
+              class="invitee"
+              [class.onlyonerow]="getInvitees(c).length == 1"
+              (click)="popupRename(invitee)"
+              *ngIf="!invitee[11] || invitee[11] == ''"
+            >
               {{
-                lg=='Français'?typeinvitee[invitee[0]].fr:typeinvitee[invitee[0]].en +
-                  " " +
-                  (invitee[0] == 0 ? getNbInvitee(c, i, invitee[0]) : "")
+                lg == "Français"
+                  ? typeinvitee[invitee[0]].fr
+                  : typeinvitee[invitee[0]].en +
+                    " " +
+                    (invitee[0] == 0 ? getNbInvitee(c, i, invitee[0]) : "")
               }}
             </p>
-            <p class="invitee" [class.onlyonerow]="getInvitees(c).length == 1" (click)="popupRename(invitee)" *ngIf="invitee[11]&&invitee[11]!=''">
-              {{invitee[11]}}
+            <p
+              class="invitee"
+              [class.onlyonerow]="getInvitees(c).length == 1"
+              (click)="popupRename(invitee)"
+              *ngIf="invitee[11] && invitee[11] != ''"
+            >
+              {{ invitee[11] }}
             </p>
             <td class="horaire noborder" [class.odd]="i % 2 != 0">&nbsp;</td>
             <ng-container *ngFor="let horaire of invitee; let j = index">
@@ -462,13 +484,17 @@ DEVIS CLOE
                 [class.none]="checkDisplay(i, j, c)"
                 [class.odd]="i % 2 != 0"
               >
-                {{ j == 6 && horaire != "" && lg=='Français' ? "Jusqu'à " : "" }}{{ j == 6 && horaire != "" && lg=='Anglais' ? "Until " : "" }}{{ horaire }}
+                {{
+                  j == 6 && horaire != "" && lg == "Français" ? "Jusqu'à " : ""
+                }}{{ j == 6 && horaire != "" && lg == "Anglais" ? "Until " : ""
+                }}{{ horaire }}
               </td>
             </ng-container>
           </tr>
         </table>
         <p class="artist" *ngIf="getInvitees(0).length != invitees.length">
-          {{lg=='Français'?'Artiste':'Artist'}} : {{ collegue[0] + " " + collegue[1] }}
+          {{ lg == "Français" ? "Artiste" : "Artist" }} :
+          {{ collegue[0] + " " + collegue[1] }}
         </p>
       </ng-container>
     </div>
@@ -513,127 +539,136 @@ DEVIS CLOE
           </div>
         </div>
       </div>
-      
     </div>
   </div>
 
-  <div #htmlContent id="htmlContent" *ngIf="mode == 'renseignement'" class="noplanning renseignement">
+  <div
+    #htmlContent
+    id="htmlContent"
+    *ngIf="mode == 'renseignement'"
+    class="noplanning renseignement"
+  >
     <div class="infosmariee glow">
       <div>
         <p>Nom/Prénom :&nbsp;</p>
-        <p>{{informations.nom}}</p>
+        <p>{{ informations.nom }}</p>
       </div>
       <div>
         <p>Mariage le :&nbsp;</p>
-        <p>{{informations.date}}</p>
+        <p>{{ informations.date }}</p>
       </div>
     </div>
 
     <div class="infosmariee">
       <div>
         <p>Adresse :&nbsp;</p>
-        <p>{{informations.adresse}}</p>
+        <p>{{ informations.adresse }}</p>
       </div>
       <div>
         <p>Code postal :&nbsp;</p>
-        <p>{{informations.codepostal}}</p>
+        <p>{{ informations.codepostal }}</p>
       </div>
       <div>
         <p>Téléphone :&nbsp;</p>
-        <p>{{informations.tel}}</p>
+        <p>{{ informations.tel }}</p>
       </div>
       <div>
         <p>Mail :&nbsp;</p>
-        <p>{{informations.mail}}</p>
+        <p>{{ informations.mail }}</p>
       </div>
     </div>
 
     <div class="infosmariee">
       <div>
         <p>Domaine :&nbsp;</p>
-        <p>{{informations.mariage.domaine}}</p>
+        <p>{{ informations.mariage.domaine }}</p>
       </div>
       <div>
         <p>Forfait invitée complet :&nbsp;</p>
-        <p>{{informations.complet}}</p>
+        <p>{{ informations.complet }}</p>
       </div>
       <div>
         <p>Adresse :&nbsp;</p>
-        <p>{{informations.mariage.adresse}}</p>
+        <p>{{ informations.mariage.adresse }}</p>
       </div>
       <div>
         <p>Maquillage seul invitée :&nbsp;</p>
-        <p>{{informations.maquillage}}</p>
+        <p>{{ informations.maquillage }}</p>
       </div>
       <div>
         <p>Code postal :&nbsp;</p>
-        <p>{{informations.mariage.codepostal}}</p>
+        <p>{{ informations.mariage.codepostal }}</p>
       </div>
       <div>
         <p>Coiffure seule invitée :&nbsp;</p>
-        <p>{{informations.coiffure}}</p>
+        <p>{{ informations.coiffure }}</p>
       </div>
       <div>
         <p>Heure arrivée :&nbsp;</p>
-        <p>{{getHeureArrivee()}}</p>
+        <p>{{ getHeureArrivee() }}</p>
       </div>
       <div></div>
       <div>
         <p>Fin des prestas :&nbsp;</p>
-        <p>{{getFinPrestas()}}</p>
+        <p>{{ getFinPrestas() }}</p>
       </div>
       <div></div>
       <div>
         <p>Heure cérémonie :&nbsp;</p>
-        <p>{{informations.planning.ceremonie}}</p>
+        <p>{{ informations.planning.ceremonie }}</p>
       </div>
     </div>
 
     <div class="infosmariee onerow">
       <div>
         <p>Essai le&nbsp;</p>
-        <p>{{informations.essai.date}}</p>
+        <p>{{ informations.essai.date }}</p>
       </div>
       <div class="small">
-        <p>&nbsp;à&nbsp;</p> 
-        <p>{{informations.essai.heure}}</p>
+        <p>&nbsp;à&nbsp;</p>
+        <p>{{ informations.essai.heure }}</p>
       </div>
       <div class="widthavailable">
         <p>&nbsp;à&nbsp;</p>
-        <p>{{informations.essai.lieu}}</p>
+        <p>{{ informations.essai.lieu }}</p>
       </div>
     </div>
-
 
     <div class="column">
       <p class="titre">Renforts :</p>
       <div class="infosmariee onerow trio">
         <div *ngFor="let i of generateRange(3)" class="column">
-          <p *ngFor="let j of generateRange(4)">{{informations.collegues[i]?informations.collegues[i][j]:'&nbsp;'}}</p>
+          <p *ngFor="let j of generateRange(4)">
+            {{
+              informations.collegues[i]
+                ? informations.collegues[i][j]
+                : "&nbsp;"
+            }}
+          </p>
         </div>
       </div>
     </div>
 
-
     <div class="column">
       <p class="titre">Maquillage x Coiffure :</p>
       <div class="texteecrit">
-        <p *ngFor="let i of generateRange(5)" [innerHTML]="textWithNbsp(informations.texte[i])"></p>
+        <p
+          *ngFor="let i of generateRange(5)"
+          [innerHTML]="textWithNbsp(informations.texte[i])"
+        ></p>
       </div>
     </div>
   </div>
 
-  <div class="inputs" *ngIf="mode!='renseignement'">
+  <div class="inputs" *ngIf="mode != 'renseignement'">
     <button (click)="return()">Retour</button>
     <div class="flex center">
-      <p>Langue : </p>
-      <button
-      (click)="lg == 'Français' ? (lg = 'Anglais') : (lg = 'Français')"
-    >
-      {{ lg }}
-    </button>
+      <p>Langue :</p>
+      <button (click)="lg == 'Français' ? (lg = 'Anglais') : (lg = 'Français')">
+        {{ lg }}
+      </button>
     </div>
-    
+
     <div class="flex" *ngIf="false">
       <p>Importer :</p>
       <input
@@ -804,13 +839,15 @@ DEVIS CLOE
               +
             </p>
           </div>
-          <input *ngIf="lg==='Français'"
+          <input
+            *ngIf="lg === 'Français'"
             type="text"
             class="nom"
             [(ngModel)]="presta.nom"
             placeholder="Nom.."
           />
-          <input *ngIf="lg!=='Français'"
+          <input
+            *ngIf="lg !== 'Français'"
             type="text"
             class="nom"
             [(ngModel)]="presta.en"
@@ -875,7 +912,7 @@ DEVIS CLOE
       />
     </div>
     <div class="flex" *ngIf="mode == 'facture'">
-      <p>Facture acquitée : </p>
+      <p>Facture acquitée :</p>
       <input type="checkbox" [(ngModel)]="isacquitee" />
     </div>
 
@@ -884,14 +921,14 @@ DEVIS CLOE
         <button (click)="actualiser()">Calculer</button>
       </div>
       <div class="flex topceremonie">
-        <p>Fin prestations : </p>
+        <p>Fin prestations :</p>
         <input
           type="text"
           [(ngModel)]="finprestas"
           placeholder="Fin prestations.."
           (input)="onFinPrestasInput()"
         />
-        <p>Début cérémonie : </p>
+        <p>Début cérémonie :</p>
         <input
           type="text"
           [(ngModel)]="ceremonie"
@@ -933,8 +970,13 @@ DEVIS CLOE
             <p>Coif</p>
           </div>
           <div
-            *ngFor="let presta of getplanningprestas(i); let x = index;trackBy: trackByIndex"
-            class="lignepres flex" [class.bride]="presta.bride"
+            *ngFor="
+              let presta of getplanningprestas(i);
+              let x = index;
+              trackBy: trackByIndex
+            "
+            class="lignepres flex"
+            [class.bride]="presta.bride"
           >
             <input type="text" [(ngModel)]="presta.prix" />
             <select
@@ -949,27 +991,40 @@ DEVIS CLOE
                 {{ collegue[0] }}
               </option>
             </select>
-            <button [class.disabled]="x == 0" (click)="monter(x, presta)">Monter</button>
+            <button [class.disabled]="x == 0" (click)="monter(x, presta)">
+              Monter
+            </button>
             <button
-            [class.disabled]="x == getplanningprestas(i).length - 1"
+              [class.disabled]="x == getplanningprestas(i).length - 1"
               (click)="descendre(x, presta)"
             >
               Descendre
             </button>
-            <input type="text" [(ngModel)]="presta.time" (input)="onTimeInput(presta)"/>
-            <input type="checkbox" [(ngModel)]="presta.maquillage" (change)="onCheckBoxClick('m',presta)" class="checkmaqu">
-            <input type="checkbox" [(ngModel)]="presta.coiffure" (change)="onCheckBoxClick('c',presta)">
+            <input
+              type="text"
+              [(ngModel)]="presta.time"
+              (input)="onTimeInput(presta)"
+            />
+            <input
+              type="checkbox"
+              [(ngModel)]="presta.maquillage"
+              (change)="onCheckBoxClick('m', presta)"
+              class="checkmaqu"
+            />
+            <input
+              type="checkbox"
+              [(ngModel)]="presta.coiffure"
+              (change)="onCheckBoxClick('c', presta)"
+            />
             <button (click)="deletePresta(presta)">Supprimer</button>
           </div>
 
-          <div *ngIf="mode=='planning'" class="flex center">
-            <button (click)="addPlanningPresta(i)" >Ajouter prestation</button>
+          <div *ngIf="mode == 'planning'" class="flex center">
+            <button (click)="addPlanningPresta(i)">Ajouter prestation</button>
           </div>
         </ng-container>
       </div>
     </div>
-
-   
 
     <div class="domaine" *ngIf="mode == 'planning'">
       <div class="flex">
@@ -1000,7 +1055,7 @@ DEVIS CLOE
           "
           class="inviteesinput"
         >
-        <p style="text-align: center;">{{calcGains(i)}}</p>
+          <p style="text-align: center">{{ calcGains(i) }}</p>
           <ng-container
             *ngFor="let data of collegue; let j = index; trackBy: trackByIndex"
           >
@@ -1010,51 +1065,65 @@ DEVIS CLOE
         </div>
       </div>
     </div>
-    <div class="marg flex center" 
-    *ngIf="mode == 'planning'">
-      <button
-        (click)="addCollegue()"
-      >
-        Ajouter collègue
-      </button>
+    <div class="marg flex center" *ngIf="mode == 'planning'">
+      <button (click)="addCollegue()">Ajouter collègue</button>
     </div>
 
     <div class="flex center bottombuttons">
-      <button *ngIf="false&&mode=='planning'" (click)="reinitPlanning()">Reinit planning</button>
-      <button (click)="generatePDFfromHTML()">
-        Générer PDF
+      <button *ngIf="false && mode == 'planning'" (click)="reinitPlanning()">
+        Reinit planning
       </button>
+      <button (click)="generatePDFfromHTML()">Générer PDF</button>
       <button (click)="save()">Sauvegarder</button>
-      <button *ngIf="mode=='facture'&&data.factures[data.factureClicked]" class="delete" (click)="delete()">Supprimer</button>
+      <button
+        *ngIf="mode == 'facture' && data.factures[data.factureClicked]"
+        class="delete"
+        (click)="delete()"
+      >
+        Supprimer
+      </button>
     </div>
 
     <div class="flex center bottombuttons" *ngIf="mode == 'devis'">
-      <button (click)="modedevis=='Mariage'?modedevis='Autre':modedevis='Mariage'">{{modedevis}}</button>
-    </div>
-
-  </div>
-
-  <div class="inputs" *ngIf="mode=='renseignement'">
-    <button (click)="return()">Retour</button>
-
-    <div class="inputstexte">
-      <input type="text" *ngFor="let i of generateRange(5)" [(ngModel)]="informations.texte[i]" />
-    </div>
-
-    <div class="flex center bottombuttons">
-      <button (click)="generatePDFfromHTML()">
-        Générer PDF
+      <button
+        (click)="
+          modedevis == 'Mariage'
+            ? (modedevis = 'Autre')
+            : (modedevis = 'Mariage')
+        "
+      >
+        {{ modedevis }}
       </button>
     </div>
   </div>
-</div>
 
+  <div class="inputs" *ngIf="mode == 'renseignement'">
+    <button (click)="return()">Retour</button>
+
+    <div class="inputstexte">
+      <input
+        type="text"
+        *ngFor="let i of generateRange(5)"
+        [(ngModel)]="informations.texte[i]"
+      />
+    </div>
+
+    <div class="flex center bottombuttons">
+      <button (click)="generatePDFfromHTML()">Générer PDF</button>
+    </div>
+  </div>
+</div>
 
 <!--==================
 DEVIS CELMA
 ==================-->
 
-<div class="celmacss" [class.flex]="paysage" [class.portrait]="!paysage" *ngIf="artiste=='celma'&&data && inited">
+<div
+  class="celmacss"
+  [class.flex]="paysage"
+  [class.portrait]="!paysage"
+  *ngIf="artiste == 'celma' && data && inited"
+>
   <div #htmlContent id="htmlContent" *ngIf="mode == 'devis'" class="devis">
     <div class="topleftinfos">
       <p>CS</p>
@@ -1068,29 +1137,39 @@ DEVIS CELMA
       <p>FACTURE</p>
       <p>PROFORMA</p>
       <p>N°{{ values[1] }}</p>
-      <p>Du {{values[0]}}</p>
-      <p>{{data.statut=='reserve'||data.statut=='demande'?'Mariage':'Prestation'}} le {{values[14]}}</p>
+      <p>Du {{ values[0] }}</p>
+      <p>
+        {{
+          data.statut == "reserve" || data.statut == "demande"
+            ? "Mariage"
+            : "Prestation"
+        }}
+        le {{ values[14] }}
+      </p>
     </div>
 
     <div class="toptab">
       <p>SERVICE</p>
-      <p>{{'qté'|uppercase}}</p>
-      <p>{{'réduc'|uppercase}}</p>
+      <p>{{ "qté" | uppercase }}</p>
+      <p>{{ "réduc" | uppercase }}</p>
       <p>TOTAL</p>
     </div>
 
     <div class="prestations">
       <ng-container *ngFor="let presta of prestas">
         <div *ngIf="presta.qte > 0 || presta.qte == '?'" class="prestation">
-          <p>{{presta.nom}}</p>
+          <p>{{ presta.nom }}</p>
           <p>
             {{ presta.qte == "?" && lg === "Français" ? "À definir" : "" }}
             {{ presta.qte == "?" && lg !== "Français" ? "To define" : "" }}
             {{ presta.qte != "?" && presta.kilorly ? presta.qte * 2 : "" }}
             {{ presta.qte != "?" && !presta.kilorly ? presta.qte : "" }}
             {{ presta.kilorly && presta.qte != "?" ? "km" : ""
-            }}{{ presta.hourly && presta.qte != "?" ? "h" : "" }}</p>
-          <p>{{presta.reduc&&presta.reduc!=""?presta.reduc+'%':''}}</p>
+            }}{{ presta.hourly && presta.qte != "?" ? "h" : "" }}
+          </p>
+          <p>
+            {{ presta.reduc && presta.reduc != "" ? presta.reduc + "%" : "" }}
+          </p>
           <p *ngIf="calc(presta) > 0">{{ transform(calc(presta)) }} €</p>
           <p *ngIf="calc(presta) == 0" class="green">Offert</p>
         </div>
@@ -1098,29 +1177,44 @@ DEVIS CELMA
       <div class="totalprestation">
         <p>Montant net non soumis à la TVA en vertu de l'art. 293B du CGI.</p>
         <p>TOTAL</p>
-        <p>{{transform(calcTot())}} €</p>
+        <p>{{ transform(calcTot()) }} €</p>
       </div>
     </div>
 
     <div class="infosdevis">
-      <p>Ce devis concerne les prestations nommées. Il est soumis aux conditions mentionnées ci-dessous :</p>
-      <p>50% d'arrhes de la prestation mariée sont à verser le jour de l'essai</p>
+      <p>
+        Ce devis concerne les prestations nommées. Il est soumis aux conditions
+        mentionnées ci-dessous :
+      </p>
+      <p>
+        50% d'arrhes de la prestation mariée sont à verser le jour de l'essai
+      </p>
       <p>Le montant restant est à verser au plus tard le jour du mariage</p>
-      <p>Les frais de déplacements sont à verser au plus tard le jour du dit déplacement</p>
-      <p>Les indemnités kilométriques sont facturées au tarif de 0,40€/kilomètre. Péages en plus</p>
-      <p>Le présent devis est valable jusqu'à la fin des prestations mentionnées. Des prestations peuvent être modifiées, ajoutées mais en aucun cas supprimées</p>
+      <p>
+        Les frais de déplacements sont à verser au plus tard le jour du dit
+        déplacement
+      </p>
+      <p>
+        Les indemnités kilométriques sont facturées au tarif de 0,40€/kilomètre.
+        Péages en plus
+      </p>
+      <p>
+        Le présent devis est valable jusqu'à la fin des prestations mentionnées.
+        Des prestations peuvent être modifiées, ajoutées mais en aucun cas
+        supprimées
+      </p>
       <p>Pour accepter ce devis, apposez votre signature et renvoyez le</p>
       <p>Veuillez rédiger tous les chèques à l'ordre de Sahidet Celma</p>
       <p>Pour toute question concernant cette facture, veuillez me contacter</p>
     </div>
-  
+
     <div class="bottomleft">
-      <p>{{'facturé à' | uppercase}}</p>
-      <p>{{values[4] | uppercase}}</p>
-      <p>{{values[6]}}</p>
-      <p>{{values[8]}}</p>
-      <p>{{values[10]}}</p>
-      <p>{{values[12]}}</p>
+      <p>{{ "facturé à" | uppercase }}</p>
+      <p>{{ values[4] | uppercase }}</p>
+      <p>{{ values[6] }}</p>
+      <p>{{ values[8] }}</p>
+      <p>{{ values[10] }}</p>
+      <p>{{ values[12] }}</p>
     </div>
 
     <div class="bottomright">
@@ -1136,35 +1230,38 @@ DEVIS CELMA
 
     <div class="topleftinfos">
       <p>SAHIDET Celma</p>
-      <p>{{'Date de délivrance : Le '+values[0] | uppercase}}</p>
-      <p>{{'Numéro de facture : '+values[55] | uppercase}}</p>
+      <p>{{ "Date de délivrance : Le " + values[0] | uppercase }}</p>
+      <p>{{ "Numéro de facture : " + values[55] | uppercase }}</p>
     </div>
 
     <div class="topprestas">
-      <p>{{'Description' | uppercase}}</p>
-      <p>{{'Quantité' | uppercase}}</p>
-      <p>{{'Réduction' | uppercase}}</p>
-      <p>{{'Total' | uppercase}}</p>
+      <p>{{ "Description" | uppercase }}</p>
+      <p>{{ "Quantité" | uppercase }}</p>
+      <p>{{ "Réduction" | uppercase }}</p>
+      <p>{{ "Total" | uppercase }}</p>
     </div>
 
     <div class="prestations">
       <ng-container *ngFor="let presta of prestas">
         <div *ngIf="presta.qte > 0 || presta.qte == '?'" class="prestation">
-          <p>{{presta.nom}}</p>
+          <p>{{ presta.nom }}</p>
           <p>
             {{ presta.qte == "?" && lg === "Français" ? "À definir" : "" }}
             {{ presta.qte == "?" && lg !== "Français" ? "To define" : "" }}
             {{ presta.qte != "?" && presta.kilorly ? presta.qte * 2 : "" }}
             {{ presta.qte != "?" && !presta.kilorly ? presta.qte : "" }}
             {{ presta.kilorly && presta.qte != "?" ? "km" : ""
-            }}{{ presta.hourly && presta.qte != "?" ? "h" : "" }}</p>
-          <p>{{presta.reduc&&presta.reduc!=""?presta.reduc+'%':''}}</p>
+            }}{{ presta.hourly && presta.qte != "?" ? "h" : "" }}
+          </p>
+          <p>
+            {{ presta.reduc && presta.reduc != "" ? presta.reduc + "%" : "" }}
+          </p>
           <p *ngIf="calc(presta) > 0">{{ transform(calc(presta)) }} €</p>
           <p *ngIf="calc(presta) == 0" class="green">Offert</p>
         </div>
       </ng-container>
       <div class="totalprestation">
-        <p>TOTAL : {{transform(calcTot())}} €</p>
+        <p>TOTAL : {{ transform(calcTot()) }} €</p>
       </div>
     </div>
 
@@ -1287,21 +1384,18 @@ DEVIS CELMA
           </div>
         </div>
       </div>
-      
     </div>
   </div>
 
-  <div class="inputs" *ngIf="mode!='renseignement'">
+  <div class="inputs" *ngIf="mode != 'renseignement'">
     <button (click)="return()">Retour</button>
     <div class="flex center">
-      <p>Langue : </p>
-      <button
-      (click)="lg == 'Français' ? (lg = 'Anglais') : (lg = 'Français')"
-    >
-      {{ lg }}
-    </button>
+      <p>Langue :</p>
+      <button (click)="lg == 'Français' ? (lg = 'Anglais') : (lg = 'Français')">
+        {{ lg }}
+      </button>
     </div>
-    
+
     <div class="flex" *ngIf="false">
       <p>Importer :</p>
       <input
@@ -1539,14 +1633,14 @@ DEVIS CELMA
 
     <div *ngIf="mode == 'planning'" class="lignesprestas">
       <div class="flex topceremonie">
-        <p>Fin prestations : </p>
+        <p>Fin prestations :</p>
         <input
           type="text"
           [(ngModel)]="finprestas"
           placeholder="Fin prestations.."
           (input)="onFinPrestasInput()"
         />
-        <p>Début cérémonie : </p>
+        <p>Début cérémonie :</p>
         <input
           type="text"
           [(ngModel)]="ceremonie"
@@ -1588,7 +1682,11 @@ DEVIS CELMA
             <p>Coif</p>
           </div>
           <div
-            *ngFor="let presta of getplanningprestas(i); let x = index;trackBy: trackByIndex"
+            *ngFor="
+              let presta of getplanningprestas(i);
+              let x = index;
+              trackBy: trackByIndex
+            "
             class="lignepres flex"
           >
             <textarea [(ngModel)]="presta.nom"></textarea>
@@ -1604,27 +1702,40 @@ DEVIS CELMA
                 {{ collegue[0] }}
               </option>
             </select>
-            <button [class.disabled]="x == 0" (click)="monter(x, presta)">Monter</button>
+            <button [class.disabled]="x == 0" (click)="monter(x, presta)">
+              Monter
+            </button>
             <button
-            [class.disabled]="x == getplanningprestas(i).length - 1"
+              [class.disabled]="x == getplanningprestas(i).length - 1"
               (click)="descendre(x, presta)"
             >
               Descendre
             </button>
-            <input type="text" [(ngModel)]="presta.time" (input)="onTimeInput(presta)"/>
-            <input type="checkbox" [(ngModel)]="presta.maquillage" (change)="onCheckBoxClick('m',presta)" class="checkmaqu">
-            <input type="checkbox" [(ngModel)]="presta.coiffure" (change)="onCheckBoxClick('c',presta)">
+            <input
+              type="text"
+              [(ngModel)]="presta.time"
+              (input)="onTimeInput(presta)"
+            />
+            <input
+              type="checkbox"
+              [(ngModel)]="presta.maquillage"
+              (change)="onCheckBoxClick('m', presta)"
+              class="checkmaqu"
+            />
+            <input
+              type="checkbox"
+              [(ngModel)]="presta.coiffure"
+              (change)="onCheckBoxClick('c', presta)"
+            />
             <button (click)="deletePresta(presta)">Supprimer</button>
           </div>
 
-          <div *ngIf="mode=='planning'" class="flex center">
-            <button (click)="addPlanningPresta(i)" >Ajouter prestation</button>
+          <div *ngIf="mode == 'planning'" class="flex center">
+            <button (click)="addPlanningPresta(i)">Ajouter prestation</button>
           </div>
         </ng-container>
       </div>
     </div>
-
-   
 
     <div class="domaine" *ngIf="mode == 'planning'">
       <div class="flex">
@@ -1664,22 +1775,14 @@ DEVIS CELMA
         </div>
       </div>
     </div>
-    <div class="marg flex center" 
-    *ngIf="mode == 'planning'">
-      <button
-        (click)="addCollegue()"
-      >
-        Ajouter collègue
-      </button>
+    <div class="marg flex center" *ngIf="mode == 'planning'">
+      <button (click)="addCollegue()">Ajouter collègue</button>
     </div>
 
     <div class="flex center bottombuttons">
-      <button (click)="generatePDFfromHTML()">
-        Générer PDF
-      </button>
+      <button (click)="generatePDFfromHTML()">Générer PDF</button>
       <button (click)="save()">Sauvegarder</button>
     </div>
-
   </div>
 </div>
 
@@ -1687,38 +1790,43 @@ DEVIS CELMA
 DEVIS CHARLES
 ==================-->
 
-<div class="charlescss" [class.flex]="paysage" [class.portrait]="!paysage" *ngIf="artiste=='charles'&&data && inited">
+<div
+  class="charlescss"
+  [class.flex]="paysage"
+  [class.portrait]="!paysage"
+  *ngIf="artiste == 'charles' && data && inited"
+>
   <div #htmlContent id="htmlContent" *ngIf="mode == 'devis'" class="devis">
-    <img class="logo" src="logocharles.png"/>
+    <img class="logo" src="logocharles.png" />
 
     <div class="topright">
-      <p class="big">{{lg=="Français"?"DEVIS":"QUOTE"}}</p>
+      <p class="big">{{ lg == "Français" ? "DEVIS" : "QUOTE" }}</p>
       <div class="lignes">
         <div>
-          <p>{{lg=="Français"?"Devis":"Quote"}} #</p>
-          <p>{{values[1]}}</p>
+          <p>{{ lg == "Français" ? "Devis" : "Quote" }} #</p>
+          <p>{{ values[1] }}</p>
         </div>
         <div>
           <p>Date</p>
-          <p>{{values[0]}}</p>
+          <p>{{ values[0] }}</p>
         </div>
       </div>
     </div>
 
     <div class="topleft">
       <div class="lignes">
-        <p>{{values[4]}}</p>
-        <p>{{values[6]}}, {{values[8]}}</p>
-        <p>{{values[10]}}</p>
-        <p>{{values[12]}}</p>
+        <p>{{ values[4] }}</p>
+        <p>{{ values[6] }}, {{ values[8] }}</p>
+        <p>{{ values[10] }}</p>
+        <p>{{ values[12] }}</p>
       </div>
     </div>
 
     <div class="toptab">
       <p>DESCRIPTION</p>
-      <p>{{lg=="Français"?"HEURES":"HOURS"}}</p>
-      <p>{{lg=="Français"?"TARIF":"RATE"}}</p>
-      <p>{{lg=="Français"?"MONTANT":"AMOUNT"}}</p>
+      <p>{{ lg == "Français" ? "HEURES" : "HOURS" }}</p>
+      <p>{{ lg == "Français" ? "TARIF" : "RATE" }}</p>
+      <p>{{ lg == "Français" ? "MONTANT" : "AMOUNT" }}</p>
     </div>
 
     <div class="prestas">
@@ -1735,14 +1843,19 @@ DEVIS CHARLES
             {{ presta.kilorly && presta.qte != "?" ? "km" : ""
             }}{{ presta.hourly && presta.qte != "?" ? "h" : "" }}
           </p>
-          <p *ngIf="presta.yearly">
-            &nbsp;
-          </p>
+          <p *ngIf="presta.yearly">&nbsp;</p>
           <p>
             {{ transform(presta.prix) }}{{ presta.kilorly ? "/km" : ""
-            }}{{ presta.hourly ? "/h" : "" }}€{{presta.yearly?'/an':''}}
+            }}{{ presta.hourly ? "/h" : "" }}€{{ presta.yearly ? "/an" : "" }}
           </p>
-          <p *ngIf="calc(presta) > 0">{{ transform(calc(presta)) }}€{{presta.yearly?'/an':''}}{{presta.reduc && presta.reduc != 0 ? '(-'+presta.reduc+'%)':''}}</p>
+          <p *ngIf="calc(presta) > 0">
+            {{ transform(calc(presta)) }}€{{ presta.yearly ? "/an" : ""
+            }}{{
+              presta.reduc && presta.reduc != 0
+                ? "(-" + presta.reduc + "%)"
+                : ""
+            }}
+          </p>
           <p *ngIf="calc(presta) == 0" class="green">Offert</p>
           <p *ngIf="presta.qte == '?'" class="green">Offert</p>
         </ng-container>
@@ -1755,53 +1868,68 @@ DEVIS CHARLES
     </div>
 
     <div class="infos" *ngIf="mode == 'devis' && lg == 'Français'">
-  <p class="cond">Conditions contractuelles :</p>
-  <ul>
-    <li>
-      <strong>Validation :</strong> le devis est accepté après signature et versement d’un acompte de 30 %. Cet acompte confirme la commande et engage le client.
-    </li>
-    <li>
-      <strong>Déroulement du projet :</strong> la réalisation débute après réception des éléments nécessaires (textes, images, accès). Tout retard de transmission peut décaler la livraison.
-    </li>
-    <li>
-      <strong>Modifications :</strong> deux séries d’ajustements mineurs sont incluses. Les demandes supplémentaires feront l’objet d’un devis complémentaire.
-    </li>
-    <li>
-      <strong>Annulation :</strong>  
-      – Avant le démarrage : remboursement possible moins 10 % de frais.  
-      – Après démarrage : l’acompte reste acquis.  
-      En cas de force majeure du prestataire, remboursement intégral.
-    </li>
-    <li>
-      <strong>Solde :</strong> le règlement complet est exigé avant la mise en ligne définitive. Tout retard suspend la livraison.
-    </li>
-    <li>
-      <strong>Propriété intellectuelle :</strong> le site, les maquettes et le code source restent la propriété du prestataire jusqu’au paiement total.
-    </li>
-    <li>
-      <strong>Maintenance et hébergement :</strong> non inclus sauf mention contraire. Un contrat séparé peut être proposé pour les mises à jour, sauvegardes et support.
-    </li>
-    <li>
-      <strong>Droits et contenus :</strong> le client garantit la légalité et la propriété des éléments fournis. Le prestataire décline toute responsabilité en cas de violation de droits.
-    </li>
-    <li>
-      <strong>Responsabilité :</strong> le prestataire s’engage à une exécution soignée mais ne garantit pas les résultats commerciaux, référencement ou trafic.
-    </li>
-    <li>
-      <strong>Validité :</strong> le devis est valable 30 jours. Toute modification du périmètre fera l’objet d’un avenant écrit.
-    </li>
-  </ul>
-</div>
-
-
-
+      <p class="cond">Conditions contractuelles :</p>
+      <ul>
+        <li>
+          <strong>Validation :</strong> le devis est accepté après signature et
+          versement d’un acompte de 30 %. Cet acompte confirme la commande et
+          engage le client.
+        </li>
+        <li>
+          <strong>Déroulement du projet :</strong> la réalisation débute après
+          réception des éléments nécessaires (textes, images, accès). Tout
+          retard de transmission peut décaler la livraison.
+        </li>
+        <li>
+          <strong>Modifications :</strong> deux séries d’ajustements mineurs
+          sont incluses. Les demandes supplémentaires feront l’objet d’un devis
+          complémentaire.
+        </li>
+        <li>
+          <strong>Annulation :</strong>
+          – Avant le démarrage : remboursement possible moins 10 % de frais. –
+          Après démarrage : l’acompte reste acquis. En cas de force majeure du
+          prestataire, remboursement intégral.
+        </li>
+        <li>
+          <strong>Solde :</strong> le règlement complet est exigé avant la mise
+          en ligne définitive. Tout retard suspend la livraison.
+        </li>
+        <li>
+          <strong>Propriété intellectuelle :</strong> le site, les maquettes et
+          le code source restent la propriété du prestataire jusqu’au paiement
+          total.
+        </li>
+        <li>
+          <strong>Maintenance et hébergement :</strong> non inclus sauf mention
+          contraire. Un contrat séparé peut être proposé pour les mises à jour,
+          sauvegardes et support.
+        </li>
+        <li>
+          <strong>Droits et contenus :</strong> le client garantit la légalité
+          et la propriété des éléments fournis. Le prestataire décline toute
+          responsabilité en cas de violation de droits.
+        </li>
+        <li>
+          <strong>Responsabilité :</strong> le prestataire s’engage à une
+          exécution soignée mais ne garantit pas les résultats commerciaux,
+          référencement ou trafic.
+        </li>
+        <li>
+          <strong>Validité :</strong> le devis est valable 30 jours. Toute
+          modification du périmètre fera l’objet d’un avenant écrit.
+        </li>
+      </ul>
+    </div>
 
     <div class="bottom">
       <div class="bottomright">
-        <p><b>{{values[3]}}</b></p>
-        <p>{{values[5]}}, {{values[7]}}</p>
-        <p>{{values[9]}}</p>
-        <p>{{values[11]}}</p>
+        <p>
+          <b>{{ values[3] }}</b>
+        </p>
+        <p>{{ values[5] }}, {{ values[7] }}</p>
+        <p>{{ values[9] }}</p>
+        <p>{{ values[11] }}</p>
       </div>
 
       <div class="end">
@@ -1825,7 +1953,6 @@ DEVIS CHARLES
         </div>
       </div>
     </div>
-
   </div>
 
   <div #htmlContent id="htmlContent" *ngIf="mode == 'facture'" class="facture">
@@ -1835,35 +1962,38 @@ DEVIS CHARLES
 
     <div class="topleftinfos">
       <p>SAHIDET Celma</p>
-      <p>{{'Date de délivrance : Le '+values[0] | uppercase}}</p>
-      <p>{{'Numéro de facture : '+values[55] | uppercase}}</p>
+      <p>{{ "Date de délivrance : Le " + values[0] | uppercase }}</p>
+      <p>{{ "Numéro de facture : " + values[55] | uppercase }}</p>
     </div>
 
     <div class="topprestas">
-      <p>{{'Description' | uppercase}}</p>
-      <p>{{'Quantité' | uppercase}}</p>
-      <p>{{'Réduction' | uppercase}}</p>
-      <p>{{'Total' | uppercase}}</p>
+      <p>{{ "Description" | uppercase }}</p>
+      <p>{{ "Quantité" | uppercase }}</p>
+      <p>{{ "Réduction" | uppercase }}</p>
+      <p>{{ "Total" | uppercase }}</p>
     </div>
 
     <div class="prestations">
       <ng-container *ngFor="let presta of prestas">
         <div *ngIf="presta.qte > 0 || presta.qte == '?'" class="prestation">
-          <p>{{presta.nom}}</p>
+          <p>{{ presta.nom }}</p>
           <p>
             {{ presta.qte == "?" && lg === "Français" ? "À definir" : "" }}
             {{ presta.qte == "?" && lg !== "Français" ? "To define" : "" }}
             {{ presta.qte != "?" && presta.kilorly ? presta.qte * 2 : "" }}
             {{ presta.qte != "?" && !presta.kilorly ? presta.qte : "" }}
             {{ presta.kilorly && presta.qte != "?" ? "km" : ""
-            }}{{ presta.hourly && presta.qte != "?" ? "h" : "" }}</p>
-          <p>{{presta.reduc&&presta.reduc!=""?presta.reduc+'%':''}}</p>
+            }}{{ presta.hourly && presta.qte != "?" ? "h" : "" }}
+          </p>
+          <p>
+            {{ presta.reduc && presta.reduc != "" ? presta.reduc + "%" : "" }}
+          </p>
           <p *ngIf="calc(presta) > 0">{{ transform(calc(presta)) }} €</p>
           <p *ngIf="calc(presta) == 0" class="green">Offert</p>
         </div>
       </ng-container>
       <div class="totalprestation">
-        <p>TOTAL : {{transform(calcTot())}} €</p>
+        <p>TOTAL : {{ transform(calcTot()) }} €</p>
       </div>
     </div>
 
@@ -1986,21 +2116,18 @@ DEVIS CHARLES
           </div>
         </div>
       </div>
-      
     </div>
   </div>
 
-  <div class="inputs" *ngIf="mode!='renseignement'">
+  <div class="inputs" *ngIf="mode != 'renseignement'">
     <button (click)="return()">Retour</button>
     <div class="flex center">
-      <p>Langue : </p>
-      <button
-      (click)="lg == 'Français' ? (lg = 'Anglais') : (lg = 'Français')"
-    >
-      {{ lg }}
-    </button>
+      <p>Langue :</p>
+      <button (click)="lg == 'Français' ? (lg = 'Anglais') : (lg = 'Français')">
+        {{ lg }}
+      </button>
     </div>
-    
+
     <div class="flex" *ngIf="false">
       <p>Importer :</p>
       <input
@@ -2238,14 +2365,14 @@ DEVIS CHARLES
 
     <div *ngIf="mode == 'planning'" class="lignesprestas">
       <div class="flex topceremonie">
-        <p>Fin prestations : </p>
+        <p>Fin prestations :</p>
         <input
           type="text"
           [(ngModel)]="finprestas"
           placeholder="Fin prestations.."
           (input)="onFinPrestasInput()"
         />
-        <p>Début cérémonie : </p>
+        <p>Début cérémonie :</p>
         <input
           type="text"
           [(ngModel)]="ceremonie"
@@ -2287,7 +2414,11 @@ DEVIS CHARLES
             <p>Coif</p>
           </div>
           <div
-            *ngFor="let presta of getplanningprestas(i); let x = index;trackBy: trackByIndex"
+            *ngFor="
+              let presta of getplanningprestas(i);
+              let x = index;
+              trackBy: trackByIndex
+            "
             class="lignepres flex"
           >
             <textarea [(ngModel)]="presta.nom"></textarea>
@@ -2303,27 +2434,40 @@ DEVIS CHARLES
                 {{ collegue[0] }}
               </option>
             </select>
-            <button [class.disabled]="x == 0" (click)="monter(x, presta)">Monter</button>
+            <button [class.disabled]="x == 0" (click)="monter(x, presta)">
+              Monter
+            </button>
             <button
-            [class.disabled]="x == getplanningprestas(i).length - 1"
+              [class.disabled]="x == getplanningprestas(i).length - 1"
               (click)="descendre(x, presta)"
             >
               Descendre
             </button>
-            <input type="text" [(ngModel)]="presta.time" (input)="onTimeInput(presta)"/>
-            <input type="checkbox" [(ngModel)]="presta.maquillage" (change)="onCheckBoxClick('m',presta)" class="checkmaqu">
-            <input type="checkbox" [(ngModel)]="presta.coiffure" (change)="onCheckBoxClick('c',presta)">
+            <input
+              type="text"
+              [(ngModel)]="presta.time"
+              (input)="onTimeInput(presta)"
+            />
+            <input
+              type="checkbox"
+              [(ngModel)]="presta.maquillage"
+              (change)="onCheckBoxClick('m', presta)"
+              class="checkmaqu"
+            />
+            <input
+              type="checkbox"
+              [(ngModel)]="presta.coiffure"
+              (change)="onCheckBoxClick('c', presta)"
+            />
             <button (click)="deletePresta(presta)">Supprimer</button>
           </div>
 
-          <div *ngIf="mode=='planning'" class="flex center">
-            <button (click)="addPlanningPresta(i)" >Ajouter prestation</button>
+          <div *ngIf="mode == 'planning'" class="flex center">
+            <button (click)="addPlanningPresta(i)">Ajouter prestation</button>
           </div>
         </ng-container>
       </div>
     </div>
-
-   
 
     <div class="domaine" *ngIf="mode == 'planning'">
       <div class="flex">
@@ -2363,21 +2507,13 @@ DEVIS CHARLES
         </div>
       </div>
     </div>
-    <div class="marg flex center" 
-    *ngIf="mode == 'planning'">
-      <button
-        (click)="addCollegue()"
-      >
-        Ajouter collègue
-      </button>
+    <div class="marg flex center" *ngIf="mode == 'planning'">
+      <button (click)="addCollegue()">Ajouter collègue</button>
     </div>
 
     <div class="flex center bottombuttons">
-      <button (click)="generatePDFfromHTML()">
-        Générer PDF
-      </button>
+      <button (click)="generatePDFfromHTML()">Générer PDF</button>
       <button (click)="save()">Sauvegarder</button>
     </div>
-
   </div>
 </div>
