@@ -96,7 +96,7 @@ export class AppComponent implements OnInit {
     'Décembre',
   ];
 
-  year = 2025;
+  year = new Date().getFullYear();
   domaines: any;
 
   jourClicked: any = undefined;
