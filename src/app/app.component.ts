@@ -1737,6 +1737,22 @@ export class AppComponent implements OnInit {
     );
   }
 
+  noEssai(year: number, month: number, day: number): any {
+    const dateStr = `${day.toString().padStart(2, '0')}/${(month + 1)
+      .toString()
+      .padStart(2, '0')}/${year}`;
+    let date = this.occupiedDates.find(
+      (d: any) =>
+        d.date == dateStr &&
+        (this.search != ''
+          ? JSON.stringify(d).toLowerCase().includes(this.search.toLowerCase())
+          : true)
+    );
+    return (
+      date && date.statut == 'reserve' && date.etape != 999 && !date.essai.date
+    );
+  }
+
   calcToString(presta: any) {
     if (presta.qte == '?') return '';
     let prix = this.calc(presta);

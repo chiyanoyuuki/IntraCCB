@@ -3,456 +3,775 @@
   <button (click)="checkMdp()">Valider</button>
 </div>
 <div [class.portrait]="portrait" *ngIf="okmdp" [ngClass]="artiste">
+  <div
+    class="annee"
+    *ngIf="!jourClicked && ((portrait && !month) || !portrait)"
+  >
+    <button (click)="year = year - 1"><</button>
+    <p class="nopointer">{{ year }}</p>
+    <button (click)="year = year + 1">></button>
+  </div>
 
-<div class="annee" *ngIf="!jourClicked&&((portrait&&!month)||!portrait)">
-  <button (click)="year=year-1"><</button>
-  <p class="nopointer">{{year}}</p>
-  <button (click)="year=year+1">></button>
-</div>
+  <div class="annee" *ngIf="!jourClicked && portrait && month">
+    <button (click)="month = undefined; monthIndex = undefined">
+      < Retour
+    </button>
+    <p class="nopointer">{{ year }}</p>
+  </div>
 
-<div class="annee" *ngIf="!jourClicked&&portrait&&month">
-  <button (click)="month=undefined;monthIndex=undefined">< Retour</button>
-  <p class="nopointer">{{year}}</p>
-</div>
+  <div
+    class="flex center"
+    *ngIf="!jourClicked && ((portrait && !month) || !portrait)"
+  >
+    <input type="text" [(ngModel)]="search" placeholder="Recherche.." />
+  </div>
 
-<div class="flex center" *ngIf="!jourClicked&&((portrait&&!month)||!portrait)">
-  <input type="text" [(ngModel)]="search" placeholder="Recherche.." />
-</div>
+  <div class="calendar" *ngIf="!jourClicked" #calendarContainer>
+    <ng-container *ngIf="(portrait && !month) || !portrait">
+      <div
+        *ngFor="let month of months; let monthIndex = index"
+        class="month"
+        (click)="clickMonth(month, monthIndex)"
+        [attr.data-index]="monthIndex"
+        #monthRef
+      >
+        <h3>{{ month + " (" + (monthIndex + 1) + ")" }}</h3>
 
-<div class="calendar" *ngIf="!jourClicked" #calendarContainer>
-  <ng-container *ngIf="(portrait&&!month)||!portrait">
-    <div *ngFor="let month of months; let monthIndex = index" class="month" (click)="clickMonth(month, monthIndex)" [attr.data-index]="monthIndex" #monthRef>
-      <h3>{{ month +' ('+(monthIndex+1)+')'}}</h3>
-      
-      <!-- En-tête des jours de la semaine -->
-      <div class="week-days">
-        <div *ngFor="let day of weekDays">{{ day }}</div>
-      </div>
-
-      <div class="days">
-        <!-- Espaces vides avant le premier jour du mois -->
-        <div *ngFor="let empty of [].constructor(getFirstDayOfMonth(year, monthIndex) === 0 ? 6 : getFirstDayOfMonth(year, monthIndex) - 1)" class="noday">
+        <!-- En-tête des jours de la semaine -->
+        <div class="week-days">
+          <div *ngFor="let day of weekDays">{{ day }}</div>
         </div>
 
-        <!-- Jours du mois -->
-        <div class="blockday" *ngFor="let day of getDaysInMonth(year, monthIndex)"
-              [class.ant]="isAnt(monthIndex, day, year)"
-              [class.today]="istoday(monthIndex, day, year)"
-              [class.noplanning]="noPlanning(year, monthIndex, day)"
-              [class.zindex]="numberOfEvents(monthIndex, day)>1"
+        <div class="days">
+          <!-- Espaces vides avant le premier jour du mois -->
+          <div
+            *ngFor="
+              let empty of [].constructor(
+                getFirstDayOfMonth(year, monthIndex) === 0
+                  ? 6
+                  : getFirstDayOfMonth(year, monthIndex) - 1
+              )
+            "
+            class="noday"
+          ></div>
+
+          <!-- Jours du mois -->
+          <div
+            class="blockday"
+            *ngFor="let day of getDaysInMonth(year, monthIndex)"
+            [class.ant]="isAnt(monthIndex, day, year)"
+            [class.today]="istoday(monthIndex, day, year)"
+            [class.noplanning]="noPlanning(year, monthIndex, day)"
+            [class.noessai]="noEssai(year, monthIndex, day)"
+            [class.zindex]="numberOfEvents(monthIndex, day) > 1"
             [ngClass]="isOccupied(year, monthIndex, day)"
             (mouseenter)="showTooltip($event, monthIndex, day)"
             (mouseleave)="hideTooltip()"
             [class.nopointer]="portrait"
             (click)="clickJour(monthIndex, day, year)"
-            >
-          {{ day }}
-          <p class="events" *ngIf="numberOfEvents(monthIndex, day)>1">{{numberOfEvents(monthIndex, day)}}</p>
+          >
+            {{ day }}
+            <p class="events" *ngIf="numberOfEvents(monthIndex, day) > 1">
+              {{ numberOfEvents(monthIndex, day) }}
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-  </ng-container>
+    </ng-container>
 
-  <ng-container *ngIf="portrait&&month">
-    <div class="month month2">
-      <div class="arrows">
-        <p (click)="otherMonth(-1)"><</p>
-        <p (click)="otherMonth(1)">></p>
-      </div>
-      <h3>{{ month +' ('+(monthIndex+1)+')'}}</h3>
-      
-      <!-- En-tête des jours de la semaine -->
-      <div class="week-days">
-        <div *ngFor="let day of weekDays">{{ day }}</div>
-      </div>
+    <ng-container *ngIf="portrait && month">
+      <div class="month month2">
+        <div class="arrows">
+          <p (click)="otherMonth(-1)"><</p>
+          <p (click)="otherMonth(1)">></p>
+        </div>
+        <h3>{{ month + " (" + (monthIndex + 1) + ")" }}</h3>
 
-      <div class="days">
-        <!-- Espaces vides avant le premier jour du mois -->
-        <div *ngFor="let empty of [].constructor(getFirstDayOfMonth(year, monthIndex) === 0 ? 6 : getFirstDayOfMonth(year, monthIndex) - 1)" class="noday">
+        <!-- En-tête des jours de la semaine -->
+        <div class="week-days">
+          <div *ngFor="let day of weekDays">{{ day }}</div>
         </div>
 
-        <!-- Jours du mois -->
-        <div class="blockday" *ngFor="let day of getDaysInMonth(year, monthIndex)"
-              [class.ant]="isAnt(monthIndex, day, year)"
-              [class.noplanning]="noPlanning(year, monthIndex, day)"
-              [class.today]="istoday(monthIndex, day, year)"
+        <div class="days">
+          <!-- Espaces vides avant le premier jour du mois -->
+          <div
+            *ngFor="
+              let empty of [].constructor(
+                getFirstDayOfMonth(year, monthIndex) === 0
+                  ? 6
+                  : getFirstDayOfMonth(year, monthIndex) - 1
+              )
+            "
+            class="noday"
+          ></div>
+
+          <!-- Jours du mois -->
+          <div
+            class="blockday"
+            *ngFor="let day of getDaysInMonth(year, monthIndex)"
+            [class.ant]="isAnt(monthIndex, day, year)"
+            [class.noplanning]="noPlanning(year, monthIndex, day)"
+            [class.noessai]="noEssai(year, monthIndex, day)"
+            [class.today]="istoday(monthIndex, day, year)"
+            [class.noessai]="noEssai(year, monthIndex, day)"
             [ngClass]="isOccupied(year, monthIndex, day)"
             (mouseenter)="showTooltip($event, monthIndex, day)"
             (mouseleave)="hideTooltip()"
             (click)="clickJour(monthIndex, day, year)"
-            >
-          {{ day }}
-          <p class="events" *ngIf="numberOfEvents(monthIndex, day)>1">{{numberOfEvents(monthIndex, day)}}</p>
+          >
+            {{ day }}
+            <p class="events" *ngIf="numberOfEvents(monthIndex, day) > 1">
+              {{ numberOfEvents(monthIndex, day) }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <app-devis
+    #devis
+    [class.hidden]="jourClicked && jourClicked.mode == undefined"
+    [data]="jourClicked"
+    [artiste]="artiste"
+    (retour)="onDevisRetour()"
+  ></app-devis>
+
+  <div class="formulaire" *ngIf="jourClicked && jourClicked.mode == undefined">
+    <button class="retour" (click)="onRetour()">< Retour</button>
+
+    <div class="date">
+      <p (click)="changeJour(-1)"><</p>
+      <p class="nopointer">{{ formatDate(jourClicked.date) }}</p>
+      <p (click)="changeJour(1)">></p>
+    </div>
+
+    <div class="date date2" *ngIf="otherEvents() > 1">
+      <p (click)="onRetour(-1)"><</p>
+      <p class="nopointer">{{ otherEvents() - 1 + " autre évênement" }}</p>
+      <p (click)="onRetour(1)">></p>
+    </div>
+
+    <div class="inputs" *ngIf="jourClicked.statut != 'essai'">
+      <div>
+        <p>Date :</p>
+        <input
+          type="text"
+          [(ngModel)]="jourClicked.date"
+          placeholder="Date.."
+          [class.red]="diffs && diffs.date"
+        />
+      </div>
+      <div>
+        <p>Nom :</p>
+        <input
+          type="text"
+          [(ngModel)]="jourClicked.nom"
+          placeholder="Nom.."
+          [class.red]="diffs && diffs.nom"
+        />
+      </div>
+      <div>
+        <p>Adresse :</p>
+        <input
+          type="text"
+          [(ngModel)]="jourClicked.adresse"
+          placeholder="Adresse.."
+          [class.red]="diffs && diffs.adresse"
+        />
+      </div>
+      <div>
+        <p>Code postal & Ville :</p>
+        <input
+          type="text"
+          [(ngModel)]="jourClicked.codepostal"
+          placeholder="Code postal & Ville.."
+          [class.red]="diffs && diffs.codepostal"
+        />
+      </div>
+      <div>
+        <p>Téléphone :</p>
+        <input
+          type="text"
+          [(ngModel)]="jourClicked.tel"
+          placeholder="Téléphone.."
+          [class.red]="diffs && diffs.tel"
+        />
+      </div>
+      <div>
+        <p>Mail :</p>
+        <input
+          type="text"
+          [(ngModel)]="jourClicked.mail"
+          placeholder="Mail.."
+          [class.red]="diffs && diffs.mail"
+        />
+      </div>
+      <div
+        *ngIf="
+          jourClicked.statut != 'perso' && jourClicked.statut != 'persofull'
+        "
+      >
+        <p>Mariage.Net :</p>
+        <input
+          type="text"
+          [(ngModel)]="jourClicked.mariagenet"
+          placeholder="Mariage.Net.."
+          [class.red]="diffs && diffs.mariagenet"
+        />
+      </div>
+      <div>
+        <p>Statut :</p>
+        <select
+          [(ngModel)]="jourClicked.statut"
+          [class.red]="diffs && diffs.statut"
+        >
+          <option value="demande">Demande Mariage</option>
+          <option value="reserve">Mariage réservé</option>
+          <option value="autre">Autre (Shooting, Tournage, Animation..)</option>
+          <option value="perso">Perso</option>
+          <option value="persofull">Perso (toute la journée)</option>
+        </select>
+      </div>
+      <div
+        *ngIf="
+          jourClicked.statut != 'perso' && jourClicked.statut != 'persofull'
+        "
+      >
+        <p>Essai :</p>
+        <div class="column">
+          <input
+            type="text"
+            maxlength="10"
+            placeholder="Date.."
+            (input)="jourClicked.essai.date = onInput(jourClicked.essai.date)"
+            [(ngModel)]="jourClicked.essai.date"
+            [class.red]="diffs && diffs.essai && diffs.essai.date"
+          />
+          <input
+            type="text"
+            placeholder="Lieu.."
+            [(ngModel)]="jourClicked.essai.lieu"
+            [class.red]="diffs && diffs.essai && diffs.essai.lieu"
+          />
+          <input
+            type="text"
+            placeholder="Heure.."
+            [(ngModel)]="jourClicked.essai.heure"
+            [class.red]="diffs && diffs.essai && diffs.essai.heure"
+          />
+        </div>
+      </div>
+      <div
+        *ngIf="
+          jourClicked.statut != 'perso' && jourClicked.statut != 'persofull'
+        "
+      >
+        <p>Mariage :</p>
+        <div class="column">
+          <select
+            [(ngModel)]="jourClicked.mariage"
+            (ngModelChange)="onDomainChange($event)"
+          >
+            <option [ngValue]="{}">Choisir un domaine</option>
+            <option *ngFor="let domaine of domaines" [ngValue]="domaine">
+              {{ domaine.domaine }} {{ domaine.codepostal }}
+            </option>
+          </select>
+          <input
+            type="text"
+            placeholder="Domaine.."
+            [(ngModel)]="jourClicked.mariage.domaine"
+            [class.red]="diffs && diffs.mariage && diffs.mariage.domaine"
+          />
+          <input
+            type="text"
+            placeholder="Adresse.."
+            [(ngModel)]="jourClicked.mariage.adresse"
+            [class.red]="diffs && diffs.mariage && diffs.mariage.adresse"
+          />
+          <input
+            type="text"
+            placeholder="Code Postal.."
+            [(ngModel)]="jourClicked.mariage.codepostal"
+            [class.red]="diffs && diffs.mariage && diffs.mariage.codepostal"
+          />
+          <input
+            type="text"
+            placeholder="Heure Cérémonie.."
+            [(ngModel)]="jourClicked.mariage.ceremonie"
+            [class.red]="diffs && diffs.mariage && diffs.mariage.ceremonie"
+          />
+        </div>
+      </div>
+      <div
+        *ngIf="jourClicked.statut == 'reserve'"
+        style="height: 25px; margin: 10px 0px"
+      >
+        <p>Avis :</p>
+        <input type="checkbox" [(ngModel)]="jourClicked.avis" />
+      </div>
+    </div>
+
+    <div class="inputs inputsessai" *ngIf="jourClicked.statut == 'essai'">
+      <div>
+        <p>Nom :&nbsp;</p>
+        <p>{{ jourClicked.nom }}</p>
+      </div>
+      <div>
+        <p>Adresse :&nbsp;</p>
+        <p>{{ jourClicked.adresse }}</p>
+      </div>
+      <div>
+        <p>Code postal & Ville :&nbsp;</p>
+        <p>{{ jourClicked.codepostal }}</p>
+      </div>
+      <div>
+        <p>Téléphone :&nbsp;</p>
+        <p>{{ jourClicked.tel }}</p>
+      </div>
+      <div>
+        <p>Mail :&nbsp;</p>
+        <p>{{ jourClicked.mail }}</p>
+      </div>
+      <div>
+        <p>Statut :&nbsp;</p>
+        <p>{{ jourClicked.statut }}</p>
+      </div>
+      <div>
+        <p>Essai :&nbsp;</p>
+        <div class="column">
+          <p>{{ jourClicked.essai.date }}</p>
+          <p>{{ jourClicked.essai.lieu }}</p>
+          <p>{{ jourClicked.essai.heure }}</p>
+        </div>
+      </div>
+      <div>
+        <p>Mariage :&nbsp;</p>
+        <div class="column" *ngIf="jourClicked.mariage">
+          <p>{{ jourClicked.mariage.domaine }}</p>
+          <p>{{ jourClicked.mariage.adresse }}</p>
+          <p>{{ jourClicked.mariage.codepostal }}</p>
+          <p>{{ jourClicked.mariage.ceremonie }}</p>
         </div>
       </div>
     </div>
-  </ng-container>
-</div>
 
-<app-devis #devis [class.hidden]="jourClicked&&jourClicked.mode==undefined" [data]="jourClicked" [artiste]="artiste" (retour)="onDevisRetour()"></app-devis>
+    <div
+      *ngIf="
+        jourClicked.statut != 'essai' &&
+        jourClicked.statut != 'perso' &&
+        jourClicked.statut != 'persofull'
+      "
+      class="blocbas"
+    >
+      <p>Devis :</p>
+      <button
+        class="nom"
+        *ngIf="jourClicked.devis && jourClicked.devis.creation"
+        [class.red]="diffs && diffs.devis"
+        (click)="clickDevis()"
+      >
+        {{
+          formatNumber(jourClicked.devis.numero) + "_" + jourClicked.devis.annee
+        }}
+      </button>
+      <button
+        *ngIf="!jourClicked.devis || !jourClicked.devis.creation"
+        (click)="clickDevis()"
+      >
+        Editer
+      </button>
+    </div>
 
-<div class="formulaire" *ngIf="jourClicked && jourClicked.mode==undefined">
-  <button class="retour" (click)="onRetour()">< Retour</button>
-
-  <div class="date">
-    <p (click)="changeJour(-1)"><</p>
-    <p class="nopointer">{{formatDate(jourClicked.date)}}</p>
-    <p (click)="changeJour(1)">></p>
-  </div>
-
-  <div class="date date2" *ngIf="otherEvents()>1">
-    <p (click)="onRetour(-1)"><</p>
-    <p class="nopointer">{{(otherEvents()-1)+ ' autre évênement'}}</p>
-    <p (click)="onRetour(1)">></p>
-  </div>
-  
-  <div class="inputs" *ngIf="jourClicked.statut!='essai'">
-    <div>
-      <p>Date : </p>
-      <input type="text" [(ngModel)]="jourClicked.date" placeholder="Date.." [class.red]="diffs&&diffs.date"/>
-    </div>
-    <div>
-      <p>Nom : </p>
-      <input type="text" [(ngModel)]="jourClicked.nom" placeholder="Nom.." [class.red]="diffs&&diffs.nom"/>
-    </div>
-    <div>
-      <p>Adresse : </p>
-      <input type="text" [(ngModel)]="jourClicked.adresse" placeholder="Adresse.." [class.red]="diffs&&diffs.adresse"/>
-    </div>
-    <div>
-      <p>Code postal & Ville : </p>
-      <input type="text" [(ngModel)]="jourClicked.codepostal" placeholder="Code postal & Ville.." [class.red]="diffs&&diffs.codepostal"/>
-    </div>
-    <div>
-      <p>Téléphone : </p>
-      <input type="text" [(ngModel)]="jourClicked.tel" placeholder="Téléphone.." [class.red]="diffs&&diffs.tel"/>
-    </div>
-    <div>
-      <p>Mail : </p>
-      <input type="text" [(ngModel)]="jourClicked.mail" placeholder="Mail.." [class.red]="diffs&&diffs.mail"/>
-    </div>
-    <div *ngIf="jourClicked.statut!='perso'&&jourClicked.statut!='persofull'">
-      <p>Mariage.Net :</p>
-      <input type="text" [(ngModel)]="jourClicked.mariagenet" placeholder="Mariage.Net.." [class.red]="diffs&&diffs.mariagenet"/>
-    </div>
-    <div>
-      <p>Statut : </p>
-      <select [(ngModel)]="jourClicked.statut" [class.red]="diffs&&diffs.statut">
-        <option value="demande">Demande Mariage</option>
-        <option value="reserve">Mariage réservé</option>
-        <option value="autre">Autre (Shooting, Tournage, Animation..)</option>
-        <option value="perso">Perso</option>
-        <option value="persofull">Perso (toute la journée)</option>
+    <div
+      *ngIf="
+        jourClicked.statut != 'essai' &&
+        jourClicked.statut != 'perso' &&
+        jourClicked.statut != 'persofull' &&
+        jourClicked.devis &&
+        jourClicked.devis.creation
+      "
+      class="blocbas"
+    >
+      <p>Factures :</p>
+      <select
+        [(ngModel)]="selectedValue"
+        (change)="clickFacture($event)"
+        [class.red]="diffs && diffs.factures"
+      >
+        <option [value]="-1">Nouvelle facture</option>
+        <option
+          *ngFor="let facture of jourClicked.factures; let i = index"
+          [value]="i"
+        >
+          {{
+            formatNumber(facture.numero) +
+              "_" +
+              facture.annee +
+              " : " +
+              (facture.solde ? facture.solde : calcPaye2(i)) +
+              " (" +
+              facture.creation +
+              ")"
+          }}
+        </option>
       </select>
     </div>
-    <div *ngIf="jourClicked.statut!='perso'&&jourClicked.statut!='persofull'">
-      <p>Essai : </p>
-      <div class="column">
-        <input type="text" maxlength="10" placeholder="Date.." (input)="jourClicked.essai.date=onInput(jourClicked.essai.date)" [(ngModel)]="jourClicked.essai.date" [class.red]="diffs&&diffs.essai&&diffs.essai.date"/>
-        <input type="text" placeholder="Lieu.." [(ngModel)]="jourClicked.essai.lieu" [class.red]="diffs&&diffs.essai&&diffs.essai.lieu"/>
-        <input type="text" placeholder="Heure.." [(ngModel)]="jourClicked.essai.heure" [class.red]="diffs&&diffs.essai&&diffs.essai.heure"/>
+
+    <div
+      *ngIf="
+        jourClicked.statut != 'essai' &&
+        jourClicked.statut != 'perso' &&
+        jourClicked.statut != 'persofull' &&
+        jourClicked.devis &&
+        jourClicked.devis.creation
+      "
+      class="blocbas"
+    >
+      <p>Planning :</p>
+      <button
+        class="nom"
+        *ngIf="jourClicked.planning && jourClicked.planning.date"
+        [class.red]="diffs && diffs.planning"
+        (click)="clickPlanning()"
+      >
+        {{ jourClicked.planning.date }}
+      </button>
+      <button
+        *ngIf="!jourClicked.planning || !jourClicked.planning.date"
+        (click)="clickPlanning()"
+      >
+        Editer
+      </button>
+    </div>
+
+    <div
+      *ngIf="
+        jourClicked.statut != 'essai' &&
+        jourClicked.statut != 'perso' &&
+        jourClicked.statut != 'persofull'
+      "
+      class="blocbas"
+    >
+      <p>Etape :</p>
+      <button (click)="clickEtape()">{{ getEtape() }}</button>
+    </div>
+
+    <div class="resumes" *ngIf="jourClicked.statut != 'essai'">
+      <div class="prestas" *ngIf="jourClicked.devis.prestas">
+        <div class="entetes">
+          <p>Qte</p>
+          <p>Presta</p>
+          <p>Reduc</p>
+          <p>Prix</p>
+        </div>
+        <div></div>
+        <div *ngFor="let presta of jourClicked.devis.prestas" class="small">
+          <p>{{ presta.qte == "?" ? "?" : presta.qte }}</p>
+          <p>{{ presta.nom }}</p>
+          <p>
+            {{ presta.reduc == 0 || !presta.reduc ? "" : presta.reduc + "%" }}
+          </p>
+          <p>{{ calcToString(presta) }}</p>
+        </div>
+        <div></div>
+        <div class="entetes">
+          <p>
+            {{ jourClicked.factures.length == 0 ? "Arrhes" : "Payé" + " : " }}
+          </p>
+          <p>
+            {{ jourClicked.factures.length == 0 ? calcares() : calcPaye() }}
+          </p>
+          <p>Total :</p>
+          <p>{{ calcTot() }}</p>
+        </div>
+        <div class="entetes">
+          <p>Autre :</p>
+          <p>{{ calcPrestataires() }}€</p>
+          <p>Moi :</p>
+          <p>{{ calcTotMinusPrestas() }}€</p>
+        </div>
       </div>
     </div>
-    <div *ngIf="jourClicked.statut!='perso'&&jourClicked.statut!='persofull'">
-      <p>Mariage : </p>
-      <div class="column">
-        <select [(ngModel)]="jourClicked.mariage" (ngModelChange)="onDomainChange($event)">
-          <option [ngValue]="{}">Choisir un domaine</option>
-          <option *ngFor="let domaine of domaines" [ngValue]="domaine">
-            {{ domaine.domaine }} {{ domaine.codepostal }}
-          </option>
-        </select>
-        <input type="text" placeholder="Domaine.." [(ngModel)]="jourClicked.mariage.domaine" [class.red]="diffs&&diffs.mariage&&diffs.mariage.domaine"/>
-        <input type="text" placeholder="Adresse.." [(ngModel)]="jourClicked.mariage.adresse" [class.red]="diffs&&diffs.mariage&&diffs.mariage.adresse"/>
-        <input type="text" placeholder="Code Postal.." [(ngModel)]="jourClicked.mariage.codepostal" [class.red]="diffs&&diffs.mariage&&diffs.mariage.codepostal"/>
-        <input type="text" placeholder="Heure Cérémonie.." [(ngModel)]="jourClicked.mariage.ceremonie" [class.red]="diffs&&diffs.mariage&&diffs.mariage.ceremonie"/>
-      </div>
-    </div>
-    <div *ngIf="jourClicked.statut=='reserve'" style="height: 25px;margin:10px 0px">
-      <p>Avis : </p>
-      <input type="checkbox" [(ngModel)]="jourClicked.avis" />
+
+    <div class="save">
+      <button (click)="openRenseignement()" class="renseignement">
+        Renseignements
+      </button>
+      <button (click)="save()" *ngIf="jourClicked.statut != 'essai'">
+        Sauvegarder
+      </button>
+      <button (click)="onRetour(2)">Ajouter évênement</button>
+      <button (click)="end()">Cloturer</button>
+      <button
+        class="delete"
+        (click)="delete()"
+        *ngIf="jourClicked.id && jourClicked.statut != 'essai'"
+      >
+        Supprimer
+      </button>
+      <button *ngIf="jourClicked.statut == 'essai'" (click)="goToWed()">
+        Aller au mariage
+      </button>
+      <button *ngIf="jourClicked.statut == 'demande'" (click)="sendEmail()">
+        Relance
+      </button>
     </div>
   </div>
 
-  <div class="inputs inputsessai" *ngIf="jourClicked.statut=='essai'">
+  <div class="flex legende" *ngIf="!jourClicked">
+    <button class="reserve">Réservé</button>
+    <button class="demande">Demande</button>
+    <button class="essai">Essai</button>
+    <button class="autre">Autre (Shooting, Tournage, Animation..)</button>
+    <button
+      class="perso"
+      style="background-color: unset; color: red !important"
+    >
+      Perso
+    </button>
+    <button class="today">Aujourd'hui</button>
+    <button class="reserve noessai">Manque essai</button>
+    <button class="reserve noplanning">Manque planning</button>
+  </div>
+
+  <div
+    *ngIf="!jourClicked && !month"
+    class="stats clickable"
+    (click)="clickProchain()"
+  >
     <div>
-      <p>Nom :&nbsp;</p>
-      <p>{{jourClicked.nom}}</p>
-    </div>
-    <div>
-      <p>Adresse :&nbsp;</p>
-      <p>{{jourClicked.adresse}}</p>
-    </div>
-    <div>
-      <p>Code postal & Ville :&nbsp;</p>
-      <p>{{jourClicked.codepostal}}</p>
-    </div>
-    <div>
-      <p>Téléphone :&nbsp;</p>
-      <p>{{jourClicked.tel}}</p>
-    </div>
-    <div>
-      <p>Mail :&nbsp;</p>
-      <p>{{jourClicked.mail}}</p>
-    </div>
-    <div>
-      <p>Statut :&nbsp;</p>
-      <p>{{jourClicked.statut}}</p>
-    </div>
-    <div>
-      <p>Essai :&nbsp;</p>
-      <div class="column">
-        <p>{{jourClicked.essai.date}}</p>
-        <p>{{jourClicked.essai.lieu}}</p>
-        <p>{{jourClicked.essai.heure}}</p>
-      </div>
-    </div>
-    <div>
-      <p>Mariage :&nbsp;</p>
-      <div class="column" *ngIf="jourClicked.mariage">
-        <p>{{jourClicked.mariage.domaine}}</p>
-        <p>{{jourClicked.mariage.adresse}}</p>
-        <p>{{jourClicked.mariage.codepostal}}</p>
-        <p>{{jourClicked.mariage.ceremonie}}</p>
-      </div>
+      <p>Prochain événement :</p>
+      <p *ngIf="prochain">
+        {{
+          getFullDate(prochain.date) +
+            " : " +
+            prochain.nom +
+            " - (" +
+            prochain.statut +
+            ")"
+        }}
+      </p>
     </div>
   </div>
 
-  <div *ngIf="jourClicked.statut!='essai'&&jourClicked.statut!='perso'&&jourClicked.statut!='persofull'" class="blocbas">
-    <p>Devis : </p>
-    <button class="nom" *ngIf="jourClicked.devis&&jourClicked.devis.creation" [class.red]="diffs&&diffs.devis" (click)="clickDevis()">{{formatNumber(jourClicked.devis.numero)+"_"+jourClicked.devis.annee}}</button>
-    <button *ngIf="!jourClicked.devis||!jourClicked.devis.creation" (click)="clickDevis()">Editer</button>
-  </div>
-
-  <div *ngIf="jourClicked.statut!='essai'&&jourClicked.statut!='perso'&&jourClicked.statut!='persofull'&&jourClicked.devis&&jourClicked.devis.creation" class="blocbas">
-    <p>Factures : </p>
-    <select [(ngModel)]="selectedValue" (change)="clickFacture($event)" [class.red]="diffs&&diffs.factures">
-      <option [value]="-1">Nouvelle facture</option>
-      <option *ngFor="let facture of jourClicked.factures;let i=index"  [value]="i">{{formatNumber(facture.numero)+"_"+facture.annee + " : "+(facture.solde?facture.solde:calcPaye2(i))+ " ("+facture.creation+")"}}</option>
-    </select>
-  </div>
-
-  <div *ngIf="jourClicked.statut!='essai'&&jourClicked.statut!='perso'&&jourClicked.statut!='persofull'&&jourClicked.devis&&jourClicked.devis.creation" class="blocbas">
-    <p>Planning : </p>
-    <button class="nom" *ngIf="jourClicked.planning&&jourClicked.planning.date" [class.red]="diffs&&diffs.planning" (click)="clickPlanning()">{{jourClicked.planning.date}}</button>
-    <button *ngIf="!jourClicked.planning||!jourClicked.planning.date" (click)="clickPlanning()">Editer</button>
-  </div>
-
-  <div *ngIf="jourClicked.statut!='essai'&&jourClicked.statut!='perso'&&jourClicked.statut!='persofull'" class="blocbas">
-    <p>Etape : </p>
-    <button (click)="clickEtape()">{{getEtape()}}</button>
-  </div>
-
-  <div class="resumes" *ngIf="jourClicked.statut!='essai'">
-    <div class="prestas" *ngIf="jourClicked.devis.prestas">
-      <div class="entetes">
-        <p>Qte</p>
-        <p>Presta</p>
-        <p>Reduc</p>
-        <p>Prix</p>
-      </div>
-      <div></div>
-      <div *ngFor="let presta of jourClicked.devis.prestas" class="small">
-        <p>{{presta.qte=="?"?"?":presta.qte}}</p>
-        <p>{{presta.nom}}</p>
-        <p>{{presta.reduc==0||!presta.reduc?"":presta.reduc+"%"}}</p>
-        <p>{{calcToString(presta)}}</p>
-      </div>
-      <div></div>
-      <div class="entetes">
-        <p>{{jourClicked.factures.length==0?'Arrhes':'Payé' + " : "}}</p>
-        <p>{{jourClicked.factures.length==0?calcares():calcPaye()}}</p>
-        <p>Total :</p>
-        <p>{{calcTot()}}</p>
-      </div>
-      <div class="entetes">
-        <p>Autre :</p>
-        <p>{{calcPrestataires()}}€</p>
-        <p>Moi :</p>
-        <p>{{calcTotMinusPrestas()}}€</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="save">
-    <button (click)="openRenseignement()" class="renseignement">Renseignements</button>
-    <button (click)="save()" *ngIf="jourClicked.statut!='essai'">Sauvegarder</button>
-    <button (click)="onRetour(2)">Ajouter évênement</button>
-    <button (click)="end()">Cloturer</button>
-    <button class="delete" (click)="delete()" *ngIf="jourClicked.id&&jourClicked.statut!='essai'">Supprimer</button>
-    <button *ngIf="jourClicked.statut=='essai'" (click)="goToWed()">Aller au mariage</button>
-    <button *ngIf="jourClicked.statut=='demande'" (click)="sendEmail()">Relance</button>
-  </div>
-</div>
-
-<div class="flex legende" *ngIf="!jourClicked">
-  <button class="reserve">Réservé</button>
-  <button class="demande">Demande</button>
-  <button class="essai">Essai</button>
-  <button class="autre">Autre (Shooting, Tournage, Animation..)</button>
-</div>
-
-<div *ngIf="!jourClicked&&!month" class="stats clickable" (click)="clickProchain()">
-  <div>
-    <p>Prochain événement :</p>
-    <p *ngIf="prochain">{{getFullDate(prochain.date)+" : "+prochain.nom+" - ("+prochain.statut+")"}}</p>
-  </div>
-</div>
-
-<div class="bottom" *ngIf="!jourClicked">
+  <div class="bottom" *ngIf="!jourClicked">
     <div class="data">
       <p [innerHTML]="getStatut2('demande')"></p>
       <p [innerHTML]="getStatut2('reserve')"></p>
       <p [innerHTML]="getStatut2('essai')"></p>
       <p [innerHTML]="getStatut2('autre')"></p>
       <p [innerHTML]="getEtape2(999)"></p>
-      <br/>
-      <p [innerHTML]="getHoursWorked(false,true)"></p>
-      <p [innerHTML]="getHoursWorked(true,false)"></p>
-      <p [innerHTML]="getHoursWorked(false,false)"></p>
-      <br/>
-      <p [innerHTML]="'Paiement renforts : <span class=\'glow\'>' + getHelpers() + '€</span>'"></p>
-      <br/>
+      <br />
+      <p [innerHTML]="getHoursWorked(false, true)"></p>
+      <p [innerHTML]="getHoursWorked(true, false)"></p>
+      <p [innerHTML]="getHoursWorked(false, false)"></p>
+      <br />
+      <p
+        [innerHTML]="
+          'Paiement renforts : <span class=\'glow\'>' +
+          getHelpers() +
+          '€</span>'
+        "
+      ></p>
+      <br />
       <p [innerHTML]="getEstimate()"></p>
       <p [innerHTML]="getTotal()"></p>
     </div>
 
     <div class="factures">
       <div>
-        <p class="title" [innerHTML]="'Déjà payé : <span class=\'glow\'>' + getAlreadyPaid() + '€</span>'"></p>
+        <p
+          class="title"
+          [innerHTML]="
+            'Déjà payé : <span class=\'glow\'>' + getAlreadyPaid() + '€</span>'
+          "
+        ></p>
         <div class="container">
-          <div class="clickable line" *ngFor="let facture of getMonthFactures2()" (click)="onDayClicked(facture.date,facture.id)">
-            <p><b>{{facture.nom}}</b></p>
-            <p>{{facture.creation}}</p>
-            <p><span class="glow">{{facture.solde}}€</span></p>
+          <div
+            class="clickable line"
+            *ngFor="let facture of getMonthFactures2()"
+            (click)="onDayClicked(facture.date, facture.id)"
+          >
+            <p>
+              <b>{{ facture.nom }}</b>
+            </p>
+            <p>{{ facture.creation }}</p>
+            <p>
+              <span class="glow">{{ facture.solde }}€</span>
+            </p>
           </div>
         </div>
       </div>
       <div class="toPay">
-        <p class="title" [innerHTML]="'Reste à payer : <span class=\'glow\'>' + getNotPaid() + '€</span>'"></p>
+        <p
+          class="title"
+          [innerHTML]="
+            'Reste à payer : <span class=\'glow\'>' + getNotPaid() + '€</span>'
+          "
+        ></p>
         <div class="container">
-          <div class="clickable line" *ngFor="let facture of getMonthFacturesMissing()" (click)="onDayClicked(facture.creation,facture.id)">
-            <p><b>{{facture.nom}}</b></p>
-            <p>{{facture.creation}}</p>
-            <p><span class="glow">{{facture.solde}}€</span></p>
+          <div
+            class="clickable line"
+            *ngFor="let facture of getMonthFacturesMissing()"
+            (click)="onDayClicked(facture.creation, facture.id)"
+          >
+            <p>
+              <b>{{ facture.nom }}</b>
+            </p>
+            <p>{{ facture.creation }}</p>
+            <p>
+              <span class="glow">{{ facture.solde }}€</span>
+            </p>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-
-<div *ngIf="!jourClicked&&!month" style="padding-bottom:50px;">
-  <div class="flex between alldata">
-    <div>
-      <p>Mariées</p>
-      <select [(ngModel)]="allwed" (change)="clickAllWed($event)">
-        <option [ngValue]="undefined"></option>
-        <option *ngFor="let wed of getallWed()" [ngValue]="wed">{{wed.nom +' - '+ wed.date }}</option>
-      </select>
-    </div>
-    <div>
-      <p>Renseignements</p>
-      <select [(ngModel)]="allrens" (change)="clickAllRens($event)">
-        <option [ngValue]="undefined"></option>
-        <option *ngFor="let rens of getallWed()" [ngValue]="rens">{{rens.nom +' - '+ rens.date }}</option>
-      </select>
-    </div>
-  </div>
-</div>
-
-<div *ngIf="!jourClicked&&!month" style="padding-bottom:50px;">
-  <div class="flex between alldata">
-    <div>
-      <p>Devis</p>
-      <select [(ngModel)]="alldev" (change)="clickAllDevis($event)">
-        <option [ngValue]="undefined"></option>
-        <option *ngFor="let dev of getalldevis()" [ngValue]="dev">{{formatNumber(dev.devis.numero)+" - "+dev.nom}}</option>
-      </select>
-    </div>
-    <div>
-      <p>Factures</p>
-      <select [(ngModel)]="allfac" (change)="clickAllFactures($event)">
-        <option [ngValue]="undefined"></option>
-        <option *ngFor="let fac of getallfactures()" [ngValue]="fac">{{formatNumber(fac.facture.numero)+" - "+fac.nom}}</option>
-      </select>
+  <div *ngIf="!jourClicked && !month" style="padding-bottom: 50px">
+    <div class="flex between alldata">
+      <div>
+        <p>Mariées</p>
+        <select [(ngModel)]="allwed" (change)="clickAllWed($event)">
+          <option [ngValue]="undefined"></option>
+          <option *ngFor="let wed of getallWed()" [ngValue]="wed">
+            {{ wed.nom + " - " + wed.date }}
+          </option>
+        </select>
+      </div>
+      <div>
+        <p>Renseignements</p>
+        <select [(ngModel)]="allrens" (change)="clickAllRens($event)">
+          <option [ngValue]="undefined"></option>
+          <option *ngFor="let rens of getallWed()" [ngValue]="rens">
+            {{ rens.nom + " - " + rens.date }}
+          </option>
+        </select>
+      </div>
     </div>
   </div>
-</div>
 
-<div *ngIf="!jourClicked&&!month" style="padding-bottom:50px;">
-  <button (click)="sendEmails()" style="margin:auto;display: flex;">Relance</button>
-</div>
-
-<div class="graphique" *ngIf="!jourClicked&&!month">
-  <div class="graph-container">
-  <p>Gains par mois</p>
-  <svg [attr.width]="width" [attr.height]="height">
-    <!-- lignes -->
-    <ng-container *ngFor="let year of years; let yIdx = index">
-      <polyline
-        [attr.points]="getLinePoints(year)"
-        [attr.stroke]="colors[yIdx]"
-        stroke-width="2"
-        fill="none"
-      ></polyline>
-    </ng-container>
-
-    <!-- points -->
-    <ng-container *ngFor="let year of years; let yIdx = index">
-  <ng-container *ngFor="let month of monthLabels; let i = index">
-    <ng-container *ngIf="!(+year === currentYear && month > currentMonth - 1)">
-      <circle
-        [attr.cx]="i * xStep"
-        [attr.cy]="height - (getMonthValue(year, month) / maxValue * height)"
-        r="3"
-        [attr.fill]="colors[yIdx]"
-      ></circle>
-    </ng-container>
-  </ng-container>
-</ng-container>
-  </svg>
-
-  <!-- légende -->
-  <div class="legend">
-    <span *ngFor="let year of years; let i = index" [style.color]="colors[i]">{{ year }}</span>
+  <div *ngIf="!jourClicked && !month" style="padding-bottom: 50px">
+    <div class="flex between alldata">
+      <div>
+        <p>Devis</p>
+        <select [(ngModel)]="alldev" (change)="clickAllDevis($event)">
+          <option [ngValue]="undefined"></option>
+          <option *ngFor="let dev of getalldevis()" [ngValue]="dev">
+            {{ formatNumber(dev.devis.numero) + " - " + dev.nom }}
+          </option>
+        </select>
+      </div>
+      <div>
+        <p>Factures</p>
+        <select [(ngModel)]="allfac" (change)="clickAllFactures($event)">
+          <option [ngValue]="undefined"></option>
+          <option *ngFor="let fac of getallfactures()" [ngValue]="fac">
+            {{ formatNumber(fac.facture.numero) + " - " + fac.nom }}
+          </option>
+        </select>
+      </div>
+    </div>
   </div>
-</div>
 
-<div class="graph-container">
-  <p>Gains de l'année</p>
-  <svg [attr.width]="width" [attr.height]="height">
-    <ng-container *ngFor="let year of years; let yIdx = index">
-      <!-- ligne cumulée -->
-      <polyline
-        [attr.points]="getCumulativeLinePoints(year)"
-        [attr.stroke]="colors[yIdx]"
-        stroke-width="2"
-        fill="none"
-      ></polyline>
+  <div *ngIf="!jourClicked && !month" style="padding-bottom: 50px">
+    <button (click)="sendEmails()" style="margin: auto; display: flex">
+      Relance
+    </button>
+  </div>
 
-      <!-- points -->
-      <ng-container *ngFor="let month of monthLabels; let i = index">
-        <ng-container *ngIf="!(+year === currentYear && month > currentMonth - 1)">
-          <circle
-            [attr.cx]="i * xStep"
-            [attr.cy]="height - (getCumulativeValue(year, month) / cumulativeMax * height)"
-            r="3"
-            [attr.fill]="colors[yIdx]"
-          ></circle>
+  <div class="graphique" *ngIf="!jourClicked && !month">
+    <div class="graph-container">
+      <p>Gains par mois</p>
+      <svg [attr.width]="width" [attr.height]="height">
+        <!-- lignes -->
+        <ng-container *ngFor="let year of years; let yIdx = index">
+          <polyline
+            [attr.points]="getLinePoints(year)"
+            [attr.stroke]="colors[yIdx]"
+            stroke-width="2"
+            fill="none"
+          ></polyline>
         </ng-container>
-      </ng-container>
-    </ng-container>
-  </svg>
-  <div class="legend">
-    <span *ngFor="let year of years; let i = index" [style.color]="colors[i]">{{ year }}</span>
+
+        <!-- points -->
+        <ng-container *ngFor="let year of years; let yIdx = index">
+          <ng-container *ngFor="let month of monthLabels; let i = index">
+            <ng-container
+              *ngIf="!(+year === currentYear && month > currentMonth - 1)"
+            >
+              <circle
+                [attr.cx]="i * xStep"
+                [attr.cy]="
+                  height - (getMonthValue(year, month) / maxValue) * height
+                "
+                r="3"
+                [attr.fill]="colors[yIdx]"
+              ></circle>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </svg>
+
+      <!-- légende -->
+      <div class="legend">
+        <span
+          *ngFor="let year of years; let i = index"
+          [style.color]="colors[i]"
+          >{{ year }}</span
+        >
+      </div>
+    </div>
+
+    <div class="graph-container">
+      <p>Gains de l'année</p>
+      <svg [attr.width]="width" [attr.height]="height">
+        <ng-container *ngFor="let year of years; let yIdx = index">
+          <!-- ligne cumulée -->
+          <polyline
+            [attr.points]="getCumulativeLinePoints(year)"
+            [attr.stroke]="colors[yIdx]"
+            stroke-width="2"
+            fill="none"
+          ></polyline>
+
+          <!-- points -->
+          <ng-container *ngFor="let month of monthLabels; let i = index">
+            <ng-container
+              *ngIf="!(+year === currentYear && month > currentMonth - 1)"
+            >
+              <circle
+                [attr.cx]="i * xStep"
+                [attr.cy]="
+                  height -
+                  (getCumulativeValue(year, month) / cumulativeMax) * height
+                "
+                r="3"
+                [attr.fill]="colors[yIdx]"
+              ></circle>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </svg>
+      <div class="legend">
+        <span
+          *ngFor="let year of years; let i = index"
+          [style.color]="colors[i]"
+          >{{ year }}</span
+        >
+      </div>
+    </div>
   </div>
-</div>
-</div>
 
-
-<div *ngIf="tooltip.visible" class="tooltip" [ngStyle]="{'top.px': tooltip.y, 'left.px': tooltip.x}">
-  <p *ngFor="let date of tooltip.data">{{ date.statut + " : " + date.nom }}</p>
-</div>
-
+  <div
+    *ngIf="tooltip.visible"
+    class="tooltip"
+    [ngStyle]="{ 'top.px': tooltip.y, 'left.px': tooltip.x }"
+  >
+    <p *ngFor="let date of tooltip.data">
+      {{ date.statut + " : " + date.nom }}
+    </p>
+  </div>
 </div>

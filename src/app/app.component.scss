@@ -1,27 +1,31 @@
-button, input, select{
-  border:1px solid var(--required);
+button,
+input,
+select {
+  border: 1px solid var(--required);
   margin-bottom: 1px !important;
   background-color: var(--principale);
   font-weight: bold;
   border-radius: 10px;
   filter: drop-shadow(2px 2px 3px black);
 }
-.clickable{
+.clickable {
   border: 1px solid var(--required);
   border-radius: 20px;
 }
-input{
+input {
   background-color: var(--fond);
 }
-.save button{margin-top: 10px!important;}
-.alldata{
-  div{
-    width:50%;
-    p{
+.save button {
+  margin-top: 10px !important;
+}
+.alldata {
+  div {
+    width: 50%;
+    p {
       text-align: center;
-      margin:0;
+      margin: 0;
     }
-    select{
+    select {
       top: unset;
       width: unset;
       height: unset;
@@ -34,596 +38,626 @@ input{
       max-width: 90%;
     }
   }
-  
 }
-.stats{
+.stats {
   margin: 10px;
   background-color: var(--fond);
   padding: 10px;
-  p{
-    margin:0;
+  p {
+    margin: 0;
   }
-  div{
-    display:flex;
-    p:nth-child(1){
-      width:45%;
-      text-align:right;
-      margin-right:5px;
+  div {
+    display: flex;
+    p:nth-child(1) {
+      width: 45%;
+      text-align: right;
+      margin-right: 5px;
     }
-    p:nth-child(2){
-      font-weight:bold;
-      color:var(--required);
+    p:nth-child(2) {
+      font-weight: bold;
+      color: var(--required);
     }
   }
 }
-.between{
+.between {
   justify-content: space-between;
 }
-.portrait{
-  overflow:hidden;
-  .annee{
-    button{
+.portrait {
+  overflow: hidden;
+  .annee {
+    button {
       top: 8px;
     }
   }
-  .calendar{
-    margin:5%;
-    max-height:300px;
-    overflow-y:scroll;
+  .calendar {
+    margin: 5%;
+    max-height: 300px;
+    overflow-y: scroll;
     border-top: 3px solid var(--required);
     padding: 3px;
     border-bottom: 3px solid var(--required);
-    .month{
-      max-width: 44%;  
+    .month {
+      max-width: 44%;
       min-width: 44%;
       background-color: var(--fond);
-      border:3px ridge var(--required);
-      h3{
-        color:var(--required);
+      border: 3px ridge var(--required);
+      h3 {
+        color: var(--required);
       }
-      .days{
-        div{
-          width:unset;
-          height:unset;
-          background:unset;
-          border:unset;
+      .days {
+        div {
+          width: unset;
+          height: unset;
+          background: unset;
+          border: unset;
         }
-        .reserve, .demande, .autre, .essai, .over, .perso, .persofull{
+        .reserve,
+        .demande,
+        .autre,
+        .essai,
+        .over,
+        .perso,
+        .persofull {
           filter: drop-shadow(2px 2px 3px black);
         }
       }
     }
   }
-    .month2{
-      position:relative;
-      max-width:95%!important;
-      min-width:95%!important;
-      .arrows{
-        display: flex;
-        justify-content: space-between;
-        width: 80%;
-        font-weight: bold;
-        font-size: 30px;
-        position: absolute;
-        top: 7px;
-        color: var(--required);
-        p{
-          margin:0;
-        }
+  .month2 {
+    position: relative;
+    max-width: 95% !important;
+    min-width: 95% !important;
+    .arrows {
+      display: flex;
+      justify-content: space-between;
+      width: 80%;
+      font-weight: bold;
+      font-size: 30px;
+      position: absolute;
+      top: 7px;
+      color: var(--required);
+      p {
+        margin: 0;
       }
-      h3{
-        height:40px!important;
+    }
+    h3 {
+      height: 40px !important;
+    }
+    .days {
+      div {
+        width: auto !important;
+        height: 40px !important;
       }
-      .days{
-        div{
-          width:auto!important;
-          height: 40px!important;
-        }
-      }
+    }
   }
-  .legende{
-    div{
+  .legende {
+    div {
       margin: 20px 2px;
     }
   }
 }
 
-.mdp{
+.mdp {
   display: grid;
   justify-content: center;
   margin: auto;
   top: 40%;
   position: absolute;
-  width:100%;
-  *{
-    width:80%;
-    margin:auto;
-    display:flex;
+  width: 100%;
+  * {
+    width: 80%;
+    margin: auto;
+    display: flex;
     justify-content: center;
-    margin-top:10px;
+    margin-top: 10px;
   }
 }
 
-
-.portrait{
-  .formulaire{
-    button{
+.portrait {
+  .formulaire {
+    button {
       white-space: nowrap;
     }
-    div{
+    div {
       justify-content: space-between;
-      p{
+      p {
         text-align: right;
-        width:50%;
+        width: 50%;
       }
     }
     padding: 40px 0px;
-    .date{
+    .date {
       white-space: nowrap;
-      margin-bottom:15px;
+      margin-bottom: 15px;
     }
-    .inputs{
-      div{
+    .inputs {
+      div {
         justify-content: space-between;
         width: 100%;
         margin: 2px 0px;
-        p{
-          width:50%;
+        p {
+          width: 50%;
           color: var(--required);
         }
-        input{
-          width:165px;
+        input {
+          width: 165px;
         }
-        select{
-          width:177px;
+        select {
+          width: 177px;
         }
-        .column{
-          width:215px;
+        .column {
+          width: 215px;
         }
-        .column{
-          input{
-            width:84%;
+        .column {
+          input {
+            width: 84%;
           }
         }
       }
     }
-    .inputsessai{
-      div{
-        p:nth-child(2), .column p
-        {
+    .inputsessai {
+      div {
+        p:nth-child(2),
+        .column p {
           text-align: left;
         }
       }
     }
-    .blocbas{
-      p{white-space: nowrap;}
-      button{
-        width:190px;
+    .blocbas {
+      p {
+        white-space: nowrap;
       }
-      p{
-        width:50%;
+      button {
+        width: 190px;
+      }
+      p {
+        width: 50%;
         color: var(--required);
       }
-      input{
-        width:165px;
+      input {
+        width: 165px;
       }
-      select{
-        width:190px;
+      select {
+        width: 190px;
         text-overflow: ellipsis;
         overflow: hidden;
       }
     }
-    .resumes{
+    .resumes {
       justify-content: center;
-      .prestas{
-        .small p{
+      .prestas {
+        .small p {
           font-size: 11px;
         }
-        p{
+        p {
           text-align: left;
-          width:50px;
+          width: 50px;
           white-space: nowrap;
         }
-        p:nth-child(2)
-        {
-          max-width:55%;
-          min-width:55%;
-          width:55%;
+        p:nth-child(2) {
+          max-width: 55%;
+          min-width: 55%;
+          width: 55%;
           overflow: hidden;
           text-overflow: ellipsis;
         }
       }
     }
-    .save{
+    .save {
       display: flex;
       flex-flow: wrap;
     }
   }
 }
 
-.ant{background:var(--scroll) !important;color: #00000050;
+.ant {
+  background: var(--scroll) !important;
+  color: #00000050;
 }
 
-.calendar{
-  margin:2%;
-  .month{
+.calendar {
+  margin: 2%;
+  .month {
     background-color: var(--fond);
-    border:3px ridge var(--required);
-    h3{
-      color:var(--required);
+    border: 3px ridge var(--required);
+    h3 {
+      color: var(--required);
     }
-    .days{
-      div{
-        background:unset;
-        border:1px solid var(--principale);
+    .days {
+      div {
+        background: unset;
+        border: 1px solid var(--principale);
       }
-      .reserve, .demande, .autre, .essai, .over, .perso, .persofull{
+      .reserve,
+      .demande,
+      .autre,
+      .essai,
+      .over,
+      .perso,
+      .persofull {
         filter: drop-shadow(2px 2px 3px black);
       }
     }
   }
 }
-.annee{
-  button{
+.annee {
+  button {
     top: 8px;
   }
 }
-.legende{
-  div{
+.legende {
+  div {
     margin: 20px 2px;
   }
 }
 
-
 .calendar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-  }
-  
-  .month {
-    border: 1px solid #ddd;
-    padding: 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: #f9f9f9;
-    border-radius: 10px;
-  }
-  
-  h3 {
-    margin: 5px 0;
-    font-size: 1.2em;
-    text-align: center;
-  }
-  
-  .week-days {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    width: 100%;
-    text-align: center;
-    font-weight: bold;
-    padding-bottom: 5px;
-  }
-  
-  .days {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
-    width: 100%;
-  }
-  
-  .days div, .blocday {
-    width: 25px;
-    height: 25px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background: white;
-    font-size: 0.9em;
-    transition:0.5s;
-  }
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
 
-  .legende{
-    display:flex;
-    justify-content: center;
-    div{
-        width:150px!important;
-        margin:20px 30px;
-    }
-  }
+.month {
+  border: 1px solid #ddd;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #f9f9f9;
+  border-radius: 10px;
+}
 
-  .days div:hover{
-    cursor:pointer;
-    font-size:20px;
-    border-color:red;
+h3 {
+  margin: 5px 0;
+  font-size: 1.2em;
+  text-align: center;
+}
+
+.week-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  padding-bottom: 5px;
+}
+
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  width: 100%;
+}
+
+.days div,
+.blocday {
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: white;
+  font-size: 0.9em;
+  transition: 0.5s;
+}
+
+.legende {
+  display: flex;
+  justify-content: center;
+  flex-flow: wrap;
+  div {
+    width: 150px !important;
+    margin: 20px 30px;
   }
-  
-  .dday, .reserve, .demande, .essai, .autre, .over{
-    color: white;
-    font-weight: bold;
-  }
-  .perso, .persofull{
-    color:red;
-    font-weight: bold;
-  }
-  .legende {
-    button{
+}
+
+.days div:hover {
+  cursor: pointer;
+  font-size: 20px;
+  border-color: red;
+}
+
+.dday,
+.reserve,
+.demande,
+.essai,
+.autre,
+.over {
+  color: white;
+  font-weight: bold;
+}
+.perso,
+.persofull {
+  color: red;
+  font-weight: bold;
+}
+.legende {
+  button {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin:0px 2px!important;
+    margin: 0px 2px !important;
   }
-  }
-  .dday{
-    background: rgb(184, 68, 25)!important;
-  }
-  .reserve{
-    background: rgb(41, 114, 197)!important;
-  }
-  .demande{
-    background: rgb(241, 50, 225)!important;
-  }
-  .essai{
-    background: rgb(182, 118, 0)!important;
-  }
-  .autre{
-    background: rgb(175, 167, 118)!important;
-  }
-  .over{
-    background: black!important;
-    color:white!important;
-  }
-  .noday{
-    border: 1px solid transparent!important;
-    background: unset!important;
-  }
+}
+.dday {
+  background: rgb(184, 68, 25) !important;
+}
+.reserve {
+  background: rgb(41, 114, 197) !important;
+}
+.demande {
+  background: rgb(241, 50, 225) !important;
+}
+.essai {
+  background: rgb(182, 118, 0) !important;
+}
+.autre {
+  background: rgb(175, 167, 118) !important;
+}
+.over {
+  background: black !important;
+  color: white !important;
+}
+.noday {
+  border: 1px solid transparent !important;
+  background: unset !important;
+}
 
-  .tooltip {
-    position: fixed;
-    background: rgba(0, 0, 0);
-    color: white;
-    padding: 8px;
-    border-radius: 5px;
-    font-size: 14px;
-    pointer-events: none;
-    white-space: nowrap;
-  }
+.tooltip {
+  position: fixed;
+  background: rgba(0, 0, 0);
+  color: white;
+  padding: 8px;
+  border-radius: 5px;
+  font-size: 14px;
+  pointer-events: none;
+  white-space: nowrap;
+}
 
-  .annee{
-    display:flex;
-    justify-content: center;
-    p{
-        font-weight:bold;
-        font-size:25px;
-        margin:10px 25px;
-        transition:0.5s;
-    }
-    p:hover{
-        cursor:pointer;
-        color:red;
-    }
+.annee {
+  display: flex;
+  justify-content: center;
+  p {
+    font-weight: bold;
+    font-size: 25px;
+    margin: 10px 25px;
+    transition: 0.5s;
   }
-  .nopointer{
-      pointer-events: none!important;
-      
+  p:hover {
+    cursor: pointer;
+    color: red;
   }
-  .annee .nopointer, .formulaire .date .nopointer{
-    color:var(--required);
-      font-weight:bold;
-  }
-  .column{
-    flex-direction: column;
-  }
+}
+.nopointer {
+  pointer-events: none !important;
+}
+.annee .nopointer,
+.formulaire .date .nopointer {
+  color: var(--required);
+  font-weight: bold;
+}
+.column {
+  flex-direction: column;
+}
 
-  .formulaire{
-    .nopointer{
-      width:350px;
-      text-align: center;
-    }
-    padding:40px 20px;
-    div{
-      margin:2px 0px;
-      display:flex;
-      justify-content: center;
-    }
-    p{
-      margin:0;
-    }
-    .retour{
-      position:absolute;
-      left:5px;
-      top:5px;
-      font-weight:bold;
-    }
-    .retour:hover{
-      cursor:pointer;
-      color:red;
-    }
-    .date{
-      p{
-        padding:0px 10px;
-        width:5%!important;
-        font-size:25px;
-        font-weight:bold;
-        color:var(--required);
-      }
-      .nopointer{
-        padding:0px 0px;
-        width:90%!important;
-        text-align: center!important;
-      }
-      p:hover{
-        cursor:pointer;
-        color:red;
-      }
-    }
-    .date2{
-      margin-bottom:20px;
-
-    }
-    .inputs{
-      flex-flow: wrap;
-      div{
-        justify-content: space-between;
-        width: fit-content;
-        margin:2px 20px;
-        p{
-          width:200px;
-          text-align: right;
-          position: relative;
-          top:0px;
-        }
-      }
-    }
-    .save{
-      
-      margin-top:20px;
-    }
-    .nom{
-      font-style:italic;
-      padding:0px 10px;
-    }
-    .resumes{
-        div{
-            padding: 10px;
-            flex-direction: column;
-            border: 1px solid var(--required);
-            div{
-                border:unset;
-                padding:unset;
-            }
-        }
-    }
+.formulaire {
+  .nopointer {
+    width: 350px;
+    text-align: center;
   }
-
-  .flex{
-    display:flex;
-  }
-  .center{
+  padding: 40px 20px;
+  div {
+    margin: 2px 0px;
+    display: flex;
     justify-content: center;
   }
-  .zindex{
-    z-index: 9!important;
+  p {
+    margin: 0;
   }
-
-  .blockday{
-    position:relative;
-    .events{
-      position: absolute;
-  border: 1px solid var(--required);
-  background-color: var(--principale);
-  border-radius: 100%;
-  padding: 0px 5px;
-  bottom: -8px;
-  right: -6px;
-  z-index: 1;
-    }
-  }
-
-  .today{
-    filter: drop-shadow(0px 0px 1px red) drop-shadow(0px 0px 1px var(--required)) drop-shadow(0px 0px 1px var(--required)) drop-shadow(0px 0px 1px var(--required)) drop-shadow(0px 0px 1px var(--required)) drop-shadow(0px 0px 1px var(--required));
-    background-color: var(--principale)!important;
-    color: blueviolet;
+  .retour {
+    position: absolute;
+    left: 5px;
+    top: 5px;
     font-weight: bold;
   }
-
-  .red{
-    color:red!important;
-    border-color:red!important;
+  .retour:hover {
+    cursor: pointer;
+    color: red;
   }
-
-  input, select, button{
-    text-align: center;
-    padding:5px;
-    position:relative;
-    top:-5px;
-    width:150px;
-    margin:0px 10px;
+  .date {
+    p {
+      padding: 0px 10px;
+      width: 5% !important;
+      font-size: 25px;
+      font-weight: bold;
+      color: var(--required);
+    }
+    .nopointer {
+      padding: 0px 0px;
+      width: 90% !important;
+      text-align: center !important;
+    }
+    p:hover {
+      cursor: pointer;
+      color: red;
+    }
   }
-  button, select{
-    height: 30px;
+  .date2 {
+    margin-bottom: 20px;
   }
-select{
-width:164px;
+  .inputs {
+    flex-flow: wrap;
+    div {
+      justify-content: space-between;
+      width: fit-content;
+      margin: 2px 20px;
+      p {
+        width: 200px;
+        text-align: right;
+        position: relative;
+        top: 0px;
+      }
+    }
+  }
+  .save {
+    margin-top: 20px;
+  }
+  .nom {
+    font-style: italic;
+    padding: 0px 10px;
+  }
+  .resumes {
+    div {
+      padding: 10px;
+      flex-direction: column;
+      border: 1px solid var(--required);
+      div {
+        border: unset;
+        padding: unset;
+      }
+    }
+  }
 }
 
-app-devis{
-    position:absolute;
-    width:100%;
+.flex {
+  display: flex;
 }
-.hidden{
-    opacity:0;
-    pointer-events: none;
-    height:0px!important;
-    width:0px!important;
+.center {
+  justify-content: center;
 }
-.delete{
-  background:red;
-  color:white;
-  font-weight:bold;
+.zindex {
+  z-index: 9 !important;
 }
-.prestas{
+
+.blockday {
+  position: relative;
+  .events {
+    position: absolute;
+    border: 1px solid var(--required);
+    background-color: var(--principale);
+    border-radius: 100%;
+    padding: 0px 5px;
+    bottom: -8px;
+    right: -6px;
+    z-index: 1;
+  }
+}
+
+.today {
+  filter: drop-shadow(0px 0px 1px red) drop-shadow(0px 0px 1px var(--required))
+    drop-shadow(0px 0px 1px var(--required))
+    drop-shadow(0px 0px 1px var(--required))
+    drop-shadow(0px 0px 1px var(--required))
+    drop-shadow(0px 0px 1px var(--required));
+  background-color: var(--principale) !important;
+  color: blueviolet;
+  font-weight: bold;
+}
+
+.red {
+  color: red !important;
+  border-color: red !important;
+}
+
+input,
+select,
+button {
+  text-align: center;
+  padding: 5px;
+  position: relative;
+  top: -5px;
+  width: 150px;
+  margin: 0px 10px;
+}
+button,
+select {
+  height: 30px;
+}
+select {
+  width: 164px;
+}
+
+app-devis {
+  position: absolute;
+  width: 100%;
+}
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+  height: 0px !important;
+  width: 0px !important;
+}
+.delete {
+  background: red;
+  color: white;
+  font-weight: bold;
+}
+.prestas {
   width: 90%;
-  div{
-    flex-direction: row!important;
+  div {
+    flex-direction: row !important;
     justify-content: space-between;
-    p{
-      width:50px;
+    p {
+      width: 50px;
       white-space: nowrap;
     }
-    p:nth-child(2)
-    {
-      max-width:55%;
-      min-width:55%;
-      width:55%;
+    p:nth-child(2) {
+      max-width: 55%;
+      min-width: 55%;
+      width: 55%;
       overflow: hidden;
       text-overflow: ellipsis;
     }
   }
-  .entetes{
-    font-weight:bold;
-    p{
-      color:var(--required);
+  .entetes {
+    font-weight: bold;
+    p {
+      color: var(--required);
     }
   }
 }
-button:hover{
-  cursor:pointer;
-  opacity:0.5;
+button:hover {
+  cursor: pointer;
+  opacity: 0.5;
 }
-button, select{
-  color:white!important;
-  text-shadow: 1px 1px 1px var(--required)!important;
+button,
+select {
+  color: white !important;
+  text-shadow: 1px 1px 1px var(--required) !important;
 }
-.renseignement{
+.renseignement {
   color: var(--required) !important;
   background-color: white;
   border-color: var(--required);
 }
 
-.charles{
-  *{
-    color:white!important;
+.charles {
+  * {
+    color: white !important;
   }
 }
 
-.noplanning{
-  border: 2px solid red!important;
+.noplanning {
+  border: 2px solid red !important;
 }
 
-.stats2{
-  display:flex;
+.noessai {
+  border: 2px solid rgb(182, 118, 0) !important;
+  color: rgb(241, 189, 92) !important;
+}
+
+.stats2 {
+  display: flex;
   flex-flow: wrap;
-  p{
+  p {
     text-align: center;
-    width:50%;
-    border:unset!important;
+    width: 50%;
+    border: unset !important;
   }
-  p:hover{
-    cursor:pointer;
+  p:hover {
+    cursor: pointer;
     font-weight: bold;
     text-decoration: underline;
   }
@@ -631,56 +665,62 @@ button, select{
 
 //NEW CSS
 
-.bottom{
+.bottom {
   display: flex;
   justify-content: space-around;
   flex-flow: wrap;
   margin: 20px 0px;
-  div{
+  div {
     border: 3px ridge var(--color4);
     border-radius: 20px;
-    margin:10px 0px;
+    margin: 10px 0px;
     background-color: var(--color3);
     padding: 30px;
-    height:fit-content;
+    height: fit-content;
     min-width: 30vw;
-    .title{
+    .title {
       font-weight: bold;
       font-size: 20px;
       text-decoration: underline;
       padding-bottom: 10px;
     }
   }
-  .factures{
-    div{
+  .factures {
+    div {
       padding: 0px;
       border: unset;
     }
-    .container{
-      border-radius:0px;
+    .container {
+      border-radius: 0px;
       max-height: 20vh;
       overflow-y: scroll;
       overflow-x: hidden;
     }
-    .line{
-      margin:0px;
+    .line {
+      margin: 0px;
       padding: 0px;
       display: flex;
       justify-content: space-evenly;
       color: black;
       min-width: unset;
-      p{
+      p {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
       }
-      p:nth-child(1){width:50%;}
-      p:nth-child(2){width:30%;}
-      p:nth-child(3){width:20%;}
+      p:nth-child(1) {
+        width: 50%;
+      }
+      p:nth-child(2) {
+        width: 30%;
+      }
+      p:nth-child(3) {
+        width: 20%;
+      }
     }
-    .toPay{
-      div{
-        color:var(--color5)!important;
+    .toPay {
+      div {
+        color: var(--color5) !important;
       }
     }
   }
