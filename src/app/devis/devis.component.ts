@@ -60,15 +60,18 @@ export class DevisComponent implements OnInit {
     60 = '';
   */
 
-  informations:any;
+  informations: any;
   values: any = [];
   dataprestas: any = [];
   prestas: any = [];
-  baseprestas:any;
+  baseprestas: any;
 
-  modedevis = "Mariage";
+  modedevis = 'Mariage';
 
-  typeinvitee = [{fr:'Invitée',en:'Guest'}, {fr:'Mariée',en:'Bride'}];
+  typeinvitee = [
+    { fr: 'Invitée', en: 'Guest' },
+    { fr: 'Mariée', en: 'Bride' },
+  ];
   ceremonie: any = '';
   finprestas: any = '';
   isacquitee = false;
@@ -110,14 +113,14 @@ export class DevisComponent implements OnInit {
   ];
 
   planningtop = [
-      { "fr": "ARRIVEE", "en": "ARRIVAL" },
-      { "fr": "INSTALLATION", "en": "SETUP" },
-      { "fr": "MAQUILLAGE", "en": "MAKEUP" },
-      { "fr": "COIFFURE", "en": "HAIRSTYLING" },
-      { "fr": "FIN PRESTATION", "en": "END OF SERVICE" },
-      { "fr": "RETOUCHES", "en": "TOUCH-UPS" },
-      { "fr": "DISPONIBILITE", "en": "AVAILABILITY" },
-      { "fr": "CEREMONIE", "en": "CEREMONY" }
+    { fr: 'ARRIVEE', en: 'ARRIVAL' },
+    { fr: 'INSTALLATION', en: 'SETUP' },
+    { fr: 'MAQUILLAGE', en: 'MAKEUP' },
+    { fr: 'COIFFURE', en: 'HAIRSTYLING' },
+    { fr: 'FIN PRESTATION', en: 'END OF SERVICE' },
+    { fr: 'RETOUCHES', en: 'TOUCH-UPS' },
+    { fr: 'DISPONIBILITE', en: 'AVAILABILITY' },
+    { fr: 'CEREMONIE', en: 'CEREMONY' },
   ];
 
   lg = 'Français';
@@ -150,30 +153,31 @@ export class DevisComponent implements OnInit {
   constructor(
     private datePipe: DatePipe,
     private http: HttpClient,
-    private readPDF: ReadpdfService
+    private readPDF: ReadpdfService,
   ) {}
 
   getBasePrestas(): Observable<any[]> {
-    return this.http.get<any[]>('https://www.cloechaudronbeauty.com/backend/api/getintraccbdata.php');
+    return this.http.get<any[]>(
+      'https://www.cloechaudronbeauty.com/backend/api/getintraccbdata.php',
+    );
   }
 
   ngOnInit() {
-    this.getBasePrestas().subscribe(data => {
+    this.getBasePrestas().subscribe((data) => {
       this.baseprestas = data;
       console.log(this.baseprestas);
-      if(this.artiste=="celma")this.basePrestasCelma();
-      else if(this.artiste=="charles")this.basePrestasCharles();
+      if (this.artiste == 'celma') this.basePrestasCelma();
+      else if (this.artiste == 'charles') this.basePrestasCharles();
       this.baseprestas.forEach((presta: any) => {
         presta.qte = 0;
       });
       this.prestas = JSON.parse(JSON.stringify(this.baseprestas));
       if (this.innerHeight > this.innerWidth) this.paysage = false;
       else this.paysage = true;
-    });    
+    });
   }
 
-  popupRename(invitee:any)
-  {
+  popupRename(invitee: any) {
     this.inviteeEdit = invitee;
     this.inputValue = invitee[11]; // pré-remplir
     this.popupVisible = true;
@@ -188,8 +192,7 @@ export class DevisComponent implements OnInit {
     this.popupVisible = false;
   }
 
-  basePrestasCelma()
-  {
+  basePrestasCelma() {
     this.baseprestas = [
       {
         nom: 'Frais de déplacement',
@@ -373,8 +376,7 @@ export class DevisComponent implements OnInit {
     ];
   }
 
-  basePrestasCharles()
-  {
+  basePrestasCharles() {
     this.baseprestas = [
       {
         nom: 'Frais de déplacement',
@@ -446,30 +448,27 @@ export class DevisComponent implements OnInit {
         nom: 'Hébergement, nom de domaine, SSL',
         en: 'Design UI/UX',
         prix: 50,
-        yearly: true
+        yearly: true,
       },
       {
         nom: 'Maintenance CMS, mises à jour, sécurité',
         en: 'Design UI/UX',
         prix: 250,
-        yearly: true
+        yearly: true,
       },
       {
         nom: 'Contenu & médias nouveaux + optimisation SEO',
         en: 'Design UI/UX',
         prix: 250,
-        yearly: true
-      }
+        yearly: true,
+      },
     ];
   }
 
   onCeremonieInput() {
-    
-    if(!this.ceremonie || this.ceremonie == "")
-    {
-      this.invitees.forEach((i:any)=>i[8]="");
-    }
-    else if (this.ceremonie.match(/^[0-9]{1,2}h[0-9]{2}$/g)) {
+    if (!this.ceremonie || this.ceremonie == '') {
+      this.invitees.forEach((i: any) => (i[8] = ''));
+    } else if (this.ceremonie.match(/^[0-9]{1,2}h[0-9]{2}$/g)) {
       this.invitees.forEach((i: any) => (i[8] = this.ceremonie));
       this.changeForCeremonie();
     }
@@ -494,31 +493,39 @@ export class DevisComponent implements OnInit {
         let prestas = this.getplanningprestas(c);
 
         if (prestas.length > 0) {
-          prestas.forEach((p: any) => tempstot -= p.time);
+          prestas.forEach((p: any) => (tempstot -= p.time));
 
           temps = this.addMinutesToTime(temps, tempstot);
 
           let inv = this.invitees.find((i: any) => i[9] == c);
-          let presta = this.planningprestas.find((p:any)=>p.index==inv[10]);
+          let presta = this.planningprestas.find(
+            (p: any) => p.index == inv[10],
+          );
 
           if (presta.maquillage) inv[3] = temps;
-          else inv[3] = "";
+          else inv[3] = '';
           if (presta.coiffure) inv[4] = temps;
-          else inv[4] = "";
+          else inv[4] = '';
         }
       } else {
         let inv = this.invitees.find((i: any) => i[9] == c);
-        let presta = this.planningprestas.find((p:any)=>p.index==inv[10]);
+        let presta = this.planningprestas.find((p: any) => p.index == inv[10]);
 
         if (presta.maquillage)
           inv[3] = this.addMinutesToTime(this.collegues[c][4], 30);
-        else inv[3] = "";
+        else inv[3] = '';
         if (presta.coiffure)
           inv[4] = this.addMinutesToTime(this.collegues[c][4], 30);
-        else inv[4] = "";
+        else inv[4] = '';
       }
     }
-    if (this.collegues[0][4] == '' && this.collegues[1][4] == '' && this.getplanningprestas(0).length>0 && this.getplanningprestas(1).length>0) this.adaptStart();
+    if (
+      this.collegues[0][4] == '' &&
+      this.collegues[1][4] == '' &&
+      this.getplanningprestas(0).length > 0 &&
+      this.getplanningprestas(1).length > 0
+    )
+      this.adaptStart();
     else this.actualiser();
   }
 
@@ -766,19 +773,19 @@ export class DevisComponent implements OnInit {
     sixmonth = new Date(sixmonth.getTime() + 30 * 24 * 6 * 60 * 60 * 1000);
     this.values[0] = this.datePipe.transform(now, 'dd/MM/yyyy') || '';
     this.values[1] = maxs ? maxs.maxDevis + 1 : '1';
-    if(this.artiste=="celma")
-      this.values[1] = this.datePipe.transform(now, 'ddMMyy') + (maxs ? maxs.maxDevis + 1 : '1');
+    if (this.artiste == 'celma')
+      this.values[1] =
+        this.datePipe.transform(now, 'ddMMyy') +
+        (maxs ? maxs.maxDevis + 1 : '1');
     this.values[2] = this.datePipe.transform(now, 'yyyy') || '';
     this.values[3] = 'Cloé Chaudron';
-    if(this.artiste=="charles")
-      this.values[3] = 'SwissKey Solutions';
+    if (this.artiste == 'charles') this.values[3] = 'SwissKey Solutions';
     this.values[5] = '126 Rue de la Cerisaie';
     this.values[7] = '84400 Gargas';
     this.values[9] = '+33 6 68 64 44 02';
-    if(this.artiste=="charles")
-      this.values[9] = '+33 6 82 01 57 34';
+    if (this.artiste == 'charles') this.values[9] = '+33 6 82 01 57 34';
     this.values[11] = 'cloe.chaudron@outlook.com';
-    if(this.artiste=="charles")
+    if (this.artiste == 'charles')
       this.values[11] = 'swisskeysolutions.contact@gmail.com';
     this.values[13] = this.datePipe.transform(twoweeks, 'dd/MM/yyyy') || '';
     this.values[14] = this.datePipe.transform(sixmonth, 'dd/MM/yyyy') || '';
@@ -790,14 +797,18 @@ export class DevisComponent implements OnInit {
     this.values[53] = '';
     this.values[54] = '';
     this.values[55] = maxs ? maxs.maxFacture + 1 : '1';
-    if(this.artiste=="celma")
-      this.values[55] = this.datePipe.transform(now, 'ddMMyy') + (maxs ? maxs.maxFacture + 1 : '1');
+    if (this.artiste == 'celma')
+      this.values[55] =
+        this.datePipe.transform(now, 'ddMMyy') +
+        (maxs ? maxs.maxFacture + 1 : '1');
     this.values[56] = this.datePipe.transform(now, 'yyyy') || '';
     this.values[57] = this.datePipe.transform(now, 'dd/MM/yyyy') || '';
     this.values[58] = this.datePipe.transform(twoweeks, 'dd/MM/yyyy') || '';
     this.values[60] = '';
     this.values[61] = 0;
     this.values[62] = '';
+
+    this.values[80] = '';
 
     this.mode = data.mode;
 
@@ -811,8 +822,8 @@ export class DevisComponent implements OnInit {
     if (data.mode == 'devis' && data.devis) {
       if (data.devis.prestas) {
         data.devis.prestas.forEach((p: any) => {
-          let presta = this.prestas.find((pres: any) =>
-            p.nom.includes(pres.nom) && !pres.titre
+          let presta = this.prestas.find(
+            (pres: any) => p.nom.includes(pres.nom) && !pres.titre,
           );
           if (presta) {
             presta.qte = p.qte;
@@ -825,7 +836,7 @@ export class DevisComponent implements OnInit {
               nom: p.nom,
               prix: p.prix,
               reduc: p.reduc ? p.reduc : 0,
-              kilorly: p.kilorly
+              kilorly: p.kilorly,
             });
           }
         });
@@ -843,15 +854,14 @@ export class DevisComponent implements OnInit {
       this.planningprestas = [];
       let mariee: any;
       let prestas = data.devis.prestas;
-      if(prestas)
-      {
+      if (prestas) {
         prestas.forEach((p: any) => {
           let presta = this.prestas.find((pres: any) => pres.nom == p.nom);
           if (presta && presta.time) {
             p.coiffure = presta.coiffure;
             p.maquillage = presta.maquillage;
             p.time = presta.time;
-  
+
             for (let i = 0; i < p.qte; i++) {
               let press = JSON.parse(JSON.stringify(p));
               press.presta = 0;
@@ -882,13 +892,13 @@ export class DevisComponent implements OnInit {
       this.finprestas = data.planning.finprestas;
     } else if (data.mode == 'facture') {
       if (data.factureClicked != -1) {
-        console.log("facture 0");
+        console.log('facture 0');
         let facture = data.factures[data.factureClicked];
 
         if (facture.prestas) {
           facture.prestas.forEach((p: any) => {
-            let presta = this.prestas.find((pres: any) =>
-              p.nom.includes(pres.nom) && !pres.titre
+            let presta = this.prestas.find(
+              (pres: any) => p.nom.includes(pres.nom) && !pres.titre,
             );
             if (presta) {
               presta.qte = p.qte;
@@ -911,6 +921,7 @@ export class DevisComponent implements OnInit {
         if (facture.numero) this.values[55] = facture.numero;
         if (facture.annee) this.values[56] = facture.annee;
         if (facture.solde) this.values[60] = facture.solde;
+        if (facture.realsold) this.values[80] = facture.realsold;
         if (facture.paiementprestas) this.values[61] = facture.paiementprestas;
 
         if (data.factures.length > 0) {
@@ -918,7 +929,7 @@ export class DevisComponent implements OnInit {
           for (let i = 0; i < data.factureClicked; i++) {
             if (i != data.factureClicked) {
               let f = data.factures[i];
-              if (f.solde) prix += parseFloat(f.solde);
+              if (f.solde) prix += this.getFacSold(f);
               else {
                 f.prestas.forEach((p: any) => {
                   prix += this.calc(p);
@@ -928,19 +939,19 @@ export class DevisComponent implements OnInit {
           }
           this.values[15] = prix;
         }
-      } else if (data.factures.length==0) {
-        console.log("facture 1");
+      } else if (data.factures.length == 0) {
+        console.log('facture 1');
         this.prestas.push({
           qte: 1,
           nom: 'Paiement Arrhes',
           prix: this.calcaresFromDevis(),
           reduc: 0,
         });
-      } else if (data.factures.length>0) {
-        console.log("facture 2");
+      } else if (data.factures.length > 0) {
+        console.log('facture 2');
         data.devis.prestas.forEach((p: any) => {
-          let presta = this.prestas.find((pres: any) =>
-            p.nom.includes(pres.nom) && !pres.titre
+          let presta = this.prestas.find(
+            (pres: any) => p.nom.includes(pres.nom) && !pres.titre,
           );
           if (presta) {
             presta.qte = p.qte;
@@ -958,7 +969,7 @@ export class DevisComponent implements OnInit {
         });
         let prix = 0;
         data.factures.forEach((f: any) => {
-          if (f.solde) prix += parseFloat(f.solde);
+          if (f.solde) prix += this.getFacSold(f);
           else {
             f.prestas.forEach((p: any) => {
               prix += this.calc(p);
@@ -968,115 +979,142 @@ export class DevisComponent implements OnInit {
           f.prestas.forEach((p: any) => {
             let prest = this.prestas.find(
               (pres: any) =>
-                pres.nom == p.nom && pres.prix == p.prix && pres.qte == p.qte
+                pres.nom == p.nom && pres.prix == p.prix && pres.qte == p.qte,
             );
             if (prest) prest.qte = 0;
           });
         });
         this.values[15] = prix;
 
-        if(!data.factures.find((f:any)=>f.paiementprestas&&f.paiementprestas!=0))
-        {
-          if(data.planning&&data.planning.planningprestas)
-          {
+        if (
+          !data.factures.find(
+            (f: any) => f.paiementprestas && f.paiementprestas != 0,
+          )
+        ) {
+          if (data.planning && data.planning.planningprestas) {
             let tot = 0;
-            data.planning.planningprestas.forEach((presta:any)=>{
-              if(presta.presta!=0) tot = tot + parseFloat(""+presta.prix);
-            })
-            this.values[61] = parseInt(""+tot);
+            data.planning.planningprestas.forEach((presta: any) => {
+              if (presta.presta != 0) tot = tot + parseFloat('' + presta.prix);
+            });
+            this.values[61] = parseInt('' + tot);
           }
-          if(data.devis && data.devis.prestas)
-          {
-            data.devis.prestas.forEach((presta:any)=>{if(presta.nom.includes("renfort")) this.values[61] += this.calc(presta);})
+          if (data.devis && data.devis.prestas) {
+            data.devis.prestas.forEach((presta: any) => {
+              if (presta.nom.includes('renfort'))
+                this.values[61] += this.calc(presta);
+            });
           }
-          this.values[60] = parseInt(this.transform(this.calcTot(true))) - this.values[61]; 
+          this.values[60] =
+            parseInt(this.transform(this.calcTot(true))) - this.values[61];
+          this.values[80] = 0;
         }
       }
-    } else if (data.mode == 'renseignement'){
+    } else if (data.mode == 'renseignement') {
       this.informations = JSON.parse(JSON.stringify(this.data));
-      if(this.informations && this.informations.devis && this.informations.devis.prestas)
-      {
-        this.informations.devis.prestas.forEach((p:any)=>{
-          let presta = this.prestas.find((presta:any)=>presta.nom==p.nom);
-          if(presta)
-          {
+      if (
+        this.informations &&
+        this.informations.devis &&
+        this.informations.devis.prestas
+      ) {
+        this.informations.devis.prestas.forEach((p: any) => {
+          let presta = this.prestas.find((presta: any) => presta.nom == p.nom);
+          if (presta) {
             p.maquillage = presta.maquillage;
             p.coiffure = presta.coiffure;
           }
-        })
+        });
       }
 
-      this.informations.complet = this.getNbPrestasInvitee(true,true);
-      this.informations.maquillage = this.getNbPrestasInvitee(true,false);
-      this.informations.coiffure = this.getNbPrestasInvitee(false,true);
+      this.informations.complet = this.getNbPrestasInvitee(true, true);
+      this.informations.maquillage = this.getNbPrestasInvitee(true, false);
+      this.informations.coiffure = this.getNbPrestasInvitee(false, true);
 
       this.informations.collegues = [];
-      this.informations.texte = ["","","","",""];
-      if(this.informations.planning&&this.informations.planning.planningprestas)
-      {
+      this.informations.texte = ['', '', '', '', ''];
+      if (
+        this.informations.planning &&
+        this.informations.planning.planningprestas
+      ) {
         this.planningprestas = this.data.planning.planningprestas;
-        if(this.getplanningprestas(1).length>0) this.informations.collegues.push(this.collegues[1]);
-        if(this.getplanningprestas(2).length>0) this.informations.collegues.push(this.collegues[2]);
-        if(this.getplanningprestas(3).length>0) this.informations.collegues.push(this.collegues[3]);
-      }
-      else if(this.informations && this.informations.devis && this.informations.devis.prestas)
-      {
-        if(this.informations.devis.prestas.find((p:any)=>p.nom.includes("renfort"))) this.informations.collegues.push(this.collegues[1]);
+        if (this.getplanningprestas(1).length > 0)
+          this.informations.collegues.push(this.collegues[1]);
+        if (this.getplanningprestas(2).length > 0)
+          this.informations.collegues.push(this.collegues[2]);
+        if (this.getplanningprestas(3).length > 0)
+          this.informations.collegues.push(this.collegues[3]);
+      } else if (
+        this.informations &&
+        this.informations.devis &&
+        this.informations.devis.prestas
+      ) {
+        if (
+          this.informations.devis.prestas.find((p: any) =>
+            p.nom.includes('renfort'),
+          )
+        )
+          this.informations.collegues.push(this.collegues[1]);
       }
     }
 
     this.inited = true;
-    if(this.data.download)
-    {
-      let int = setInterval(()=>{this.generatePDFfromHTML();this.data.download=undefined;this.return();clearInterval(int);},10);
+    if (this.data.download) {
+      let int = setInterval(() => {
+        this.generatePDFfromHTML();
+        this.data.download = undefined;
+        this.return();
+        clearInterval(int);
+      }, 10);
     }
 
     const screenWidth = window.innerWidth;
-    
-    if(!this.paysage)
-    {
+
+    if (!this.paysage) {
       this.adjustViewport();
     }
   }
 
-  textWithNbsp(texte:any)
-  {
-    return "&nbsp;" + texte.replace(/ /g,"&nbsp;");
+  textWithNbsp(texte: any) {
+    return '&nbsp;' + texte.replace(/ /g, '&nbsp;');
   }
 
-  getHeureArrivee()
-  {
-    if(!this.informations.planning||!this.informations.planning.invitees)return "";
-    return this.informations.planning.invitees.find((p:any)=>p[9]==0&&p[1]!="")[1];
+  getHeureArrivee() {
+    if (!this.informations.planning || !this.informations.planning.invitees)
+      return '';
+    return this.informations.planning.invitees.find(
+      (p: any) => p[9] == 0 && p[1] != '',
+    )[1];
   }
 
-  getFinPrestas()
-  {
-    if(!this.informations.planning||!this.informations.planning.invitees)return "";
-    let invitees = this.informations.planning.invitees.filter((p:any)=>p[9]==0);
-    return invitees[invitees.length-1][5];
+  getFinPrestas() {
+    if (!this.informations.planning || !this.informations.planning.invitees)
+      return '';
+    let invitees = this.informations.planning.invitees.filter(
+      (p: any) => p[9] == 0,
+    );
+    return invitees[invitees.length - 1][5];
   }
 
-  getNbPrestasInvitee(maquillage:boolean,coiffure:boolean)
-  {
-    if(!this.informations.devis || !this.informations.devis.prestas) return "";
+  getNbPrestasInvitee(maquillage: boolean, coiffure: boolean) {
+    if (!this.informations.devis || !this.informations.devis.prestas) return '';
     let cpt = 0;
-    this.informations.devis.prestas.forEach((p:any)=>{
-      if(!p.bride)
-      {
-        if(!p.maquillage&&!maquillage)
-        {
-          if(!p.coiffure&&!coiffure){cpt+=p.qte;}
-          else if(p.coiffure&&coiffure){cpt+=p.qte;}
-        }
-        else if(p.maquillage&&maquillage)
-        {
-          if(!p.coiffure&&!coiffure){cpt+=p.qte;}
-          else if(p.coiffure&&coiffure){cpt+=p.qte;}
+    this.informations.devis.prestas.forEach((p: any) => {
+      if (!p.bride) {
+        if (!p.maquillage && !maquillage) {
+          if (!p.coiffure && !coiffure) {
+            cpt += p.qte;
+          } else if (p.coiffure && coiffure) {
+            cpt += p.qte;
+          }
+        } else if (p.maquillage && maquillage) {
+          if (!p.coiffure && !coiffure) {
+            cpt += p.qte;
+          } else if (p.coiffure && coiffure) {
+            cpt += p.qte;
+          }
         }
       }
     });
-    return parseInt(""+cpt)>0?parseInt(""+cpt):"";
+    return parseInt('' + cpt) > 0 ? parseInt('' + cpt) : '';
   }
 
   generateRange(n: number): number[] {
@@ -1084,28 +1122,33 @@ export class DevisComponent implements OnInit {
   }
 
   adjustViewport() {
-    let int = setInterval(()=>{
-    const screenWidth = window.innerWidth;
-    const contentWidth = document.getElementById("htmlContent")!.offsetWidth;
-  
-    const scale = screenWidth / contentWidth;
+    let int = setInterval(() => {
+      const screenWidth = window.innerWidth;
+      const contentWidth = document.getElementById('htmlContent')!.offsetWidth;
 
-    const metaViewport = document.querySelector("meta[name=viewport]");
-    if (metaViewport) {
-      metaViewport.setAttribute(
-        "content",
-        `width=device-width, initial-scale=${scale}`
-      );
-    }
-    window.scrollTo({ top: 0, left: 0 });document.documentElement.scrollIntoView();document.documentElement.scrollTop = 0;document.body.scrollTop = 0;clearInterval(int);},100);
+      const scale = screenWidth / contentWidth;
+
+      const metaViewport = document.querySelector('meta[name=viewport]');
+      if (metaViewport) {
+        metaViewport.setAttribute(
+          'content',
+          `width=device-width, initial-scale=${scale}`,
+        );
+      }
+      window.scrollTo({ top: 0, left: 0 });
+      document.documentElement.scrollIntoView();
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+      clearInterval(int);
+    }, 100);
   }
 
-  cancelViewport(){
-    const metaViewport = document.querySelector("meta[name=viewport]");
+  cancelViewport() {
+    const metaViewport = document.querySelector('meta[name=viewport]');
     if (metaViewport) {
       metaViewport.setAttribute(
-        "content",
-        `width=device-width, initial-scale=1`
+        'content',
+        `width=device-width, initial-scale=1`,
       );
     }
   }
@@ -1128,29 +1171,25 @@ export class DevisComponent implements OnInit {
     this.addInvitee(presta, artiste);
   }
 
-  onCheckBoxClick(type:any, presta:any)
-  {
-    if(!presta.maquillage&&!presta.coiffure)
-    {
-      if(type=='m')presta.coiffure=true;
-      else presta.maquillage=true;
-    }
-    else
-    {
-      if(presta.maquillage&&presta.coiffure) presta.time = presta.time * 2;
+  onCheckBoxClick(type: any, presta: any) {
+    if (!presta.maquillage && !presta.coiffure) {
+      if (type == 'm') presta.coiffure = true;
+      else presta.maquillage = true;
+    } else {
+      if (presta.maquillage && presta.coiffure) presta.time = presta.time * 2;
       else presta.time = presta.time / 2;
     }
-    
-    let invitee = this.invitees.find((i:any)=>i[10]==presta.index);
+
+    let invitee = this.invitees.find((i: any) => i[10] == presta.index);
 
     let debut = invitee[3];
-    if(debut=="") debut = invitee[4];
+    if (debut == '') debut = invitee[4];
 
-    if(presta.maquillage) invitee[3] = debut;
-    else invitee[3] = "";
+    if (presta.maquillage) invitee[3] = debut;
+    else invitee[3] = '';
 
-    if(presta.coiffure) invitee[4] = debut;
-    else invitee[4] = "";
+    if (presta.coiffure) invitee[4] = debut;
+    else invitee[4] = '';
 
     if (this.ceremonie != '' || this.finprestas != '') {
       this.onCeremonieInput();
@@ -1159,10 +1198,8 @@ export class DevisComponent implements OnInit {
     }
   }
 
-  onTimeInput(presta:any)
-  {
-    if(presta.time.match(/^[0-9]+$/))
-    {
+  onTimeInput(presta: any) {
+    if (presta.time.match(/^[0-9]+$/)) {
       presta.time = parseInt(presta.time);
       if (this.ceremonie != '' || this.finprestas != '') {
         this.onCeremonieInput();
@@ -1172,15 +1209,14 @@ export class DevisComponent implements OnInit {
     }
   }
 
-  deletePresta(presta:any)
-  {
+  deletePresta(presta: any) {
     let indexpresta = this.planningprestas.indexOf(presta);
-    let inv = this.invitees.find((i:any)=>i[10]==presta.index);
+    let inv = this.invitees.find((i: any) => i[10] == presta.index);
     let indexinv = this.invitees.indexOf(inv);
 
-    this.planningprestas.splice(indexpresta,1);
-    this.invitees.splice(indexinv,1);
-    
+    this.planningprestas.splice(indexpresta, 1);
+    this.invitees.splice(indexinv, 1);
+
     if (this.ceremonie != '' || this.finprestas != '') {
       this.onCeremonieInput();
     } else {
@@ -1188,14 +1224,13 @@ export class DevisComponent implements OnInit {
     }
   }
 
-  addPlanningPresta(i:any)
-  {
+  addPlanningPresta(i: any) {
     let presta = JSON.parse(JSON.stringify(this.getplanningprestas(i)[0]));
     presta.index = this.planningprestas.length;
-    presta.nom = "";
+    presta.nom = '';
     presta.time = 45;
     this.planningprestas.push(presta);
-    this.addInvitee(presta,i);
+    this.addInvitee(presta, i);
   }
 
   getplanningprestas(i: number) {
@@ -1206,7 +1241,9 @@ export class DevisComponent implements OnInit {
     let arrhes = this.prestas.find((p: any) => p.nom == 'Paiement Arrhes');
     if (arrhes) arrhes.qte = 0;
     this.data.devis.prestas.forEach((p: any) => {
-      let presta = this.prestas.find((pres: any) => p.nom.includes(pres.nom) && !pres.titre);
+      let presta = this.prestas.find(
+        (pres: any) => p.nom.includes(pres.nom) && !pres.titre,
+      );
       if (presta) {
         presta.qte = p.qte;
         presta.prix = p.prix;
@@ -1225,7 +1262,7 @@ export class DevisComponent implements OnInit {
     });
     let prix = 0;
     this.data.factures.forEach((f: any) => {
-      if (f.solde) prix += parseFloat(f.solde);
+      if (f.solde) prix += this.getFacSold(f);
       else {
         f.prestas.forEach((p: any) => {
           prix += this.calc(p);
@@ -1235,7 +1272,7 @@ export class DevisComponent implements OnInit {
       f.prestas.forEach((p: any) => {
         let prest = this.prestas.find(
           (pres: any) =>
-            pres.nom == p.nom && pres.prix == p.prix && pres.qte == p.qte
+            pres.nom == p.nom && pres.prix == p.prix && pres.qte == p.qte,
         );
         if (prest) prest.qte = 0;
       });
@@ -1284,7 +1321,7 @@ export class DevisComponent implements OnInit {
     this.retour.emit();
   }
 
-  delete(){
+  delete() {
     this.data.delete = this.data.factureClicked;
     this.retour.emit();
   }
@@ -1293,7 +1330,7 @@ export class DevisComponent implements OnInit {
     if (this.mode == 'devis') {
       let devis: any = {};
       devis.prestas = this.prestas.filter(
-        (p: any) => p.qte > 0 || p.qte == '?'
+        (p: any) => p.qte > 0 || p.qte == '?',
       );
       devis.creation = this.values[0];
       devis.numero = this.values[1];
@@ -1304,7 +1341,7 @@ export class DevisComponent implements OnInit {
     } else if (this.mode == 'facture') {
       let facture: any = {};
       facture.prestas = this.prestas.filter(
-        (p: any) => p.qte > 0 || p.qte == '?'
+        (p: any) => p.qte > 0 || p.qte == '?',
       );
       facture.type = this.values[16];
       facture.creation = this.values[57];
@@ -1313,6 +1350,7 @@ export class DevisComponent implements OnInit {
       facture.paiementprestas = this.values[61];
       facture.solde = this.calcTot(true);
       if (this.values[60]) facture.solde = this.values[60];
+      if (this.values[80]) facture.realsold = this.values[80];
       if (this.data.factures.length == 0) {
         this.data.etape = 2;
         if (this.data.statut == 'demande') this.data.statut = 'reserve';
@@ -1330,7 +1368,8 @@ export class DevisComponent implements OnInit {
       planning.planningprestas = this.planningprestas;
       planning.ceremonie = this.ceremonie;
       planning.finprestas = this.finprestas;
-      if(!this.data.mariage.ceremonie)this.data.mariage.ceremonie = this.ceremonie;
+      if (!this.data.mariage.ceremonie)
+        this.data.mariage.ceremonie = this.ceremonie;
       this.data.planning = planning;
     }
 
@@ -1372,7 +1411,7 @@ export class DevisComponent implements OnInit {
       for (let j = 0; j < invitees.length; j++) {
         let invitee = invitees[j];
         let presta = this.planningprestas.find(
-          (p: any) => p.index == invitee[10]
+          (p: any) => p.index == invitee[10],
         );
         if (j == 0) {
           let debut = '';
@@ -1400,12 +1439,20 @@ export class DevisComponent implements OnInit {
       tab.push(
         JSON.parse(
           JSON.stringify(
-            this.planningprestas.find((p: any) => i[10] == p.index)
-          )
-        )
+            this.planningprestas.find((p: any) => i[10] == p.index),
+          ),
+        ),
       );
     });
     this.planningprestas = tab;
+  }
+
+  getFacSold(f: any, i: any = 0) {
+    let nb = f.solde ? f.solde : 0;
+    if (f.realsold && parseFloat('' + f.realsold) != 0) {
+      nb = parseFloat('' + f.realsold);
+    }
+    return nb;
   }
 
   addInvitee(presta: any, artiste: any = 0) {
@@ -1528,6 +1575,12 @@ export class DevisComponent implements OnInit {
     return date;
   }
 
+  getRealSold() {
+    return this.values[60] != ''
+      ? this.values[60] - this.values[80]
+      : parseFloat(this.transform(this.calcTot(true))) - this.values[80];
+  }
+
   addMinutesToTime(timeStr: string, minutesToAdd: number): string {
     // Extraire l'heure et les minutes depuis le format "HHhMM"
     let [hours, minutes] = timeStr.split('h').map(Number);
@@ -1584,13 +1637,11 @@ export class DevisComponent implements OnInit {
   }
 
   generatePDFfromHTML() {
-    if(!this.paysage)
-    {
+    if (!this.paysage) {
       this.cancelViewport();
     }
 
     const element = document.getElementById('htmlContent');
-    
 
     html2canvas(element!, { scale: 4 }).then((canvas) => {
       const imgData = canvas.toDataURL('image/jpeg');
@@ -1617,12 +1668,11 @@ export class DevisComponent implements OnInit {
       if (this.mode == 'facture') nom = 'FACTURE_';
       if (this.mode == 'planning') {
         nom = 'PLANNING_' + this.values[51];
-      }
-      else if(this.mode == 'renseignement')
-        {
-          nom = "RENSEIGNEMENT_"+this.informations.nom.toUpperCase().replace(/ +/g,"_");
-        } 
-        else {
+      } else if (this.mode == 'renseignement') {
+        nom =
+          'RENSEIGNEMENT_' +
+          this.informations.nom.toUpperCase().replace(/ +/g, '_');
+      } else {
         let value = this.values[1];
         let annee = this.values[2];
         if (this.mode == 'facture') {
@@ -1638,13 +1688,11 @@ export class DevisComponent implements OnInit {
       pdf.save(nom + '.pdf');
       //this.trackVisit();
     });
-    if(!this.paysage)
-    {
+    if (!this.paysage) {
       this.adjustViewport();
     }
   }
-  addQte(presta:any)
-  {
+  addQte(presta: any) {
     presta.qte = parseInt(presta.qte) + 1;
   }
 
@@ -1686,15 +1734,12 @@ export class DevisComponent implements OnInit {
   calc(presta: any) {
     let prix = presta.prix * presta.qte;
     if (presta.kilorly) {
-      if(this.artiste=="cloe")
-      {
+      if (this.artiste == 'cloe') {
         if (presta.qte <= 10) prix = 0;
         else {
           prix = (presta.qte - 10) * 2 * presta.prix;
         }
-      }
-      else
-      {
+      } else {
         prix = presta.qte * 2 * presta.prix;
       }
     }
@@ -1759,39 +1804,39 @@ export class DevisComponent implements OnInit {
     const [day, month, year] = dateStr.split('/'); // Sépare le format dd/mm/yyyy
     return this.lg === 'Anglais' ? `${month}/${day}/${year}` : dateStr;
   }
-  
-  reinitPlanning()
-  {
+
+  reinitPlanning() {
     this.data.planning.date = undefined;
     this.init();
   }
 
-  calcGains(i:any)
-  {
+  calcGains(i: any) {
     let tmp = this.getplanningprestas(i);
     let somme = 0;
-    tmp.forEach((t:any)=>{
-      let prix = parseInt(""+t.prix);
-      if(t.reduc) prix = prix - (prix * t.reduc) / 100;
-      prix = parseInt(""+prix);
-      somme+=prix
+    tmp.forEach((t: any) => {
+      let prix = parseInt('' + t.prix);
+      if (t.reduc) prix = prix - (prix * t.reduc) / 100;
+      prix = parseInt('' + prix);
+      somme += prix;
     });
 
-    this.data.devis.prestas.forEach((presta:any)=>{
-      if(i!=0 && presta.nom.includes("renfort") && presta.qte!="?")
-      {
+    this.data.devis.prestas.forEach((presta: any) => {
+      if (i != 0 && presta.nom.includes('renfort') && presta.qte != '?') {
         let tot = this.calcToString(presta);
-        somme += parseInt(""+tot);
-      }
-      else if(i==0 && presta.nom.includes("Frais de déplacement") && !presta.nom.includes("renfort") && presta.qte!="?")
-      {
+        somme += parseInt('' + tot);
+      } else if (
+        i == 0 &&
+        presta.nom.includes('Frais de déplacement') &&
+        !presta.nom.includes('renfort') &&
+        presta.qte != '?'
+      ) {
         let tot = this.calcToString(presta);
-        if(tot=="Offert")tot = "0";
-        somme += parseInt(""+tot);
+        if (tot == 'Offert') tot = '0';
+        somme += parseInt('' + tot);
       }
     });
 
-    return this.transform(somme)+'€';
+    return this.transform(somme) + '€';
   }
 
   calcToString(presta: any) {
@@ -1801,8 +1846,8 @@ export class DevisComponent implements OnInit {
     return prix + (prix < 100 ? ',00' : '') + '€';
   }
 
-  calcx(presta: any):any {
-    if(presta.qte=="?")return 0;
+  calcx(presta: any): any {
+    if (presta.qte == '?') return 0;
     let prix = presta.prix * presta.qte;
     if (presta.kilorly) {
       if (presta.qte <= 10) prix = 0;
@@ -1816,8 +1861,5 @@ export class DevisComponent implements OnInit {
     return prix;
   }
 
-  changeMode()
-  {
-
-  }
+  changeMode() {}
 }

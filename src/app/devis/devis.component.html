@@ -347,7 +347,7 @@ DEVIS CLOE
             "
           >
             {{ lg == "Français" ? "Reste à payer" : "Remaining balance" }} :
-            {{ values[60] != "" ? values[60] : transform(calcTot(true)) }}€
+            {{ getRealSold() }}€
           </p>
           <p class="tinytext bold rightalign2" *ngIf="isacquitee">
             {{
@@ -890,6 +890,14 @@ DEVIS CLOE
     <div class="flex" *ngIf="mode == 'facture'">
       <p>Déjà versé :</p>
       <input type="text" [(ngModel)]="values[15]" placeholder="Déjà versé.." />
+    </div>
+    <div class="flex" *ngIf="mode == 'facture'">
+      <p>Vraiment versé :</p>
+      <input
+        type="text"
+        [(ngModel)]="values[80]"
+        placeholder="Vraiment versé.."
+      />
     </div>
     <div class="flex" *ngIf="mode == 'facture'">
       <p>Solde :</p>
@@ -1609,6 +1617,14 @@ DEVIS CELMA
     <div class="flex" *ngIf="mode == 'facture'">
       <p>Déjà versé :</p>
       <input type="text" [(ngModel)]="values[15]" placeholder="Déjà versé.." />
+    </div>
+    <div class="flex" *ngIf="mode == 'facture'">
+      <p>Vraiment versé :</p>
+      <input
+        type="text"
+        [(ngModel)]="values[80]"
+        placeholder="Vraiment versé.."
+      />
     </div>
     <div class="flex" *ngIf="mode == 'facture'">
       <p>Solde :</p>
@@ -2341,6 +2357,14 @@ DEVIS CHARLES
     <div class="flex" *ngIf="mode == 'facture'">
       <p>Déjà versé :</p>
       <input type="text" [(ngModel)]="values[15]" placeholder="Déjà versé.." />
+    </div>
+    <div class="flex" *ngIf="mode == 'facture'">
+      <p>Vraiment versé :</p>
+      <input
+        type="text"
+        [(ngModel)]="values[80]"
+        placeholder="Vraiment versé.."
+      />
     </div>
     <div class="flex" *ngIf="mode == 'facture'">
       <p>Solde :</p>
