@@ -1831,6 +1831,7 @@ export class AppComponent implements OnInit {
   }
 
   calcPaye2(fac: any) {
+    if (!this.jourClicked) return 0;
     let prix = 0;
     let f = this.jourClicked.factures[fac];
     if (f.solde) prix += this.getFacSold(f);
