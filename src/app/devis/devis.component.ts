@@ -33,7 +33,6 @@ export class DevisComponent implements OnInit {
   @Output() retour = new EventEmitter<string>();
 
   @Input() data: any;
-  @Input() artiste: any;
 
   /*
     0 = devis.creation
@@ -165,9 +164,6 @@ export class DevisComponent implements OnInit {
   ngOnInit() {
     this.getBasePrestas().subscribe((data) => {
       this.baseprestas = data;
-      console.log(this.baseprestas);
-      if (this.artiste == 'celma') this.basePrestasCelma();
-      else if (this.artiste == 'charles') this.basePrestasCharles();
       this.baseprestas.forEach((presta: any) => {
         presta.qte = 0;
       });
@@ -190,279 +186,6 @@ export class DevisComponent implements OnInit {
   validate() {
     this.inviteeEdit[11] = this.inputValue;
     this.popupVisible = false;
-  }
-
-  basePrestasCelma() {
-    this.baseprestas = [
-      {
-        nom: 'Frais de déplacement',
-        en: 'Travel Expenses',
-        titre: true,
-      },
-      {
-        nom: 'Frais de déplacement Jour-J (Aller/Retour)',
-        en: 'D-Day Travel Expenses (Round Trip)',
-        prix: 0.4,
-        kilorly: true,
-      },
-      {
-        nom: 'Frais de déplacement Essai (Aller/Retour)',
-        en: 'Trial Travel Expenses (Round Trip)',
-        prix: 0.4,
-        kilorly: true,
-      },
-      {
-        nom: 'Frais de déplacement renfort (Aller/Retour)',
-        en: 'Backup Travel Expenses (Round Trip)',
-        prix: 0.4,
-        kilorly: true,
-      },
-      {
-        nom: 'Coiffure & Maquillage',
-        en: 'Guest (D-Day)',
-        titre: true,
-      },
-      {
-        nom: 'Forfait Mariée (1 essai + Jour J)',
-        prix: 420,
-        bride: true,
-        time: 120,
-        maquillage: false,
-        coiffure: true,
-      },
-      {
-        nom: 'Forfait suivi de Mariée',
-        prix: 50,
-        hourly: true,
-        bride: true,
-        time: 120,
-        maquillage: false,
-        coiffure: true,
-      },
-      {
-        nom: 'Forfait "Elles" (1 essai commun + Jour J)',
-        prix: 800,
-        hourly: true,
-        bride: true,
-        time: 120,
-        maquillage: false,
-        coiffure: true,
-      },
-      {
-        nom: 'Forfait "Ils" (Jour J)',
-        prix: 70,
-        hourly: true,
-        bride: true,
-        time: 120,
-        maquillage: false,
-        coiffure: true,
-      },
-      {
-        nom: 'Coiffure Mariée / Marié',
-        en: 'Bride & Groom Hairstyle',
-        titre: true,
-      },
-      {
-        nom: 'Forfait Coiffure Mariée (1 essai + Jour J)',
-        prix: 220,
-        bride: true,
-        time: 120,
-        maquillage: false,
-        coiffure: true,
-      },
-      {
-        nom: 'Transformation de coiffure',
-        prix: 50,
-        bride: true,
-        time: 120,
-        maquillage: false,
-        coiffure: true,
-      },
-      {
-        nom: 'Coiffure marié (Jour J)',
-        prix: 20,
-        bride: true,
-        time: 120,
-        maquillage: false,
-        coiffure: true,
-      },
-      {
-        nom: 'Coiffure invitées',
-        en: 'Guest (D-Day)',
-        titre: true,
-      },
-      {
-        nom: 'Brushing',
-        en: 'Complete Guest Package',
-        prix: 40,
-        time: 75,
-        maquillage: false,
-        coiffure: true,
-      },
-      {
-        nom: 'Attache partielle',
-        en: 'Complete Guest Package',
-        prix: 70,
-        time: 75,
-        maquillage: false,
-        coiffure: true,
-      },
-      {
-        nom: 'Attache complète sans préparation des cheveux',
-        en: 'Complete Guest Package',
-        prix: 70,
-        time: 75,
-        maquillage: false,
-        coiffure: true,
-      },
-      {
-        nom: 'Attache complète avec préparation des cheveux',
-        en: 'Complete Guest Package',
-        prix: 80,
-        time: 75,
-        maquillage: false,
-        coiffure: true,
-      },
-      {
-        nom: 'Maquillage Mariée / Marié',
-        en: 'Guest (D-Day)',
-        titre: true,
-      },
-      {
-        nom: 'Forfait Maquillage Mariée (1 essai + Jour J)',
-        prix: 220,
-        bride: true,
-        time: 120,
-        maquillage: false,
-        coiffure: true,
-      },
-      {
-        nom: 'Transformation de maquillage',
-        prix: 50,
-        bride: true,
-        time: 120,
-        maquillage: false,
-        coiffure: true,
-      },
-      {
-        nom: 'Maquillage marié (Jour J)',
-        prix: 20,
-        bride: true,
-        time: 120,
-        maquillage: false,
-        coiffure: true,
-      },
-      {
-        nom: 'Maquillage invitées',
-        en: 'Guest (D-Day)',
-        titre: true,
-      },
-      {
-        nom: 'Maquillage invitée',
-        prix: 65,
-        bride: true,
-        time: 120,
-        maquillage: false,
-        coiffure: true,
-      },
-      {
-        nom: 'Pose d\implants (fournis) / de faux-cils (non fournis)',
-        prix: 10,
-        bride: true,
-        time: 120,
-        maquillage: false,
-        coiffure: true,
-      },
-    ];
-  }
-
-  basePrestasCharles() {
-    this.baseprestas = [
-      {
-        nom: 'Frais de déplacement',
-        en: 'Travel Expenses',
-        titre: true,
-      },
-      {
-        nom: 'Frais de déplacement',
-        en: 'Travel Expenses',
-        prix: 0.4,
-        kilorly: true,
-      },
-      {
-        nom: 'Principaux',
-        en: 'Principaux',
-        titre: true,
-      },
-      {
-        nom: 'Analyse & cadrage projet',
-        en: 'Consulting',
-        prix: 400,
-      },
-      {
-        nom: 'Design UI/UX',
-        en: 'Design UI/UX',
-        prix: 1000,
-      },
-      {
-        nom: 'Développement front-end',
-        en: 'Design UI/UX',
-        prix: 1250,
-      },
-      {
-        nom: 'Développement back-end/CMS',
-        en: 'Design UI/UX',
-        prix: 750,
-      },
-      {
-        nom: 'Création et intégration contenus',
-        en: 'Design UI/UX',
-        prix: 500,
-      },
-      {
-        nom: 'Fonctionnalités spécifiques',
-        en: 'Design UI/UX',
-        prix: 500,
-      },
-      {
-        nom: 'SEO technique & optimisation performance',
-        en: 'Design UI/UX',
-        prix: 400,
-      },
-      {
-        nom: 'Tests & assurance qualité',
-        en: 'Design UI/UX',
-        prix: 250,
-      },
-      {
-        nom: 'Déploiement & mise en production',
-        en: 'Design UI/UX',
-        prix: 150,
-      },
-      {
-        nom: 'Formation client & documentation',
-        en: 'Design UI/UX',
-        prix: 150,
-      },
-      {
-        nom: 'Hébergement, nom de domaine, SSL',
-        en: 'Design UI/UX',
-        prix: 50,
-        yearly: true,
-      },
-      {
-        nom: 'Maintenance CMS, mises à jour, sécurité',
-        en: 'Design UI/UX',
-        prix: 250,
-        yearly: true,
-      },
-      {
-        nom: 'Contenu & médias nouveaux + optimisation SEO',
-        en: 'Design UI/UX',
-        prix: 250,
-        yearly: true,
-      },
-    ];
   }
 
   onCeremonieInput() {
@@ -773,20 +496,12 @@ export class DevisComponent implements OnInit {
     sixmonth = new Date(sixmonth.getTime() + 30 * 24 * 6 * 60 * 60 * 1000);
     this.values[0] = this.datePipe.transform(now, 'dd/MM/yyyy') || '';
     this.values[1] = maxs ? maxs.maxDevis + 1 : '1';
-    if (this.artiste == 'celma')
-      this.values[1] =
-        this.datePipe.transform(now, 'ddMMyy') +
-        (maxs ? maxs.maxDevis + 1 : '1');
     this.values[2] = this.datePipe.transform(now, 'yyyy') || '';
     this.values[3] = 'Cloé Chaudron';
-    if (this.artiste == 'charles') this.values[3] = 'SwissKey Solutions';
     this.values[5] = '126 Rue de la Cerisaie';
     this.values[7] = '84400 Gargas';
     this.values[9] = '+33 6 68 64 44 02';
-    if (this.artiste == 'charles') this.values[9] = '+33 6 82 01 57 34';
     this.values[11] = 'cloe.chaudron@outlook.com';
-    if (this.artiste == 'charles')
-      this.values[11] = 'swisskeysolutions.contact@gmail.com';
     this.values[13] = this.datePipe.transform(twoweeks, 'dd/MM/yyyy') || '';
     this.values[14] = this.datePipe.transform(sixmonth, 'dd/MM/yyyy') || '';
     this.values[15] = '';
@@ -797,10 +512,6 @@ export class DevisComponent implements OnInit {
     this.values[53] = '';
     this.values[54] = '';
     this.values[55] = maxs ? maxs.maxFacture + 1 : '1';
-    if (this.artiste == 'celma')
-      this.values[55] =
-        this.datePipe.transform(now, 'ddMMyy') +
-        (maxs ? maxs.maxFacture + 1 : '1');
     this.values[56] = this.datePipe.transform(now, 'yyyy') || '';
     this.values[57] = this.datePipe.transform(now, 'dd/MM/yyyy') || '';
     this.values[58] = this.datePipe.transform(twoweeks, 'dd/MM/yyyy') || '';
@@ -1734,13 +1445,9 @@ export class DevisComponent implements OnInit {
   calc(presta: any) {
     let prix = presta.prix * presta.qte;
     if (presta.kilorly) {
-      if (this.artiste == 'cloe') {
-        if (presta.qte <= 10) prix = 0;
-        else {
-          prix = (presta.qte - 10) * 2 * presta.prix;
-        }
-      } else {
-        prix = presta.qte * 2 * presta.prix;
+      if (presta.qte <= 10) prix = 0;
+      else {
+        prix = (presta.qte - 10) * 2 * presta.prix;
       }
     }
     if (presta.reduc) prix = prix - (prix * presta.reduc) / 100;

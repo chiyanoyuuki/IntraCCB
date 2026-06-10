@@ -62,7 +62,6 @@ export class AppComponent implements OnInit {
   baseapi = 'https://www.cloechaudronbeauty.com/backend/api/';
 
   safedev = false;
-  artiste = 'cloe';
 
   currentMonth = new Date().getMonth() + 1;
   currentYear = new Date().getFullYear();
@@ -474,194 +473,6 @@ export class AppComponent implements OnInit {
     });
 
     if (this.safedev && isDevMode()) {
-      if (this.artiste == 'celma') {
-        document.documentElement.style.setProperty('--fond', '#8dba8238');
-        document.documentElement.style.setProperty('--principale', '#8bba82');
-        document.documentElement.style.setProperty('--scroll', '#638e523b');
-        document.documentElement.style.setProperty('--gris-shadow', '#505050');
-        document.documentElement.style.setProperty('--required', '#578e52');
-        this.initData([
-          {
-            id: 43,
-            date: '19/04/2025',
-            nom: 'Charles Poure',
-            statut: 'reserve',
-            adresse: '55 avenue foch',
-            codepostal: '52 344 Paris',
-            tel: '+33 6 55 22 11 44',
-            mail: 'charles.poure@mail.com',
-            devis: {
-              prestas: [
-                {
-                  nom: 'Frais de déplacement Jour-J (Aller/Retour)',
-                  en: 'D-Day Travel Expenses (Round Trip)',
-                  prix: 0.4,
-                  kilorly: true,
-                  qte: 20,
-                },
-                {
-                  nom: 'Forfait Mariée Complet',
-                  en: 'Complete Bride Package',
-                  prix: 420,
-                  onlyOne: true,
-                  bride: true,
-                  time: 120,
-                  maquillage: true,
-                  coiffure: true,
-                  qte: 1,
-                },
-                {
-                  nom: 'Forfait Invitée Complet',
-                  en: 'Complete Guest Package',
-                  prix: 130,
-                  time: 75,
-                  maquillage: true,
-                  coiffure: true,
-                  qte: 1,
-                },
-                {
-                  nom: 'Coiffure Invitée (Attache complète)',
-                  en: 'Guest Hairstyling (Full Updo)',
-                  prix: 80,
-                  time: 45,
-                  coiffure: true,
-                  qte: 1,
-                },
-                {
-                  nom: 'Brushing Hollywoodien Invitée',
-                  en: 'Hollywood Blowout (Guest)',
-                  prix: 70,
-                  time: 45,
-                  coiffure: true,
-                  qte: 1,
-                },
-                {
-                  nom: 'Suivi Mariée',
-                  en: 'Bride Follow-Up',
-                  prix: 50,
-                  hourly: true,
-                  qte: 2,
-                },
-              ],
-              creation: '24/02/2025',
-              numero: 1,
-              annee: '2025',
-              echeance: '10/03/2025',
-            },
-            factures: [],
-            planning: {},
-            essai: {
-              date: '10/08/2025',
-              lieu: 'Nul part',
-            },
-            mariage: {
-              domaine: 'Domaine de la vie',
-              adresse: '111 avenue jean',
-              codepostal: '67 854 apt',
-            },
-            prestataires: 0,
-            etape: 1,
-          },
-        ]);
-        //this.clickJour(3,19,2025);
-        //let int = setInterval(()=>{this.clickFacture();clearInterval(int);},50);
-        return;
-      } else if (this.artiste == 'charles') {
-        document.documentElement.style.setProperty('--fond', '#000');
-        document.documentElement.style.setProperty('--principale', '#505050');
-        document.documentElement.style.setProperty('--scroll', '#303030');
-        document.documentElement.style.setProperty('--gris-shadow', '#303030');
-        document.documentElement.style.setProperty('--required', '#303030');
-        this.initData([
-          {
-            id: 43,
-            date: '19/04/2025',
-            nom: 'Charles Poure',
-            statut: 'reserve',
-            adresse: '55 avenue foch',
-            codepostal: '52 344 Paris',
-            tel: '+33 6 55 22 11 44',
-            mail: 'charles.poure@mail.com',
-            devis: {
-              prestas: [
-                {
-                  nom: 'Frais de déplacement Jour-J (Aller/Retour)',
-                  en: 'D-Day Travel Expenses (Round Trip)',
-                  prix: 0.4,
-                  kilorly: true,
-                  qte: 20,
-                },
-                {
-                  nom: 'Forfait Mariée Complet',
-                  en: 'Complete Bride Package',
-                  prix: 420,
-                  onlyOne: true,
-                  bride: true,
-                  time: 120,
-                  maquillage: true,
-                  coiffure: true,
-                  qte: 1,
-                },
-                {
-                  nom: 'Forfait Invitée Complet',
-                  en: 'Complete Guest Package',
-                  prix: 130,
-                  time: 75,
-                  maquillage: true,
-                  coiffure: true,
-                  qte: 1,
-                },
-                {
-                  nom: 'Coiffure Invitée (Attache complète)',
-                  en: 'Guest Hairstyling (Full Updo)',
-                  prix: 80,
-                  time: 45,
-                  coiffure: true,
-                  qte: 1,
-                },
-                {
-                  nom: 'Brushing Hollywoodien Invitée',
-                  en: 'Hollywood Blowout (Guest)',
-                  prix: 70,
-                  time: 45,
-                  coiffure: true,
-                  qte: 1,
-                },
-                {
-                  nom: 'Suivi Mariée',
-                  en: 'Bride Follow-Up',
-                  prix: 50,
-                  hourly: true,
-                  qte: 2,
-                },
-              ],
-              creation: '24/02/2025',
-              numero: 1,
-              annee: '2025',
-              echeance: '10/03/2025',
-            },
-            factures: [],
-            planning: {},
-            essai: {
-              date: '10/08/2025',
-              lieu: 'Nul part',
-            },
-            mariage: {
-              domaine: 'Domaine de la vie',
-              adresse: '111 avenue jean',
-              codepostal: '67 854 apt',
-            },
-            prestataires: 0,
-            etape: 1,
-          },
-        ]);
-        this.clickJour(9, 18, 2025);
-        let int = setInterval(() => {
-          this.clickDevis();
-          clearInterval(int);
-        }, 50);
-        return;
-      }
       this.http.get<any[]>('mockdata.json').subscribe((data: any) => {
         console.log('Mock Data', data);
         this.initData(data);
@@ -670,12 +481,10 @@ export class AppComponent implements OnInit {
         //let int = setInterval(()=>{this.clickPlanning();clearInterval(int);},50);
       });
     } else {
-      console.log('GET DATA');
       this.http
-        .get<any>(this.baseapi + 'cloeplanning.php?artiste=' + this.artiste)
+        .get<any>(this.baseapi + 'cloeplanning.php?artiste=cloe')
         .subscribe((data) => {
           const filtered = data.filter((d: any) => d.statut !== 'essai');
-          console.log('HTTP : CloePlanning', filtered);
           this.initData(filtered);
         });
     }
@@ -1583,9 +1392,7 @@ export class AppComponent implements OnInit {
       }
       d.devis.numero = numero++;
       requete +=
-        'UPDATE ' +
-        this.artiste +
-        "planning SET devis = '" +
+        "UPDATE cloeplanning SET devis = '" +
         JSON.stringify(d.devis) +
         "' WHERE ID = " +
         d.id +
@@ -1653,9 +1460,7 @@ export class AppComponent implements OnInit {
       .forEach((dev: any) => {
         let d: any = JSON.parse(JSON.stringify(dev));
         requete +=
-          'UPDATE ' +
-          this.artiste +
-          "planning SET factures = '" +
+          "UPDATE cloeplanning SET factures = '" +
           JSON.stringify(d.factures) +
           "' WHERE ID = " +
           d.id +
@@ -2208,8 +2013,7 @@ export class AppComponent implements OnInit {
         this.baseapi +
           'cloeplanning' +
           (exist ? 'update' : 'create') +
-          '.php?artiste=' +
-          this.artiste,
+          '.php?artiste=cloe',
         {
           body: JSON.stringify(data),
           headers: {
@@ -2241,7 +2045,7 @@ export class AppComponent implements OnInit {
         let data = { id: this.jourClicked.id };
         from(
           fetch(
-            this.baseapi + 'cloeplanningdelete.php?artiste=' + this.artiste,
+            this.baseapi + 'cloeplanningdelete.php?artiste=cloe',
             {
               body: JSON.stringify(data),
               headers: {
@@ -2281,23 +2085,6 @@ export class AppComponent implements OnInit {
   checkMdp() {
     if (this.mdp == environment.password) {
       this.okmdp = true;
-      this.artiste = 'cloe';
-    } else if (this.mdp == environment.password2) {
-      this.okmdp = true;
-      this.artiste = 'celma';
-      document.documentElement.style.setProperty('--fond', '#8dba8238');
-      document.documentElement.style.setProperty('--principale', '#8bba82');
-      document.documentElement.style.setProperty('--scroll', '#638e523b');
-      document.documentElement.style.setProperty('--gris-shadow', '#505050');
-      document.documentElement.style.setProperty('--required', '#578e52');
-    } else if (this.mdp == environment.password3) {
-      this.okmdp = true;
-      this.artiste = 'charles';
-      document.documentElement.style.setProperty('--fond', '#000');
-      document.documentElement.style.setProperty('--principale', '#505050');
-      document.documentElement.style.setProperty('--scroll', '#707070');
-      document.documentElement.style.setProperty('--gris-shadow', '#303030');
-      document.documentElement.style.setProperty('--required', '#303030');
     }
     this.init();
   }

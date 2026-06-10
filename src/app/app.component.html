@@ -2,7 +2,7 @@
   <input type="password" [(ngModel)]="mdp" />
   <button (click)="checkMdp()">Valider</button>
 </div>
-<div [class.portrait]="portrait" *ngIf="okmdp" [ngClass]="artiste">
+<div [class.portrait]="portrait" *ngIf="okmdp">
   <div
     class="annee"
     *ngIf="!jourClicked && ((portrait && !month) || !portrait)"
@@ -133,7 +133,6 @@
     #devis
     [class.hidden]="jourClicked && jourClicked.mode == undefined"
     [data]="jourClicked"
-    [artiste]="artiste"
     (retour)="onDevisRetour()"
   ></app-devis>
 
