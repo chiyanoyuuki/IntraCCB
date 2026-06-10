@@ -481,7 +481,6 @@ export class DevisComponent implements OnInit {
 
   init(maxs: any = undefined) {
     let data = JSON.parse(JSON.stringify(this.data));
-    console.log(data);
     this.inited = false;
     this.prestas = JSON.parse(JSON.stringify(this.baseprestas));
 
@@ -603,7 +602,6 @@ export class DevisComponent implements OnInit {
       this.finprestas = data.planning.finprestas;
     } else if (data.mode == 'facture') {
       if (data.factureClicked != -1) {
-        console.log('facture 0');
         let facture = data.factures[data.factureClicked];
 
         if (facture.prestas) {
@@ -651,7 +649,6 @@ export class DevisComponent implements OnInit {
           this.values[15] = prix;
         }
       } else if (data.factures.length == 0) {
-        console.log('facture 1');
         this.prestas.push({
           qte: 1,
           nom: 'Paiement Arrhes',
@@ -659,7 +656,6 @@ export class DevisComponent implements OnInit {
           reduc: 0,
         });
       } else if (data.factures.length > 0) {
-        console.log('facture 2');
         data.devis.prestas.forEach((p: any) => {
           let presta = this.prestas.find(
             (pres: any) => p.nom.includes(pres.nom) && !pres.titre,

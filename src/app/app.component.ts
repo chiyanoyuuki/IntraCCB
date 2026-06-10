@@ -169,8 +169,6 @@ export class AppComponent implements OnInit {
     }
   }
 
-  public test() {}
-
   onMobileReturn() {
     history.pushState(null, '', location.href);
     if (this.jourClicked.leavewhenreturn) {
@@ -474,11 +472,7 @@ export class AppComponent implements OnInit {
 
     if (this.safedev && isDevMode()) {
       this.http.get<any[]>('mockdata.json').subscribe((data: any) => {
-        console.log('Mock Data', data);
         this.initData(data);
-        //m-1 pour le mois
-        //this.clickJour(8,27,2025);
-        //let int = setInterval(()=>{this.clickPlanning();clearInterval(int);},50);
       });
     } else {
       this.http
@@ -543,7 +537,6 @@ export class AppComponent implements OnInit {
       let dateb: any = new Date(b.date.split('/').reverse().join('-'));
       return datea - dateb;
     });
-    console.log(this.allWedding);
 
     let grouped2: any = {};
     this.occupiedDates.forEach((item) => {
@@ -566,86 +559,7 @@ export class AppComponent implements OnInit {
       .filter((obj) => obj.dateObj > today) // Filtre les dates futures
       .sort((a, b) => a.dateObj - b.dateObj)[0]; // Trie par date la plus proche
 
-    let tmp = this.occupiedDates;
-    tmp = tmp
-      .filter(
-        (item: any) =>
-          item.statut == 'reserve' &&
-          item?.mariage?.domaine !== undefined &&
-          item.mariage.domaine !== null &&
-          item.mariage.domaine !== '',
-      )
-      .map((item) => ({
-        mariage: item.mariage,
-        qte: item.devis?.prestas?.find((presta: any) =>
-          presta.nom.includes('déplacement Jour-J'),
-        )?.qte,
-      }));
-
-    tmp = tmp.filter((a: any) => a.qte != undefined);
-
-    interface Entry {
-      mariage: {
-        domaine: string;
-        adresse: string;
-        codepostal: string;
-      };
-      qte: string | number;
-    }
-
-    const rawData: Entry[] = tmp;
-
-    const cleanKey = (str: string): string =>
-      str?.toLowerCase().trim().replace(/\s+/g, ' ') || '';
-
-    const grouped = new Map<
-      string,
-      { nom: string; lieu: string; codepostal: string; qtes: number[] }
-    >();
-
-    for (const item of rawData) {
-      const domaine = item.mariage?.domaine || '';
-      const lieu = item.mariage?.adresse || '';
-      const codepostal = item.mariage?.codepostal || '';
-
-      const key = cleanKey(domaine);
-
-      const qteNum =
-        typeof item.qte === 'number' ? item.qte : parseInt(item.qte);
-
-      if (isNaN(qteNum)) continue;
-
-      if (!grouped.has(key)) {
-        grouped.set(key, {
-          nom: domaine.trim(),
-          lieu: lieu.trim(),
-          codepostal: codepostal.trim(),
-          qtes: [],
-        });
-      }
-
-      grouped.get(key)!.qtes.push(qteNum);
-    }
-
-    const result = Array.from(grouped.values());
-
-    console.log('result', result);
-
-    console.log(
-      data.filter(
-        (d: any) =>
-          d.factures.length > 0 &&
-          d.factures[0].annee == 2025 &&
-          d.prestataires,
-      ),
-    );
-
     this.graphs(); // prépare dataByYear
-
-    //this.showNumeros();
-    //this.checkNumerosDevis();
-    //this.checkNumerosFactures(2024);
-    //showFactures();
   }
 
   setMode(mode: 'day' | 'month') {
@@ -891,7 +805,6 @@ export class AppComponent implements OnInit {
         });
       }
     } else {
-      console.log(event);
       const now = new Date();
       let twoweeks = new Date();
       twoweeks = new Date(twoweeks.getTime() + 14 * 24 * 60 * 60 * 1000);
@@ -1311,174 +1224,6 @@ export class AppComponent implements OnInit {
     return devis;
   }
 
-  showFactures() {
-    let i = 1;
-    let find = this.occupiedDates.find(
-      (o: any) =>
-        o.factures.length > 0 && o.factures.find((f: any) => f.numero == i),
-    );
-    console.log(find);
-    while (find != undefined) {
-      let facture = find.factures.find((f: any) => f.numero == i);
-      console.log(
-        find.nom +
-          ' ' +
-          facture.creation +
-          ' ' +
-          facture.numero +
-          '_' +
-          facture.annee,
-      );
-      i++;
-      find = this.occupiedDates.find(
-        (o: any) =>
-          o.factures.length > 0 && o.factures.find((f: any) => f.numero == i),
-      );
-    }
-  }
-
-  showNumeros() {
-    let devis = this.occupiedDates
-      .filter((d: any) => d.devis.creation)
-      .sort((a: any, b: any) => {
-        return (
-          this.toSortableDate(a.devis.creation) -
-          this.toSortableDate(b.devis.creation)
-        );
-      });
-    devis.forEach((dev: any) => {
-      let d: any = JSON.parse(JSON.stringify(dev));
-      let ligne =
-        d.nom +
-        ' : DEVIS_' +
-        this.formatNumber(d.devis.numero) +
-        '_' +
-        d.devis.annee +
-        ' (' +
-        d.devis.creation +
-        ')';
-      d.factures.forEach((f: any) => {
-        ligne +=
-          ' FACTURE_' +
-          this.formatNumber(f.numero) +
-          '_' +
-          f.annee +
-          ' (' +
-          f.creation +
-          ')';
-      });
-      console.log(ligne);
-    });
-  }
-
-  checkNumerosDevis() {
-    let devis = this.occupiedDates
-      .filter((d: any) => d.devis.creation)
-      .sort((a: any, b: any) => {
-        return (
-          this.toSortableDate(a.devis.creation) -
-          this.toSortableDate(b.devis.creation)
-        );
-      });
-    console.log(devis);
-    let requete = '';
-    let numero = 1;
-    let annee = devis[0].devis.annee;
-    devis.forEach((dev: any) => {
-      let d: any = JSON.parse(JSON.stringify(dev));
-      if (d.devis.annee != annee) {
-        numero = 1;
-        annee = d.devis.annee;
-      }
-      d.devis.numero = numero++;
-      requete +=
-        "UPDATE cloeplanning SET devis = '" +
-        JSON.stringify(d.devis) +
-        "' WHERE ID = " +
-        d.id +
-        ';\n';
-      console.log(
-        d.nom +
-          ' ' +
-          d.devis.numero +
-          '-' +
-          d.devis.annee +
-          ' ' +
-          d.devis.creation,
-      );
-    });
-    console.log(requete);
-  }
-
-  checkNumerosFactures(year: any): any {
-    let tableau: any = this.occupiedDates.filter(
-      (d: any) => d.factures.length > 0,
-    );
-    // 1️⃣ Récupérer toutes les factures dans un seul tableau
-    let allFactures: any = tableau.flatMap((obj: any) =>
-      obj.factures.map((facture: any) => ({
-        ...facture,
-        tableauId: obj.id,
-        nom: obj.nom,
-      })),
-    );
-
-    allFactures = allFactures.filter((f: any) => f.annee == year);
-
-    // 2️⃣ Trier les factures par date (de la plus ancienne à la plus récente)
-    allFactures.sort((a: any, b: any) => {
-      const [dayA, monthA, yearA] = a.creation.split('/').map(Number);
-      const [dayB, monthB, yearB] = b.creation.split('/').map(Number);
-      return (
-        new Date(yearA, monthA - 1, dayA).getTime() -
-        new Date(yearB, monthB - 1, dayB).getTime()
-      );
-    });
-
-    let requete = '';
-    let numero = 1;
-    let annee = allFactures[0].annee;
-
-    allFactures.forEach((facture: any) => {
-      if (facture.annee != annee) {
-        numero = 1;
-        annee = facture.annee;
-      }
-      let date = this.occupiedDates.find((d: any) => d.id == facture.tableauId);
-      let fac = date.factures.find(
-        (f: any) =>
-          f.creation == facture.creation &&
-          JSON.stringify(f.prestas) === JSON.stringify(facture.prestas),
-      );
-      fac.numero = numero++;
-    });
-
-    requete = '';
-
-    this.occupiedDates
-      .filter((d: any) => d.factures.length > 0)
-      .forEach((dev: any) => {
-        let d: any = JSON.parse(JSON.stringify(dev));
-        requete +=
-          "UPDATE cloeplanning SET factures = '" +
-          JSON.stringify(d.factures) +
-          "' WHERE ID = " +
-          d.id +
-          ';\n';
-        d.factures.forEach((f: any) => {
-          console.log(
-            d.nom + ' ' + f.numero + '-' + f.annee + ' ' + f.creation,
-          );
-        });
-      });
-    console.log(requete);
-  }
-
-  toSortableDate(date: any) {
-    const [day, month, year] = date.split('/').map(Number);
-    return new Date(year, month - 1, day).getTime();
-  }
-
   otherEvents() {
     return this.occupiedDates.filter(
       (d: any) => d.date == this.jourClicked.date,
@@ -1734,7 +1479,6 @@ export class AppComponent implements OnInit {
   }
   clickFacture(i: any = undefined) {
     this.jourClicked.delete = undefined;
-    console.log(i);
     if (i != undefined) {
       if (i.target) {
         this.jourClicked.factureClicked = i.target.value;
@@ -1970,7 +1714,6 @@ export class AppComponent implements OnInit {
 
   save() {
     if (this.safedev && isDevMode()) {
-      console.log(this.jourClicked);
       return;
     }
     if (this.jourClicked.statut == 'essai') return;
@@ -2063,19 +1806,6 @@ export class AppComponent implements OnInit {
         this.search = '';
       }
     });
-    /*
-  1 : 3.93 k
-  2 : 31.2 k
-  3 : 266 k
-  4 : 2.03 m
-  5 : 20.3 m
-
-  1 : 2.6 k
-  2 : 22.5 k 
-  3 : 191 k
-  4 : 1.46 m
-  5 : 14.6 m 
-  */
   }
 
   formatNumber(num: number) {
