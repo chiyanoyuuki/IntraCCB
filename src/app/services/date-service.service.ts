@@ -9,32 +9,6 @@ export class DateService {
   private formatService = inject(FormatService);
   constructor() { }
 
-  public getStatut(journees: Journee[], dateStr: string): string | null {
-    const journeesTrouvees = this.getDaysThisDay(journees, dateStr);
-    let statut = null;
-
-    if(journeesTrouvees.find((j=>j.statut=="reserve"))) statut = "reserve";
-    else if(journeesTrouvees.find((j=>j.statut=="demande"))) statut = "demande";
-    else if(journeesTrouvees.find((j=>j.statut=="essai"))) statut = "essai";
-    else if(journeesTrouvees.find((j=>j.statut=="autre"))) statut = "autre";
-    else if(journeesTrouvees.find((j=>j.statut=="perso"))) statut = "perso";
-
-    if(journeesTrouvees.length>0&&journeesTrouvees.filter((j=>j.etape==999)).length==journeesTrouvees.length)
-      statut = "over";
-
-    return statut;
-  }
-
-  public getNoPlanning(journees: Journee[], dateStr: string): boolean {
-    let statut = false;
-    let data = this.fromNow(journees).filter(day=>day.statut=='reserve');
-    const journeesTrouvees = this.getDaysThisDay(data, dateStr);
-    if(journeesTrouvees.find(day=>!day.planning.planningprestas)) statut = true;
-    return statut;
-  }
-
-  /*CALCULS*/
-
   public getNbStatut(journees:Journee[], statut:string, year:number, mois:number)
   {
     let data = this.thisYear(journees,year);

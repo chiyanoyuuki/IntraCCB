@@ -207,37 +207,6 @@ export class CalcService {
     return parseInt(total);
   }
 
-  public getHelpersThisDay(journee: Journee) {
-    let total: any = 0;
-
-    let tot = 0;
-    if (journee.prestataires) tot += parseFloat('' + journee.prestataires);
-    else {
-      journee.factures
-        .filter((facture: any) => facture.paiementprestas)
-        .forEach(
-          (facture: any) => (tot += parseFloat(facture.paiementprestas)),
-        );
-    }
-    if (tot == 0) {
-      if (journee.planning && journee.planning.planningprestas) {
-        tot += this.prestaService.getPlanningPrestasPrice(
-          journee.planning.planningprestas,
-          true,
-        );
-      }
-      if (journee.devis && journee.devis.prestas) {
-        tot += this.prestaService.getPrestasPrice(
-          journee.devis.prestas,
-          false,
-          true,
-        );
-      }
-    }
-    total += parseFloat('' + tot);
-    return parseInt(total);
-  }
-
   public getMineThisDay(journee: Journee) {
     let total: any = 0;
 
