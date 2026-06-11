@@ -32,6 +32,7 @@ import { DataService } from './services/data-service.service';
 import { PrestaService } from './services/presta-service.service';
 import { DateService } from './services/date-service.service';
 import { CalcService } from './services/calc-service.service';
+import { Journee, Statut } from './models/models.model';
 
 import { Chart, ChartConfiguration } from 'chart.js';
 
@@ -103,7 +104,7 @@ export class AppComponent implements OnInit {
 
   weekDays: string[] = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
 
-  occupiedDates: any[] = [];
+  occupiedDates: Journee[] = [];
   prochain: any;
 
   tooltip = {
@@ -447,14 +448,14 @@ export class AppComponent implements OnInit {
     }
   }
 
-  isAnt(mois: any, jour: any, year: any) {
+  isAnt(mois: number, jour: number, year: number) {
     const dateDonnee = new Date(year, mois, jour);
     const aujourdHui = new Date();
     aujourdHui.setHours(0, 0, 0, 0);
     return dateDonnee < aujourdHui;
   }
 
-  istoday(mois: any, jour: any, year: any) {
+  istoday(mois: number, jour: number, year: number) {
     const dateDonnee = new Date(year, mois, jour);
     const aujourdHui = new Date();
     aujourdHui.setHours(0, 0, 0, 0);
@@ -497,7 +498,7 @@ export class AppComponent implements OnInit {
           codepostal: d.codepostal,
           tel: d.tel,
           mail: d.mail,
-          statut: 'essai',
+          statut: Statut.Essai,
           date: d.essai.date,
           devis: {},
           factures: [],
@@ -557,7 +558,7 @@ export class AppComponent implements OnInit {
         dateObj: new Date(obj.date.split('/').reverse().join('-')), // Convertit "dd/mm/aaaa" en "aaaa-mm-dd"
       }))
       .filter((obj) => obj.dateObj > today) // Filtre les dates futures
-      .sort((a, b) => a.dateObj - b.dateObj)[0]; // Trie par date la plus proche
+      .sort((a, b) => a.dateObj.getTime() - b.dateObj.getTime())[0]; // Trie par date la plus proche
 
     this.graphs(); // prépare dataByYear
   }
@@ -788,7 +789,7 @@ export class AppComponent implements OnInit {
     return parseInt('' + total);
   }
 
-  getFullDate(dateStr: any) {
+  getFullDate(dateStr: string) {
     const [day, month, year] = dateStr.split('/').map(Number);
     const date = new Date(year, month - 1, day); // Mois commence à 0 en JS
 
@@ -1019,7 +1020,7 @@ export class AppComponent implements OnInit {
     return value.toFixed(2).replace('.', ','); // Affiche avec 2 décimales
   }
 
-  getClass(date: any) {
+  getClass(date: Journee | undefined): string {
     if (date) {
       if (date.etape == 999) return 'over';
       else return date.statut;
@@ -1188,7 +1189,7 @@ export class AppComponent implements OnInit {
       .replace(/( |^)\p{L}/gu, (char) => char.toUpperCase());
   }
 
-  clickJour(mois: any, jour: any, year: any) {
+  clickJour(mois: number, jour: number, year: number) {
     this.diffs = undefined;
     this.event = 0;
     this.hideTooltip();

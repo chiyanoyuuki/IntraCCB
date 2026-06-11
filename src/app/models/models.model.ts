@@ -15,6 +15,14 @@ export interface Journee {
   mariage: Mariage;
   prestataires?: number;
   etape: number;
+  avis?: string;
+  // État UI / runtime (non persisté en base)
+  mode?: 'devis' | 'facture' | 'planning' | 'renseignement';
+  download?: boolean;
+  delete?: number;
+  factureClicked?: number | string;
+  leavewhenreturn?: boolean;
+  dateObj?: Date;
 }
 
 export interface Devis {
