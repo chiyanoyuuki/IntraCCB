@@ -1,7 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Facture, Journee, Presta } from '../models/models.model';
-import { PrestaService } from './presta-service.service';
-import { CalcService } from './calc-service.service';
+import { Journee } from '../models/models.model';
 import { FormatService } from './format-service.service';
 
 @Injectable({

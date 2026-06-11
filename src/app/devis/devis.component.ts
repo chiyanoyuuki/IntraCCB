@@ -2,23 +2,18 @@ import {
   Component,
   EventEmitter,
   HostListener,
-  inject,
   Input,
-  isDevMode,
   OnInit,
   Output,
-  SimpleChanges,
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { jsPDF } from 'jspdf';
 import { CommonModule, DatePipe } from '@angular/common';
 import html2canvas from 'html2canvas';
 import { FormsModule } from '@angular/forms';
-import { from, Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ReadpdfService } from '../../services/readpdf.service';
-import { DataService } from '../services/data-service.service';
-import baseprestadata from '../../../public/data.json';
 
 @Component({
   selector: 'app-devis',
@@ -29,7 +24,6 @@ import baseprestadata from '../../../public/data.json';
   providers: [DatePipe],
 })
 export class DevisComponent implements OnInit {
-  private dataService = inject(DataService);
   @Output() retour = new EventEmitter<string>();
 
   @Input() data: any;

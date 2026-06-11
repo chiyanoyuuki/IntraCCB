@@ -1,40 +1,29 @@
-import {
-  CommonModule,
-  DatePipe,
-  Location,
-  LocationStrategy,
-} from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
   Component,
   ElementRef,
   HostListener,
   inject,
-  Input,
   isDevMode,
-  OnChanges,
   OnInit,
   QueryList,
-  SimpleChanges,
   ViewChild,
   ViewChildren,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
-import * as Tesseract from 'tesseract.js';
 import { PDFDocumentProxy, getDocument } from 'pdfjs-dist';
 import * as pdfjsLib from 'pdfjs-dist';
 import { DevisComponent } from './devis/devis.component';
 import { from } from 'rxjs';
 import Swal from 'sweetalert2';
 import { environment } from '../environments/environment';
-import { DataService } from './services/data-service.service';
-import { PrestaService } from './services/presta-service.service';
 import { DateService } from './services/date-service.service';
 import { CalcService } from './services/calc-service.service';
 import { Journee, Statut } from './models/models.model';
 
-import { Chart, ChartConfiguration } from 'chart.js';
+import { Chart } from 'chart.js';
 
 @Component({
   selector: 'app-root',
@@ -46,8 +35,6 @@ import { Chart, ChartConfiguration } from 'chart.js';
 })
 export class AppComponent implements OnInit {
   private calcService = inject(CalcService);
-  private dataService = inject(DataService);
-  private prestaService = inject(PrestaService);
   private dateService = inject(DateService);
 
   @ViewChild('devis') devis!: DevisComponent;
@@ -146,7 +133,6 @@ export class AppComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     private datePipe: DatePipe,
   ) {}
 
