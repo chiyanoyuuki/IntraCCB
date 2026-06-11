@@ -57,7 +57,7 @@ export class DateService {
     const factures = journees.flatMap(journee => {
       return journee.factures
         .filter(facture => {
-          const [day, monthStr, yearStr] = facture.creation.split("/");
+          const [, monthStr, yearStr] = facture.creation.split("/");
           const factureYear = parseInt(yearStr, 10);
           const factureMonth = parseInt(monthStr, 10);
           return factureYear === year && (month?factureMonth === month + 1:true);
@@ -96,7 +96,7 @@ export class DateService {
   public thisYear(journees:Journee[], currentYear:number)
   {
     return journees.filter(j => {
-      const [day, month, year] = j.date.split('/').map(Number);
+      const [, , year] = j.date.split('/').map(Number);
       return year === currentYear;
     });
   }
@@ -104,7 +104,7 @@ export class DateService {
   public thisMonth(journees:Journee[], currentMonth:number, currentYear:number)
   {
     return journees.filter(j => {
-      const [day, month, year] = j.date.split('/').map(Number);
+      const [, month, year] = j.date.split('/').map(Number);
       return year === currentYear && month === currentMonth + 1;
     });
   }

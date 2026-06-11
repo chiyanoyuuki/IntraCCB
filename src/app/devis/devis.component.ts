@@ -767,8 +767,6 @@ export class DevisComponent implements OnInit {
       }, 10);
     }
 
-    const screenWidth = window.innerWidth;
-
     if (!this.paysage) {
       this.adjustViewport();
     }

@@ -527,7 +527,7 @@ export class AppComponent implements OnInit {
 
     let grouped2: any = {};
     this.occupiedDates.forEach((item) => {
-      const [day, month, year] = item.date.split('/'); // Extraire les parties de la date
+      const [, month, year] = item.date.split('/'); // Extraire les parties de la date
       const key = `${month}-${year}`; // Clé sous forme "MM-YYYY"
 
       if (!grouped2[key]) {
@@ -554,7 +554,7 @@ export class AppComponent implements OnInit {
 
     this.occupiedDates.forEach((client) => {
       client.factures.forEach((facture: any) => {
-        const [day, month, year] = facture.creation.split('/').map(Number);
+        const [, month, year] = facture.creation.split('/').map(Number);
 
         if (!result[year]) result[year] = {};
         if (!result[year][month]) result[year][month] = 0;
@@ -1022,7 +1022,7 @@ export class AppComponent implements OnInit {
     const devisNumbers = tableau
       .filter((d: any) => d.devis.creation)
       .filter((obj: any) => {
-        const [day, month, year] = obj.devis.creation.split('/').map(Number);
+        const [, , year] = obj.devis.creation.split('/').map(Number);
         return year === currentYear;
       })
       .map((obj: any) => obj.devis.numero);
@@ -1032,7 +1032,7 @@ export class AppComponent implements OnInit {
       .filter((d: any) => d.factures.length > 0)
       .flatMap((obj: any) => obj.factures) // 🔹 Regroupe toutes les factures
       .filter((facture: any) => {
-        const [day, month, year] = facture.creation.split('/').map(Number);
+        const [, , year] = facture.creation.split('/').map(Number);
         return year === currentYear;
       })
       .map((facture: any) => facture.numero);
@@ -1096,7 +1096,6 @@ export class AppComponent implements OnInit {
   }
 
   clickAllRens(event: any) {
-    let jour = this.allrens.date.split('/');
     this.jourClicked = this.occupiedDates.find(
       (d: any) => d.id == this.allrens.id,
     );
