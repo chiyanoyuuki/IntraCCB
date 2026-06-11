@@ -464,11 +464,6 @@ export class DevisComponent implements OnInit {
     this.actualiser();
   }
 
-  getInvIndex(x: any) {
-    let invitee = this.invitees.find((i: any) => i[10] == x);
-    return this.invitees.indexOf(invitee);
-  }
-
   deleteAll() {
     this.prestas.forEach((p: any) => (p.qte = 0));
   }
@@ -1098,12 +1093,6 @@ export class DevisComponent implements OnInit {
     return count;
   }
 
-  calculate() {
-    this.invitees.sort((a: any, b: any) => {
-      return this.toDate(a[5]) - this.toDate(b[5]);
-    });
-  }
-
   actualiser() {
     for (let i = 0; i < this.collegues.length; i++) {
       let invitees = this.invitees.filter((inv: any) => inv[9] == i);
@@ -1197,28 +1186,6 @@ export class DevisComponent implements OnInit {
     }
   }
 
-  cloeFinishesLater(data: any): boolean {
-    // Fonction pour convertir un horaire "10h20" en minutes
-    const horaireToMinutes = (horaire: string): number => {
-      const [heures, minutes] = horaire.split('h').map(Number);
-      return heures * 60 + minutes;
-    };
-
-    let maxHoraire1 = -Infinity;
-    let maxHoraire2 = -Infinity;
-
-    for (const row of data) {
-      const horaire = horaireToMinutes(row[5]);
-      if (row[9] === 0) {
-        maxHoraire1 = Math.max(maxHoraire1, horaire);
-      } else if (row[9] === 1) {
-        maxHoraire2 = Math.max(maxHoraire2, horaire);
-      }
-    }
-
-    return maxHoraire1 > maxHoraire2;
-  }
-
   getInvitees(c: any) {
     return this.invitees.filter((i: any) => i[9] == c);
   }
@@ -1234,44 +1201,6 @@ export class DevisComponent implements OnInit {
       if (tab[x][0] == t) count++;
     }
     return count;
-  }
-
-  changetypeinvitee(invitee: any, change: boolean = false, temps: any = 0) {
-    if (change) {
-      invitee[0] = invitee[0] == 0 ? 1 : 0;
-    }
-
-    if (temps != 0) {
-      if (invitee[3] != '')
-        invitee[5] = this.addMinutesToTime(invitee[3], temps);
-      else if (invitee[4] != '')
-        invitee[5] = this.addMinutesToTime(invitee[4], temps);
-    } else if (invitee[0] == 1) {
-      if (invitee[3] != '' && invitee[4] != '')
-        invitee[5] = this.addMinutesToTime(invitee[3], 120);
-      else if (invitee[3] != '')
-        invitee[5] = this.addMinutesToTime(invitee[3], 60);
-      else if (invitee[4] != '')
-        invitee[5] = this.addMinutesToTime(invitee[4], 60);
-    } else if (invitee[0] == 0) {
-      if (invitee[3] != '' && invitee[4] != '')
-        invitee[5] = this.addMinutesToTime(invitee[3], 75);
-      else if (invitee[3] != '')
-        invitee[5] = this.addMinutesToTime(invitee[3], 45);
-      else if (invitee[4] != '')
-        invitee[5] = this.addMinutesToTime(invitee[4], 45);
-    }
-  }
-
-  toDate(time: string): any {
-    let [hours, minutes] = time.split('h').map(Number);
-
-    // Créer un objet Date avec l'heure et les minutes
-    let date = new Date();
-    date.setHours(hours);
-    date.setMinutes(minutes);
-
-    return date;
   }
 
   getRealSold() {
@@ -1300,11 +1229,6 @@ export class DevisComponent implements OnInit {
     return retour;
   }
 
-  deleteInvitee(i: any) {
-    this.invitees.splice(i, 1);
-
-    this.calculate();
-  }
   deleteCollegue(i: any) {
     this.collegues.splice(i, 1);
   }
@@ -1409,25 +1333,6 @@ export class DevisComponent implements OnInit {
 
   addPresta() {
     this.prestas.push({ nom: '', qte: 0, prix: 50, reduc: '' });
-  }
-
-  remplir(i: number) {
-    for (let c = 0; c < this.collegues.length; c++) {
-      let invitees = this.getInvitees(c);
-      let invitee = invitees.find((inv: any) => inv[i] != '');
-
-      if (invitee) {
-        if (i != 8) {
-          invitees.forEach((inv: any) => {
-            inv[i] = invitee[i];
-          });
-        } else {
-          this.invitees.forEach((inv: any) => {
-            inv[i] = invitee[i];
-          });
-        }
-      }
-    }
   }
 
   calc(presta: any) {
@@ -1556,5 +1461,4 @@ export class DevisComponent implements OnInit {
     return prix;
   }
 
-  changeMode() {}
 }
