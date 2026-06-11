@@ -15,6 +15,46 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ReadpdfService } from '../../services/readpdf.service';
 
+/** Champs du formulaire devis / facture / planning (remplace l'ancien tableau values[]) */
+interface DevisForm {
+  // Devis — en-tête
+  devisDate: string;
+  devisNumero: any;
+  devisAnnee: string;
+  // Émetteur (Cloé)
+  emetteurNom: string;
+  emetteurAdresse: string;
+  emetteurCp: string;
+  emetteurTel: string;
+  emetteurMail: string;
+  // Client
+  clientNom: string;
+  clientAdresse: string;
+  clientCp: string;
+  clientTel: string;
+  clientMail: string;
+  // Devis — pied
+  devisEcheance: string;
+  datePrestation: string;
+  acompte: any;
+  modePaiement: string;
+  // Planning
+  planningTitre: string;
+  planningDate: string;
+  lieuDomaine: string;
+  lieuAdresse: string;
+  lieuCp: string;
+  // Facture
+  factureNumero: any;
+  factureAnnee: string;
+  factureDate: string;
+  factureEcheance: string;
+  factureSolde: any;
+  paiementPrestas: any;
+  factureNote: string;
+  factureRealsold: any;
+}
+
 @Component({
   selector: 'app-devis',
   standalone: true,
@@ -28,33 +68,39 @@ export class DevisComponent implements OnInit {
 
   @Input() data: any;
 
-  /*
-    0 = devis.creation
-    1 = devis.numero
-    2 = devis.annee
-    3 = 'Cloé Chaudron';
-    5 = '126 Rue de la Cerisaie';
-    7 = '84400 Gargas';
-    9 = '+33 6 68 64 44 02';
-    11 = 'cloe.chaudron@outlook.com';
-    13 = this.datePipe.transform(twoweeks, 'dd/MM/yyyy') || '';
-    14 = this.datePipe.transform(sixmonth, 'dd/MM/yyyy') || '';
-    15 = '';
-    16 = 'Virement';
-    50 = 'PLANNING';
-    51 = data.date;
-    52 = '';
-    53 = '';
-    54 = '';
-    55 = maxs ? maxs.maxFacture + 1 : '1';
-    56 = this.datePipe.transform(now, 'yyyy') || '';
-    57 = this.datePipe.transform(now, 'dd/MM/yyyy') || '';
-    58 = this.datePipe.transform(twoweeks, 'dd/MM/yyyy') || '';
-    60 = '';
-  */
-
   informations: any;
-  values: any = [];
+  values: DevisForm = {
+    devisDate: '',
+    devisNumero: '',
+    devisAnnee: '',
+    emetteurNom: '',
+    emetteurAdresse: '',
+    emetteurCp: '',
+    emetteurTel: '',
+    emetteurMail: '',
+    clientNom: '',
+    clientAdresse: '',
+    clientCp: '',
+    clientTel: '',
+    clientMail: '',
+    devisEcheance: '',
+    datePrestation: '',
+    acompte: '',
+    modePaiement: '',
+    planningTitre: '',
+    planningDate: '',
+    lieuDomaine: '',
+    lieuAdresse: '',
+    lieuCp: '',
+    factureNumero: '',
+    factureAnnee: '',
+    factureDate: '',
+    factureEcheance: '',
+    factureSolde: '',
+    paiementPrestas: '',
+    factureNote: '',
+    factureRealsold: '',
+  };
   dataprestas: any = [];
   prestas: any = [];
   baseprestas: any;
@@ -360,15 +406,15 @@ export class DevisComponent implements OnInit {
     return Math.abs(totalMinutes2 - totalMinutes1);
   }
 
-  onInput(value: any, setyear: any = false): void {
+  onInput(value: any, setyear: any = false): string {
     value = value.replace(/\D/g, '');
     if (value.length > 2) value = value.slice(0, 2) + '/' + value.slice(2);
     if (value.length > 5) value = value.slice(0, 5) + '/' + value.slice(5);
 
     if (setyear) {
       if (value.length > 3) {
-        this.values[2] = value.substring(value.length - 4);
-        this.values[56] = value.substring(value.length - 4);
+        this.values.devisAnnee = value.substring(value.length - 4);
+        this.values.factureAnnee = value.substring(value.length - 4);
       }
     }
 
@@ -384,7 +430,7 @@ export class DevisComponent implements OnInit {
       const newMonth = String(date.getMonth() + 1).padStart(2, '0'); // Mois commence à 0
       const newYear = date.getFullYear();
 
-      this.values[13] = newDay + '/' + newMonth + '/' + newYear;
+      this.values.devisEcheance = newDay + '/' + newMonth + '/' + newYear;
     }
 
     return value;
@@ -482,41 +528,41 @@ export class DevisComponent implements OnInit {
     twoweeks = new Date(twoweeks.getTime() + 14 * 24 * 60 * 60 * 1000);
     let sixmonth = new Date();
     sixmonth = new Date(sixmonth.getTime() + 30 * 24 * 6 * 60 * 60 * 1000);
-    this.values[0] = this.datePipe.transform(now, 'dd/MM/yyyy') || '';
-    this.values[1] = maxs ? maxs.maxDevis + 1 : '1';
-    this.values[2] = this.datePipe.transform(now, 'yyyy') || '';
-    this.values[3] = 'Cloé Chaudron';
-    this.values[5] = '126 Rue de la Cerisaie';
-    this.values[7] = '84400 Gargas';
-    this.values[9] = '+33 6 68 64 44 02';
-    this.values[11] = 'cloe.chaudron@outlook.com';
-    this.values[13] = this.datePipe.transform(twoweeks, 'dd/MM/yyyy') || '';
-    this.values[14] = this.datePipe.transform(sixmonth, 'dd/MM/yyyy') || '';
-    this.values[15] = '';
-    this.values[16] = 'Virement';
-    this.values[50] = 'PLANNING';
-    this.values[51] = data.date;
-    this.values[52] = '';
-    this.values[53] = '';
-    this.values[54] = '';
-    this.values[55] = maxs ? maxs.maxFacture + 1 : '1';
-    this.values[56] = this.datePipe.transform(now, 'yyyy') || '';
-    this.values[57] = this.datePipe.transform(now, 'dd/MM/yyyy') || '';
-    this.values[58] = this.datePipe.transform(twoweeks, 'dd/MM/yyyy') || '';
-    this.values[60] = '';
-    this.values[61] = 0;
-    this.values[62] = '';
+    this.values.devisDate = this.datePipe.transform(now, 'dd/MM/yyyy') || '';
+    this.values.devisNumero = maxs ? maxs.maxDevis + 1 : '1';
+    this.values.devisAnnee = this.datePipe.transform(now, 'yyyy') || '';
+    this.values.emetteurNom = 'Cloé Chaudron';
+    this.values.emetteurAdresse = '126 Rue de la Cerisaie';
+    this.values.emetteurCp = '84400 Gargas';
+    this.values.emetteurTel = '+33 6 68 64 44 02';
+    this.values.emetteurMail = 'cloe.chaudron@outlook.com';
+    this.values.devisEcheance = this.datePipe.transform(twoweeks, 'dd/MM/yyyy') || '';
+    this.values.datePrestation = this.datePipe.transform(sixmonth, 'dd/MM/yyyy') || '';
+    this.values.acompte = '';
+    this.values.modePaiement = 'Virement';
+    this.values.planningTitre = 'PLANNING';
+    this.values.planningDate = data.date;
+    this.values.lieuDomaine = '';
+    this.values.lieuAdresse = '';
+    this.values.lieuCp = '';
+    this.values.factureNumero = maxs ? maxs.maxFacture + 1 : '1';
+    this.values.factureAnnee = this.datePipe.transform(now, 'yyyy') || '';
+    this.values.factureDate = this.datePipe.transform(now, 'dd/MM/yyyy') || '';
+    this.values.factureEcheance = this.datePipe.transform(twoweeks, 'dd/MM/yyyy') || '';
+    this.values.factureSolde = '';
+    this.values.paiementPrestas = 0;
+    this.values.factureNote = '';
 
-    this.values[80] = '';
+    this.values.factureRealsold = '';
 
     this.mode = data.mode;
 
-    this.values[4] = data.nom;
-    this.values[6] = data.adresse;
-    this.values[8] = data.codepostal;
-    this.values[10] = data.tel;
-    this.values[12] = data.mail;
-    this.values[14] = data.date;
+    this.values.clientNom = data.nom;
+    this.values.clientAdresse = data.adresse;
+    this.values.clientCp = data.codepostal;
+    this.values.clientTel = data.tel;
+    this.values.clientMail = data.mail;
+    this.values.datePrestation = data.date;
 
     if (data.mode == 'devis' && data.devis) {
       if (data.devis.prestas) {
@@ -541,14 +587,14 @@ export class DevisComponent implements OnInit {
         });
       }
 
-      if (data.devis.creation) this.values[0] = data.devis.creation;
-      if (data.devis.numero) this.values[1] = data.devis.numero;
-      if (data.devis.annee) this.values[2] = data.devis.annee;
-      if (data.devis.echeance) this.values[13] = data.devis.echeance;
+      if (data.devis.creation) this.values.devisDate = data.devis.creation;
+      if (data.devis.numero) this.values.devisNumero = data.devis.numero;
+      if (data.devis.annee) this.values.devisAnnee = data.devis.annee;
+      if (data.devis.echeance) this.values.devisEcheance = data.devis.echeance;
     } else if (data.mode == 'planning' && !data.planning.date) {
-      this.values[52] = data.mariage.domaine;
-      this.values[53] = data.mariage.adresse;
-      this.values[54] = data.mariage.codepostal;
+      this.values.lieuDomaine = data.mariage.domaine;
+      this.values.lieuAdresse = data.mariage.adresse;
+      this.values.lieuCp = data.mariage.codepostal;
       this.ceremonie = data.mariage.ceremonie;
       this.planningprestas = [];
       let mariee: any;
@@ -582,10 +628,10 @@ export class DevisComponent implements OnInit {
     } else if (data.mode == 'planning' && data.planning.date) {
       this.collegues = data.planning.collegues;
       this.invitees = data.planning.invitees;
-      this.values[51] = data.planning.date;
-      this.values[52] = data.planning.domaine;
-      this.values[53] = data.planning.adresse;
-      this.values[54] = data.planning.codepostal;
+      this.values.planningDate = data.planning.date;
+      this.values.lieuDomaine = data.planning.domaine;
+      this.values.lieuAdresse = data.planning.adresse;
+      this.values.lieuCp = data.planning.codepostal;
       this.planningprestas = data.planning.planningprestas;
       this.ceremonie = data.mariage.ceremonie;
       this.finprestas = data.planning.finprestas;
@@ -614,13 +660,13 @@ export class DevisComponent implements OnInit {
           });
         }
 
-        if (facture.type) this.values[16] = facture.type;
-        if (facture.creation) this.values[57] = facture.creation;
-        if (facture.numero) this.values[55] = facture.numero;
-        if (facture.annee) this.values[56] = facture.annee;
-        if (facture.solde) this.values[60] = facture.solde;
-        if (facture.realsold) this.values[80] = facture.realsold;
-        if (facture.paiementprestas) this.values[61] = facture.paiementprestas;
+        if (facture.type) this.values.modePaiement = facture.type;
+        if (facture.creation) this.values.factureDate = facture.creation;
+        if (facture.numero) this.values.factureNumero = facture.numero;
+        if (facture.annee) this.values.factureAnnee = facture.annee;
+        if (facture.solde) this.values.factureSolde = facture.solde;
+        if (facture.realsold) this.values.factureRealsold = facture.realsold;
+        if (facture.paiementprestas) this.values.paiementPrestas = facture.paiementprestas;
 
         if (data.factures.length > 0) {
           let prix = 0;
@@ -635,7 +681,7 @@ export class DevisComponent implements OnInit {
               }
             }
           }
-          this.values[15] = prix;
+          this.values.acompte = prix;
         }
       } else if (data.factures.length == 0) {
         this.prestas.push({
@@ -680,7 +726,7 @@ export class DevisComponent implements OnInit {
             if (prest) prest.qte = 0;
           });
         });
-        this.values[15] = prix;
+        this.values.acompte = prix;
 
         if (
           !data.factures.find(
@@ -692,17 +738,17 @@ export class DevisComponent implements OnInit {
             data.planning.planningprestas.forEach((presta: any) => {
               if (presta.presta != 0) tot = tot + parseFloat('' + presta.prix);
             });
-            this.values[61] = parseInt('' + tot);
+            this.values.paiementPrestas = parseInt('' + tot);
           }
           if (data.devis && data.devis.prestas) {
             data.devis.prestas.forEach((presta: any) => {
               if (presta.nom.includes('renfort'))
-                this.values[61] += this.calc(presta);
+                this.values.paiementPrestas += this.calc(presta);
             });
           }
-          this.values[60] =
-            parseInt(this.transform(this.calcTot(true))) - this.values[61];
-          this.values[80] = 0;
+          this.values.factureSolde =
+            parseInt(this.transform(this.calcTot(true))) - this.values.paiementPrestas;
+          this.values.factureRealsold = 0;
         }
       }
     } else if (data.mode == 'renseignement') {
@@ -971,20 +1017,20 @@ export class DevisComponent implements OnInit {
         if (prest) prest.qte = 0;
       });
     });
-    this.values[15] = prix;
+    this.values.acompte = prix;
   }
 
   async onFileSelected(event: Event) {
     let tmp: any = await this.readPDF.onFileSelected(event);
-    if (tmp.date) this.values[0] = tmp.date;
-    if (tmp.devis) this.values[1] = tmp.devis;
-    if (tmp.annee) this.values[2] = tmp.annee;
-    if (tmp.nom) this.values[4] = tmp.nom;
-    if (tmp.adresse) this.values[6] = tmp.adresse;
-    if (tmp.codepostal) this.values[8] = tmp.codepostal;
-    if (tmp.tel) this.values[10] = tmp.tel;
-    if (tmp.mail) this.values[12] = tmp.mail;
-    if (tmp.echeance) this.values[13] = tmp.echeance;
+    if (tmp.date) this.values.devisDate = tmp.date;
+    if (tmp.devis) this.values.devisNumero = tmp.devis;
+    if (tmp.annee) this.values.devisAnnee = tmp.annee;
+    if (tmp.nom) this.values.clientNom = tmp.nom;
+    if (tmp.adresse) this.values.clientAdresse = tmp.adresse;
+    if (tmp.codepostal) this.values.clientCp = tmp.codepostal;
+    if (tmp.tel) this.values.clientTel = tmp.tel;
+    if (tmp.mail) this.values.clientMail = tmp.mail;
+    if (tmp.echeance) this.values.devisEcheance = tmp.echeance;
     if (tmp.prestas) {
       tmp.prestas.forEach((p: any) => {
         let presta = this.prestas.find((pres: any) => pres.nom == p.nom);
@@ -1026,10 +1072,10 @@ export class DevisComponent implements OnInit {
       devis.prestas = this.prestas.filter(
         (p: any) => p.qte > 0 || p.qte == '?',
       );
-      devis.creation = this.values[0];
-      devis.numero = this.values[1];
-      devis.annee = this.values[2];
-      devis.echeance = this.values[13];
+      devis.creation = this.values.devisDate;
+      devis.numero = this.values.devisNumero;
+      devis.annee = this.values.devisAnnee;
+      devis.echeance = this.values.devisEcheance;
       this.data.devis = devis;
       if (this.data.etape == 0) this.data.etape = 1;
     } else if (this.mode == 'facture') {
@@ -1037,14 +1083,14 @@ export class DevisComponent implements OnInit {
       facture.prestas = this.prestas.filter(
         (p: any) => p.qte > 0 || p.qte == '?',
       );
-      facture.type = this.values[16];
-      facture.creation = this.values[57];
-      facture.numero = this.values[55];
-      facture.annee = this.values[56];
-      facture.paiementprestas = this.values[61];
+      facture.type = this.values.modePaiement;
+      facture.creation = this.values.factureDate;
+      facture.numero = this.values.factureNumero;
+      facture.annee = this.values.factureAnnee;
+      facture.paiementprestas = this.values.paiementPrestas;
       facture.solde = this.calcTot(true);
-      if (this.values[60]) facture.solde = this.values[60];
-      if (this.values[80]) facture.realsold = this.values[80];
+      if (this.values.factureSolde) facture.solde = this.values.factureSolde;
+      if (this.values.factureRealsold) facture.realsold = this.values.factureRealsold;
       if (this.data.factures.length == 0) {
         this.data.etape = 2;
         if (this.data.statut == 'demande') this.data.statut = 'reserve';
@@ -1053,10 +1099,10 @@ export class DevisComponent implements OnInit {
       else this.data.factures[this.data.factureClicked] = facture;
     } else if (this.mode == 'planning') {
       let planning: any = {};
-      planning.date = this.values[51];
-      planning.domaine = this.values[52];
-      planning.adresse = this.values[53];
-      planning.codepostal = this.values[54];
+      planning.date = this.values.planningDate;
+      planning.domaine = this.values.lieuDomaine;
+      planning.adresse = this.values.lieuAdresse;
+      planning.codepostal = this.values.lieuCp;
       planning.invitees = this.invitees;
       planning.collegues = this.collegues;
       planning.planningprestas = this.planningprestas;
@@ -1067,11 +1113,11 @@ export class DevisComponent implements OnInit {
       this.data.planning = planning;
     }
 
-    if (this.values[4] != '') this.data.nom = this.values[4];
-    if (this.values[6] != '') this.data.adresse = this.values[6];
-    if (this.values[8] != '') this.data.codepostal = this.values[8];
-    if (this.values[10] != '') this.data.tel = this.values[10];
-    if (this.values[12] != '') this.data.mail = this.values[12];
+    if (this.values.clientNom != '') this.data.nom = this.values.clientNom;
+    if (this.values.clientAdresse != '') this.data.adresse = this.values.clientAdresse;
+    if (this.values.clientCp != '') this.data.codepostal = this.values.clientCp;
+    if (this.values.clientTel != '') this.data.tel = this.values.clientTel;
+    if (this.values.clientMail != '') this.data.mail = this.values.clientMail;
 
     this.retour.emit();
   }
@@ -1204,9 +1250,9 @@ export class DevisComponent implements OnInit {
   }
 
   getRealSold() {
-    return this.values[60] != ''
-      ? this.values[60] - this.values[80]
-      : parseFloat(this.transform(this.calcTot(true))) - this.values[80];
+    return this.values.factureSolde != ''
+      ? this.values.factureSolde - this.values.factureRealsold
+      : parseFloat(this.transform(this.calcTot(true))) - this.values.factureRealsold;
   }
 
   addMinutesToTime(timeStr: string, minutesToAdd: number): string {
@@ -1290,17 +1336,17 @@ export class DevisComponent implements OnInit {
       let nom = 'DEVIS_';
       if (this.mode == 'facture') nom = 'FACTURE_';
       if (this.mode == 'planning') {
-        nom = 'PLANNING_' + this.values[51];
+        nom = 'PLANNING_' + this.values.planningDate;
       } else if (this.mode == 'renseignement') {
         nom =
           'RENSEIGNEMENT_' +
           this.informations.nom.toUpperCase().replace(/ +/g, '_');
       } else {
-        let value = this.values[1];
-        let annee = this.values[2];
+        let value = this.values.devisNumero;
+        let annee = this.values.devisAnnee;
         if (this.mode == 'facture') {
-          value = this.values[55];
-          annee = this.values[56];
+          value = this.values.factureNumero;
+          annee = this.values.factureAnnee;
         }
         if (value < 100) nom = nom + '0';
         if (value < 10) nom = nom + '0';
@@ -1356,7 +1402,7 @@ export class DevisComponent implements OnInit {
       .forEach((presta: any) => {
         prix += this.calc(presta);
       });
-    if (calcDeja && this.values[15] != '') prix = prix - this.values[15];
+    if (calcDeja && this.values.acompte != '') prix = prix - this.values.acompte;
     return prix;
   }
 

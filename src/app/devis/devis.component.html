@@ -14,30 +14,30 @@
     </p>
     <p class="date">
       Date :
-      {{ formatDate(values[0]) }}
+      {{ formatDate(values.devisDate) }}
     </p>
     <div class="ligne"></div>
 
     <div class="content">
       <p class="devis tinytext" *ngIf="mode == 'devis'">
         {{ lg == "Français" ? "DEVIS N°" : "QUOTE N°" }}
-        {{ values[1] < 100 ? "0" : "" }}{{ values[1] < 10 ? "0" : ""
-        }}{{ values[1] }}-{{ values[2] }}
+        {{ values.devisNumero < 100 ? "0" : "" }}{{ values.devisNumero < 10 ? "0" : ""
+        }}{{ values.devisNumero }}-{{ values.devisAnnee }}
       </p>
       <div class="flex between">
         <div class="cloe">
-          <p>{{ values[3] }}</p>
-          <p>{{ values[5] }}</p>
-          <p>{{ values[7] }}</p>
-          <p>{{ values[9] }}</p>
-          <p class="nobold">{{ values[11] }}</p>
+          <p>{{ values.emetteurNom }}</p>
+          <p>{{ values.emetteurAdresse }}</p>
+          <p>{{ values.emetteurCp }}</p>
+          <p>{{ values.emetteurTel }}</p>
+          <p class="nobold">{{ values.emetteurMail }}</p>
         </div>
         <div class="cloe client">
-          <p>{{ values[4] }}</p>
-          <p>{{ values[6] }}</p>
-          <p>{{ values[8] }}</p>
-          <p>{{ values[10] }}</p>
-          <p class="nobold">{{ values[12] }}</p>
+          <p>{{ values.clientNom }}</p>
+          <p>{{ values.clientAdresse }}</p>
+          <p>{{ values.clientCp }}</p>
+          <p>{{ values.clientTel }}</p>
+          <p class="nobold">{{ values.clientMail }}</p>
         </div>
       </div>
       <div class="table margtop">
@@ -77,7 +77,7 @@
       <div class="flex">
         <p class="tinytext echeance" *ngIf="mode == 'devis'">
           {{ lg == "Français" ? "Échéance" : "Due Date" }} :
-          {{ mode == "devis" ? values[13] : values[58] }}
+          {{ mode == "devis" ? values.devisEcheance : values.factureEcheance }}
         </p>
         <p class="bold">Total</p>
         <p class="bold total">{{ transform(calcTot()) }}€</p>
@@ -85,7 +85,7 @@
       <div class="flex minitxt">
         <p *ngIf="mode == 'devis'">
           {{ lg == "Français" ? "Prestation le" : "Service" }} :
-          {{ values[14] }}
+          {{ values.datePrestation }}
         </p>
         <p class="tva">
           {{
@@ -252,30 +252,30 @@
     </p>
     <p class="date">
       Date :
-      {{ formatDate(values[57]) }}
+      {{ formatDate(values.factureDate) }}
     </p>
     <div class="ligne"></div>
 
     <div class="content">
       <p class="devis tinytext" *ngIf="mode == 'facture'">
         {{ lg == "Français" ? "FACTURE N°" : "INVOICE N°" }}
-        {{ values[55] < 100 ? "0" : "" }}{{ values[55] < 10 ? "0" : ""
-        }}{{ values[55] }}-{{ values[56] }}
+        {{ values.factureNumero < 100 ? "0" : "" }}{{ values.factureNumero < 10 ? "0" : ""
+        }}{{ values.factureNumero }}-{{ values.factureAnnee }}
       </p>
       <div class="flex between">
         <div class="cloe">
-          <p>{{ values[3] }}</p>
-          <p>{{ values[5] }}</p>
-          <p>{{ values[7] }}</p>
-          <p>{{ values[9] }}</p>
-          <p class="nobold">{{ values[11] }}</p>
+          <p>{{ values.emetteurNom }}</p>
+          <p>{{ values.emetteurAdresse }}</p>
+          <p>{{ values.emetteurCp }}</p>
+          <p>{{ values.emetteurTel }}</p>
+          <p class="nobold">{{ values.emetteurMail }}</p>
         </div>
         <div class="cloe client">
-          <p>{{ values[4] }}</p>
-          <p>{{ values[6] }}</p>
-          <p>{{ values[8] }}</p>
-          <p>{{ values[10] }}</p>
-          <p class="nobold">{{ values[12] }}</p>
+          <p>{{ values.clientNom }}</p>
+          <p>{{ values.clientAdresse }}</p>
+          <p>{{ values.clientCp }}</p>
+          <p>{{ values.clientTel }}</p>
+          <p class="nobold">{{ values.clientMail }}</p>
         </div>
       </div>
       <div class="table margtop">
@@ -315,7 +315,7 @@
       <div class="flex">
         <p class="tinytext echeance" *ngIf="mode == 'facture'">
           {{ lg == "Français" ? "Prestation le" : "Service" }} :
-          {{ values[14] }}
+          {{ values.datePrestation }}
         </p>
         <p class="bold">Total</p>
         <p class="bold total">{{ transform(calcTot()) }}€</p>
@@ -332,14 +332,14 @@
 
       <div class="resume" *ngIf="mode == 'facture'">
         <div class="flex between">
-          <p class="tinytext" *ngIf="values[15] != ''">
+          <p class="tinytext" *ngIf="values.acompte != ''">
             {{ lg == "Français" ? "Déjà versé" : "Already Paid" }} :
-            {{ transform(values[15]) }}€ {{ getDateArrhes() }}
+            {{ transform(values.acompte) }}€ {{ getDateArrhes() }}
           </p>
           <p
             class="tinytext bold rightalign"
             *ngIf="
-              values[15] != '' || values[60] != '' || data.factures.length == 0
+              values.acompte != '' || values.factureSolde != '' || data.factures.length == 0
             "
           >
             {{ lg == "Français" ? "Reste à payer" : "Remaining balance" }} :
@@ -350,18 +350,18 @@
               lg == "Français"
                 ? "Facture acquittée le : "
                 : "Invoice paid on : "
-            }}{{ formatDate(values[0]) }}
+            }}{{ formatDate(values.devisDate) }}
           </p>
         </div>
-        <p class="tinytext" *ngIf="values[61] != 0">
+        <p class="tinytext" *ngIf="values.paiementPrestas != 0">
           {{
             lg == "Français" ? "Paiement prestataires" : "Payment to providers"
           }}
-          : {{ transform(values[61]) }}€
+          : {{ transform(values.paiementPrestas) }}€
         </p>
         <p class="tinytext">
           {{ lg == "Français" ? "Mode de paiement" : "Payment Method" }} :
-          {{ values[16] }}
+          {{ values.modePaiement }}
         </p>
       </div>
     </div>
@@ -414,7 +414,7 @@
     <p class="rosebg" style="color: white">
       {{ lg == "Français" ? "PLANNING" : "SCHEDULE" }}
     </p>
-    <p class="date">Date : {{ formatDate(values[51]) }}</p>
+    <p class="date">Date : {{ formatDate(values.planningDate) }}</p>
     <div class="ligne"></div>
 
     <div class="content">
@@ -522,9 +522,9 @@
       <p class="rosebg" style="color: white">&nbsp;</p>
       <div class="botbot">
         <div class="adres">
-          <p>{{ values[52] == "" ? "Domaine" : values[52] }}</p>
-          <p>{{ values[53] == "" ? "Adresse" : values[53] }}</p>
-          <p>{{ values[54] == "" ? "Code postal + Ville" : values[54] }}</p>
+          <p>{{ values.lieuDomaine == "" ? "Domaine" : values.lieuDomaine }}</p>
+          <p>{{ values.lieuAdresse == "" ? "Adresse" : values.lieuAdresse }}</p>
+          <p>{{ values.lieuCp == "" ? "Code postal + Ville" : values.lieuCp }}</p>
         </div>
         <p class="cont">CONTACT</p>
         <div class="flex between">
@@ -678,23 +678,23 @@
       <input
         type="text"
         *ngIf="mode == 'devis'"
-        [(ngModel)]="values[0]"
+        [(ngModel)]="values.devisDate"
         placeholder="Date.."
-        (input)="values[0] = onInput(values[0], true)"
+        (input)="values.devisDate = onInput(values.devisDate, true)"
       />
       <input
         type="text"
         *ngIf="mode == 'facture'"
-        [(ngModel)]="values[57]"
+        [(ngModel)]="values.factureDate"
         placeholder="Date.."
-        (input)="values[57] = onInput(values[57], true)"
+        (input)="values.factureDate = onInput(values.factureDate, true)"
       />
       <input
         type="text"
         *ngIf="mode == 'planning'"
-        [(ngModel)]="values[51]"
+        [(ngModel)]="values.planningDate"
         placeholder="Date.."
-        (input)="values[51] = onInput(values[51], true)"
+        (input)="values.planningDate = onInput(values.planningDate, true)"
       />
     </div>
     <div class="ligne"></div>
@@ -702,50 +702,50 @@
       <p>{{ mode == "devis" ? "Devis N°" : "Facture N°" }}</p>
       <input
         type="text"
-        [(ngModel)]="values[1]"
+        [(ngModel)]="values.devisNumero"
         placeholder="N° du devis.."
         *ngIf="mode == 'devis'"
       />
       <input
         type="text"
-        [(ngModel)]="values[55]"
+        [(ngModel)]="values.factureNumero"
         placeholder="N° de facture.."
         *ngIf="mode == 'facture'"
       />
       <p>-</p>
       <input
         type="text"
-        [(ngModel)]="values[2]"
+        [(ngModel)]="values.devisAnnee"
         placeholder="Année.."
         *ngIf="mode == 'devis'"
       />
       <input
         type="text"
-        [(ngModel)]="values[56]"
+        [(ngModel)]="values.factureAnnee"
         placeholder="Année.."
         *ngIf="mode == 'facture'"
       />
     </div>
     <div class="flex between" *ngIf="mode != 'planning'">
       <div class="flex big">
-        <input type="text" [(ngModel)]="values[3]" placeholder="Nom Cloé.." />
+        <input type="text" [(ngModel)]="values.emetteurNom" placeholder="Nom Cloé.." />
       </div>
       <div class="flex right big">
-        <input type="text" [(ngModel)]="values[4]" placeholder="Nom client.." />
+        <input type="text" [(ngModel)]="values.clientNom" placeholder="Nom client.." />
       </div>
     </div>
     <div class="flex between" *ngIf="mode != 'planning'">
       <div class="flex big">
         <input
           type="text"
-          [(ngModel)]="values[5]"
+          [(ngModel)]="values.emetteurAdresse"
           placeholder="Adresse Cloé.."
         />
       </div>
       <div class="flex right big">
         <input
           type="text"
-          [(ngModel)]="values[6]"
+          [(ngModel)]="values.clientAdresse"
           placeholder="Adresse client.."
         />
       </div>
@@ -754,14 +754,14 @@
       <div class="flex big">
         <input
           type="text"
-          [(ngModel)]="values[7]"
+          [(ngModel)]="values.emetteurCp"
           placeholder="Code postal + ville Cloé.."
         />
       </div>
       <div class="flex right big">
         <input
           type="text"
-          [(ngModel)]="values[8]"
+          [(ngModel)]="values.clientCp"
           placeholder="Code postal + ville client.."
         />
       </div>
@@ -770,26 +770,26 @@
       <div class="flex big">
         <input
           type="text"
-          [(ngModel)]="values[9]"
+          [(ngModel)]="values.emetteurTel"
           placeholder="Téléphone Cloé.."
         />
       </div>
       <div class="flex right big">
         <input
           type="text"
-          [(ngModel)]="values[10]"
+          [(ngModel)]="values.clientTel"
           placeholder="Téléphone client.."
         />
       </div>
     </div>
     <div class="flex between" *ngIf="mode != 'planning'">
       <div class="flex big">
-        <input type="text" [(ngModel)]="values[11]" placeholder="Mail Cloé.." />
+        <input type="text" [(ngModel)]="values.emetteurMail" placeholder="Mail Cloé.." />
       </div>
       <div class="flex right big">
         <input
           type="text"
-          [(ngModel)]="values[12]"
+          [(ngModel)]="values.clientMail"
           placeholder="Mail client.."
         />
       </div>
@@ -870,7 +870,7 @@
         <p>Échéance :</p>
         <input
           type="text"
-          [(ngModel)]="values[13]"
+          [(ngModel)]="values.devisEcheance"
           placeholder="Échéance.."
           *ngIf="mode == 'devis'"
         />
@@ -881,29 +881,29 @@
     </div>
 
     <div class="flex" *ngIf="mode != 'planning'">
-      <p>Prestation le : {{ values[14] }}</p>
+      <p>Prestation le : {{ values.datePrestation }}</p>
     </div>
     <div class="flex" *ngIf="mode == 'facture'">
       <p>Déjà versé :</p>
-      <input type="text" [(ngModel)]="values[15]" placeholder="Déjà versé.." />
+      <input type="text" [(ngModel)]="values.acompte" placeholder="Déjà versé.." />
     </div>
     <div class="flex" *ngIf="mode == 'facture'">
       <p>Vraiment versé :</p>
       <input
         type="text"
-        [(ngModel)]="values[80]"
+        [(ngModel)]="values.factureRealsold"
         placeholder="Vraiment versé.."
       />
     </div>
     <div class="flex" *ngIf="mode == 'facture'">
       <p>Solde :</p>
-      <input type="text" [(ngModel)]="values[60]" placeholder="Solde.." />
+      <input type="text" [(ngModel)]="values.factureSolde" placeholder="Solde.." />
     </div>
     <div class="flex" *ngIf="mode == 'facture'">
       <p>Mode de paiement :</p>
       <input
         type="text"
-        [(ngModel)]="values[16]"
+        [(ngModel)]="values.modePaiement"
         placeholder="Mode de paiement.."
       />
     </div>
@@ -911,7 +911,7 @@
       <p>Paiement prestataire :</p>
       <input
         type="text"
-        [(ngModel)]="values[61]"
+        [(ngModel)]="values.paiementPrestas"
         placeholder="Paiement prestataire.."
       />
     </div>
@@ -1033,17 +1033,17 @@
     <div class="domaine" *ngIf="mode == 'planning'">
       <div class="flex">
         <p>Domaine :</p>
-        <input type="text" [(ngModel)]="values[52]" placeholder="Domaine.." />
+        <input type="text" [(ngModel)]="values.lieuDomaine" placeholder="Domaine.." />
       </div>
       <div class="flex">
         <p>Adresse :</p>
-        <input type="text" [(ngModel)]="values[53]" placeholder="Adresse.." />
+        <input type="text" [(ngModel)]="values.lieuAdresse" placeholder="Adresse.." />
       </div>
       <div class="flex">
         <p>Code postal + Ville :</p>
         <input
           type="text"
-          [(ngModel)]="values[54]"
+          [(ngModel)]="values.lieuCp"
           placeholder="Code postal + Ville.."
         />
       </div>
